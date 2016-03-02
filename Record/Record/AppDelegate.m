@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import "HelpView.h"
+
 #import "PackViewController.h"
 
 @interface AppDelegate ()
@@ -36,6 +38,8 @@
     // Override point for customization after application launch.
     
     [self createLayout];
+    
+    [HelpView firstShow];
     
     return YES;
 }

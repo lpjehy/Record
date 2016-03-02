@@ -12,6 +12,12 @@
 		990954F91C85D5C300797FFF /* PackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 990954F81C85D5C300797FFF /* PackViewController.m */; };
 		990954FF1C85D5C300797FFF /* Record.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 990954FD1C85D5C300797FFF /* Record.xcdatamodeld */; };
 		990955011C85D5C300797FFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 990955001C85D5C300797FFF /* Assets.xcassets */; };
+		9909550D1C85D76300797FFF /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909550C1C85D76300797FFF /* BaseViewController.m */; };
+		990955101C85D76F00797FFF /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909550F1C85D76F00797FFF /* AppManager.m */; };
+		990955171C85D77A00797FFF /* Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955121C85D77A00797FFF /* Extension.m */; };
+		990955181C85D77A00797FFF /* NSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955141C85D77A00797FFF /* NSExtension.m */; };
+		990955191C85D77A00797FFF /* UIExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955161C85D77A00797FFF /* UIExtension.m */; };
+		990955201C85E47800797FFF /* HelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909551F1C85E47800797FFF /* HelpView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +30,19 @@
 		990954FE1C85D5C300797FFF /* Record.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Record.xcdatamodel; sourceTree = "<group>"; };
 		990955001C85D5C300797FFF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		990955051C85D5C300797FFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9909550B1C85D76300797FFF /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = ViewController/BaseViewController.h; sourceTree = "<group>"; };
+		9909550C1C85D76300797FFF /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = ViewController/BaseViewController.m; sourceTree = "<group>"; };
+		9909550E1C85D76F00797FFF /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppManager.h; path = Manager/AppManager.h; sourceTree = "<group>"; };
+		9909550F1C85D76F00797FFF /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppManager.m; path = Manager/AppManager.m; sourceTree = "<group>"; };
+		990955111C85D77A00797FFF /* Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Extension.h; path = Extension/Extension.h; sourceTree = "<group>"; };
+		990955121C85D77A00797FFF /* Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Extension.m; path = Extension/Extension.m; sourceTree = "<group>"; };
+		990955131C85D77A00797FFF /* NSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSExtension.h; path = Extension/NSExtension.h; sourceTree = "<group>"; };
+		990955141C85D77A00797FFF /* NSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSExtension.m; path = Extension/NSExtension.m; sourceTree = "<group>"; };
+		990955151C85D77A00797FFF /* UIExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIExtension.h; path = Extension/UIExtension.h; sourceTree = "<group>"; };
+		990955161C85D77A00797FFF /* UIExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIExtension.m; path = Extension/UIExtension.m; sourceTree = "<group>"; };
+		9909551E1C85E47800797FFF /* HelpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpView.h; path = View/HelpView.h; sourceTree = "<group>"; };
+		9909551F1C85E47800797FFF /* HelpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpView.m; path = View/HelpView.m; sourceTree = "<group>"; };
+		990955211C85E6E000797FFF /* Record-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Record-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,10 +75,12 @@
 		990954F01C85D5C300797FFF /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				9909551D1C85E45700797FFF /* View */,
+				9909551C1C85D7A300797FFF /* ViewController */,
+				9909551B1C85D79000797FFF /* Manager */,
+				9909551A1C85D77F00797FFF /* Extension */,
 				990954F41C85D5C300797FFF /* AppDelegate.h */,
 				990954F51C85D5C300797FFF /* AppDelegate.m */,
-				990954F71C85D5C300797FFF /* PackViewController.h */,
-				990954F81C85D5C300797FFF /* PackViewController.m */,
 				990955001C85D5C300797FFF /* Assets.xcassets */,
 				990955051C85D5C300797FFF /* Info.plist */,
 				990954FD1C85D5C300797FFF /* Record.xcdatamodeld */,
@@ -71,9 +92,52 @@
 		990954F11C85D5C300797FFF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				990955211C85E6E000797FFF /* Record-Prefix.pch */,
 				990954F21C85D5C300797FFF /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9909551A1C85D77F00797FFF /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				990955111C85D77A00797FFF /* Extension.h */,
+				990955121C85D77A00797FFF /* Extension.m */,
+				990955131C85D77A00797FFF /* NSExtension.h */,
+				990955141C85D77A00797FFF /* NSExtension.m */,
+				990955151C85D77A00797FFF /* UIExtension.h */,
+				990955161C85D77A00797FFF /* UIExtension.m */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
+		9909551B1C85D79000797FFF /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9909550E1C85D76F00797FFF /* AppManager.h */,
+				9909550F1C85D76F00797FFF /* AppManager.m */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
+		9909551C1C85D7A300797FFF /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9909550B1C85D76300797FFF /* BaseViewController.h */,
+				9909550C1C85D76300797FFF /* BaseViewController.m */,
+				990954F71C85D5C300797FFF /* PackViewController.h */,
+				990954F81C85D5C300797FFF /* PackViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		9909551D1C85E45700797FFF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9909551E1C85E47800797FFF /* HelpView.h */,
+				9909551F1C85E47800797FFF /* HelpView.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,9 +209,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				990954F91C85D5C300797FFF /* PackViewController.m in Sources */,
+				9909550D1C85D76300797FFF /* BaseViewController.m in Sources */,
+				990955171C85D77A00797FFF /* Extension.m in Sources */,
 				990954F61C85D5C300797FFF /* AppDelegate.m in Sources */,
 				990954FF1C85D5C300797FFF /* Record.xcdatamodeld in Sources */,
+				990955201C85E47800797FFF /* HelpView.m in Sources */,
 				990954F31C85D5C300797FFF /* main.m in Sources */,
+				990955191C85D77A00797FFF /* UIExtension.m in Sources */,
+				990955181C85D77A00797FFF /* NSExtension.m in Sources */,
+				990955101C85D76F00797FFF /* AppManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "Record/Record-Prefix.pch";
 				INFOPLIST_FILE = Record/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = aaa.Record;
@@ -251,6 +322,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "Record/Record-Prefix.pch";
 				INFOPLIST_FILE = Record/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = aaa.Record;

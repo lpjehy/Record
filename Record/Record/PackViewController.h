@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Jehy Fan. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface PackViewController : UIViewController
+@interface PackViewController : BaseViewController
 
 
 @end

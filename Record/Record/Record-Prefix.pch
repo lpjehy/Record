@@ -1,0 +1,92 @@
+//
+// Prefix header for all source files of the 'eCook' target in the 'eCook' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iPhone SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+
+
+#import "Extension.h"
+#import "AppManager.h"
+#endif
+
+
+#define DeviceSystemVersion [[[UIDevice currentDevice] systemVersion] floatValue]
+
+#define ISPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
+#define InterfaceOrientationLandscape ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft || [[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
+
+
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+
+#define GoldenHeight [UIScreen mainScreen].bounds.size.width * 0.618
+#define GoldenSectionPoint 0.618
+
+
+
+#define TabbarDidSelectedNotification   @"TabbarDidSelectedNotification"
+
+
+//字体
+#define FontBig        [UIFont systemFontOfSize:20]
+#define FontMiddle     [UIFont systemFontOfSize:16]
+#define FontNormal     [UIFont systemFontOfSize:14]
+#define FontSmall      [UIFont systemFontOfSize:12]
+#define FontMin        [UIFont systemFontOfSize:10]
+
+
+
+///接口版本号
+#define KEY_WINDOW  [[UIApplication sharedApplication] keyWindow]
+
+
+#define ColorNavbar              [UIColor whiteColor]
+#define ColorBaseBackground      [UIColor colorWithWhite:244.0 / 255.0 alpha:1]
+#define ColorBackground          [UIColor colorWithWhite:244.0 / 255.0 alpha:1]
+
+#define ColorTranslucenceLight   [UIColor colorWithWhite:0 alpha:0.36]
+#define ColorTranslucenceDark    [UIColor colorWithWhite:0 alpha:0.72]
+
+#define ColorTranslucenceWhite   [UIColor colorWithWhite:1 alpha:0.8]
+
+
+//基色
+#define ColorBase                [UIColor colorWithRed:1 green:118.0 / 255.0 blue:0 alpha:1]
+
+#define ColorShadow              [UIColor colorWithRed:244.0 / 255.0 green:86.0 / 255.0 blue:0 alpha:1]
+
+//灰色线颜色
+#define ColorGrayLight           [UIColor colorWithWhite:238.0 / 255.0 alpha:1]
+#define ColorGrayDark            [UIColor colorWithWhite:204.0 / 255.0 alpha:1]
+
+#define ColorTextLight           [UIColor colorWithWhite:155.0 / 255.0 alpha:1]   //淡灰色字体颜色
+#define ColorTextGray            [UIColor colorWithWhite:102.0 / 255.0 alpha:1]  //灰色字体颜色
+#define ColorTextDark            [UIColor colorWithWhite:51.0 / 255.0 alpha:1]  //黑色字体颜色
+
+
+#define TimeIntervalHour     (60 * 60)
+#define TimeIntervalDay      (60 * 60 * 24)
+#define TimeIntervalMonth    (60 * 60 * 24 * 30)
+#define TimeIntervalYear     (60 * 60 * 24 * 30 * 12)
+
+
+
+#ifdef DEBUG
+#define MSLog(fmt,...) NSLog((@"[行号:%d]" "[函数名:%s]\n" fmt),__LINE__,__FUNCTION__,##__VA_ARGS__);
+#else
+#define MSLog(fmt,...);
+#endif
+
+#define WS(wSelf)          __weak typeof(self) wSelf = self
+#define SS(sSelf)          __strong typeof(wSelf) sSelf = wSelf
+
+#define IOS_8_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
