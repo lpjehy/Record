@@ -10,4 +10,6 @@
 
 @interface AppManager : NSObject
 
++ (void)Initialize;
+
 @end

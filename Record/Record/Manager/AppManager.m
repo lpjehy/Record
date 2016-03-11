@@ -7,7 +7,15 @@
 //
 
 #import "AppManager.h"
+#import "AnalyticsUtil.h"
 
 @implementation AppManager
+
++ (void)Initialize
+{
+    [AnalyticsUtil Initialize];
+    
+    
+}
 
 @end

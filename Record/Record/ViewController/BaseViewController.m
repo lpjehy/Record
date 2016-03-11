@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "AnalyticsUtil.h"
 
 @interface BaseViewController ()
 
@@ -50,6 +51,15 @@
     
 }
 
+- (void)setNavigationBarTitle:(NSString *)title {
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = title;
+    titleLabel.frame = CGRectMake(0, 0, 128, 44);
+    
+    self.navigationItem.titleView = titleLabel;
+    
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,14 +77,55 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+    NSString *view = [[[self class] description] stringByReplacingOccurrencesOfString:@"ViewController" withString:@""];
+    [AnalyticsUtil viewAppear:view];
+    
+    
+    
+    //isShowing = YES;
+    
+    
+    
 }
-*/
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    
+    //didAppear = YES;
+    //viewController = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    NSString *view = [[[self class] description] stringByReplacingOccurrencesOfString:@"ViewController" withString:@""];
+    
+    [AnalyticsUtil viewDisAppear:view];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    
+    //isShowing = NO;
+    //didAppear = NO;
+}
+
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 
 @end
