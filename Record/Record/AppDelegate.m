@@ -64,7 +64,7 @@
     
     [array addObjectsFromArray:arr];
     
-    
+    NSLog(@"config: %@", [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://lpjehy.github.io/test.html?type=write"] encoding:NSUTF8StringEncoding error:NULL]);
     
     
     return YES;

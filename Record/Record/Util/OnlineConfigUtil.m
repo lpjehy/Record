@@ -16,7 +16,7 @@
 
 + (void)update {
     [UMOnlineConfig updateOnlineConfigWithAppkey:MobClickAppKey];
-    [UMOnlineConfig setLogEnabled:YES];
+    //[UMOnlineConfig setLogEnabled:YES];
 }
 
 + (NSString *)getValueForKey:(NSString *)key {

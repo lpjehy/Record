@@ -20,7 +20,47 @@
 
 @synthesize delegate;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        //键盘高度监听
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillAppear:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        
+    }
+    
+    
+    return self;
+}
+
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+}
+
+#pragma mark - keyBoardObser
+-(void)keyboardWillAppear:(NSNotification *)notification {
+    CGFloat curkeyBoardHeight = [[[notification userInfo] objectForKey:@"UIKeyboardBoundsUserInfoKey"] CGRectValue].size.height;
+    CGRect begin = [[[notification userInfo] objectForKey:@"UIKeyboardFrameBeginUserInfoKey"] CGRectValue];
+    CGRect end = [[[notification userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    
+    // 第三方键盘回调三次问题，监听仅执行最后一次
+    if(begin.size.height>0 && (begin.origin.y-end.origin.y>0)){
+        
+        
+        [UIView animateWithDuration:0.64 animations:^{
+            mainTextView.height = ScreenHeight - 64 - curkeyBoardHeight;
+            [self.view layoutIfNeeded];
+            
+        }];
+    }
+}
+
 - (void)save {
+    [mainTextView resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:NULL];
     
     if ([delegate respondsToSelector:@selector(textEditViewTextChanged:)]) {
@@ -31,12 +71,13 @@
 - (void)createLayout {
     
     UIButton *leftButton = [[UIButton alloc] init];
-    leftButton.frame = CGRectMake(0, 0, 44, 44);
+    leftButton.frame = CGRectMake(0, 0, 64, 44);
     [leftButton setTitle:@"Cancel" forState:UIControlStateNormal];
     leftButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    leftButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
     

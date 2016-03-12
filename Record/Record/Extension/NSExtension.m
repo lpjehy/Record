@@ -129,6 +129,9 @@
             | NSMonthCalendarUnit
             | NSDayCalendarUnit
             | NSWeekdayCalendarUnit
+            | NSHourCalendarUnit
+            | NSMinuteCalendarUnit
+            | NSSecondCalendarUnit
                                            fromDate:self];
 }
 

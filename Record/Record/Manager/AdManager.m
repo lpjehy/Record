@@ -12,7 +12,7 @@
 @implementation AdManager
 
 + (void)test {
-    NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
+    
 }
 
 @end
