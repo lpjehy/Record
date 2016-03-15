@@ -84,4 +84,10 @@ static NSInteger DefaultSafeDays = 7;
     return startDate;
 }
 
++ (NSInteger)allDays {
+    NSInteger alldays = [ScheduleManager pillDays] + [ScheduleManager safeDays];
+    
+    return alldays;
+}
+
 @end

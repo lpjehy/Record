@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 static NSString *OnlineConfig_AppleReviewVersion = @"apple_review_version";
+static NSString *OnlineConfig_AppId = @"appid";
 
 @interface OnlineConfigUtil : NSObject
 

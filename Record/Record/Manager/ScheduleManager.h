@@ -22,4 +22,6 @@
 + (void)setStartDate:(NSTimeInterval)date;
 + (NSDate *)startDate;
 
++ (NSInteger)allDays;
+
 @end

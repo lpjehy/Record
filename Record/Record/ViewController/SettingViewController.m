@@ -12,7 +12,10 @@
 #import "ReminderManager.h"
 #import "ScheduleManager.h"
 
+#import "OnlineConfigUtil.h"
+
 #import "TextEditViewController.h"
+#import "WebViewController.h"
 
 typedef NS_ENUM(NSInteger, PickerType) {
     PickerTypePillDays,//默认从0开始
@@ -31,11 +34,27 @@ typedef NS_ENUM(NSInteger, PickerType) {
     PickerType currentPickerType;
 }
 
+@property(nonatomic, strong) NSString *appID;
+
 @end
 
 
 
 @implementation SettingViewController
+
+@synthesize appID;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.appID = [OnlineConfigUtil getValueForKey:OnlineConfig_AppId];
+        
+        
+        
+    }
+    
+    return self;
+}
 
 - (void)doneButtonPressed {
     doneButton.hidden = YES;
@@ -145,6 +164,27 @@ typedef NS_ENUM(NSInteger, PickerType) {
     
     
     [self createLayout];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    /**/
+    BOOL hideAnimated = YES;
+    [self.navigationController setNavigationBarHidden:YES animated:hideAnimated];
+    
+    
+    
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -271,7 +311,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
         NSInteger hour = [pickerView selectedRowInComponent:0];
         NSInteger minute = [pickerView selectedRowInComponent:1];
         
-        NSString *dateString = [NSString stringWithFormat:@"%@ %02zi:%02zi:30.0", [[NSDate date] stringWithFormat:@"yyyy-MM-dd"], hour, minute];
+        NSString *dateString = [NSString stringWithFormat:@"%@ %02zi:%02zi:00.0", [[NSDate date] stringWithFormat:@"yyyy-MM-dd"], hour, minute];
         NSLog(@"time %@", dateString);
         NSDate *date = dateString.date;
         [ReminderManager setNotificationTime:date.timeIntervalSince1970];
@@ -337,7 +377,10 @@ typedef NS_ENUM(NSInteger, PickerType) {
     } else if (section == 1) {
         return 4;
     } else {
-        return 2;
+        if (appID && ![appID isEqualToString:@"0"]) {
+            return 2;
+        }
+        return 1;
     }
     
 }
@@ -372,7 +415,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
             
             NSDate *date = [ScheduleManager startDate];
             NSDateComponents *components = date.components;
-            cell.textValue = [NSString stringWithFormat:@"%zi %zi/%zi/%zi", components.weekday, components.month, components.day, components.year];
+            cell.textValue = [NSString stringWithFormat:@"%@ %zi/%zi/%zi", components.weekDayText, components.month, components.day, components.year];
         }
         
     } else if (indexPath.section == 1) {
@@ -395,9 +438,10 @@ typedef NS_ENUM(NSInteger, PickerType) {
         }
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
-            cell.item = @"Cheer us";
-        } else {
             cell.item = @"About us";
+            
+        } else {
+            cell.item = @"Cheer us";
         }
         
     }
@@ -448,9 +492,11 @@ typedef NS_ENUM(NSInteger, PickerType) {
     } else if (indexPath.section == 2) {
         
         if (indexPath.row == 0) {
-            
+            WebViewController *webViewController = [[WebViewController alloc] init];
+            webViewController.baseUrl = @"http://lpjehy.github.io/reminder/aboutus.html";
+            [self.navigationController pushViewController:webViewController animated:YES];
         } else if (indexPath.row == 1) {
-            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appID]]];
         }
         
     }

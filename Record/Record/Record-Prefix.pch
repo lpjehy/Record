@@ -13,8 +13,8 @@
     #import <Foundation/Foundation.h>
 
 
-#import "Extension.h"
-#import "AppManager.h"
+#import "Header.h"
+
 #endif
 
 
@@ -37,6 +37,7 @@
 
 
 //字体
+#define FontMax        [UIFont systemFontOfSize:24]
 #define FontBig        [UIFont systemFontOfSize:20]
 #define FontMiddle     [UIFont systemFontOfSize:16]
 #define FontNormal     [UIFont systemFontOfSize:14]

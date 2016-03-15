@@ -15,4 +15,7 @@ static NSString * PackCollectionViewCellIdentifier = @"PackCollectionViewCellIde
 
 @interface PackCollectionViewCell : UICollectionViewCell
 
+
+- (void)reloadData;
+
 @end

@@ -15,3 +15,12 @@
 @interface NSString(Imager)
 
 @end
+
+
+@interface NSDateComponents(Reminder)
+
+
+- (NSString *)weekDayText;
+
+
+@end

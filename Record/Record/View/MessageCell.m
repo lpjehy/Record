@@ -23,14 +23,16 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        
         dateLabel = [[UILabel alloc] init];
         dateLabel.frame = CGRectMake(10, 0, 64, 44);
-        dateLabel.textColor = ColorTextGray;
+        dateLabel.textColor = [UIColor whiteColor];
         [self.contentView addSubview:dateLabel];
         
         contentLabel = [[UILabel alloc] init];
         contentLabel.frame = CGRectMake(80, 0, ScreenWidth - 100, 44);
-        contentLabel.textColor = ColorTextDark;
+        contentLabel.textColor = [UIColor whiteColor];
         [self.contentView addSubview:contentLabel];
     }
     
@@ -47,7 +49,7 @@
 - (void)setMessage:(Message *)message {
     
     NSDateComponents *dateComponents = [[message.time dateWithFormat:@"yyyy-MM-dd HH:mm:ss"] components];
-    dateLabel.text = [NSString stringWithFormat:@"%zi月 %zi日", dateComponents.month, dateComponents.day];
+    dateLabel.text = [NSString stringWithFormat:@"%zi/%zi", dateComponents.month, dateComponents.day];
     
     contentLabel.text = message.content;
     

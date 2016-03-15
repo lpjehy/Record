@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HelpView : UIView
+@interface HelpView : UIButton
 
 + (HelpView *)getInstance;
 
-+ (void)firstShow;
++ (BOOL)PackHelpHasShowed;
++ (BOOL)CalendarHelpHasShowed;
 
-@property(nonatomic, assign) BOOL show;
+- (void)showPackHelp;
+- (void)showCalendarHelp;
 
 @end

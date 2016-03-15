@@ -21,9 +21,9 @@
 {
     self = [super init];
     if (self) {
-        self.headerReferenceSize = CGSizeMake(ScreenWidth, 65.0f);//头部视图的框架大小
+        self.headerReferenceSize = CGSizeMake(ScreenWidth, 32);//头部视图的框架大小
         
-        self.itemSize = CGSizeMake(ScreenWidth / 7, 44);//每个cell的大小
+        self.itemSize = CGSizeMake(ScreenWidth / 7, ScreenWidth / 7);//每个cell的大小
         
         self.minimumLineSpacing = 0.0f;//每行的最小间距
         

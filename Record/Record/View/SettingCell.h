@@ -24,7 +24,6 @@ typedef NS_ENUM(NSInteger, SettingCellType) {
 // Display customization
 
 - (void)settingCellSwitchChangedForItem:(NSString *)item value:(BOOL)value;
-- (void)settingCellSwitchChangedForItem:(NSString *)item text:(NSString *)text;
 @end;
 
 @interface SettingCell : UITableViewCell

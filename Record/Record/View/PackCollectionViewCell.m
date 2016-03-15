@@ -16,6 +16,9 @@
 
 @interface PackCollectionViewCell(){
     UILabel *infoLabel;
+    
+    NSMutableArray *dateArray;
+    
     float itemHeight;
 }
 @end
@@ -36,20 +39,24 @@
     
     for (int i = 0; i < weekdayArray.count; i++) {
         UILabel *weekdayLabel = [[UILabel alloc] init];
-        weekdayLabel.backgroundColor = ColorGrayDark;
-        weekdayLabel.frame = CGRectMake(5, 35 + itemHeight * i, 64, itemHeight);
+        weekdayLabel.textColor = [UIColor whiteColor];
+        weekdayLabel.frame = CGRectMake(20, 48 + itemHeight * i, 36, itemHeight);
         weekdayLabel.text = [weekdayArray validObjectAtIndex:i];
         [self.contentView addSubview:weekdayLabel];
     }
 }
 
-- (void)createPillDayLayout {
-    NSInteger pillDayNum = [ScheduleManager pillDays];
+
+- (void)createDateView {
     
-    float buttonWith = (ScreenWidth - 100) / 4 + 5;
+    NSInteger allNum = 28;
+    
+    float buttonWith = (self.width - 80) / 4;
     
     
-    for (int i = 0; i < pillDayNum; i++) {
+    for (int i = 0; i < allNum; i++) {
+        
+        
         
         int r = i % 7;
         int q = i / 7;
@@ -57,61 +64,68 @@
         UIButton *pilldayButton = [[UIButton alloc] init];
         
         [pilldayButton addTarget:self action:@selector(pilldayButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        pilldayButton.backgroundColor = ColorGrayDark;
-        pilldayButton.frame = CGRectMake(72 + buttonWith * q, 35 + itemHeight * r, buttonWith, itemHeight);
+        pilldayButton.frame = CGRectMake(64 + buttonWith * q, 48 + itemHeight * r, buttonWith, itemHeight);
+        
         [pilldayButton setTitle:[NSString stringWithInt:i + 1] forState:UIControlStateNormal];
         [self.contentView addSubview:pilldayButton];
-    }
-}
-
-- (void)createSaveDayLayout {
-    NSInteger pillDayNum = [ScheduleManager pillDays];
-    NSInteger saveDayNum = [ScheduleManager safeDays];
-    
-    
-    
-    float buttonWith = (ScreenWidth - 100) / 4 + 5;
-    
-    
-    for (int i = 0; i < saveDayNum; i++) {
         
-        
-        
-        int r = (pillDayNum + i) % 7;
-        int q = ((int)pillDayNum + i) / 7;
-        
-        UIButton *pilldayButton = [[UIButton alloc] init];
-        
-        [pilldayButton addTarget:self action:@selector(pilldayButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        pilldayButton.backgroundColor = [UIColor blueColor];
-        pilldayButton.frame = CGRectMake(72 + buttonWith * q, 35 + itemHeight * r, buttonWith, itemHeight);
-        [pilldayButton setTitle:[NSString stringWithInt:i + 1] forState:UIControlStateNormal];
-        [self.contentView addSubview:pilldayButton];
+        [dateArray addObject:pilldayButton];
     }
 }
 
 - (void)createLayout {
+    
+    
     infoLabel = [[UILabel alloc] init];
-    infoLabel.backgroundColor = [UIColor yellowColor];
-    infoLabel.frame = CGRectMake(5, 5, ScreenWidth - 20, infoLabel.font.lineHeight);
-    infoLabel.text = @"21 pills left";
+    infoLabel.frame = CGRectMake(20, 20, self.width - 40, infoLabel.font.lineHeight);
+    infoLabel.textColor = [UIColor whiteColor];
+    infoLabel.text = @"Today is 11 of 20 days";
     [self.contentView addSubview:infoLabel];
     
-    itemHeight = ((ScreenHeight - 148) - 35) / 7;
+    UIImageView *backImageView = [[UIImageView alloc] init];
+    backImageView.frame = CGRectMake(0, 0, self.width, self.height);
+    backImageView.image = [UIImage imageNamed:@"BG_Pack.png"];
+    
+    [self.contentView addSubview:backImageView];
+    
+    
+    itemHeight = ((ScreenHeight - 172) - 64) / 7;
     
     [self createWeekDayLayout];
     
-    [self createPillDayLayout];
+    [self createDateView];
     
-    [self createSaveDayLayout];
 }
 
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        dateArray = [[NSMutableArray alloc] init];
+        
         [self createLayout];
     }
     return self;
+}
+
+- (void)reloadData {
+    
+    NSInteger pillDayNum = [ScheduleManager pillDays];
+    NSInteger safeDayNum = [ScheduleManager safeDays];
+    
+    NSInteger allNum = pillDayNum + safeDayNum;
+    for (int i = 0; i < dateArray.count; i++) {
+        UIButton *button = [dateArray validObjectAtIndex:i];
+        
+        if (i < pillDayNum) {
+            button.hidden = NO;
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        } else if (i < allNum) {
+            button.hidden = NO;
+            [button setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+        } else {
+            button.hidden = YES;
+        }
+    }
 }
 
 @end

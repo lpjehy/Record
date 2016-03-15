@@ -10,7 +10,7 @@
 
 #import "HelpView.h"
 
-#import "PackViewController.h"
+#import "MainViewController.h"
 
 #import "SqlUtil.h"
 
@@ -31,7 +31,7 @@
     
     
     
-    PackViewController *mainViewController = [[PackViewController alloc] init];
+    MainViewController *mainViewController = [[MainViewController alloc] init];
     
     
     UINavigationController *mainNavigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
@@ -50,7 +50,7 @@
     
     [self createLayout];
     
-    [HelpView firstShow];
+    
     
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
         [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
@@ -64,7 +64,7 @@
     
     [array addObjectsFromArray:arr];
     
-    NSLog(@"config: %@", [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://lpjehy.github.io/test.html?type=write"] encoding:NSUTF8StringEncoding error:NULL]);
+    //NSLog(@"config: %@", [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://lpjehy.github.io/test.html?type=write"] encoding:NSUTF8StringEncoding error:NULL]);
     
     
     return YES;

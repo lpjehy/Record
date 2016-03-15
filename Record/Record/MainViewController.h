@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface PackViewController : BaseViewController
+@interface MainViewController : BaseViewController
 
 
 @end

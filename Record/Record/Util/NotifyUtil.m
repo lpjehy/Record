@@ -15,7 +15,7 @@
    
     localNotification.repeatInterval = 0;
     
-    //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
+    //设置本地通知的触发时间（如果要立即触发，无需设置）
     localNotification.fireDate = date;
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
