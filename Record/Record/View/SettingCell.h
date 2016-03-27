@@ -10,12 +10,7 @@
 
 static NSString *SettingCellIdentifier = @"SettingCellIdentifier";
 
-typedef NS_ENUM(NSInteger, SettingCellType) {
-    SettingCellTypeNormal,//默认从0开始
-    SettingCellTypeSwitch,
-    SettingCellTypeText
-};
-
+#import "SettingItem.h"
 
 @protocol SettingCellDelegate<NSObject>
 
@@ -23,17 +18,17 @@ typedef NS_ENUM(NSInteger, SettingCellType) {
 
 // Display customization
 
-- (void)settingCellSwitchChangedForItem:(NSString *)item value:(BOOL)value;
+- (void)settingCellSwitchChangedForItem:(SettingItem *)item value:(BOOL)value;
 @end;
 
 @interface SettingCell : UITableViewCell
 
-@property(nonatomic) SettingCellType cellType;
+@property(nonatomic) SettingType cellType;
 
-@property(nonatomic, strong) NSString *item;
-@property(nonatomic, strong) NSString *textValue;
-@property(nonatomic, assign) BOOL boolValue;
+
 
 @property(nonatomic, weak) id<SettingCellDelegate> delegate;
+
+- (void)setItem:(SettingItem *)item;
 
 @end

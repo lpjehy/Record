@@ -145,14 +145,14 @@
 
     
     baseWebView = [[UIWebView alloc] init];
-    baseWebView.scalesPageToFit = YES;
+    //baseWebView.scalesPageToFit = YES;
     baseWebView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
  
     baseWebView.delegate = self;
-    baseWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //baseWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:baseWebView];
     
-    
+    NSLog(@"height %f", ScreenHeight - 64);
     
 }
 
@@ -240,7 +240,13 @@
     
     //NSString *urlAbsoluteString = webView.request.URL.absoluteString;
     
+    [self performSelector:@selector(getHeight) withObject:nil afterDelay:5];
+}
 
+- (void)getHeight {
+    CGSize fittingSize = [baseWebView sizeThatFits:CGSizeZero];
+    
+    NSLog(@"webViewDidFinishLoad %f", fittingSize.height);
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

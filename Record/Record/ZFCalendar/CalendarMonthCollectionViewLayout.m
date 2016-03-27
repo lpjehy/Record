@@ -21,7 +21,7 @@
 {
     self = [super init];
     if (self) {
-        self.headerReferenceSize = CGSizeMake(ScreenWidth, 32);//头部视图的框架大小
+        self.headerReferenceSize = CGSizeMake(ScreenWidth, 0.5);//头部视图的框架大小
         
         self.itemSize = CGSizeMake(ScreenWidth / 7, ScreenWidth / 7);//每个cell的大小
         
@@ -34,8 +34,6 @@
     
     return self;
 }
-
-
 
 - (NSArray *) layoutAttributesForElementsInRect:(CGRect)rect {
     

@@ -37,6 +37,8 @@
 
 @interface NSDate (NSDateExtension)
 
++ (NSDateComponents *)components;
+
 //“2015-05-10” 格式的日期是否为今天
 + (BOOL)isTodayDate:(NSString *)dateString;
 
@@ -59,6 +61,8 @@
 
 
 @interface NSDateComponents(Calendar)
+
++ (NSDateComponents *)componentsWithYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day;
 
 
 - (NSString *)dateDescription;
@@ -86,6 +90,7 @@
 - (BOOL)isLater:(NSDateComponents *)date;
 - (BOOL)isEqualTo:(NSDateComponents *)date;
 
+- (NSDate *)theDate;
 
 @end
 

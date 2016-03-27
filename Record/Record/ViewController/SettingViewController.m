@@ -17,9 +17,11 @@
 #import "TextEditViewController.h"
 #import "WebViewController.h"
 
+#import "SettingItem.h"
+
 typedef NS_ENUM(NSInteger, PickerType) {
     PickerTypePillDays,//默认从0开始
-    PickerTypeSafeDays,
+    PickerTypeBreakDays,
     PickerTypeStartDate,
     PickerTypeNotifyTime,
     PickerTypeNotifySound
@@ -32,6 +34,10 @@ typedef NS_ENUM(NSInteger, PickerType) {
     UIButton *doneButton;
     
     PickerType currentPickerType;
+    
+    
+    NSMutableArray *moduleArray;
+    NSMutableDictionary *moduleDic;
 }
 
 @property(nonatomic, strong) NSString *appID;
@@ -39,6 +45,17 @@ typedef NS_ENUM(NSInteger, PickerType) {
 @end
 
 
+static NSString *Setting_Item_TakeEveryday = @"Setting_Item_TakeEveryday";
+static NSString *Setting_Item_PillDays = @"Setting_Item_PillDays";
+static NSString *Setting_Item_BreakDays = @"Setting_Item_BeakDays";
+static NSString *Setting_Item_TakePlaceboPills = @"Setting_Item_TakePlaceboPills";
+static NSString *Setting_Item_StartDay = @"Setting_Item_StartDay";
+static NSString *Setting_Item_RemindTakePill = @"Setting_Item_RemindTakePill";
+static NSString *Setting_Item_RemindTakePlaceboPill = @"Setting_Item_RmindTakePlaceboPill";
+static NSString *Setting_Item_NotifyAlertBody = @"Setting_Item_NotifyAlertBody";
+static NSString *Setting_Item_NotifyTime = @"Setting_Item_NotifyTime";
+static NSString *Setting_Item_NotifySound = @"Setting_Item_NotifySound";
+static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 
 @implementation SettingViewController
 
@@ -49,6 +66,8 @@ typedef NS_ENUM(NSInteger, PickerType) {
     if (self) {
         self.appID = [OnlineConfigUtil getValueForKey:OnlineConfig_AppId];
         
+        moduleArray = [[NSMutableArray alloc] init];
+        moduleDic = [[NSMutableDictionary alloc] init];
         
         
     }
@@ -56,7 +75,138 @@ typedef NS_ENUM(NSInteger, PickerType) {
     return self;
 }
 
+- (void)reloadView {
+    [moduleArray removeAllObjects];
+    [moduleDic removeAllObjects];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    SettingItem *item = [[SettingItem alloc] init];
+    item.item = Setting_Item_TakeEveryday;
+    item.type = SettingTypeSwitch;
+    
+    BOOL isEveryDay = [ScheduleManager isEveryday];
+    item.boolValue = isEveryDay;
+    item.enable = YES;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_PillDays;
+    item.type = SettingTypeText;
+    
+    NSInteger pillday = [ScheduleManager pillDays];
+    item.textValue = [NSString stringWithFormat:@"%zi %@", pillday, NSLocalizedString(@"day", nil)];
+    item.enable = YES;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_BreakDays;
+    item.type = SettingTypeText;
+    
+    NSInteger braekDay = [ScheduleManager breakDays];
+    item.textValue = [NSString stringWithFormat:@"%zi %@", braekDay, NSLocalizedString(@"day", nil)];;
+    item.enable = YES;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_TakePlaceboPills;
+    item.type = SettingTypeSwitch;
+    BOOL takePlaceboPills = [ScheduleManager takePlaceboPills];
+    item.boolValue = takePlaceboPills;
+    item.enable = !isEveryDay;
+    [array addObject:item];
+    
+    
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_StartDay;
+    item.type = SettingTypeText;
+    
+    NSDate *date = [ScheduleManager startDate];
+    NSDateComponents *components = date.components;
+    NSString *textValue = [NSString stringWithFormat:@"%@ %zi/%zi/%zi", components.weekDayText, components.month, components.day, components.year];
+    item.textValue = textValue;
+    item.enable = YES;
+    [array addObject:item];
+    
+    [moduleArray addObject:@"setting_module_schedule"];
+    [moduleDic setValue:array forKey:@"setting_module_schedule"];
+    
+    
+    array = [NSMutableArray array];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_RemindTakePill;
+    item.type = SettingTypeSwitch;
+    
+    BOOL should = [ReminderManager shouldRmind];
+    item.boolValue = should;
+    item.enable = YES;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_RemindTakePlaceboPill;
+    item.type = SettingTypeSwitch;
+    
+    BOOL alsoRmind = [ReminderManager remindInSafeDays];
+    
+    if (!should || !takePlaceboPills) {
+        alsoRmind = NO;
+    }
+    item.boolValue = alsoRmind;
+    item.enable = should && takePlaceboPills;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_NotifyAlertBody;
+    item.type = SettingTypeText;
+    
+    NSString *alertBody = [ReminderManager notificationAlertBody];
+    item.textValue = alertBody;
+    item.enable = should;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_NotifyTime;
+    item.type = SettingTypeText;
+    
+    NSDate *nofityTime = [ReminderManager notificationTime];
+    item.textValue = [nofityTime stringWithFormat:@"HH:mm"];
+    item.enable = should;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_NotifySound;
+    item.type = SettingTypeText;
+    
+    NSString *sound = [ReminderManager notificationSound];
+    item.textValue = NSLocalizedString(sound, nil);
+    item.enable = should;
+    [array addObject:item];
+    
+    [moduleArray addObject:@"setting_module_reminders"];
+    [moduleDic setValue:array forKey:@"setting_module_reminders"];
+    
+    
+    if (appID && ![appID isEqualToString:@"0"]) {
+        item = [[SettingItem alloc] init];
+        item.item = Setting_Item_CheerUs;
+        item.type = SettingTypeNormal;
+        item.enable = YES;
+        [array addObject:item];
+        
+        
+        [moduleArray addObject:@"setting_module_others"];
+        [moduleDic setValue:array forKey:@"setting_module_others"];
+    }
+    
+    [mainTableView reloadData];
+}
+
 - (void)doneButtonPressed {
+    
+    
+    
     doneButton.hidden = YES;
     
     
@@ -76,8 +226,8 @@ typedef NS_ENUM(NSInteger, PickerType) {
     
     if (currentPickerType == PickerTypePillDays) {
         [numberPickerView selectRow:[ScheduleManager pillDays] - 1 inComponent:0 animated:NO];
-    } else if (currentPickerType == PickerTypeSafeDays) {
-        [numberPickerView selectRow:[ScheduleManager safeDays] - 1 inComponent:0 animated:NO];
+    } else if (currentPickerType == PickerTypeBreakDays) {
+        [numberPickerView selectRow:[ScheduleManager breakDays] - 1 inComponent:0 animated:NO];
     } else if (currentPickerType == PickerTypeStartDate) {
         NSDate *date = [ScheduleManager startDate];
         NSDateComponents *components = date.components;
@@ -126,22 +276,27 @@ typedef NS_ENUM(NSInteger, PickerType) {
     }
 }
 
+- (void)closeButtonPressed {
+    [self dismiss];
+    
+}
+
 - (void)createLayout {
     [self.navigationController setNavigationBarHidden:YES];
     
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(ScreenWidth - 64, 20, 64, 44);
     rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-    [rightButton setTitle:@"Close" forState:UIControlStateNormal];
+    [rightButton setTitle:NSLocalizedString(@"button_title_close", nil) forState:UIControlStateNormal];
     rightButton.titleLabel.font = FontNormal;
     [rightButton setTitleColor:ColorTextLight forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton addTarget:self action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [self.view addSubview:rightButton];
     
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"Setting";
+    titleLabel.text = NSLocalizedString(@"navigation_title_setting", nil);
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.frame = CGRectMake(64, 20, ScreenWidth - 128, 44);
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -164,6 +319,8 @@ typedef NS_ENUM(NSInteger, PickerType) {
     
     
     [self createLayout];
+    
+    [self reloadView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -192,17 +349,25 @@ typedef NS_ENUM(NSInteger, PickerType) {
     // Dispose of any resources that can be recreated.
 }
 
-- (void)settingCellSwitchChangedForItem:(NSString *)item value:(BOOL)value {
-    if ([item isEqualToString:@"Take everyday"]) {
+- (void)settingCellSwitchChangedForItem:(SettingItem *)item value:(BOOL)value {
+    
+    
+    if ([item.item isEqualToString:Setting_Item_TakeEveryday]) {
         [ScheduleManager setIsEveryday:value];
-    } else if ([item isEqualToString:@"Also remind me when I Take placebo pill"]) {
+    } else if ([item.item isEqualToString:Setting_Item_TakePlaceboPills]) {
+        [ScheduleManager setTakePlaceboPills:value];
+    } else if ([item.item isEqualToString:Setting_Item_RemindTakePill]) {
+        [ReminderManager setShouldRmind:value];
+    } else if ([item.item isEqualToString:Setting_Item_RemindTakePlaceboPill]) {
         [ReminderManager setRemindInSafeDays:value];
     }
+    
+    [self reloadView];
 }
 
 - (void)textEditViewTextChanged:(NSString *)text {
     [ReminderManager setNotificationAlertBody:text];
-    [mainTableView reloadData];
+    [self reloadView];
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -210,7 +375,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     NSInteger number = 0;
     
-    if (currentPickerType == PickerTypePillDays || currentPickerType == PickerTypeSafeDays) {
+    if (currentPickerType == PickerTypePillDays || currentPickerType == PickerTypeBreakDays) {
         number = 1;
     } else if (currentPickerType == PickerTypeStartDate) {
         number = 3;
@@ -228,7 +393,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
     NSInteger number = 0;
     if (currentPickerType == PickerTypePillDays) {
         number = 21;
-    } else if (currentPickerType == PickerTypeSafeDays) {
+    } else if (currentPickerType == PickerTypeBreakDays) {
         number = 7;
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 0) {
@@ -249,7 +414,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
         }
         
     } else if (currentPickerType == PickerTypeNotifySound) {
-        number = 1;
+        number = [ReminderManager getInstance].soundArray.count;
         
     }
     
@@ -259,7 +424,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
 - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
     NSString *title = nil;
-    if (currentPickerType == PickerTypePillDays || currentPickerType == PickerTypeSafeDays) {
+    if (currentPickerType == PickerTypePillDays || currentPickerType == PickerTypeBreakDays) {
         title = [NSString stringWithInteger:row + 1];
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 0) {
@@ -278,7 +443,8 @@ typedef NS_ENUM(NSInteger, PickerType) {
         }
         
     } else if (currentPickerType == PickerTypeNotifySound) {
-        title = [ReminderManager notificationSound];
+        NSArray *soundArray = [ReminderManager getInstance].soundArray;
+        title = [soundArray validObjectAtIndex:row];
         
     }
     
@@ -287,12 +453,10 @@ typedef NS_ENUM(NSInteger, PickerType) {
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
-    NSInteger tableviewrow = currentPickerType + 1;
-    NSInteger section = 0;
     if (currentPickerType == PickerTypePillDays) {
         [ScheduleManager setPillDays:row + 1];
         
-    } else if (currentPickerType == PickerTypeSafeDays) {
+    } else if (currentPickerType == PickerTypeBreakDays) {
         [ScheduleManager setSafeDays:row + 1];
         
         
@@ -302,8 +466,8 @@ typedef NS_ENUM(NSInteger, PickerType) {
         NSInteger day = [pickerView selectedRowInComponent:2] + 1;
         
         NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
-        NSDate *date = dateString.date;
-        [ScheduleManager setStartDate:date.timeIntervalSince1970];
+        
+        [ScheduleManager setStartDate:dateString.date];
         
         [pickerView reloadComponent:2];
         
@@ -311,29 +475,24 @@ typedef NS_ENUM(NSInteger, PickerType) {
         NSInteger hour = [pickerView selectedRowInComponent:0];
         NSInteger minute = [pickerView selectedRowInComponent:1];
         
-        NSString *dateString = [NSString stringWithFormat:@"%@ %02zi:%02zi:00.0", [[NSDate date] stringWithFormat:@"yyyy-MM-dd"], hour, minute];
-        NSLog(@"time %@", dateString);
-        NSDate *date = dateString.date;
-        [ReminderManager setNotificationTime:date.timeIntervalSince1970];
+        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
         
-        section = 1;
-        tableviewrow = 2;
+        [ReminderManager setNotificationTime:dateString];
+        
         
     } else if (currentPickerType == PickerTypeNotifySound) {
+        NSArray *soundArray = [ReminderManager getInstance].soundArray;
+        [ReminderManager setNotificationSound:[soundArray validObjectAtIndex:row]];
         
-        //[ReminderManager setStartDate:[pickerView ]];
-        
-        section = 1;
-        tableviewrow = 3;
         
     }
     
-    [mainTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:tableviewrow inSection:section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self reloadView];
 }
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return moduleArray.count;
 }
 
 
@@ -357,13 +516,9 @@ typedef NS_ENUM(NSInteger, PickerType) {
     headerLabel.textColor = [UIColor colorWithWhite:161 / 255.0 alpha:1];
     headerLabel.font = FontMiddle;
     headerLabel.frame = CGRectMake(15, 20, ScreenWidth - 30, 44);
-    if (section == 0) {
-        headerLabel.text = @"Schedule";
-    } else if (section == 1) {
-        headerLabel.text = @"Reminders";
-    } else {
-        headerLabel.text = @"Others";
-    }
+    
+    NSString *title = NSLocalizedString([moduleArray validObjectAtIndex:section], nil);
+    headerLabel.text = title;
     [headerView addSubview:headerLabel];
 
     
@@ -372,16 +527,9 @@ typedef NS_ENUM(NSInteger, PickerType) {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (section == 0) {
-        return 4;
-    } else if (section == 1) {
-        return 4;
-    } else {
-        if (appID && ![appID isEqualToString:@"0"]) {
-            return 2;
-        }
-        return 1;
-    }
+    NSString *key = [moduleArray validObjectAtIndex:section];
+    NSArray *itemArray = [moduleDic validObjectForKey:key];
+    return itemArray.count;
     
 }
 
@@ -393,58 +541,13 @@ typedef NS_ENUM(NSInteger, PickerType) {
         cell.delegate = self;
     }
     
+    NSString *key = [moduleArray validObjectAtIndex:indexPath.section];
+    NSArray *itemArray = [moduleDic validObjectForKey:key];
+    SettingItem *item = [itemArray validObjectAtIndex:indexPath.row];
     
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            cell.item = @"Take everyday";
-            cell.cellType = SettingCellTypeSwitch;
-            cell.boolValue = [ScheduleManager isEveryday];
-        } else if (indexPath.row == 1) {
-            cell.item = @"Take pill days";
-            cell.cellType = SettingCellTypeText;
-            cell.textValue = [NSString stringWithFormat:@"%zi days", [ScheduleManager pillDays]];
-            
-        } else if (indexPath.row == 2) {
-            cell.item = @"Break or placebo pill days";
-            cell.cellType = SettingCellTypeText;
-            cell.textValue = [NSString stringWithFormat:@"%zi days", [ScheduleManager safeDays]];
-            
-        } else if (indexPath.row == 3) {
-            cell.item = @"Start take current pack at";
-            cell.cellType = SettingCellTypeText;
-            
-            NSDate *date = [ScheduleManager startDate];
-            NSDateComponents *components = date.components;
-            cell.textValue = [NSString stringWithFormat:@"%@ %zi/%zi/%zi", components.weekDayText, components.month, components.day, components.year];
-        }
-        
-    } else if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            cell.item = @"Also remind me when I Take placebo pill";
-            cell.cellType = SettingCellTypeSwitch;
-            cell.boolValue = [ReminderManager remindInSafeDays];
-        } else if (indexPath.row == 1) {
-            cell.item = @"Notification";
-            cell.cellType = SettingCellTypeText;
-            cell.textValue = [ReminderManager notificationAlertBody];
-        } else if (indexPath.row == 2) {
-            cell.item = @"Time";
-            cell.cellType = SettingCellTypeText;
-            cell.textValue = [[ReminderManager notificationTime] stringWithFormat:@"HH:mm"];
-        } else {
-            cell.item = @"Sound";
-            cell.cellType = SettingCellTypeText;
-            cell.textValue = [ReminderManager notificationSound];
-        }
-    } else if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
-            cell.item = @"About us";
-            
-        } else {
-            cell.item = @"Cheer us";
-        }
-        
-    }
+    [cell setItem:item];
+    
+    
     
     
     return cell;
@@ -456,48 +559,53 @@ typedef NS_ENUM(NSInteger, PickerType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSString *key = [moduleArray validObjectAtIndex:indexPath.section];
+    NSArray *itemArray = [moduleDic validObjectForKey:key];
+    SettingItem *item = [itemArray validObjectAtIndex:indexPath.row];
     
+    if (!item.enable) {
+        return;
+    }
     
-    if (indexPath.section == 0) {
-        if (indexPath.row == 1) {
-            currentPickerType = PickerTypePillDays;
-            [self showPickerView];
-        } else if (indexPath.row == 2) {
-            currentPickerType = PickerTypeSafeDays;
-            [self showPickerView];
-        } else if (indexPath.row == 3) {
-            currentPickerType = PickerTypeStartDate;
-            [self showPickerView];
-            
-        }
-    } else if (indexPath.section == 1) {
-        if (indexPath.row == 1) {
-            
-            
-            TextEditViewController *textEditViewController = [[TextEditViewController alloc] init];
-            textEditViewController.text = [ReminderManager notificationAlertBody];
-            textEditViewController.delegate = self;
-            
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:textEditViewController];
-            
-            [self presentViewController:navController animated:YES completion:NULL];
-        } else if (indexPath.row == 2) {
-            currentPickerType = PickerTypeNotifyTime;
-            [self showPickerView];
-        } else if (indexPath.row == 3) {
-            currentPickerType = PickerTypeNotifySound;
-            [self showPickerView];
-            
-        }
-    } else if (indexPath.section == 2) {
+    if ([item.item isEqualToString:Setting_Item_PillDays]) {
         
-        if (indexPath.row == 0) {
-            WebViewController *webViewController = [[WebViewController alloc] init];
-            webViewController.baseUrl = @"http://lpjehy.github.io/reminder/aboutus.html";
-            [self.navigationController pushViewController:webViewController animated:YES];
-        } else if (indexPath.row == 1) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appID]]];
-        }
+        currentPickerType = PickerTypePillDays;
+        [self showPickerView];
+        
+    } else if ([item.item isEqualToString:Setting_Item_BreakDays]) {
+
+        currentPickerType = PickerTypeBreakDays;
+        [self showPickerView];
+    
+    
+    } else if ([item.item isEqualToString:Setting_Item_StartDay]) {
+        
+        currentPickerType = PickerTypeStartDate;
+        [self showPickerView];
+        
+    } else if ([item.item isEqualToString:Setting_Item_NotifyAlertBody]) {
+        
+        TextEditViewController *textEditViewController = [[TextEditViewController alloc] init];
+        textEditViewController.text = [ReminderManager notificationAlertBody];
+        textEditViewController.delegate = self;
+        
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:textEditViewController];
+        
+        [self presentViewController:navController animated:YES completion:NULL];
+        
+        
+    } else if ([item.item isEqualToString:Setting_Item_NotifyTime]) {
+        
+        currentPickerType = PickerTypeNotifyTime;
+        [self showPickerView];
+        
+    } else if ([item.item isEqualToString:Setting_Item_NotifySound]) {
+        
+        currentPickerType = PickerTypeNotifySound;
+        [self showPickerView];
+        
+    } else if ([item.item isEqualToString:Setting_Item_CheerUs]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appID]]];
         
     }
 

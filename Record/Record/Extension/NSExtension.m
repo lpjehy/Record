@@ -70,6 +70,10 @@
 @implementation NSDate (NSDateExtension)
 
 
++ (NSDateComponents *)components {
+    return [NSDate date].components;
+}
+
 //获取某一日期 是星期几
 
 + (NSInteger)weekDayStr:(NSString *)dateString
@@ -124,7 +128,8 @@
 
 - (NSDateComponents *)components
 {
-    return [[NSCalendar currentCalendar] components:
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    return [calendar components:
             NSYearCalendarUnit
             | NSMonthCalendarUnit
             | NSDayCalendarUnit
@@ -132,7 +137,7 @@
             | NSHourCalendarUnit
             | NSMinuteCalendarUnit
             | NSSecondCalendarUnit
-                                           fromDate:self];
+                       fromDate:self];
 }
 
 - (NSInteger)hour
@@ -358,8 +363,15 @@
 }
 
 
++ (NSDateComponents *)componentsWithYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day {
+    NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
+    NSDate *date = dateString.date;
+    return date.components;
+}
 
-
+- (NSDate *)theDate {
+    return [NSString stringWithFormat:@"%zi-%02zi-%02zi %02zi:%02zi:%02zi.0", self.year, self.month, self.day, self.hour, self.minute, self.second].date;
+}
 
 + (NSInteger)numberOfDaysInMonth:(NSInteger)month year:(NSInteger) year
 {

@@ -10,8 +10,9 @@
 
 @interface RecordManager : NSObject
 
-+ (void)record;
++ (void)record:(NSDate *)date;
 
-+ (void)view;
++ (NSString *)selectRecord:(NSDate *)date;
++ (void)deleteRecord:(NSDate *)date;
 
 @end

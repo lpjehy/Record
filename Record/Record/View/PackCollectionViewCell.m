@@ -14,8 +14,11 @@
 #import "RecordManager.h"
 #import "MessageManager.h"
 
+#import "PillButton.h"
+
 @interface PackCollectionViewCell(){
     UILabel *infoLabel;
+    UILabel *daysLabel;
     
     NSMutableArray *dateArray;
     
@@ -27,8 +30,22 @@
 @implementation PackCollectionViewCell
 
 
-- (void)pilldayButtonPressed:(UIButton *)button {
-    [MessageManager createMessage:button.currentTitle];
+- (void)pilldayButtonPressed:(PillButton *)button {
+    NSDate *date = button.day.theDate;
+    if (!date.isEarlier) {
+        [UIAlertView showMessage:@"不要着急哦，还没到那天呢~"];
+        return;
+    }
+    
+    NSString *record = [RecordManager selectRecord:date];
+    if (record) {
+        button.isTaken = NO;
+        [RecordManager deleteRecord:date];
+    } else {
+        [RecordManager record:date];
+        button.isTaken = YES;
+    }
+    
 }
 
 
@@ -61,12 +78,11 @@
         int r = i % 7;
         int q = i / 7;
         
-        UIButton *pilldayButton = [[UIButton alloc] init];
+        PillButton *pilldayButton = [[PillButton alloc] init];
         
         [pilldayButton addTarget:self action:@selector(pilldayButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         pilldayButton.frame = CGRectMake(64 + buttonWith * q, 48 + itemHeight * r, buttonWith, itemHeight);
         
-        [pilldayButton setTitle:[NSString stringWithInt:i + 1] forState:UIControlStateNormal];
         [self.contentView addSubview:pilldayButton];
         
         [dateArray addObject:pilldayButton];
@@ -110,18 +126,21 @@
 - (void)reloadData {
     
     NSInteger pillDayNum = [ScheduleManager pillDays];
-    NSInteger safeDayNum = [ScheduleManager safeDays];
-    
-    NSInteger allNum = pillDayNum + safeDayNum;
+    NSInteger allNum = [ScheduleManager getInstance].currentCycle;
     for (int i = 0; i < dateArray.count; i++) {
-        UIButton *button = [dateArray validObjectAtIndex:i];
+        PillButton *button = [dateArray validObjectAtIndex:i];
+        
+        
+        NSDateComponents *components = [[ScheduleManager getInstance] dateInPack:self.tag day:i].components;
+        [button setDay:components];
+        
         
         if (i < pillDayNum) {
             button.hidden = NO;
-            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            button.isPlacebo = NO;
         } else if (i < allNum) {
             button.hidden = NO;
-            [button setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+            button.isPlacebo = YES;
         } else {
             button.hidden = YES;
         }

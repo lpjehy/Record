@@ -15,9 +15,26 @@
 //MODEL
 #import "CalendarDayModel.h"
 
+#import "ScheduleManager.h"
+#import "RecordManager.h"
+
+#import "CalendarMenuView.h"
+
 @interface CalendarViewDelegate ()  {
+    NSMutableDictionary *numberOfItemsInSection;
+    NSMutableDictionary *monthInSection;
+    NSMutableDictionary *daysInSection;
+    NSMutableDictionary *firstDaysForSection;
+    
+    
+    CalendarDayCell *seletedCell;
     
 }
+
+@property(nonatomic, retain) NSDateComponents *startDay;
+@property(nonatomic, retain) NSDateComponents *today;
+@property(nonatomic, retain) NSDateComponents *selectedDay;
+
 
 @end
 
@@ -26,34 +43,95 @@
     static CalendarViewDelegate *instance = nil;
     if (instance == nil) {
         instance = [[CalendarViewDelegate alloc] init];
-        
-        
-        
-        
     }
     
     return instance;
 }
 
-@synthesize calendarMonth;
+@synthesize today, selectedDay, startDay, currentSection;
+@synthesize thisCollectionView;
 
 
 - (id)init {
     self = [super init];
     if (self) {
-        NSDate *date = [NSDate date];
+        numberOfItemsInSection = [[NSMutableDictionary alloc] init];
+        monthInSection = [[NSMutableDictionary alloc] init];
+        daysInSection = [[NSMutableDictionary alloc] init];
+        firstDaysForSection = [[NSMutableDictionary alloc] init];
         
-        NSDate *selectdate  = [NSDate date];
-        
-        
-        self.Logic = [[CalendarLogic alloc]init];
-        
-        
-        self.calendarMonth = [[NSMutableArray alloc] init];
-        self.calendarMonth = [self.Logic reloadCalendarView:date selectDate:selectdate  needDays:365];
+        self.startDay = [ScheduleManager startDate].components;
+        self.today = NSDate.components;
+        self.currentSection = (today.year - startDay.year) * 12 + today.month - startDay.month;
     }
     
     return self;
+}
+
+- (void)reloadData {
+    self.startDay = [ScheduleManager startDate].components;
+    self.today = NSDate.components;
+    self.currentSection = (today.year - startDay.year) * 12 + today.month - startDay.month;
+    
+    
+    
+    thisCollectionView.height = [self heightOfView];
+    
+    [thisCollectionView reloadData];
+    [thisCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0
+                                                                        inSection:currentSection]
+                                   atScrollPosition:UICollectionViewScrollPositionNone
+                                           animated:NO];
+}
+
+- (CGFloat)heightOfView {
+    NSInteger numOfCell = [self collectionView:thisCollectionView numberOfItemsInSection:currentSection];
+    return numOfCell / 7 * (ScreenWidth / 7);
+}
+
+
+- (NSDateComponents *)firstDayForSection:(NSInteger)section {
+
+    NSString *key = [NSString stringWithInteger:section];
+    NSDateComponents *firstDay = [firstDaysForSection validObjectForKey:key];
+    if (firstDay == nil) {
+        NSInteger month = startDay.month + section;
+        NSInteger year = startDay.year;
+        if (month <= 0) {
+            month += 12;
+            year--;
+        } else if (month > 12) {
+            month-= 12;
+            year++;
+        }
+        
+        firstDay = [NSDateComponents componentsWithYear:year month:month day:1];
+        [firstDaysForSection setValue:firstDay forKey:key];
+    }
+   
+    return firstDay;
+}
+
+- (NSArray *)daysInSection:(NSInteger)section {
+   
+    NSString *key = [NSString stringWithInteger:section];
+    NSMutableArray *dayArray = [daysInSection validObjectForKey:key];
+    if (dayArray == nil) {
+        dayArray = [NSMutableArray array];
+        
+        NSDateComponents *firstDay = [self firstDayForSection:section];
+        [dayArray addObject:firstDay];
+        NSInteger num = [NSDateComponents numberOfDaysInMonth:firstDay.month year:firstDay.year];
+        for (int i = 2; i <= num; i++) {
+            NSDateComponents *day = [NSDateComponents componentsWithYear:firstDay.year month:firstDay.month day:i];
+            [dayArray addObject:day];
+        }
+        
+        
+        [daysInSection setValue:dayArray forKey:key];
+    }
+    
+    return dayArray;
 }
 
 #pragma mark - CollectionView代理方法
@@ -61,29 +139,70 @@
 //定义展示的Section的个数
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return self.calendarMonth.count;
+    return currentSection + 3;
 }
 
 
 //定义展示的UICollectionViewCell的个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSMutableArray *monthArray = [self.calendarMonth objectAtIndex:section];
     
-    return monthArray.count;
+    NSString *key = [NSString stringWithInteger:section];
+    NSNumber *number = [numberOfItemsInSection validObjectForKey:key];
+    if (number == nil) {
+        NSInteger month = startDay.month + section;
+        NSInteger year = startDay.year;
+        if (month <= 0) {
+            month += 12;
+            year--;
+        } else if (month > 12) {
+            month-= 12;
+            year++;
+        }
+        
+        
+        NSInteger days = [NSDateComponents numberOfDaysInMonth:month year:year];
+        
+        NSDateComponents *firstDay = [NSDateComponents componentsWithYear:year month:month day:1];
+        
+        if (firstDay.weekday != 7) {
+            days += firstDay.weekday;
+        }
+        
+        NSInteger q = days / 7;
+        NSInteger r = days % 7;
+        if (r != 0) {
+            q++;
+        }
+        
+        days = q * 7;
+        
+        number = [NSNumber numberWithInteger:days];
+        [numberOfItemsInSection setValue:number forKey:key];
+    }
+   
+    return number.integerValue;
 }
 
 
 //每个UICollectionView展示的内容
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     CalendarDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DayCell forIndexPath:indexPath];
     
-    NSMutableArray *monthArray = [self.calendarMonth objectAtIndex:indexPath.section];
+    NSArray *dayArray = [self daysInSection:indexPath.section];
+    NSDateComponents *firstDay = dayArray.firstObject;
+    NSDateComponents *components = [dayArray validObjectAtIndex:indexPath.row - firstDay.weekday + 1];
+    cell.day = components;
     
-    CalendarDayModel *model = [monthArray objectAtIndex:indexPath.row];
-    
-    cell.model = model;
+    if (components) {
+        BOOL isSelected = components.year == selectedDay.year && components.month == selectedDay.month && components.day == selectedDay.day;
+        cell.isSelected = isSelected;
+        
+        
+        seletedCell = cell;
+    }
     
     return cell;
 }
@@ -97,7 +216,7 @@
         //NSMutableArray *month_Array = [self.calendarMonth objectAtIndex:indexPath.section];
         //CalendarDayModel *model = [month_Array objectAtIndex:15];
         
-        CalendarMonthHeaderView *monthHeader = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:MonthHeader forIndexPath:indexPath];
+        UICollectionReusableView *monthHeader = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:MonthHeader forIndexPath:indexPath];
         reusableview = monthHeader;
     }
     return reusableview;
@@ -108,16 +227,31 @@
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    CalendarDayCell *cell = (CalendarDayCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    if (cell.day == nil) {
+        return;
+    }
+    if (cell.isFuture) {
+        [UIAlertView showMessage:@"No hurry to take this pill, it's not the day yet!"];
+        return;
+    }
+    self.selectedDay = cell.day;
     
-    NSMutableArray *month_Array = [self.calendarMonth objectAtIndex:indexPath.section];
-    CalendarDayModel *model = [month_Array objectAtIndex:indexPath.row];
-    
-    [self.Logic selectLogic:model];
     
     
+    seletedCell.isSelected = NO;
+    seletedCell = cell;
+    
+    cell.isSelected = YES;
     
     
-    [collectionView reloadData];
+    if (!cell.isPlacebo || [ScheduleManager takePlaceboPills] || [ScheduleManager isEveryday]) {
+        [[CalendarMenuView getInstance] showInView:cell];
+    }
+    
+    
+    
+    
 }
 //返回这个UICollectionView是否可以被选择
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -128,14 +262,16 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    
-    if (self.calendarblock) {
-        NSInteger currentSection = scrollView.contentOffset.y / scrollView.height;
-        NSMutableArray *month_Array = [self.calendarMonth objectAtIndex:currentSection];
-        CalendarDayModel *model = [month_Array objectAtIndex:15];
+    NSInteger section = (NSInteger)scrollView.contentOffset.y / (NSInteger)scrollView.height;
+    //NSLog(@"y: %f", scrollView.contentOffset.y);
+    if (section != currentSection) {
+        currentSection = section;
         
-        self.calendarblock(model);//传递数组给上级
+        //[self reloadData];
         
+        thisCollectionView.height = [self heightOfView];
+        
+        //NSLog(@"currentSection: %zi height: %f", currentSection, thisCollectionView.height);
     }
 
 }

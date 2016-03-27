@@ -10,18 +10,39 @@
 
 @interface ScheduleManager : NSObject
 
++ (ScheduleManager *)getInstance;
+
+@property(nonatomic, assign) NSInteger currentCycle;
+@property(nonatomic, assign) NSInteger currentPack;
+@property(nonatomic, assign) NSInteger currentDayFromStartDay;
+@property(nonatomic, strong) NSDateComponents *today;
+
+- (NSDate *)dateInPack:(NSInteger)pack day:(NSInteger)day;
+
+- (BOOL)isPlaceboDay:(NSDateComponents *)day;
+
 + (void)setIsEveryday:(BOOL)everyday;
 + (BOOL)isEveryday;
+
+
+
 
 + (void)setPillDays:(NSInteger)days;
 + (NSInteger)pillDays;
 
 + (void)setSafeDays:(NSInteger)days;
-+ (NSInteger)safeDays;
++ (NSInteger)breakDays;
 
-+ (void)setStartDate:(NSTimeInterval)date;
+
++ (void)setTakePlaceboPills:(BOOL)take;
++ (BOOL)takePlaceboPills;
+
++ (void)setStartDate:(NSDate *)date;
 + (NSDate *)startDate;
 
 + (NSInteger)allDays;
+
+
++ (NSInteger)dayFromStart;
 
 @end

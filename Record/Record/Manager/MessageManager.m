@@ -29,7 +29,9 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
 }
 
 + (void)createMessage:(NSString *)content {
-    
+    if (content == nil) {
+        return;
+    }
     [MessageManager createTable];
     
     [[SqlUtil getInstance] execSql:[NSString stringWithFormat:SQL_INSERT_MESSAGE, content]];
@@ -42,18 +44,16 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     NSMutableArray *array = [NSMutableArray array];
     
     
-    NSArray *resultArray = [[SqlUtil getInstance] selectWithSql:SQL_SELECT_MESSAGE resultTypes:@[SqlDataTypeText, SqlDataTypeText, SqlDataTypeText, SqlDataTypeInt]];
-    for (NSArray *result in resultArray) {
+    NSArray *resultArray = [[SqlUtil getInstance] selectWithSql:SQL_SELECT_MESSAGE];
+    for (NSDictionary *result in resultArray) {
         Message *message = [[Message alloc] init];
         
-        message.serialid = [result validObjectAtIndex:0];
-        message.time = [result validObjectAtIndex:1];
-        message.content = [result validObjectAtIndex:2];
-        message.state = [[result validObjectAtIndex:3] integerValue];
+        message.serialid = [result validObjectForKey:@"id"];
+        message.time = [result validObjectForKey:@"createtime"];
+        message.content = [result validObjectForKey:@"content"];
+        message.state = [[result validObjectForKey:@"state"] integerValue];
         
         [array addObject:message];
-        
-       //NSLog(@"id: %@ time: %@ content: %@ state: %zi", message.serialid, message.time, message.content, message.state);
     }
     
     

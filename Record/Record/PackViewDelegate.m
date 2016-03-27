@@ -43,6 +43,7 @@
     
     PackCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:PackCollectionViewCellIdentifier
                                                                               forIndexPath:indexPath];
+    cell.tag = indexPath.row;
     [cell reloadData];
     
     return cell;

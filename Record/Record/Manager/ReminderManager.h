@@ -10,6 +10,9 @@
 
 @interface ReminderManager : NSObject
 
++ (void)setShouldRmind:(BOOL)should;
++ (BOOL)shouldRmind;
+
 + (void)setRemindInSafeDays:(BOOL)remind;
 + (BOOL)remindInSafeDays;
 
@@ -17,11 +20,20 @@
 + (NSString *)notificationAlertBody;
 
 
-+ (void)setNotificationTime:(NSTimeInterval)time;
++ (void)setNotificationTime:(NSString *)time;
 + (NSDate *)notificationTime;
 
-+ (void)setNotificationSoundBody:(NSString *)sound;
++ (void)setNotificationSound:(NSString *)sound;
 + (NSString *)notificationSound;
 
+
++ (void)resetNotify;
+
++ (ReminderManager *)getInstance;
+
++ (void)test;
+
+
+@property(nonatomic, readonly) NSArray *soundArray;
 
 @end

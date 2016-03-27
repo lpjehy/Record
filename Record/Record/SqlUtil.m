@@ -8,14 +8,14 @@
 
 #import "SqlUtil.h"
 
-#import <sqlite3.h>
+#import "FMDB.h"
 
 
 #define DBNAME    @"main.sqlite"
 
 
 @interface SqlUtil () {
-    sqlite3 *db;
+    FMDatabase *database;
 }
 
 @end
@@ -38,8 +38,9 @@
         NSString *documents = [paths objectAtIndex:0];
         NSString *database_path = [documents stringByAppendingPathComponent:DBNAME];
         
-        if (sqlite3_open([database_path UTF8String], &db) != SQLITE_OK) {
-            sqlite3_close(db);
+        database = [FMDatabase databaseWithPath:database_path];
+        if (![database open]) {
+            
             NSLog(@"数据库打开失败");  
         }
     }
@@ -48,49 +49,28 @@
 }
 
 
--(void)execSql:(NSString *)sql
+- (BOOL)execSql:(NSString *)sql
 {
-    char *err;
-    if (sqlite3_exec(db, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
-        
-        NSLog(@"sql error: %@", sql);
-    }
+    return [database executeUpdate:sql];
 }
 
 
 
 
-- (NSArray *)selectWithSql:(NSString *)sql resultTypes:(NSArray *)types {
+- (NSArray *)selectWithSql:(NSString *)sql {
     
     NSMutableArray *resultArray = [NSMutableArray array];
     
-    sqlite3_stmt * statement;
+    FMResultSet *resultSet = [database executeQuery:sql];
     
-    if (sqlite3_prepare_v2(db, [sql UTF8String], -1, &statement, nil) == SQLITE_OK) {
-        
-        
-        
-        while (sqlite3_step(statement) == SQLITE_ROW) {
+    while (resultSet.next) {
+        NSMutableDictionary *resultDic = [NSMutableDictionary dictionary];
+        for (NSString *culumn in resultSet.columnNameToIndexMap.allKeys) {
             
-            NSMutableArray *result = [NSMutableArray array];
-            
-            for (int i = 0; i < types.count; i++) {
-                NSString *type = [types validObjectAtIndex:i];
-                if ([type isEqualToString:SqlDataTypeInt]) {
-                    int intValue = sqlite3_column_int(statement, i);
-                    [result addObject:[NSString stringWithInt:intValue]];
-                    
-                } else if ([type isEqualToString:SqlDataTypeText]) {
-                    char *charValue = (char*)sqlite3_column_text(statement, i);
-                    NSString *text = [[NSString alloc] initWithUTF8String:charValue];
-                    [result addObject:text];
-                    
-                }
-            }
-            
-            [resultArray addObject:result];
-            
+            [resultDic setValue:[resultSet stringForColumn:culumn] forKey:culumn];
         }
+        
+        [resultArray addObject:resultDic];
     }
     
     return resultArray;

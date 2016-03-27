@@ -9,18 +9,15 @@
 #import <Foundation/Foundation.h>
 
 
-static NSString *SqlDataTypeInt = @"int";
-static NSString *SqlDataTypeText = @"text";
-
 @interface SqlUtil : NSObject
 
 + (SqlUtil *)getInstance;
 
 
-- (void)execSql:(NSString *)sql;
+- (BOOL)execSql:(NSString *)sql;
 
 
 
-- (NSArray *)selectWithSql:(NSString *)sql resultTypes:(NSArray *)types;
+- (NSArray *)selectWithSql:(NSString *)sql;
 
 @end

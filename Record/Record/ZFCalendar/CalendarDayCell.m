@@ -12,9 +12,22 @@
 
 #import "CalendarDayCell.h"
 
-#define COLOR [UIColor whiteColor];
+#import "RecordManager.h"
+#import "ScheduleManager.h"
+
+@interface CalendarDayCell () {
+    UILabel *titleLabel;
+    UIImageView *markImageView;
+    
+    UIImageView *frameImageView;
+}
+
+@end
 
 @implementation CalendarDayCell
+
+@synthesize isToday, isPlacebo, isTaken, isSelected, isFuture;
+@synthesize day;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -27,77 +40,129 @@
 
 - (void)initView{
     
-    //选中时显示的图片
-    imgview = [[UIImageView alloc]initWithFrame:CGRectMake(5, 15, self.bounds.size.width-10, self.bounds.size.width-10)];
-    imgview.image = [UIImage imageNamed:@"chack.png"];
-    [self addSubview:imgview];
+    frameImageView = [[UIImageView alloc] init];
+    frameImageView.frame = CGRectMake(0, 0, self.width, self.height);
     
-    //日期
-    day_lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.bounds.size.width, self.bounds.size.width-10)];
-    day_lab.textAlignment = NSTextAlignmentCenter;
-    day_lab.font = [UIFont systemFontOfSize:14];
-    [self addSubview:day_lab];
-
-    //农历
-    day_title = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-15, self.bounds.size.width, 13)];
-    day_title.textColor = [UIColor lightGrayColor];
-    day_title.font = [UIFont boldSystemFontOfSize:10];
-    day_title.textAlignment = NSTextAlignmentCenter;
-    //[self addSubview:day_title];
+    [self.contentView addSubview:frameImageView];
     
+    titleLabel = [[UILabel alloc] init];
+    titleLabel.frame = CGRectMake(0, 0, self.width, self.height);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.font = FontSmall;
+    [self.contentView addSubview:titleLabel];
+    
+    markImageView = [[UIImageView alloc] init];
+    markImageView.frame = CGRectMake(self.width - 12, 2, 10, 10);
+    [self.contentView addSubview:markImageView];
+    
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = ColorGrayDark;
+    lineView.frame = CGRectMake(0, ScreenWidth / 7 - 0.5, ScreenWidth / 7, 0.5);
+    [self.contentView addSubview:lineView];
+    
+    lineView = [[UIView alloc] init];
+    lineView.backgroundColor = ColorGrayDark;
+    lineView.frame = CGRectMake(ScreenWidth / 7 - 0.5, 0, 0.5, ScreenWidth / 7);
+    [self.contentView addSubview:lineView];
 
 }
 
-
-- (void)setModel:(CalendarDayModel *)model
-{
-
-
-    switch (model.style) {
-        case CellDayTypeEmpty://不显示
-            [self hidden_YES];
-            break;
-      
+- (void)resetState {
+    
+    if (isFuture) {
+        if (isPlacebo) {
+            if ([ScheduleManager isEveryday] || [ScheduleManager takePlaceboPills]) {
+                markImageView.image = [UIImage imageNamed:@"Calendar_Placebo_future.png"];
+            } else {
+                markImageView.image = nil;
+            }
             
-        case CellDayTypeClick://被点击的日期
-            [self hidden_NO];
-            day_lab.text = [NSString stringWithFormat:@"%lu",model.day];
-            day_lab.textColor = [UIColor whiteColor];
-            day_title.text = model.Chinese_calendar;
-            imgview.hidden = NO;
-            
-            break;
-            
-        default:
-            [self hidden_NO];
-            day_lab.text = [NSString stringWithFormat:@"%lu",model.day];
-            day_lab.textColor = COLOR;
-            
-            day_title.text = model.Chinese_calendar;
-            imgview.hidden = YES;
-            
-            break;
+        } else {
+            markImageView.image = [UIImage imageNamed:@"Calendar_Pill_future.png"];
+        }
+    } else {
+        
+        if (isTaken) {
+            if (isPlacebo) {
+                if ([ScheduleManager isEveryday] || [ScheduleManager takePlaceboPills]) {
+                    markImageView.image = [UIImage imageNamed:@"Calendar_Placebo_taken.png"];
+                } else {
+                    markImageView.image = nil;
+                }
+                
+            } else {
+                markImageView.image = [UIImage imageNamed:@"Calendar_Pill_taken.png"];
+            }
+        } else {
+            if (isPlacebo) {
+                if ([ScheduleManager isEveryday] || [ScheduleManager takePlaceboPills]) {
+                    markImageView.image = [UIImage imageNamed:@"Calendar_Pill_miss.png"];
+                } else {
+                    markImageView.image = nil;
+                }
+                
+            } else {
+                markImageView.image = [UIImage imageNamed:@"Calendar_Pill_miss.png"];
+            }
+        }
+        
     }
+    
+    if (isSelected) {
+        frameImageView.image = [UIImage imageNamed:@"Calendar_Frame_FocusDay.png"];
+    } else if (isToday) {
+        frameImageView.image = [UIImage imageNamed:@"Calendar_Frame_Today.png"];
+    } else {
+        frameImageView.image = nil;
+    }
+    
+}
 
-
+- (void)setDay:(NSDateComponents *)d {
+    day = d;
+    
+    NSString *text = [NSString stringWithInteger:day.day];
+    if (text.intValue != 0) {
+        titleLabel.text = text;
+        
+        NSDateComponents *today = NSDate.components;
+        
+        if (day.year == today.year && day.month == today.month && day.day == today.day) {
+            self.isToday = YES;
+        } else {
+            self.isToday = NO;
+        }
+        
+        self.isFuture = ![day isEarlier:today];
+        
+        NSString *recordText = [RecordManager selectRecord:day.theDate];
+        //NSLog(@"recordText: %@", recordText);
+        if (recordText) {
+            self.isTaken = YES;
+        } else {
+            self.isTaken = NO;
+        }
+        
+        self.isPlacebo = [[ScheduleManager getInstance] isPlaceboDay:day];
+        
+    } else {
+        titleLabel.text = nil;
+        
+        markImageView.image = nil;
+        frameImageView.image = nil;
+    }
+    
+   
 }
 
 
 
-- (void)hidden_YES{
-    
-    day_lab.hidden = YES;
-    day_title.hidden = YES;
-    imgview.hidden = YES;
-    
-}
 
 
-- (void)hidden_NO{
-    
-    day_lab.hidden = NO;
-    day_title.hidden = NO;
-    
+- (void)setIsSelected:(BOOL)selected {
+    isSelected = selected;
+    [self resetState];
 }
 
 

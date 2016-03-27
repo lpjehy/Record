@@ -1,0 +1,38 @@
+/* 
+  本地.strings
+  Record
+
+  Created by Jehy Fan on 16/3/20.
+  Copyright © 2016年 Jehy Fan. All rights reserved.
+*/
+
+
+"navigation_title_setting"="设置";
+
+
+"button_title_back"="返回";
+"button_title_close"="关闭";
+"button_title_cancel"="取消";
+"button_title_save"="保存";
+"button_title_view"="查看";
+
+
+"setting_module_schedule"="计划";
+"setting_module_reminders"="提醒";
+"setting_module_others"="其它";
+
+"Setting_Item_TakeEveryday"="每日吃药";
+"Setting_Item_PillDays"="吃药天数";
+"Setting_Item_BeakDays"="断药天数";
+"Setting_Item_TakePlaceboPills"="安慰剂";
+"Setting_Item_StartDay"="开始日期";
+"Setting_Item_RemindTakePill"="提醒我吃药";
+"Setting_Item_RmindTakePlaceboPill"="提醒我吃安慰剂";
+"Setting_Item_NotifyAlertBody"="通知文案";
+"Setting_Item_NotifyTime"="通知时间";
+"Setting_Item_NotifySound"="通知声音";
+"Setting_Item_CheerUs"="鼓励我们";
+
+"reminder_default_alertbody"="请您服药~";
+
+"day"="天";

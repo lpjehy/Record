@@ -14,6 +14,7 @@
 #import "HelpView.h"
 
 #import "NotifyUtil.h"
+#import "LegendView.h"
 
 #import "RecordManager.h"
 
@@ -31,6 +32,7 @@
 #import "HelpView.h"
 
 #import "MessageManager.h"
+#import "ScheduleManager.h"
 
 
 #import "OnlineConfigUtil.h"
@@ -43,6 +45,8 @@
 #import "PackCollectionViewCell.h"
 
 #import "StartView.h"
+
+#import "WebViewController.h"
 
 
 
@@ -94,15 +98,17 @@
 }
 
 - (void)calendarButtonPressed {
+    
     if (baseScrollView.contentOffset.y == 0) {
         
         [baseScrollView scrollToBottom:YES];
         
-        [mainButton setTitle:@"Pack" forState:UIControlStateNormal];
+        [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Packs.png"] forState:UIControlStateNormal];
+        
     } else {
         [baseScrollView scrollToTop:YES];
         
-        [mainButton setTitle:@"Calendar" forState:UIControlStateNormal];
+        [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Calendar.png"] forState:UIControlStateNormal];
         
         if (![HelpView CalendarHelpHasShowed]) {
             [[HelpView getInstance] showCalendarHelp];
@@ -120,6 +126,9 @@
     [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
+- (void)legendButtonPressed {
+    [[LegendView getInstance] show];
+}
 
 - (void)todayButtonPressed {
     [calendarCollectionView scrollToTop:YES];
@@ -151,8 +160,9 @@
     
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 108, ScreenWidth - 40, ScreenHeight - 172)
+    mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(20, 108, ScreenWidth - 40, ScreenHeight - 172)
                                             collectionViewLayout:flowLayout];
+    mainCollectionView.clipsToBounds = NO;
     mainCollectionView.pagingEnabled = YES;
     mainCollectionView.showsHorizontalScrollIndicator = NO;
     mainCollectionView.backgroundColor = [UIColor clearColor];
@@ -176,12 +186,18 @@
     
     [baseScrollView addSubview:calendarView];
     
+    UIButton *legendButton = [[UIButton alloc] init];
+    [legendButton setTitle:@"Legend" forState:UIControlStateNormal];
+    [legendButton setTitleColor:ColorGrayDark forState:UIControlStateNormal];
+    legendButton.frame = CGRectMake(10, 20, 64, 44);
+    [legendButton addTarget:self action:@selector(legendButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [calendarView addSubview:legendButton];
     
     dateLabel = [[UILabel alloc] init];
     dateLabel.textAlignment = NSTextAlignmentCenter;
     dateLabel.textColor = [UIColor whiteColor];
     dateLabel.frame = CGRectMake(128, 20, ScreenWidth - 256, 44);
-    NSDateComponents *com = [NSDate date].components;
+    NSDateComponents *com = NSDate.components;
     dateLabel.text = [NSString stringWithFormat:@"%02zi/%zi", com.month, com.year];
     [calendarView addSubview:dateLabel];
     
@@ -204,12 +220,15 @@
     [calendarCollectionView registerClass:[CalendarDayCell class] forCellWithReuseIdentifier:DayCell];//cell重用设置ID
     
     [calendarCollectionView registerClass:[CalendarMonthHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:MonthHeader];
-    //calendarCollectionView.pagingEnabled = YES;
+    calendarCollectionView.pagingEnabled = YES;
     calendarCollectionView.backgroundColor = [UIColor clearColor];
     calendarCollectionView.frame = CGRectMake(0, 64, ScreenWidth, 300);
+    [CalendarViewDelegate getInstance].thisCollectionView = calendarCollectionView;
     calendarCollectionView.delegate = [CalendarViewDelegate getInstance];
     calendarCollectionView.dataSource = [CalendarViewDelegate getInstance];
     [calendarView addSubview:calendarCollectionView];
+    
+    
     
     messageTableView = [[UITableView alloc] init];
     messageTableView.frame = CGRectMake(0, 364, ScreenWidth, 260);
@@ -219,10 +238,6 @@
     messageTableView.delegate = [MessageViewDelegate getInstance];
     
     
-    [CalendarViewDelegate getInstance].calendarblock = ^(CalendarDayModel *model){
-        
-        dateLabel.text = [NSString stringWithFormat:@"%02zi/%zi", model.month, model.year];
-    };
 }
 
 - (void)createLayout {
@@ -258,10 +273,10 @@
     [self.view addSubview:helpButton];
     
     mainButton = [[UIButton alloc] init];
-    mainButton.frame = CGRectMake(40 + 20 + buttonWidth, ScreenHeight - 64, buttonWidth, 64);
+    mainButton.frame = CGRectMake((ScreenWidth - 45) / 2, ScreenHeight - 60, 45, 45);
     [mainButton addTarget:self action:@selector(calendarButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [mainButton setTitle:@"Calendar" forState:UIControlStateNormal];
-    [mainButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Calendar.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:mainButton];
 

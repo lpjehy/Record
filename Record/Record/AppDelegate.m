@@ -19,6 +19,11 @@
 #import "OnlineConfigUtil.h"
 #import "AdManager.h"
 
+#import "ReminderManager.h"
+
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+
 @interface AppDelegate ()
 
 @end
@@ -49,6 +54,8 @@
     [AdManager test];
     
     [self createLayout];
+    
+    NSLog(@"%f", [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSinceNow:-10]]);
     
     
     
@@ -90,6 +97,9 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     [OnlineConfigUtil update];
+    
+    [ReminderManager resetNotify];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -101,7 +111,20 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     if ([[notification.userInfo objectForKey:@"id"] isEqualToString:@"test"]) {
         //判断应用程序当前的运行状态，如果是激活状态，则进行提醒，否则不提醒
+        NSLog(@"didReceiveLocalNotification %@", notification.userInfo.description);
         if (application.applicationState == UIApplicationStateActive) {
+            
+            SystemSoundID audio = 0;
+            
+            
+            CFStringRef strRef = (__bridge CFStringRef)[notification.soundName stringByReplacingOccurrencesOfString:@".wav" withString:@""];
+            
+            CFURLRef audioFileURLRef = CFBundleCopyResourceURL(CFBundleGetMainBundle(), strRef, CFSTR("wav"), NULL);
+            AudioServicesCreateSystemSoundID(audioFileURLRef, &audio);
+            CFRelease(audioFileURLRef);
+            
+            AudioServicesPlaySystemSound(audio);
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"test"
                                                             message:notification.alertBody
                                                            delegate:nil

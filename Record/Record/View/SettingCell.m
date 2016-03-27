@@ -13,7 +13,11 @@
     UILabel *valueLabel;
     UIImageView *accessImageView;
     UISwitch *valueSwitch;
+    
+    
 }
+
+@property(nonatomic, strong) SettingItem *currentItem;
 
 @end
 
@@ -21,7 +25,7 @@
 
 @synthesize cellType;
 
-@synthesize item, textValue, boolValue;
+@synthesize currentItem;
 
 @synthesize delegate;
 
@@ -48,19 +52,19 @@
     // Configure the view for the selected state
 }
 
-- (void)setCellType:(SettingCellType)type {
-    if (type == SettingCellTypeNormal) {
+- (void)setCellType:(SettingType)type {
+    if (type == SettingTypeNormal) {
         valueLabel.hidden = YES;
         accessImageView.hidden = YES;
         
         valueSwitch.hidden = YES;
-    } else if (type == SettingCellTypeSwitch) {
+    } else if (type == SettingTypeSwitch) {
         valueLabel.hidden = YES;
         accessImageView.hidden = YES;
         
         [self createSwitchView];
         valueSwitch.hidden = NO;
-    } else if (type == SettingCellTypeText) {
+    } else if (type == SettingTypeText) {
         [self createTextView];
         valueLabel.hidden = NO;
         accessImageView.hidden = NO;
@@ -69,26 +73,12 @@
     }
 }
 
-- (void)setItem:(NSString *)text {
-    itemLabel.text = text;
-}
-
-- (NSString *)item {
-    return itemLabel.text;
-}
-
-
-- (void)setBoolValue:(BOOL)value {
-    boolValue = value;
-    
-    valueSwitch.on = value;
-}
 
 -(void)switchAction
 {
-    self.boolValue = valueSwitch.on;
+    BOOL boolValue = valueSwitch.on;
     if ([delegate respondsToSelector:@selector(settingCellSwitchChangedForItem:value:)]) {
-        [delegate settingCellSwitchChangedForItem:self.item value:boolValue];
+        [delegate settingCellSwitchChangedForItem:self.currentItem value:boolValue];
     }
 }
 
@@ -117,21 +107,49 @@
     }
 }
 
-- (void)setTextValue:(NSString *)text {
-    valueLabel.text = text;
-    CGFloat textWidth = [valueLabel textSize].width;
-    CGFloat maxWidth = ScreenWidth - itemLabel.textSize.width - itemLabel.originX - 50;
-    if (textWidth > maxWidth) {
-        textWidth = maxWidth;
+- (void)setItem:(SettingItem *)item {
+    self.currentItem = item;
+    
+    
+    itemLabel.text = NSLocalizedString(item.item, nil);
+    
+    
+    self.cellType = item.type;
+    
+    if (item.textValue) {
+        valueLabel.text = item.textValue;
+        CGFloat textWidth = [valueLabel textSize].width;
+        CGFloat maxWidth = ScreenWidth - itemLabel.textSize.width - itemLabel.originX - 50;
+        if (textWidth > maxWidth) {
+            textWidth = maxWidth;
+            
+        }
         
+        valueLabel.originX = ScreenWidth - 25 - textWidth;
+        valueLabel.width = textWidth;
     }
     
-    valueLabel.originX = ScreenWidth - 25 - textWidth;
-    valueLabel.width = textWidth;
+    
+    valueSwitch.on = item.boolValue;
+    
+    if (item.enable) {
+        valueSwitch.enabled = YES;
+        valueLabel.textColor = [UIColor whiteColor];
+    } else {
+        valueSwitch.enabled = NO;
+        valueLabel.textColor = ColorTextGray;
+    }
+    
+    
+    if (cellType == SettingTypeNormal) {
+        
+    } else if (cellType == SettingTypeSwitch) {
+        
+    } else if (cellType == SettingTypeText) {
+        
+    }
 }
 
-- (NSString *)textValue {
-    return valueLabel.text;
-}
+
 
 @end

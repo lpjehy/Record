@@ -37,10 +37,6 @@
 
 - (void)cancelAllLocalNotification {
     NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
-    //获取当前所有的本地通知
-    if (!notificaitons || notificaitons.count <= 0) {
-        return;
-    }
     for (UILocalNotification *notify in notificaitons) {
         if ([[notify.userInfo objectForKey:@"id"] isEqualToString:@""]) {
             //取消一个特定的通知
