@@ -8,8 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
+#import "AnalyticsUtil.h"
+
 @interface AppManager : NSObject
 
 + (void)Initialize;
+
++ (BOOL)hasFirstOpened;
++ (BOOL)hasFirstSetDone;
++ (BOOL)hasFirstPackShowed;
++ (BOOL)hasFirstOpenedByReminder;
++ (BOOL)isFirstOpeningByReminder;
++ (BOOL)hasFirstTakeByReminder;
+
++ (void)setFirstOpened;
++ (void)setFirstSetDone;
++ (void)setFirstPackShowed;
++ (void)setFirstOpenedByReminder;
++ (void)setFirstTakeByReminder;
++ (void)setFirstOpeningByReminder:(BOOL)is;
 
 @end

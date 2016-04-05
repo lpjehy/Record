@@ -20,11 +20,12 @@
 #import "AdManager.h"
 
 #import "ReminderManager.h"
+#import "RecordManager.h"
 
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface AppDelegate ()
+@interface AppDelegate () <UIAlertViewDelegate>
 
 @end
 
@@ -77,6 +78,27 @@
     return YES;
 }
 
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    NSString *type = nil;
+    NSString *title = nil;
+    if ([shortcutItem.type isEqualToString:@"takepill"]) {
+        [RecordManager record:[NSDate date]];
+        type = @"untakepill";
+        title = @"Take";
+    } else {
+        [RecordManager deleteRecord:[NSDate date]];
+        type = @"takepill";
+        title = @"Untake";
+    }
+    
+    UIApplicationShortcutItem *item = [[UIApplicationShortcutItem alloc] initWithType:type localizedTitle:title];
+    // 将标签添加进Application的shortcutItems中。
+    [UIApplication sharedApplication].shortcutItems = @[item];
+    
+    [ReminderManager resetNotify];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -99,7 +121,11 @@
     [OnlineConfigUtil update];
     
     [ReminderManager resetNotify];
-    
+    /*
+    for (UILocalNotification *notify in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
+        NSLog(@"%@", notify.fireDate.description);
+    }
+     */
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -109,29 +135,49 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    if ([[notification.userInfo objectForKey:@"id"] isEqualToString:@"test"]) {
-        //判断应用程序当前的运行状态，如果是激活状态，则进行提醒，否则不提醒
-        NSLog(@"didReceiveLocalNotification %@", notification.userInfo.description);
-        if (application.applicationState == UIApplicationStateActive) {
-            
+    //判断应用程序当前的运行状态，如果是激活状态，则进行提醒，否则不提醒
+    NSLog(@"didReceiveLocalNotification %@", notification.alertBody);
+    if (application.applicationState == UIApplicationStateActive) {
+        NSString *record = [RecordManager selectRecord:[NSDate date]];
+        if (record == nil) {
             SystemSoundID audio = 0;
             
+            NSString *soundName = [ReminderManager notificationSound];
+            if ([soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
+                audio = 1002;
+            } else {
+                CFStringRef strRef = (__bridge CFStringRef)soundName;
+                
+                CFURLRef audioFileURLRef = CFBundleCopyResourceURL(CFBundleGetMainBundle(), strRef, CFSTR("mp3"), NULL);
+                AudioServicesCreateSystemSoundID(audioFileURLRef, &audio);
+                CFRelease(audioFileURLRef);
+            }
             
-            CFStringRef strRef = (__bridge CFStringRef)[notification.soundName stringByReplacingOccurrencesOfString:@".wav" withString:@""];
-            
-            CFURLRef audioFileURLRef = CFBundleCopyResourceURL(CFBundleGetMainBundle(), strRef, CFSTR("wav"), NULL);
-            AudioServicesCreateSystemSoundID(audioFileURLRef, &audio);
-            CFRelease(audioFileURLRef);
             
             AudioServicesPlaySystemSound(audio);
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"test"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tip~"
                                                             message:notification.alertBody
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"关闭"
-                                                  otherButtonTitles:notification.alertAction, nil];
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Take", nil];
             [alert show];
         }
+        
+        
+    } else {
+        if (![AppManager hasFirstOpenedByReminder]) {
+            [AppManager setFirstOpeningByReminder:YES];
+            [AppManager setFirstOpenedByReminder];
+        }
+    }
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([title isEqualToString:@"Take"]) {
+        [RecordManager record:[NSDate date]];
     }
 }
 

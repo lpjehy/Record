@@ -10,7 +10,7 @@
 
 
 @interface MessageCell(){
-    UILabel *dateLabel;
+    
     UILabel *contentLabel;
     
     
@@ -24,14 +24,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        
-        dateLabel = [[UILabel alloc] init];
-        dateLabel.frame = CGRectMake(10, 0, 64, 44);
-        dateLabel.textColor = [UIColor whiteColor];
-        [self.contentView addSubview:dateLabel];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         contentLabel = [[UILabel alloc] init];
-        contentLabel.frame = CGRectMake(80, 0, ScreenWidth - 100, 44);
+        contentLabel.font = FontSmall;
+        contentLabel.frame = CGRectMake(20, 0, ScreenWidth - 40, 44);
         contentLabel.textColor = [UIColor whiteColor];
         [self.contentView addSubview:contentLabel];
     }
@@ -46,14 +43,10 @@
 }
 
 
-- (void)setMessage:(Message *)message {
+- (void)setMessage:(NSString *)message {
     
-    NSDateComponents *dateComponents = [[message.time dateWithFormat:@"yyyy-MM-dd HH:mm:ss"] components];
-    dateLabel.text = [NSString stringWithFormat:@"%zi/%zi", dateComponents.month, dateComponents.day];
+    contentLabel.text = message;
     
-    contentLabel.text = message.content;
-    
-    self.tag = message.serialid.integerValue;
 }
 
 @end

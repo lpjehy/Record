@@ -17,6 +17,6 @@ static NSString *MessageCellCellIdentifier = @"MessageCellCellIdentifier";
 
 
 
-- (void)setMessage:(Message *)message;
+- (void)setMessage:(NSString *)message;
 
 @end

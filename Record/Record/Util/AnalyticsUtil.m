@@ -33,4 +33,8 @@
 }
 
 
++ (void)event:(NSString *)eventId {
+    [MobClick event:eventId];
+}
+
 @end

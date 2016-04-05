@@ -13,12 +13,20 @@
 
 #import "MessageCell.h"
 
+#import "ScheduleManager.h"
+#import "RecordManager.h"
+
+
+
+
 static NSString *SQL_CREATE_TABLE = @"CREATE TABLE IF NOT EXISTS MESSAGE (ID INTEGER PRIMARY KEY AUTOINCREMENT, createtime DATETIME, content TEXT, state INTEGER)";
 static NSString *SQL_INSERT_MESSAGE = @"INSERT INTO MESSAGE ('content', 'createtime', 'state') VALUES ('%@', datetime('now', 'localtime'), 0)";
 static NSString *SQL_DELETE_MESSAGE = @"DELETE FROM MESSAGE WHERE ID = '%@'";
 static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
 
-@interface MessageManager () 
+@interface MessageManager () {
+    NSMutableArray *messageArray;
+}
 
 @end
 
@@ -77,6 +85,42 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     return instance;
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        messageArray = [[NSMutableArray alloc] init];
+        
+        [self reloadData];
+    }
+    
+    return self;
+}
+
+- (void)reloadData {
+    [messageArray removeAllObjects];
+    
+    
+    NSString *firstMessage = [NSString stringWithFormat:NSLocalizedString(@"message_day_info", nil), [ScheduleManager getInstance].currentPackDay, [ScheduleManager allDays]];
+    [messageArray addObject:firstMessage];
+    
+    NSDate *startDate = [ScheduleManager startDate];
+    for (int i = (int)[ScheduleManager getInstance].currentDayFromStartDay - 1; i >= 0; i--) {
+        NSDate *date = [NSDate dateWithTimeInterval:TimeIntervalDay * i sinceDate:startDate];
+        NSString *record = [RecordManager selectRecord:date];
+        if (record == nil) {
+            NSDateComponents *day = date.components;
+            NSString *message = [NSString stringWithFormat:@"%zi/%zi  %@", day.month, day.day, NSLocalizedString(@"message_missed", nil)];
+            [messageArray addObject:message];
+        }
+    }
+}
+
+- (NSArray *)allMessage {
+    
+    
+    return messageArray;
+}
+
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -87,7 +131,7 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     
-    return [[MessageManager selectAllMessage] count];
+    return [[[MessageManager getInstance] allMessage] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,8 +142,8 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
         cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MessageCellCellIdentifier];
     }
     
-    NSArray *array = [MessageManager selectAllMessage];
-    Message *message = [array validObjectAtIndex:indexPath.row];
+    NSArray *array = [[MessageManager getInstance] allMessage];
+    NSString *message = [array validObjectAtIndex:indexPath.row];
     
     [cell setMessage:message];
     

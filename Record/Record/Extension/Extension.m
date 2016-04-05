@@ -20,29 +20,34 @@
 
 
 - (NSString *)weekDayText {
-    NSInteger weekday = self.weekday;
+    
+    
+    return [[self class] textForWeekday:self.weekday];
+}
+
++ (NSString *)textForWeekday:(NSInteger)weekday {
     NSString *text = nil;
     switch (weekday) {
         case 1:
-            text = @"MON";
+            text = NSLocalizedString(@"weekday_mon", nil);
             break;
         case 2:
-            text = @"TUR";
+            text = NSLocalizedString(@"weekday_tue", nil);
             break;
         case 3:
-            text = @"WED";
+            text = NSLocalizedString(@"weekday_wed", nil);
             break;
         case 4:
-            text = @"THU";
+            text = NSLocalizedString(@"weekday_thr", nil);
             break;
         case 5:
-            text = @"FRI";
+            text = NSLocalizedString(@"weekday_fri", nil);
             break;
         case 6:
-            text = @"SAT";
+            text = NSLocalizedString(@"weekday_sat", nil);
             break;
         case 7:
-            text = @"SUN";
+            text = NSLocalizedString(@"weekday_sun", nil);
             break;
             
             
@@ -52,6 +57,5 @@
     
     return text;
 }
-
 
 @end

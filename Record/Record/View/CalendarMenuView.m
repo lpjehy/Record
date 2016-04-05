@@ -16,7 +16,7 @@
     UIButton *cancelButton;
 }
 
-@property(nonatomic, weak) CalendarDayCell *theCell;
+@property(nonatomic, weak) CalendarDayButton *theCell;
 
 
 @end
@@ -36,7 +36,7 @@
     return instance;
 }
 
-- (void)showInView:(CalendarDayCell *)cell {
+- (void)showInView:(CalendarDayButton *)cell {
     [self.superview bringSubviewToFront:self];
     self.hidden = NO;
     
@@ -49,10 +49,17 @@
     [takeButton setTitle:title forState:UIControlStateNormal];
     
     UIScrollView *superView = (UIScrollView *)cell.superview;
+    CGFloat centerX = cell.center.x + 32;
+    if (centerX >= ScreenWidth - cell.width / 2) {
+        centerX = ScreenWidth - cell.width;
+    }
     
-    CGPoint center = CGPointMake(cell.center.x + 32, cell.center.y - superView.contentOffset.y + 32 + 64);
     
-    backView.center = CGPointMake(center.x, center.y);
+    CGPoint center = CGPointMake(centerX, cell.center.y - superView.contentOffset.y + 32 + 100);
+    
+    
+    
+    backView.center = center;
 }
 
 - (id)init {

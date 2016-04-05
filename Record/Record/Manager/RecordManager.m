@@ -40,6 +40,12 @@ static NSMutableDictionary *recordDic = nil;
         NSLog(@"已记录");
     }
     
+    if ([AppManager isFirstOpeningByReminder]) {
+        [AppManager setFirstOpeningByReminder:NO];
+        
+        [AnalyticsUtil event:Event_First_Take_By_Reminder];
+    }
+    
 }
 
 + (NSString *)selectRecord:(NSDate *)date {

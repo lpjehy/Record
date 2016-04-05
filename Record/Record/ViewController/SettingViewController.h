@@ -8,6 +8,8 @@
 
 #import "BaseViewController.h"
 
+static NSString *FinishSettingNotification = @"FinishSettingNotification";
+
 @interface SettingViewController : BaseViewController
 
 @end

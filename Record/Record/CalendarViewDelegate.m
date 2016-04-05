@@ -9,26 +9,27 @@
 #import "CalendarViewDelegate.h"
 
 
-#import "CalendarMonthCollectionViewLayout.h"
-#import "CalendarMonthHeaderView.h"
-#import "CalendarDayCell.h"
-//MODEL
-#import "CalendarDayModel.h"
+#import "CalendarDayButton.h"
+
 
 #import "ScheduleManager.h"
 #import "RecordManager.h"
 
 #import "CalendarMenuView.h"
 
+static CGFloat MaxHeight = 1024000;
+
 @interface CalendarViewDelegate ()  {
-    NSMutableDictionary *numberOfItemsInSection;
-    NSMutableDictionary *monthInSection;
-    NSMutableDictionary *daysInSection;
-    NSMutableDictionary *firstDaysForSection;
+    
+    NSMutableDictionary *dayButtonsInSection;
+    NSMutableDictionary *contentOffsetYForMonth;
+    
+    CalendarDayButton *seletedButton;
+    
+    NSMutableDictionary *dayViewsDic;
     
     
-    CalendarDayCell *seletedCell;
-    
+    CGFloat baseContentOffsetY;
 }
 
 @property(nonatomic, retain) NSDateComponents *startDay;
@@ -48,55 +49,213 @@
     return instance;
 }
 
-@synthesize today, selectedDay, startDay, currentSection;
-@synthesize thisCollectionView;
+@synthesize today, selectedDay, startDay, currentMonth;
+@synthesize thisScrollView;
 
 
 - (id)init {
     self = [super init];
     if (self) {
-        numberOfItemsInSection = [[NSMutableDictionary alloc] init];
-        monthInSection = [[NSMutableDictionary alloc] init];
-        daysInSection = [[NSMutableDictionary alloc] init];
-        firstDaysForSection = [[NSMutableDictionary alloc] init];
+        
+        
+        contentOffsetYForMonth = [[NSMutableDictionary alloc] init];
+        
+        dayViewsDic = [[NSMutableDictionary alloc] init];
         
         self.startDay = [ScheduleManager startDate].components;
         self.today = NSDate.components;
-        self.currentSection = (today.year - startDay.year) * 12 + today.month - startDay.month;
+        self.currentMonth = 0;
+        
+        baseContentOffsetY = MaxHeight / 2;
+        
+        
     }
     
     return self;
 }
 
+- (void)scrollToToday {
+    [thisScrollView setContentOffset:CGPointMake(0, baseContentOffsetY) animated:YES];
+}
+
 - (void)reloadData {
     self.startDay = [ScheduleManager startDate].components;
     self.today = NSDate.components;
-    self.currentSection = (today.year - startDay.year) * 12 + today.month - startDay.month;
     
     
+    thisScrollView.contentSize = CGSizeMake(ScreenWidth, MaxHeight);
+    thisScrollView.contentOffset = CGPointMake(0, baseContentOffsetY);
     
-    thisCollectionView.height = [self heightOfView];
+    if (dayViewsDic.count == 0) {
+        [self reloadView];
+    }
     
-    [thisCollectionView reloadData];
-    [thisCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0
-                                                                        inSection:currentSection]
-                                   atScrollPosition:UICollectionViewScrollPositionNone
-                                           animated:NO];
+    for (CalendarDayButton *button in thisScrollView.subviews) {
+        if ([button isKindOfClass:[CalendarDayButton class]]) {
+            button.day = button.day;
+        }
+    }
+    
+    
 }
 
-- (CGFloat)heightOfView {
-    NSInteger numOfCell = [self collectionView:thisCollectionView numberOfItemsInSection:currentSection];
-    return numOfCell / 7 * (ScreenWidth / 7);
+- (void)reloadView {
+    //NSLog(@"reloadView 1");
+    CGFloat size = ScreenWidth / 7;
+    
+    CGFloat startY = [self contentOffsetYForMonth:currentMonth] - [self heightForMonth:currentMonth - 1] - [self heightForMonth:currentMonth - 2];
+    
+    for (NSInteger i = currentMonth - 2; i <= currentMonth + 2; i++) {
+        
+        NSString *key = [NSString stringWithInteger:i];
+        NSMutableArray *dayViewArray = [dayViewsDic validObjectForKey:key];
+        if (dayViewArray == nil) {
+            dayViewArray = [NSMutableArray array];
+            [dayViewsDic setValue:dayViewArray forKey:key];
+        }
+        
+        NSArray *dayArray = [self daysInMonth:i];
+        
+        NSDateComponents *firstDay = dayArray.firstObject;
+        
+        
+        
+        
+        for (int dayIndex = 0; dayIndex < dayArray.count; dayIndex++) {
+            CalendarDayButton *button = [dayViewArray validObjectAtIndex:dayIndex];
+            if (button == nil) {
+                NSInteger position = dayIndex + firstDay.weekday - 1;
+                NSInteger q = position / 7;
+                NSInteger r = position % 7;
+                button = [[CalendarDayButton alloc] initWithFrame:CGRectMake(r * size, startY + q * size, size, size)];
+                [button addTarget:self action:@selector(dayButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+                
+                [thisScrollView addSubview:button];
+                
+                [dayViewArray addObject:button];
+                
+                NSDateComponents *components = [dayArray validObjectAtIndex:dayIndex];
+                button.day = components;
+                if (components) {
+                    BOOL isSelected = components.year == selectedDay.year && components.month == selectedDay.month && components.day == selectedDay.day;
+                    button.isSelected = isSelected;
+                    
+                    
+                    seletedButton = button;
+                }
+                
+                if (r == 0) {
+                    UIView *lineView = [[UIView alloc] init];
+                    lineView.backgroundColor = ColorGrayDark;
+                    lineView.frame = CGRectMake(0, startY + size * q, ScreenWidth, 0.5);
+                    [thisScrollView addSubview:lineView];
+                } else if (dayIndex == dayArray.count - 1 && r != 6) {
+                    UIView *lineView = [[UIView alloc] init];
+                    lineView.backgroundColor = ColorGrayDark;
+                    lineView.frame = CGRectMake(0, startY + size * (q + 1), ScreenWidth, 1);
+                    [thisScrollView addSubview:lineView];
+                } else if (dayIndex == 0 && r != 0) {
+                    UIView *lineView = [[UIView alloc] init];
+                    lineView.backgroundColor = ColorGrayDark;
+                    lineView.frame = CGRectMake(0, startY + size * q, ScreenWidth, 1);
+                    [thisScrollView addSubview:lineView];
+                }
+            }
+            
+            
+        }
+        
+        if (i == currentMonth) {
+            NSLog(@"year %zi month %zi day %zi weekday %zi num %zi", firstDay.year, firstDay.month, firstDay.day, firstDay.weekday, dayArray.count);
+        }
+        
+        startY += [self heightForMonth:i];
+    }
+    
+    //NSLog(@"reloadView 2");
 }
 
+- (CGFloat)contentOffsetYForMonth:(NSInteger)month {
+    
+    //NSLog(@"contentOffsetYForMonth 1");
+    
+    NSString *key = [NSString stringWithInteger:month];
+    NSNumber *yNumber = [contentOffsetYForMonth validObjectForKey:key];
+    if (yNumber == nil) {
+        CGFloat contentOffsetY = 0;
+        if (month < 0) {
+            contentOffsetY = [self contentOffsetYForMonth:month + 1] - [self heightForMonth:month];
+        } else if (month > 0) {
+            contentOffsetY = [self contentOffsetYForMonth:month - 1] + [self heightForMonth:month - 1];
+        } else {
+            contentOffsetY = baseContentOffsetY;
+        }
+        
+        
+        yNumber = [NSNumber numberWithFloat:contentOffsetY];
+        
+        [contentOffsetYForMonth setValue:yNumber forKey:key];
+    }
+    //NSLog(@"contentOffsetYForMonth 2");
+    return yNumber.floatValue;
+}
 
-- (NSDateComponents *)firstDayForSection:(NSInteger)section {
+- (NSArray *)daysInMonth:(NSInteger)monthIndex {
+    
+    //NSLog(@"daysInMonth 1");
+    
+    static NSMutableDictionary *daysForMonthDic = nil;
+    if (daysForMonthDic == nil) {
+        daysForMonthDic = [[NSMutableDictionary alloc] init];
+    }
+    
+    NSString *key = [NSString stringWithInteger:monthIndex];
+    NSMutableArray *dayArray = [daysForMonthDic validObjectForKey:key];
+    if (dayArray == nil) {
+        dayArray = [NSMutableArray array];
+        
+        NSDateComponents *firstDay = [self firstDayForMonth:monthIndex];
+        if (firstDay) {
+            [dayArray addObject:firstDay];
+            
+            NSInteger num = [NSDateComponents numberOfDaysInMonth:firstDay.month year:firstDay.year];
+            for (int i = 2; i <= num; i++) {
+                NSDateComponents *day = [NSDateComponents componentsWithYear:firstDay.year month:firstDay.month day:i];
+                if (day) {
+                    [dayArray addObject:day];
+                } else {
+                    //NSLog(@"componentsWithYear %zi month %zi day %zi exception", firstDay.year, firstDay.month, i);
+                }
+                
+            }
+            
+            
+            [daysForMonthDic setValue:dayArray forKey:key];
+        }
+        
+        
+    }
+    //NSLog(@"daysInMonth 2");
+    return dayArray;
+}
 
-    NSString *key = [NSString stringWithInteger:section];
-    NSDateComponents *firstDay = [firstDaysForSection validObjectForKey:key];
+- (NSDateComponents *)firstDayForMonth:(NSInteger)monthIndex {
+    NSLog(@"firstDayForMonth 1");
+    
+    static NSMutableDictionary *firstDayForMonthDic = nil;
+    if (firstDayForMonthDic == nil) {
+        firstDayForMonthDic = [[NSMutableDictionary alloc] init];
+    }
+    
+    NSString *monthKey = [NSString stringWithInteger:monthIndex];
+    NSDateComponents *firstDay = [firstDayForMonthDic validObjectForKey:monthKey];
     if (firstDay == nil) {
-        NSInteger month = startDay.month + section;
-        NSInteger year = startDay.year;
+        NSInteger q = monthIndex / 12;
+        NSInteger r = monthIndex % 12;
+        
+        
+        NSInteger month = today.month + r;
+        NSInteger year = today.year + q;
         if (month <= 0) {
             month += 12;
             year--;
@@ -106,69 +265,39 @@
         }
         
         firstDay = [NSDateComponents componentsWithYear:year month:month day:1];
-        [firstDaysForSection setValue:firstDay forKey:key];
+        if (firstDay == nil) {
+            NSLog(@"firstDayForMonth %zi year %zi month %zi day %zi exception", monthIndex, year, month, 1);
+        }
+        [firstDayForMonthDic setValue:firstDay forKey:monthKey];
     }
-   
+    
+    
+    
+    NSLog(@"firstDayForMonth 2");
     return firstDay;
+    
 }
 
-- (NSArray *)daysInSection:(NSInteger)section {
-   
-    NSString *key = [NSString stringWithInteger:section];
-    NSMutableArray *dayArray = [daysInSection validObjectForKey:key];
-    if (dayArray == nil) {
-        dayArray = [NSMutableArray array];
-        
-        NSDateComponents *firstDay = [self firstDayForSection:section];
-        [dayArray addObject:firstDay];
-        NSInteger num = [NSDateComponents numberOfDaysInMonth:firstDay.month year:firstDay.year];
-        for (int i = 2; i <= num; i++) {
-            NSDateComponents *day = [NSDateComponents componentsWithYear:firstDay.year month:firstDay.month day:i];
-            [dayArray addObject:day];
-        }
-        
-        
-        [daysInSection setValue:dayArray forKey:key];
+- (CGFloat)heightForMonth:(NSInteger)month {
+    NSLog(@"heightForMonth 1");
+    static NSMutableDictionary *numberOfItemsInSectionDic = nil;
+    if (numberOfItemsInSectionDic == nil) {
+        numberOfItemsInSectionDic = [[NSMutableDictionary alloc] init];
     }
     
-    return dayArray;
-}
-
-#pragma mark - CollectionView代理方法
-
-//定义展示的Section的个数
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return currentSection + 3;
-}
-
-
-//定义展示的UICollectionViewCell的个数
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    
-    NSString *key = [NSString stringWithInteger:section];
-    NSNumber *number = [numberOfItemsInSection validObjectForKey:key];
+    NSString *key = [NSString stringWithInteger:month];
+    NSNumber *number = [numberOfItemsInSectionDic validObjectForKey:key];
     if (number == nil) {
-        NSInteger month = startDay.month + section;
-        NSInteger year = startDay.year;
-        if (month <= 0) {
-            month += 12;
-            year--;
-        } else if (month > 12) {
-            month-= 12;
-            year++;
+        
+        NSInteger days = [self daysInMonth:month].count;
+        
+        NSDateComponents *firstDay = [self firstDayForMonth:month];
+        
+        if (firstDay.weekday != 1) {
+            days += firstDay.weekday - 1;
         }
         
-        
-        NSInteger days = [NSDateComponents numberOfDaysInMonth:month year:year];
-        
-        NSDateComponents *firstDay = [NSDateComponents componentsWithYear:year month:month day:1];
-        
-        if (firstDay.weekday != 7) {
-            days += firstDay.weekday;
-        }
-        
+        NSLog(@"month: %zi days: %zi weekday: %zi", month, days, firstDay.weekday);
         NSInteger q = days / 7;
         NSInteger r = days % 7;
         if (r != 0) {
@@ -178,100 +307,63 @@
         days = q * 7;
         
         number = [NSNumber numberWithInteger:days];
-        [numberOfItemsInSection setValue:number forKey:key];
+        
+        NSLog(@"number: %zi", number.integerValue);
+        
+        [numberOfItemsInSectionDic setValue:number forKey:key];
     }
-   
-    return number.integerValue;
+    NSLog(@"heightForMonth 2");
+    return number.integerValue / 7 * (ScreenWidth / 7);
 }
 
-
-//每个UICollectionView展示的内容
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)dayButtonPressed:(CalendarDayButton *)button {
     
-    CalendarDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DayCell forIndexPath:indexPath];
-    
-    NSArray *dayArray = [self daysInSection:indexPath.section];
-    NSDateComponents *firstDay = dayArray.firstObject;
-    NSDateComponents *components = [dayArray validObjectAtIndex:indexPath.row - firstDay.weekday + 1];
-    cell.day = components;
-    
-    if (components) {
-        BOOL isSelected = components.year == selectedDay.year && components.month == selectedDay.month && components.day == selectedDay.day;
-        cell.isSelected = isSelected;
-        
-        
-        seletedCell = cell;
-    }
-    
-    return cell;
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionReusableView *reusableview = nil;
-    
-    if (kind == UICollectionElementKindSectionHeader){
-        
-        //NSMutableArray *month_Array = [self.calendarMonth objectAtIndex:indexPath.section];
-        //CalendarDayModel *model = [month_Array objectAtIndex:15];
-        
-        UICollectionReusableView *monthHeader = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:MonthHeader forIndexPath:indexPath];
-        reusableview = monthHeader;
-    }
-    return reusableview;
-    
-}
-
-
-//UICollectionView被选中时调用的方法
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    CalendarDayCell *cell = (CalendarDayCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    if (cell.day == nil) {
+    if (button.day == nil) {
         return;
     }
-    if (cell.isFuture) {
+    if (button.isFuture) {
         [UIAlertView showMessage:@"No hurry to take this pill, it's not the day yet!"];
         return;
     }
-    self.selectedDay = cell.day;
+    self.selectedDay = button.day;
     
     
     
-    seletedCell.isSelected = NO;
-    seletedCell = cell;
+    seletedButton.isSelected = NO;
+    seletedButton = button;
     
-    cell.isSelected = YES;
+    button.isSelected = YES;
     
     
-    if (!cell.isPlacebo || [ScheduleManager takePlaceboPills] || [ScheduleManager isEveryday]) {
-        [[CalendarMenuView getInstance] showInView:cell];
+    if (!button.isPlacebo || [ScheduleManager takePlaceboPills] || [ScheduleManager isEveryday]) {
+        [[CalendarMenuView getInstance] showInView:button];
     }
     
     
     
     
-}
-//返回这个UICollectionView是否可以被选择
--(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    return YES;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    NSInteger section = (NSInteger)scrollView.contentOffset.y / (NSInteger)scrollView.height;
-    //NSLog(@"y: %f", scrollView.contentOffset.y);
-    if (section != currentSection) {
-        currentSection = section;
+    CGFloat currentOffsetY = [self contentOffsetYForMonth:currentMonth];
+    
+    CGFloat lastOffsetY = currentOffsetY - [self heightForMonth:currentMonth - 1] / 2;
+    CGFloat nextOffsetY = currentOffsetY + [self heightForMonth:currentMonth] / 2;
+    
+    if (scrollView.contentOffset.y < lastOffsetY) {
+        currentMonth--;
         
-        //[self reloadData];
+        [self reloadView];
         
-        thisCollectionView.height = [self heightOfView];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
         
-        //NSLog(@"currentSection: %zi height: %f", currentSection, thisCollectionView.height);
+    } else if (scrollView.contentOffset.y > nextOffsetY) {
+        currentMonth++;
+        
+        [self reloadView];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
     }
 
 }

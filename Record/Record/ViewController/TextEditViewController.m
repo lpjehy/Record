@@ -72,18 +72,18 @@
     
     UIButton *leftButton = [[UIButton alloc] init];
     leftButton.frame = CGRectMake(0, 0, 64, 44);
-    [leftButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [leftButton setTitle:NSLocalizedString(@"button_title_cancel", nil) forState:UIControlStateNormal];
     leftButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    leftButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    leftButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
     
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(0, 0, 64, 44);
-    [rightButton setTitle:@"Save" forState:UIControlStateNormal];
+    [rightButton setTitle:NSLocalizedString(@"button_title_save", nil) forState:UIControlStateNormal];
     rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [rightButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];

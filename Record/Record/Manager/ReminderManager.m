@@ -9,6 +9,10 @@
 #import "ReminderManager.h"
 #import "ScheduleManager.h"
 
+
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+
 static NSString *ShouldRemindKey = @"ShouldRemind";
 static NSString *RemindInSafeDaysKey = @"RemindInSafeDays";
 static NSString *NotificationAlertBodyKey = @"NotificationAlertBody";
@@ -45,7 +49,11 @@ static NSString *NotificationSoundKey = @"NotificationSound";
     //设置通知动作按钮的标题
     localNotification.alertAction = @"查看";
     //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-    localNotification.soundName = [[[self class] notificationSound] stringByAppendingString:@".wav"];
+    NSString *soundName = [[self class] notificationSound];
+    if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
+        soundName = [soundName stringByAppendingString:@".mp3"];
+    }
+    localNotification.soundName = soundName;
     //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
     localNotification.userInfo = @{@"id":@"test"};
     //在规定的日期触发通知
@@ -67,7 +75,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 - (id)init {
     self = [super init];
     if (self) {
-        soundArray = @[UILocalNotificationDefaultSoundName, @"bird", @"cat1", @"cat2", @"cat3", @"cat4", @"cat5", @"coin", @"cup", @"doorbell1", @"doorbell2", @"melon$fruit", @"popcorn", @"teddy", @"trafficlight", @"turkey", @"unpacking", @"windbell", @"yoho"];
+        soundArray = @[UILocalNotificationDefaultSoundName, @"bird", @"cat1", @"cat2", @"cat3", @"cat4", @"cat5", @"coin", @"cup", @"doorbell1", @"doorbell2", @"melonfruit", @"popcorn", @"teddy", @"trafficlight", @"turkey", @"unpacking", @"windbell", @"yoho"];
     }
     
     return self;
@@ -189,7 +197,12 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             //设置通知动作按钮的标题
             localNotification.alertAction = NSLocalizedString(@"button_title_view", nil);
             //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-            localNotification.soundName = [[self class] notificationSound];
+            NSString *soundName = [[self class] notificationSound];
+            if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
+                soundName = [soundName stringByAppendingString:@".mp3"];
+            }
+            localNotification.soundName = soundName;
+            
             //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
             //localNotification.userInfo = userInfo;
             //在规定的日期触发通知
@@ -201,7 +214,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 }
 
 - (void)resetSpecialNotify {
-    NSLog(@"BEGIN");
+    
     NSDate *beginDate = [[self class] notificationTime];
     NSInteger beginDay = [ScheduleManager getInstance].currentDayFromStartDay;
     if (!beginDate.isEarlier) {
@@ -222,7 +235,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             NSDate *fireDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay * i];
             localNotification.fireDate = fireDate;
             if ([UIApplication sharedApplication].scheduledLocalNotifications.count == 0) {
-                NSLog(@"%zi %@", remainder, fireDate.description);
+                
             }
             
             localNotification.alertBody = [[self class] notificationAlertBody];
@@ -230,7 +243,12 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             //设置通知动作按钮的标题
             localNotification.alertAction = NSLocalizedString(@"button_title_view", nil);
             //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-            localNotification.soundName = [[self class] notificationSound];
+            NSString *soundName = [[self class] notificationSound];
+            if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
+                soundName = [soundName stringByAppendingString:@".mp3"];
+            }
+            localNotification.soundName = soundName;
+            
             //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
             //localNotification.userInfo = userInfo;
             //在规定的日期触发通知
@@ -243,7 +261,38 @@ static NSString *NotificationSoundKey = @"NotificationSound";
         }
     }
     
-    NSLog(@"DONE");
+}
+
+
+- (void)playAudio:(NSString *)filename {
+    static NSMutableDictionary *soundIDDic = nil;
+    if (soundIDDic == nil) {
+        soundIDDic = [[NSMutableDictionary alloc] init];
+    }
+    
+    NSNumber *soundIdNum = [soundIDDic validObjectForKey:filename];
+    if (soundIdNum == nil) {
+        SystemSoundID soundid = 0;
+        
+        if ([filename isEqualToString:UILocalNotificationDefaultSoundName]) {
+            soundid = 1002;
+        } else {
+            CFStringRef strRef = (__bridge CFStringRef)filename;
+            
+            
+            CFURLRef audioFileURLRef = CFBundleCopyResourceURL(CFBundleGetMainBundle(), strRef, CFSTR("mp3"), NULL);
+            AudioServicesCreateSystemSoundID(audioFileURLRef, &soundid);
+            CFRelease(audioFileURLRef);
+        }
+        
+        
+        
+        soundIdNum = [NSNumber numberWithUnsignedInteger:soundid];
+        
+        [soundIDDic setValue:soundIdNum forKey:filename];
+    }
+    
+    AudioServicesPlaySystemSound(soundIdNum.unsignedIntValue);
 }
 
 @end

@@ -1,0 +1,89 @@
+/* 
+  本地.strings
+  Record
+
+  Created by Jehy Fan on 16/3/20.
+  Copyright © 2016年 Jehy Fan. All rights reserved.
+*/
+
+
+"navigation_title_setting"="设置";
+
+"button_title_help"="帮助";
+"button_title_setting"="设置";
+
+"button_title_legend"="说明";
+"button_title_today"="今日";
+
+"button_title_take"="服用";
+"button_title_untake"="撤销";
+
+
+"button_title_back"="返回";
+"button_title_close"="关闭";
+"button_title_cancel"="取消";
+"button_title_save"="保存";
+"button_title_view"="查看";
+"button_title_done"="完成";
+
+
+"setting_module_schedule"="服药计划";
+"setting_module_reminders"="提醒";
+"setting_module_others"="其它";
+
+"Setting_Item_TakeEveryday"="每天都吃药";
+"Setting_Item_PillDays"="吃药天数";
+"Setting_Item_BeakDays"="断药天数";
+"Setting_Item_TakePlaceboPills"="我服用安慰剂";
+"Setting_Item_StartDay"="开始服用的日期";
+"Setting_Item_RemindTakePill"="提醒我吃药";
+"Setting_Item_RmindTakePlaceboPill"="提醒我吃安慰剂";
+"Setting_Item_NotifyAlertBody"="通知文案";
+"Setting_Item_NotifyTime"="通知时间";
+"Setting_Item_NotifySound"="通知声音";
+"Setting_Item_CheerUs"="鼓励我们";
+
+"reminder_default_alertbody"="请您服药~";
+
+"help_take_pill"="点击服用，再次点击撤销";
+"help_check_pack"="左右滑动查看药板";
+"help_edit_date"="点击编辑日期";
+"help_switch_month"="上下滑动查看月份";
+
+"legend_taked"="taked";
+"legend_untaken"="un-taken";
+"legend_missed"="missed pill";
+"legend_placebo"="placebo pill";
+"legend_untaken_placebo"="un-taken placebo pill";
+
+"day"="天";
+
+"weekday_mon"="周一";
+"weekday_tue"="周二";
+"weekday_wed"="周三";
+"weekday_thr"="周四";
+"weekday_fri"="周五";
+"weekday_sat"="周六";
+"weekday_sun"="周日";
+
+"month_january"="一月";
+"month_february"="二月";
+"month_march"="三月";
+"month_april"="四月";
+"month_may"="五月";
+"month_june"="六月";
+"month_july"="七月";
+"month_august"="八月";
+"month_september"="九月";
+"month_october"="十月";
+"month_november"="十一月";
+"month_december"="十二月";
+
+"pack_button_current_pack"="当前药板";
+
+"pack_current_pack"="当前药板";
+"pack_not_current_pack"="非当前药板";
+
+"message_missed"="漏服";
+
+"message_day_info"="今日是 %zi / %zi 天";

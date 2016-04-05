@@ -99,9 +99,10 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     
     self.hidden = NO;
     
-    tapLabel.text = @"Tap to take pill, tap again to untake it";
+    tapLabel.text = NSLocalizedString(@"help_take_pill", nil);
     
-    swipeLabel.text = @"Swipe to check incoming packs of pills";
+    swipeLabel.text = NSLocalizedString(@"help_check_pack", nil);
+    
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Right.png"];
     swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 105)];
 }
@@ -112,9 +113,10 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     self.hidden = NO;
     
     
-    tapLabel.text = @"Tap a date to edit";
+    tapLabel.text = NSLocalizedString(@"help_edit_date", nil);
     
-    swipeLabel.text = @"Swipe up & down to switch mouth";
+    swipeLabel.text = NSLocalizedString(@"help_switch_month", nil);
+    
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Down.png"];
     swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 122)];
 }

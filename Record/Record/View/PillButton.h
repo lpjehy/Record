@@ -15,9 +15,11 @@
 
 @property(nonatomic, strong) NSDateComponents *day;
 
-@property(nonatomic) BOOL isPlacebo;
+@property(nonatomic) BOOL isBreakDay;
 @property(nonatomic) BOOL isToday;
 @property(nonatomic) BOOL isTaken;
+
+- (void)resetState;
 
 
 @end

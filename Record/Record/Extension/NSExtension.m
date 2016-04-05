@@ -267,51 +267,51 @@
 {
     switch (month) {
         case 1:
-            return @"一月";
+            return NSLocalizedString(@"month_january", nil);
             break;
             
         case 2:
-            return @"二月";
+            return NSLocalizedString(@"month_february", nil);
             break;
             
         case 3:
-            return @"三月";
+            return NSLocalizedString(@"month_march", nil);
             break;
             
         case 4:
-            return @"四月";
+            return NSLocalizedString(@"month_april", nil);
             break;
             
         case 5:
-            return @"五月";
+            return NSLocalizedString(@"month_may", nil);
             break;
             
         case 6:
-            return @"六月";
+            return NSLocalizedString(@"month_june", nil);
             break;
             
         case 7:
-            return @"七月";
+            return NSLocalizedString(@"month_july", nil);
             break;
             
         case 8:
-            return @"八月";
+            return NSLocalizedString(@"month_august", nil);
             break;
             
         case 9:
-            return @"九月";
+            return NSLocalizedString(@"month_september", nil);
             break;
             
         case 10:
-            return @"十月";
+            return NSLocalizedString(@"month_october", nil);
             break;
             
         case 11:
-            return @"十一月";
+            return NSLocalizedString(@"month_november", nil);
             break;
             
         case 12:
-            return @"十二月";
+            return NSLocalizedString(@"month_december", nil);
             break;
             
         default:

@@ -24,38 +24,39 @@ static NSInteger DefaultBreakDays = 7;
 @implementation ScheduleManager
 
 
-@synthesize currentDayFromStartDay, currentPack, currentCycle, today;
+@synthesize currentDayFromStartDay, currentPack, today, currentPackDay, startDay;
 
 - (id)init {
     self = [super init];
     if (self) {
         
         self.today = NSDate.components;
-        
-        currentCycle = [self.class pillDays] + [self.class breakDays];
+        self.startDay = [ScheduleManager startDate].components;
         
         NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:[[self class] startDate]];
         
         
         currentDayFromStartDay = timeInterval / TimeIntervalDay;
         
-        currentPack = currentDayFromStartDay / currentCycle;
-        
+        NSInteger allDays = [[self class] allDays];
+        currentPack = currentDayFromStartDay / allDays;
+        currentPackDay = currentDayFromStartDay % allDays + 1;
     }
     
     return self;
 }
 
 - (void)resetDate {
-    currentCycle = [self.class pillDays] + [self.class breakDays];
+    
+    self.startDay = [ScheduleManager startDate].components;
     
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:[[self class] startDate]];
     
     
     currentDayFromStartDay = timeInterval / TimeIntervalDay;
     
-    currentPack = currentDayFromStartDay / currentCycle;
-    
+    currentPack = currentDayFromStartDay / [ScheduleManager allDays];
+    currentPackDay = currentDayFromStartDay % [ScheduleManager allDays];
     
     [ReminderManager resetNotify];
 }
@@ -71,7 +72,10 @@ static NSInteger DefaultBreakDays = 7;
 
 
 - (NSDate *)dateInPack:(NSInteger)pack day:(NSInteger)day {
-    NSInteger dayFromStartDay = currentCycle * (currentPack + pack) + day;
+    if (day >= [ScheduleManager allDays]) {
+        return nil;
+    }
+    NSInteger dayFromStartDay = [ScheduleManager allDays] * (currentPack + pack) + day;
     NSTimeInterval timeInterval = dayFromStartDay * TimeIntervalDay;
     
     return [NSDate dateWithTimeInterval:timeInterval sinceDate:[self.class startDate]];
@@ -81,7 +85,7 @@ static NSInteger DefaultBreakDays = 7;
     NSTimeInterval timeInterval = [[day theDate] timeIntervalSinceDate:[[self class] startDate]];
     
     NSInteger dayFromStartDay = (NSInteger)timeInterval / (NSInteger)TimeIntervalDay;
-    NSInteger r = dayFromStartDay % currentCycle;
+    NSInteger r = dayFromStartDay % [ScheduleManager allDays];
     
     if (r >= [[self class] pillDays]) {
         return YES;
@@ -104,8 +108,8 @@ static NSInteger DefaultBreakDays = 7;
 
 
 + (void)setPillDays:(NSInteger)days {
-    if (days > DefaultPillDays) {
-        days = DefaultPillDays;
+    if (days > MaxPillDays) {
+        days = MaxPillDays;
     }
     
     
@@ -126,8 +130,8 @@ static NSInteger DefaultBreakDays = 7;
 
 + (void)setSafeDays:(NSInteger)days {
     
-    if (days > DefaultBreakDays) {
-        days = DefaultBreakDays;
+    if (days > MaxBreakDays) {
+        days = MaxBreakDays;
     }
     
     
@@ -181,5 +185,6 @@ static NSInteger DefaultBreakDays = 7;
 + (NSInteger)allDays {
     return [[self class] pillDays] + [[self class] breakDays];
 }
+
 
 @end

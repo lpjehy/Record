@@ -11,7 +11,6 @@
 @interface SettingCell() {
     UILabel *itemLabel;
     UILabel *valueLabel;
-    UIImageView *accessImageView;
     UISwitch *valueSwitch;
     
     
@@ -41,6 +40,7 @@
         
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
     }
     
     return self;
@@ -55,19 +55,17 @@
 - (void)setCellType:(SettingType)type {
     if (type == SettingTypeNormal) {
         valueLabel.hidden = YES;
-        accessImageView.hidden = YES;
         
         valueSwitch.hidden = YES;
     } else if (type == SettingTypeSwitch) {
         valueLabel.hidden = YES;
-        accessImageView.hidden = YES;
         
         [self createSwitchView];
         valueSwitch.hidden = NO;
     } else if (type == SettingTypeText) {
         [self createTextView];
         valueLabel.hidden = NO;
-        accessImageView.hidden = NO;
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         valueSwitch.hidden = YES;
     }
@@ -95,15 +93,11 @@
     if (valueLabel == nil) {
         valueLabel = [[UILabel alloc] init];
         valueLabel.textAlignment = NSTextAlignmentRight;
-        valueLabel.frame = CGRectMake(ScreenWidth - 148, 6, 128, 32);
+        valueLabel.frame = CGRectMake(ScreenWidth - 156, 6, 128, 32);
         valueLabel.font = FontSmall;
         valueLabel.textColor = ColorTextGray;
         [self.contentView addSubview:valueLabel];
         
-        accessImageView = [[UIImageView alloc] init];
-        accessImageView.backgroundColor = [UIColor grayColor];
-        accessImageView.frame = CGRectMake(ScreenWidth - 20, 10, 5, 24);
-        [self.contentView addSubview:accessImageView];
     }
 }
 
@@ -125,7 +119,7 @@
             
         }
         
-        valueLabel.originX = ScreenWidth - 25 - textWidth;
+        valueLabel.originX = ScreenWidth - 28 - textWidth;
         valueLabel.width = textWidth;
     }
     

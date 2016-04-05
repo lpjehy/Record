@@ -10,17 +10,24 @@
 
 
 
+static NSString *CalendarMonthChangedNotification = @"CalendarMonthChangedNotification";
+
 static NSString *MonthHeader = @"MonthHeaderView";
 
 static NSString *DayCell = @"DayCell";
 
 
-@interface CalendarViewDelegate : NSObject<UICollectionViewDataSource,  UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface CalendarViewDelegate : NSObject<UIScrollViewDelegate>
 
 + (CalendarViewDelegate *)getInstance;
 
-@property(nonatomic, strong) UICollectionView *thisCollectionView;
-@property(nonatomic, assign) NSInteger currentSection;
+@property(nonatomic, strong) UIScrollView *thisScrollView;
+@property(nonatomic, assign) NSInteger currentMonth;
 
+- (void)reloadData;
 
+- (void)scrollToToday;
+- (void)reloadView;
+
+- (CGFloat)contentOffsetYForMonth:(NSInteger)month;
 @end

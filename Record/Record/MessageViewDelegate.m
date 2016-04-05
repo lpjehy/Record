@@ -21,6 +21,10 @@
     return instance;
 }
 
+
+
+/*
+
 #pragma mark tableView编辑
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -64,5 +68,7 @@
     
     return @[deleteAction];
 }
+ 
+ */
 
 @end

@@ -16,6 +16,7 @@
 
 #import "TextEditViewController.h"
 #import "WebViewController.h"
+#import "SoundsViewController.h"
 
 #import "SettingItem.h"
 
@@ -23,11 +24,9 @@ typedef NS_ENUM(NSInteger, PickerType) {
     PickerTypePillDays,//默认从0开始
     PickerTypeBreakDays,
     PickerTypeStartDate,
-    PickerTypeNotifyTime,
-    PickerTypeNotifySound
-};
+    PickerTypeNotifyTime};
 
-@interface SettingViewController () <UITableViewDataSource, UITableViewDelegate, SettingCellDelegate, TextEditViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
+@interface SettingViewController () <UITableViewDataSource, UITableViewDelegate, SettingCellDelegate, TextEditViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate> {
     UITableView *mainTableView;
     
     UIPickerView *numberPickerView;
@@ -203,9 +202,13 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     [mainTableView reloadData];
 }
 
+- (void)finishSetting {
+    [self dismiss];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:FinishSettingNotification object:nil];
+}
+
 - (void)doneButtonPressed {
-    
-    
     
     doneButton.hidden = YES;
     
@@ -242,12 +245,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         [numberPickerView selectRow:components.hour inComponent:0 animated:NO];
         [numberPickerView selectRow:components.minute inComponent:1 animated:NO];
         
-    } else if (currentPickerType == PickerTypeNotifySound) {
-        
-        
-        [numberPickerView selectRow:0 inComponent:0 animated:NO];
     }
-    
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.24];
@@ -277,8 +275,27 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 }
 
 - (void)closeButtonPressed {
-    [self dismiss];
-    
+    if ([AppManager hasFirstSetDone]) {
+        
+        [self finishSetting];
+    } else {
+        [AppManager setFirstSetDone];
+        
+        
+        NSString *text = @"break days";
+        if ([ScheduleManager takePlaceboPills]) {
+            text = @"placebo pills";
+        }
+        
+        NSString *message = [NSString stringWithFormat:@"Use %zi pill + %zi %@ as your contracptive pill plan", [ScheduleManager pillDays], [ScheduleManager breakDays], text];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:@"取消", nil];
+        [alertView show];
+    }
 }
 
 - (void)createLayout {
@@ -287,7 +304,9 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(ScreenWidth - 64, 20, 64, 44);
     rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-    [rightButton setTitle:NSLocalizedString(@"button_title_close", nil) forState:UIControlStateNormal];
+    [rightButton setTitle:NSLocalizedString(@"button_title_done", nil) forState:UIControlStateNormal];
+    
+    
     rightButton.titleLabel.font = FontNormal;
     [rightButton setTitleColor:ColorTextLight forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -320,7 +339,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     [self createLayout];
     
-    [self reloadView];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -332,7 +351,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     [self.navigationController setNavigationBarHidden:YES animated:hideAnimated];
     
     
-    
+    [self reloadView];
 }
 
 
@@ -381,8 +400,6 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         number = 3;
     } else if (currentPickerType == PickerTypeNotifyTime) {
         number = 2;
-    } else if (currentPickerType == PickerTypeNotifySound) {
-        number = 1;
     }
     
     return number;
@@ -392,9 +409,9 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     NSInteger number = 0;
     if (currentPickerType == PickerTypePillDays) {
-        number = 21;
+        number = MaxPillDays;
     } else if (currentPickerType == PickerTypeBreakDays) {
-        number = 7;
+        number = MaxBreakDays;
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 0) {
             number = 100;
@@ -412,9 +429,6 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         } else if (component == 1) {
             number = 60;
         }
-        
-    } else if (currentPickerType == PickerTypeNotifySound) {
-        number = [ReminderManager getInstance].soundArray.count;
         
     }
     
@@ -441,10 +455,6 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         } else if (component == 1) {
             title = [NSString stringWithFormat:@"%zi分", row];
         }
-        
-    } else if (currentPickerType == PickerTypeNotifySound) {
-        NSArray *soundArray = [ReminderManager getInstance].soundArray;
-        title = [soundArray validObjectAtIndex:row];
         
     }
     
@@ -478,11 +488,6 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
         
         [ReminderManager setNotificationTime:dateString];
-        
-        
-    } else if (currentPickerType == PickerTypeNotifySound) {
-        NSArray *soundArray = [ReminderManager getInstance].soundArray;
-        [ReminderManager setNotificationSound:[soundArray validObjectAtIndex:row]];
         
         
     }
@@ -601,8 +606,10 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         
     } else if ([item.item isEqualToString:Setting_Item_NotifySound]) {
         
-        currentPickerType = PickerTypeNotifySound;
-        [self showPickerView];
+        SoundsViewController *soundsViewController = [[SoundsViewController alloc] init];
+        
+        
+        [self.navigationController pushViewController:soundsViewController animated:YES];
         
     } else if ([item.item isEqualToString:Setting_Item_CheerUs]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appID]]];
@@ -611,5 +618,12 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 
 }
 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:@"确定"]) {
+        [self finishSetting];
+    }
+}
 
 @end

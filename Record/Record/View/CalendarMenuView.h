@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CalendarDayCell.h"
+#import "CalendarDayButton.h"
 
 typedef void (^CalendarMenuBlock)(void);
 
@@ -16,6 +16,6 @@ typedef void (^CalendarMenuBlock)(void);
 
 + (CalendarMenuView *)getInstance;
 
-- (void)showInView:(CalendarDayCell *)cell;
+- (void)showInView:(CalendarDayButton *)cell;
 
 @end

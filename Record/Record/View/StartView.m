@@ -8,7 +8,6 @@
 
 #import "StartView.h"
 
-static NSString *StartViewShowedKey = @"StartViewShowed";
 
 @implementation StartView
 
@@ -16,8 +15,6 @@ static NSString *StartViewShowedKey = @"StartViewShowed";
     self = [super init];
     if (self) {
         
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:StartViewShowedKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         
         UILabel *hiLabel = [[UILabel alloc] init];
         hiLabel.font = FontMax;
@@ -52,9 +49,5 @@ static NSString *StartViewShowedKey = @"StartViewShowed";
     return self;
 }
 
-+ (BOOL)hasShowed {
-    
-    return [[NSUserDefaults standardUserDefaults] boolForKey:StartViewShowedKey];
-}
 
 @end

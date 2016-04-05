@@ -19,6 +19,25 @@
 		990955191C85D77A00797FFF /* UIExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955161C85D77A00797FFF /* UIExtension.m */; };
 		990955201C85E47800797FFF /* HelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909551F1C85E47800797FFF /* HelpView.m */; };
 		990F88731C984809000C500E /* PillButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 990F88721C984809000C500E /* PillButton.m */; };
+		9910AFCF1CB0D721006DF5F1 /* bird.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFBE1CB0D721006DF5F1 /* bird.mp3 */; };
+		9910AFD01CB0D721006DF5F1 /* cat1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFBF1CB0D721006DF5F1 /* cat1.mp3 */; };
+		9910AFD11CB0D721006DF5F1 /* cat2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC01CB0D721006DF5F1 /* cat2.mp3 */; };
+		9910AFD21CB0D721006DF5F1 /* cat3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC11CB0D721006DF5F1 /* cat3.mp3 */; };
+		9910AFD31CB0D721006DF5F1 /* cat4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC21CB0D721006DF5F1 /* cat4.mp3 */; };
+		9910AFD41CB0D721006DF5F1 /* cat5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC31CB0D721006DF5F1 /* cat5.mp3 */; };
+		9910AFD51CB0D721006DF5F1 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC41CB0D721006DF5F1 /* coin.mp3 */; };
+		9910AFD61CB0D721006DF5F1 /* cup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC51CB0D721006DF5F1 /* cup.mp3 */; };
+		9910AFD71CB0D721006DF5F1 /* doorbell1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC61CB0D721006DF5F1 /* doorbell1.mp3 */; };
+		9910AFD81CB0D721006DF5F1 /* doorbell2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC71CB0D721006DF5F1 /* doorbell2.mp3 */; };
+		9910AFD91CB0D721006DF5F1 /* melonfruit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC81CB0D721006DF5F1 /* melonfruit.mp3 */; };
+		9910AFDA1CB0D721006DF5F1 /* popcorn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC91CB0D721006DF5F1 /* popcorn.mp3 */; };
+		9910AFDB1CB0D721006DF5F1 /* teddy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCA1CB0D721006DF5F1 /* teddy.mp3 */; };
+		9910AFDC1CB0D721006DF5F1 /* trafficlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCB1CB0D721006DF5F1 /* trafficlight.mp3 */; };
+		9910AFDD1CB0D721006DF5F1 /* turkey.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCC1CB0D721006DF5F1 /* turkey.mp3 */; };
+		9910AFDE1CB0D721006DF5F1 /* unpacking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCD1CB0D721006DF5F1 /* unpacking.mp3 */; };
+		9910AFDF1CB0D721006DF5F1 /* yoho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCE1CB0D721006DF5F1 /* yoho.mp3 */; };
+		9910AFE11CB2080E006DF5F1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFE31CB2080E006DF5F1 /* Info.plist */; };
+		991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 991163BB1CA9733C0068F9A6 /* SoundsViewController.m */; };
 		9923080F1CA6A73A00BA6994 /* CalendarMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */; };
 		992308121CA6A76600BA6994 /* LegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 992308111CA6A76600BA6994 /* LegendView.m */; };
 		992B579C1C9EE4CC00C96C55 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 992B57921C9EE4CC00C96C55 /* FMDatabase.m */; };
@@ -31,23 +50,17 @@
 		993D5A281C906A2E004A42CE /* OnlineConfigUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 993D5A271C906A2E004A42CE /* OnlineConfigUtil.m */; };
 		996004B51C944453001EFD89 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004B41C944453001EFD89 /* WebViewController.m */; };
 		996004B81C944659001EFD89 /* UrlUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004B71C944659001EFD89 /* UrlUtil.m */; };
-		996004BC1C946499001EFD89 /* PackViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004BB1C946499001EFD89 /* PackViewDelegate.m */; };
 		996004BF1C9467D4001EFD89 /* CalendarViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004BE1C9467D4001EFD89 /* CalendarViewDelegate.m */; };
 		996004C51C954C2D001EFD89 /* MessageViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004C41C954C2D001EFD89 /* MessageViewDelegate.m */; };
 		996004C81C95AF9D001EFD89 /* image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 996004C71C95AF9D001EFD89 /* image.xcassets */; };
 		996004CB1C95B1DE001EFD89 /* StartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004CA1C95B1DE001EFD89 /* StartView.m */; };
-		998DE7DC1C89C42C00C3AA81 /* PackCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 998DE7DB1C89C42C00C3AA81 /* PackCollectionViewCell.m */; };
+		998DE7DC1C89C42C00C3AA81 /* PackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 998DE7DB1C89C42C00C3AA81 /* PackView.m */; };
 		999FADF21C8BE1AE0083C6B0 /* ReminderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */; };
 		999FADF51C8C03E70083C6B0 /* RecordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADF41C8C03E70083C6B0 /* RecordManager.m */; };
 		999FADF91C8C0C200083C6B0 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADF81C8C0C200083C6B0 /* Record.m */; };
 		999FADFC1C8C124A0083C6B0 /* MessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADFB1C8C124A0083C6B0 /* MessageManager.m */; };
 		999FADFF1C8C125F0083C6B0 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADFE1C8C125F0083C6B0 /* Message.m */; };
-		999FAE131C8C26420083C6B0 /* CalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE021C8C26420083C6B0 /* CalendarDayCell.m */; };
-		999FAE141C8C26420083C6B0 /* CalendarDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE041C8C26420083C6B0 /* CalendarDayModel.m */; };
-		999FAE171C8C26420083C6B0 /* CalendarMonthCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE0A1C8C26420083C6B0 /* CalendarMonthCollectionViewLayout.m */; };
-		999FAE181C8C26420083C6B0 /* CalendarMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE0C1C8C26420083C6B0 /* CalendarMonthHeaderView.m */; };
-		999FAE1A1C8C26420083C6B0 /* chack.png in Resources */ = {isa = PBXBuildFile; fileRef = 999FAE0F1C8C26420083C6B0 /* chack.png */; };
-		999FAE1B1C8C26420083C6B0 /* NSDate+WQCalendarLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE121C8C26420083C6B0 /* NSDate+WQCalendarLogic.m */; };
+		999FAE131C8C26420083C6B0 /* CalendarDayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE021C8C26420083C6B0 /* CalendarDayButton.m */; };
 		999FAE211C8C33130083C6B0 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 999FAE1E1C8C33130083C6B0 /* libMobClickLibrary.a */; };
 		999FAE241C8C346C0083C6B0 /* AnalyticsUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE231C8C346C0083C6B0 /* AnalyticsUtil.m */; };
 		999FAE271C8C4A200083C6B0 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE261C8C4A200083C6B0 /* MessageCell.m */; };
@@ -60,24 +73,6 @@
 		99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FCE1C886F0F00B1617D /* SqlUtil.m */; };
 		99D90FD11C887A2700B1617D /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 99D90FD01C887A2700B1617D /* libsqlite3.0.tbd */; };
 		99D90FD41C88834200B1617D /* NotifyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FD31C88834200B1617D /* NotifyUtil.m */; };
-		99F5644E1C9E6D80005806A8 /* bird.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F5643C1C9E6D80005806A8 /* bird.wav */; };
-		99F5644F1C9E6D80005806A8 /* cat1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F5643D1C9E6D80005806A8 /* cat1.wav */; };
-		99F564501C9E6D80005806A8 /* cat2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F5643E1C9E6D80005806A8 /* cat2.wav */; };
-		99F564511C9E6D80005806A8 /* cat3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F5643F1C9E6D80005806A8 /* cat3.wav */; };
-		99F564521C9E6D80005806A8 /* cat4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564401C9E6D80005806A8 /* cat4.wav */; };
-		99F564531C9E6D80005806A8 /* cat5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564411C9E6D80005806A8 /* cat5.wav */; };
-		99F564541C9E6D80005806A8 /* coin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564421C9E6D80005806A8 /* coin.wav */; };
-		99F564551C9E6D80005806A8 /* cup.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564431C9E6D80005806A8 /* cup.wav */; };
-		99F564561C9E6D80005806A8 /* doorbell1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564441C9E6D80005806A8 /* doorbell1.wav */; };
-		99F564571C9E6D80005806A8 /* doorbell2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564451C9E6D80005806A8 /* doorbell2.wav */; };
-		99F564581C9E6D80005806A8 /* melon&fruit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564461C9E6D80005806A8 /* melon&fruit.wav */; };
-		99F564591C9E6D80005806A8 /* popcorn.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564471C9E6D80005806A8 /* popcorn.wav */; };
-		99F5645A1C9E6D80005806A8 /* teddy.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564481C9E6D80005806A8 /* teddy.wav */; };
-		99F5645B1C9E6D80005806A8 /* trafficlight.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F564491C9E6D80005806A8 /* trafficlight.wav */; };
-		99F5645C1C9E6D80005806A8 /* turkey.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F5644A1C9E6D80005806A8 /* turkey.wav */; };
-		99F5645D1C9E6D80005806A8 /* unpacking.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F5644B1C9E6D80005806A8 /* unpacking.wav */; };
-		99F5645E1C9E6D80005806A8 /* windbell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99F5644C1C9E6D80005806A8 /* windbell.mp3 */; };
-		99F5645F1C9E6D80005806A8 /* yoho.wav in Resources */ = {isa = PBXBuildFile; fileRef = 99F5644D1C9E6D80005806A8 /* yoho.wav */; };
 		99F564621C9E811B005806A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99F564641C9E811B005806A8 /* InfoPlist.strings */; };
 		99F564681C9E81FC005806A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99F5646A1C9E81FC005806A8 /* Localizable.strings */; };
 		99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F5646D1C9E897C005806A8 /* SettingItem.m */; };
@@ -92,7 +87,6 @@
 		990954F81C85D5C300797FFF /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		990954FE1C85D5C300797FFF /* Record.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Record.xcdatamodel; sourceTree = "<group>"; };
 		990955001C85D5C300797FFF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		990955051C85D5C300797FFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9909550B1C85D76300797FFF /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = ViewController/BaseViewController.h; sourceTree = "<group>"; };
 		9909550C1C85D76300797FFF /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = ViewController/BaseViewController.m; sourceTree = "<group>"; };
 		9909550E1C85D76F00797FFF /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppManager.h; path = Manager/AppManager.h; sourceTree = "<group>"; };
@@ -108,6 +102,29 @@
 		990955211C85E6E000797FFF /* Record-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Record-Prefix.pch"; sourceTree = "<group>"; };
 		990F88711C984809000C500E /* PillButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PillButton.h; path = View/PillButton.h; sourceTree = "<group>"; };
 		990F88721C984809000C500E /* PillButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PillButton.m; path = View/PillButton.m; sourceTree = "<group>"; };
+		9910AFBE1CB0D721006DF5F1 /* bird.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bird.mp3; path = Record/Resource/sound/bird.mp3; sourceTree = "<group>"; };
+		9910AFBF1CB0D721006DF5F1 /* cat1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat1.mp3; path = Record/Resource/sound/cat1.mp3; sourceTree = "<group>"; };
+		9910AFC01CB0D721006DF5F1 /* cat2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat2.mp3; path = Record/Resource/sound/cat2.mp3; sourceTree = "<group>"; };
+		9910AFC11CB0D721006DF5F1 /* cat3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat3.mp3; path = Record/Resource/sound/cat3.mp3; sourceTree = "<group>"; };
+		9910AFC21CB0D721006DF5F1 /* cat4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat4.mp3; path = Record/Resource/sound/cat4.mp3; sourceTree = "<group>"; };
+		9910AFC31CB0D721006DF5F1 /* cat5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat5.mp3; path = Record/Resource/sound/cat5.mp3; sourceTree = "<group>"; };
+		9910AFC41CB0D721006DF5F1 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = coin.mp3; path = Record/Resource/sound/coin.mp3; sourceTree = "<group>"; };
+		9910AFC51CB0D721006DF5F1 /* cup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cup.mp3; path = Record/Resource/sound/cup.mp3; sourceTree = "<group>"; };
+		9910AFC61CB0D721006DF5F1 /* doorbell1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = doorbell1.mp3; path = Record/Resource/sound/doorbell1.mp3; sourceTree = "<group>"; };
+		9910AFC71CB0D721006DF5F1 /* doorbell2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = doorbell2.mp3; path = Record/Resource/sound/doorbell2.mp3; sourceTree = "<group>"; };
+		9910AFC81CB0D721006DF5F1 /* melonfruit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = melonfruit.mp3; path = Record/Resource/sound/melonfruit.mp3; sourceTree = "<group>"; };
+		9910AFC91CB0D721006DF5F1 /* popcorn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = popcorn.mp3; path = Record/Resource/sound/popcorn.mp3; sourceTree = "<group>"; };
+		9910AFCA1CB0D721006DF5F1 /* teddy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = teddy.mp3; path = Record/Resource/sound/teddy.mp3; sourceTree = "<group>"; };
+		9910AFCB1CB0D721006DF5F1 /* trafficlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = trafficlight.mp3; path = Record/Resource/sound/trafficlight.mp3; sourceTree = "<group>"; };
+		9910AFCC1CB0D721006DF5F1 /* turkey.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = turkey.mp3; path = Record/Resource/sound/turkey.mp3; sourceTree = "<group>"; };
+		9910AFCD1CB0D721006DF5F1 /* unpacking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = unpacking.mp3; path = Record/Resource/sound/unpacking.mp3; sourceTree = "<group>"; };
+		9910AFCE1CB0D721006DF5F1 /* yoho.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = yoho.mp3; path = Record/Resource/sound/yoho.mp3; sourceTree = "<group>"; };
+		9910AFE21CB2080E006DF5F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
+		9910AFE71CB20BFA006DF5F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		9910AFE81CB20BFA006DF5F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		9910AFE91CB21501006DF5F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/Info.plist"; sourceTree = "<group>"; };
+		991163BA1CA9733C0068F9A6 /* SoundsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundsViewController.h; path = ViewController/SoundsViewController.h; sourceTree = "<group>"; };
+		991163BB1CA9733C0068F9A6 /* SoundsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundsViewController.m; path = ViewController/SoundsViewController.m; sourceTree = "<group>"; };
 		9923080D1CA6A73A00BA6994 /* CalendarMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarMenuView.h; path = View/CalendarMenuView.h; sourceTree = "<group>"; };
 		9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarMenuView.m; path = View/CalendarMenuView.m; sourceTree = "<group>"; };
 		992308101CA6A76600BA6994 /* LegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegendView.h; path = View/LegendView.h; sourceTree = "<group>"; };
@@ -134,8 +151,6 @@
 		996004B61C944659001EFD89 /* UrlUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UrlUtil.h; path = Util/UrlUtil.h; sourceTree = "<group>"; };
 		996004B71C944659001EFD89 /* UrlUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UrlUtil.m; path = Util/UrlUtil.m; sourceTree = "<group>"; };
 		996004B91C944736001EFD89 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
-		996004BA1C946499001EFD89 /* PackViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackViewDelegate.h; sourceTree = "<group>"; };
-		996004BB1C946499001EFD89 /* PackViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackViewDelegate.m; sourceTree = "<group>"; };
 		996004BD1C9467D4001EFD89 /* CalendarViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewDelegate.h; sourceTree = "<group>"; };
 		996004BE1C9467D4001EFD89 /* CalendarViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewDelegate.m; sourceTree = "<group>"; };
 		996004C31C954C2D001EFD89 /* MessageViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewDelegate.h; sourceTree = "<group>"; };
@@ -143,8 +158,8 @@
 		996004C71C95AF9D001EFD89 /* image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = image.xcassets; path = Record/Resource/image.xcassets; sourceTree = "<group>"; };
 		996004C91C95B1DE001EFD89 /* StartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartView.h; path = View/StartView.h; sourceTree = "<group>"; };
 		996004CA1C95B1DE001EFD89 /* StartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartView.m; path = View/StartView.m; sourceTree = "<group>"; };
-		998DE7DA1C89C42C00C3AA81 /* PackCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackCollectionViewCell.h; path = View/PackCollectionViewCell.h; sourceTree = "<group>"; };
-		998DE7DB1C89C42C00C3AA81 /* PackCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackCollectionViewCell.m; path = View/PackCollectionViewCell.m; sourceTree = "<group>"; };
+		998DE7DA1C89C42C00C3AA81 /* PackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackView.h; path = View/PackView.h; sourceTree = "<group>"; };
+		998DE7DB1C89C42C00C3AA81 /* PackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackView.m; path = View/PackView.m; sourceTree = "<group>"; };
 		999FADF01C8BE1AE0083C6B0 /* ReminderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReminderManager.h; path = Manager/ReminderManager.h; sourceTree = "<group>"; };
 		999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReminderManager.m; path = Manager/ReminderManager.m; sourceTree = "<group>"; };
 		999FADF31C8C03E70083C6B0 /* RecordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordManager.h; path = Manager/RecordManager.h; sourceTree = "<group>"; };
@@ -155,18 +170,8 @@
 		999FADFB1C8C124A0083C6B0 /* MessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageManager.m; path = Manager/MessageManager.m; sourceTree = "<group>"; };
 		999FADFD1C8C125F0083C6B0 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		999FADFE1C8C125F0083C6B0 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		999FAE011C8C26420083C6B0 /* CalendarDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarDayCell.h; path = ZFCalendar/CalendarDayCell.h; sourceTree = "<group>"; };
-		999FAE021C8C26420083C6B0 /* CalendarDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarDayCell.m; path = ZFCalendar/CalendarDayCell.m; sourceTree = "<group>"; };
-		999FAE031C8C26420083C6B0 /* CalendarDayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarDayModel.h; path = ZFCalendar/CalendarDayModel.h; sourceTree = "<group>"; };
-		999FAE041C8C26420083C6B0 /* CalendarDayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarDayModel.m; path = ZFCalendar/CalendarDayModel.m; sourceTree = "<group>"; };
-		999FAE091C8C26420083C6B0 /* CalendarMonthCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarMonthCollectionViewLayout.h; path = ZFCalendar/CalendarMonthCollectionViewLayout.h; sourceTree = "<group>"; };
-		999FAE0A1C8C26420083C6B0 /* CalendarMonthCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarMonthCollectionViewLayout.m; path = ZFCalendar/CalendarMonthCollectionViewLayout.m; sourceTree = "<group>"; };
-		999FAE0B1C8C26420083C6B0 /* CalendarMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarMonthHeaderView.h; path = ZFCalendar/CalendarMonthHeaderView.h; sourceTree = "<group>"; };
-		999FAE0C1C8C26420083C6B0 /* CalendarMonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarMonthHeaderView.m; path = ZFCalendar/CalendarMonthHeaderView.m; sourceTree = "<group>"; };
-		999FAE0F1C8C26420083C6B0 /* chack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chack.png; path = ZFCalendar/chack.png; sourceTree = "<group>"; };
-		999FAE101C8C26420083C6B0 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ZFCalendar/Color.h; sourceTree = "<group>"; };
-		999FAE111C8C26420083C6B0 /* NSDate+WQCalendarLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+WQCalendarLogic.h"; path = "ZFCalendar/NSDate+WQCalendarLogic.h"; sourceTree = "<group>"; };
-		999FAE121C8C26420083C6B0 /* NSDate+WQCalendarLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+WQCalendarLogic.m"; path = "ZFCalendar/NSDate+WQCalendarLogic.m"; sourceTree = "<group>"; };
+		999FAE011C8C26420083C6B0 /* CalendarDayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarDayButton.h; path = ZFCalendar/CalendarDayButton.h; sourceTree = "<group>"; };
+		999FAE021C8C26420083C6B0 /* CalendarDayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarDayButton.m; path = ZFCalendar/CalendarDayButton.m; sourceTree = "<group>"; };
 		999FAE1E1C8C33130083C6B0 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = Others/UMAnalytics/libMobClickLibrary.a; sourceTree = "<group>"; };
 		999FAE1F1C8C33130083C6B0 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = Others/UMAnalytics/MobClick.h; sourceTree = "<group>"; };
 		999FAE201C8C33130083C6B0 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClickSocialAnalytics.h; path = Others/UMAnalytics/MobClickSocialAnalytics.h; sourceTree = "<group>"; };
@@ -189,28 +194,8 @@
 		99D90FD01C887A2700B1617D /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		99D90FD21C88834200B1617D /* NotifyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotifyUtil.h; path = Util/NotifyUtil.h; sourceTree = "<group>"; };
 		99D90FD31C88834200B1617D /* NotifyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotifyUtil.m; path = Util/NotifyUtil.m; sourceTree = "<group>"; };
-		99F5643C1C9E6D80005806A8 /* bird.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bird.wav; path = Record/Resource/sound/bird.wav; sourceTree = "<group>"; };
-		99F5643D1C9E6D80005806A8 /* cat1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = cat1.wav; path = Record/Resource/sound/cat1.wav; sourceTree = "<group>"; };
-		99F5643E1C9E6D80005806A8 /* cat2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = cat2.wav; path = Record/Resource/sound/cat2.wav; sourceTree = "<group>"; };
-		99F5643F1C9E6D80005806A8 /* cat3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = cat3.wav; path = Record/Resource/sound/cat3.wav; sourceTree = "<group>"; };
-		99F564401C9E6D80005806A8 /* cat4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = cat4.wav; path = Record/Resource/sound/cat4.wav; sourceTree = "<group>"; };
-		99F564411C9E6D80005806A8 /* cat5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = cat5.wav; path = Record/Resource/sound/cat5.wav; sourceTree = "<group>"; };
-		99F564421C9E6D80005806A8 /* coin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = coin.wav; path = Record/Resource/sound/coin.wav; sourceTree = "<group>"; };
-		99F564431C9E6D80005806A8 /* cup.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = cup.wav; path = Record/Resource/sound/cup.wav; sourceTree = "<group>"; };
-		99F564441C9E6D80005806A8 /* doorbell1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = doorbell1.wav; path = Record/Resource/sound/doorbell1.wav; sourceTree = "<group>"; };
-		99F564451C9E6D80005806A8 /* doorbell2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = doorbell2.wav; path = Record/Resource/sound/doorbell2.wav; sourceTree = "<group>"; };
-		99F564461C9E6D80005806A8 /* melon&fruit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "melon&fruit.wav"; path = "Record/Resource/sound/melon&fruit.wav"; sourceTree = "<group>"; };
-		99F564471C9E6D80005806A8 /* popcorn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = popcorn.wav; path = Record/Resource/sound/popcorn.wav; sourceTree = "<group>"; };
-		99F564481C9E6D80005806A8 /* teddy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = teddy.wav; path = Record/Resource/sound/teddy.wav; sourceTree = "<group>"; };
-		99F564491C9E6D80005806A8 /* trafficlight.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = trafficlight.wav; path = Record/Resource/sound/trafficlight.wav; sourceTree = "<group>"; };
-		99F5644A1C9E6D80005806A8 /* turkey.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = turkey.wav; path = Record/Resource/sound/turkey.wav; sourceTree = "<group>"; };
-		99F5644B1C9E6D80005806A8 /* unpacking.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = unpacking.wav; path = Record/Resource/sound/unpacking.wav; sourceTree = "<group>"; };
-		99F5644C1C9E6D80005806A8 /* windbell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = windbell.mp3; path = Record/Resource/sound/windbell.mp3; sourceTree = "<group>"; };
-		99F5644D1C9E6D80005806A8 /* yoho.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = yoho.wav; path = Record/Resource/sound/yoho.wav; sourceTree = "<group>"; };
-		99F564631C9E811B005806A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		99F564651C9E811E005806A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		99F564691C9E81FC005806A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		99F5646B1C9E81FE005806A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		99F5646C1C9E897C005806A8 /* SettingItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingItem.h; path = Data/SettingItem.h; sourceTree = "<group>"; };
 		99F5646D1C9E897C005806A8 /* SettingItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingItem.m; path = Data/SettingItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -265,7 +250,7 @@
 				990954F51C85D5C300797FFF /* AppDelegate.m */,
 				996004B91C944736001EFD89 /* Header.h */,
 				990955001C85D5C300797FFF /* Assets.xcassets */,
-				990955051C85D5C300797FFF /* Info.plist */,
+				9910AFE31CB2080E006DF5F1 /* Info.plist */,
 				990954FD1C85D5C300797FFF /* Record.xcdatamodeld */,
 				990954F11C85D5C300797FFF /* Supporting Files */,
 			);
@@ -324,10 +309,10 @@
 				990954F81C85D5C300797FFF /* MainViewController.m */,
 				996004C31C954C2D001EFD89 /* MessageViewDelegate.h */,
 				996004C41C954C2D001EFD89 /* MessageViewDelegate.m */,
-				996004BA1C946499001EFD89 /* PackViewDelegate.h */,
-				996004BB1C946499001EFD89 /* PackViewDelegate.m */,
 				99D90FC91C886B5300B1617D /* SettingViewController.h */,
 				99D90FCA1C886B5300B1617D /* SettingViewController.m */,
+				991163BA1CA9733C0068F9A6 /* SoundsViewController.h */,
+				991163BB1CA9733C0068F9A6 /* SoundsViewController.m */,
 				99C749EC1C91BE930054829C /* TextEditViewController.h */,
 				99C749ED1C91BE930054829C /* TextEditViewController.m */,
 				996004B31C944453001EFD89 /* WebViewController.h */,
@@ -341,12 +326,12 @@
 			children = (
 				9909551E1C85E47800797FFF /* HelpView.h */,
 				9909551F1C85E47800797FFF /* HelpView.m */,
-				999FAE011C8C26420083C6B0 /* CalendarDayCell.h */,
-				999FAE021C8C26420083C6B0 /* CalendarDayCell.m */,
+				999FAE011C8C26420083C6B0 /* CalendarDayButton.h */,
+				999FAE021C8C26420083C6B0 /* CalendarDayButton.m */,
 				990F88711C984809000C500E /* PillButton.h */,
 				990F88721C984809000C500E /* PillButton.m */,
-				998DE7DA1C89C42C00C3AA81 /* PackCollectionViewCell.h */,
-				998DE7DB1C89C42C00C3AA81 /* PackCollectionViewCell.m */,
+				998DE7DA1C89C42C00C3AA81 /* PackView.h */,
+				998DE7DB1C89C42C00C3AA81 /* PackView.m */,
 				999FAE251C8C4A200083C6B0 /* MessageCell.h */,
 				999FAE261C8C4A200083C6B0 /* MessageCell.m */,
 				993D5A1F1C90649E004A42CE /* SettingCell.h */,
@@ -415,16 +400,6 @@
 		999FAE001C8C26300083C6B0 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				999FAE031C8C26420083C6B0 /* CalendarDayModel.h */,
-				999FAE041C8C26420083C6B0 /* CalendarDayModel.m */,
-				999FAE091C8C26420083C6B0 /* CalendarMonthCollectionViewLayout.h */,
-				999FAE0A1C8C26420083C6B0 /* CalendarMonthCollectionViewLayout.m */,
-				999FAE0B1C8C26420083C6B0 /* CalendarMonthHeaderView.h */,
-				999FAE0C1C8C26420083C6B0 /* CalendarMonthHeaderView.m */,
-				999FAE0F1C8C26420083C6B0 /* chack.png */,
-				999FAE101C8C26420083C6B0 /* Color.h */,
-				999FAE111C8C26420083C6B0 /* NSDate+WQCalendarLogic.h */,
-				999FAE121C8C26420083C6B0 /* NSDate+WQCalendarLogic.m */,
 			);
 			name = Calendar;
 			sourceTree = "<group>";
@@ -478,24 +453,23 @@
 		99F5643B1C9E6D6A005806A8 /* sounds */ = {
 			isa = PBXGroup;
 			children = (
-				99F5643C1C9E6D80005806A8 /* bird.wav */,
-				99F5643D1C9E6D80005806A8 /* cat1.wav */,
-				99F5643E1C9E6D80005806A8 /* cat2.wav */,
-				99F5643F1C9E6D80005806A8 /* cat3.wav */,
-				99F564401C9E6D80005806A8 /* cat4.wav */,
-				99F564411C9E6D80005806A8 /* cat5.wav */,
-				99F564421C9E6D80005806A8 /* coin.wav */,
-				99F564431C9E6D80005806A8 /* cup.wav */,
-				99F564441C9E6D80005806A8 /* doorbell1.wav */,
-				99F564451C9E6D80005806A8 /* doorbell2.wav */,
-				99F564461C9E6D80005806A8 /* melon&fruit.wav */,
-				99F564471C9E6D80005806A8 /* popcorn.wav */,
-				99F564481C9E6D80005806A8 /* teddy.wav */,
-				99F564491C9E6D80005806A8 /* trafficlight.wav */,
-				99F5644A1C9E6D80005806A8 /* turkey.wav */,
-				99F5644B1C9E6D80005806A8 /* unpacking.wav */,
-				99F5644C1C9E6D80005806A8 /* windbell.mp3 */,
-				99F5644D1C9E6D80005806A8 /* yoho.wav */,
+				9910AFBE1CB0D721006DF5F1 /* bird.mp3 */,
+				9910AFBF1CB0D721006DF5F1 /* cat1.mp3 */,
+				9910AFC01CB0D721006DF5F1 /* cat2.mp3 */,
+				9910AFC11CB0D721006DF5F1 /* cat3.mp3 */,
+				9910AFC21CB0D721006DF5F1 /* cat4.mp3 */,
+				9910AFC31CB0D721006DF5F1 /* cat5.mp3 */,
+				9910AFC41CB0D721006DF5F1 /* coin.mp3 */,
+				9910AFC51CB0D721006DF5F1 /* cup.mp3 */,
+				9910AFC61CB0D721006DF5F1 /* doorbell1.mp3 */,
+				9910AFC71CB0D721006DF5F1 /* doorbell2.mp3 */,
+				9910AFC81CB0D721006DF5F1 /* melonfruit.mp3 */,
+				9910AFC91CB0D721006DF5F1 /* popcorn.mp3 */,
+				9910AFCA1CB0D721006DF5F1 /* teddy.mp3 */,
+				9910AFCB1CB0D721006DF5F1 /* trafficlight.mp3 */,
+				9910AFCC1CB0D721006DF5F1 /* turkey.mp3 */,
+				9910AFCD1CB0D721006DF5F1 /* unpacking.mp3 */,
+				9910AFCE1CB0D721006DF5F1 /* yoho.mp3 */,
 			);
 			name = sounds;
 			sourceTree = "<group>";
@@ -531,6 +505,7 @@
 				TargetAttributes = {
 					990954ED1C85D5C300797FFF = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = SE3H8KG628;
 					};
 				};
 			};
@@ -539,8 +514,8 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 990954E51C85D5C300797FFF;
 			productRefGroup = 990954EF1C85D5C300797FFF /* Products */;
@@ -557,29 +532,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99F5645D1C9E6D80005806A8 /* unpacking.wav in Resources */,
-				99F564581C9E6D80005806A8 /* melon&fruit.wav in Resources */,
-				99F564521C9E6D80005806A8 /* cat4.wav in Resources */,
-				99F5645B1C9E6D80005806A8 /* trafficlight.wav in Resources */,
-				99F564501C9E6D80005806A8 /* cat2.wav in Resources */,
-				99F564591C9E6D80005806A8 /* popcorn.wav in Resources */,
-				99F564571C9E6D80005806A8 /* doorbell2.wav in Resources */,
-				99F5644F1C9E6D80005806A8 /* cat1.wav in Resources */,
+				9910AFD11CB0D721006DF5F1 /* cat2.mp3 in Resources */,
 				996004C81C95AF9D001EFD89 /* image.xcassets in Resources */,
-				99F5645F1C9E6D80005806A8 /* yoho.wav in Resources */,
+				9910AFD21CB0D721006DF5F1 /* cat3.mp3 in Resources */,
 				99F564621C9E811B005806A8 /* InfoPlist.strings in Resources */,
-				99F5644E1C9E6D80005806A8 /* bird.wav in Resources */,
-				99F564561C9E6D80005806A8 /* doorbell1.wav in Resources */,
+				9910AFD61CB0D721006DF5F1 /* cup.mp3 in Resources */,
 				99F564681C9E81FC005806A8 /* Localizable.strings in Resources */,
-				99F564551C9E6D80005806A8 /* cup.wav in Resources */,
-				99F564541C9E6D80005806A8 /* coin.wav in Resources */,
-				99F5645C1C9E6D80005806A8 /* turkey.wav in Resources */,
-				999FAE1A1C8C26420083C6B0 /* chack.png in Resources */,
-				99F5645E1C9E6D80005806A8 /* windbell.mp3 in Resources */,
-				99F564531C9E6D80005806A8 /* cat5.wav in Resources */,
+				9910AFD71CB0D721006DF5F1 /* doorbell1.mp3 in Resources */,
+				9910AFD91CB0D721006DF5F1 /* melonfruit.mp3 in Resources */,
+				9910AFD81CB0D721006DF5F1 /* doorbell2.mp3 in Resources */,
+				9910AFE11CB2080E006DF5F1 /* Info.plist in Resources */,
+				9910AFD31CB0D721006DF5F1 /* cat4.mp3 in Resources */,
 				990955011C85D5C300797FFF /* Assets.xcassets in Resources */,
-				99F564511C9E6D80005806A8 /* cat3.wav in Resources */,
-				99F5645A1C9E6D80005806A8 /* teddy.wav in Resources */,
+				9910AFDE1CB0D721006DF5F1 /* unpacking.mp3 in Resources */,
+				9910AFDA1CB0D721006DF5F1 /* popcorn.mp3 in Resources */,
+				9910AFCF1CB0D721006DF5F1 /* bird.mp3 in Resources */,
+				9910AFD41CB0D721006DF5F1 /* cat5.mp3 in Resources */,
+				9910AFD01CB0D721006DF5F1 /* cat1.mp3 in Resources */,
+				9910AFDD1CB0D721006DF5F1 /* turkey.mp3 in Resources */,
+				9910AFD51CB0D721006DF5F1 /* coin.mp3 in Resources */,
+				9910AFDF1CB0D721006DF5F1 /* yoho.mp3 in Resources */,
+				9910AFDC1CB0D721006DF5F1 /* trafficlight.mp3 in Resources */,
+				9910AFDB1CB0D721006DF5F1 /* teddy.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,9 +575,9 @@
 				990955171C85D77A00797FFF /* Extension.m in Sources */,
 				990954F61C85D5C300797FFF /* AppDelegate.m in Sources */,
 				992B579D1C9EE4CC00C96C55 /* FMDatabaseAdditions.m in Sources */,
-				999FAE131C8C26420083C6B0 /* CalendarDayCell.m in Sources */,
+				999FAE131C8C26420083C6B0 /* CalendarDayButton.m in Sources */,
 				999FAE2F1C8C578F0083C6B0 /* AdManager.m in Sources */,
-				998DE7DC1C89C42C00C3AA81 /* PackCollectionViewCell.m in Sources */,
+				998DE7DC1C89C42C00C3AA81 /* PackView.m in Sources */,
 				990F88731C984809000C500E /* PillButton.m in Sources */,
 				993D5A281C906A2E004A42CE /* OnlineConfigUtil.m in Sources */,
 				996004CB1C95B1DE001EFD89 /* StartView.m in Sources */,
@@ -611,7 +585,6 @@
 				999FADFC1C8C124A0083C6B0 /* MessageManager.m in Sources */,
 				99D90FD41C88834200B1617D /* NotifyUtil.m in Sources */,
 				990954FF1C85D5C300797FFF /* Record.xcdatamodeld in Sources */,
-				999FAE171C8C26420083C6B0 /* CalendarMonthCollectionViewLayout.m in Sources */,
 				99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */,
 				990955201C85E47800797FFF /* HelpView.m in Sources */,
 				999FADF91C8C0C200083C6B0 /* Record.m in Sources */,
@@ -619,18 +592,15 @@
 				992B579E1C9EE4CC00C96C55 /* FMDatabasePool.m in Sources */,
 				99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */,
 				990954F31C85D5C300797FFF /* main.m in Sources */,
-				996004BC1C946499001EFD89 /* PackViewDelegate.m in Sources */,
 				990955191C85D77A00797FFF /* UIExtension.m in Sources */,
 				992B57A01C9EE4CC00C96C55 /* FMResultSet.m in Sources */,
 				990955181C85D77A00797FFF /* NSExtension.m in Sources */,
 				990955101C85D76F00797FFF /* AppManager.m in Sources */,
 				996004C51C954C2D001EFD89 /* MessageViewDelegate.m in Sources */,
+				991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */,
 				99C749E81C91AB8B0054829C /* ScheduleManager.m in Sources */,
 				999FADF21C8BE1AE0083C6B0 /* ReminderManager.m in Sources */,
 				999FADFF1C8C125F0083C6B0 /* Message.m in Sources */,
-				999FAE181C8C26420083C6B0 /* CalendarMonthHeaderView.m in Sources */,
-				999FAE1B1C8C26420083C6B0 /* NSDate+WQCalendarLogic.m in Sources */,
-				999FAE141C8C26420083C6B0 /* CalendarDayModel.m in Sources */,
 				993D5A211C90649E004A42CE /* SettingCell.m in Sources */,
 				99D90FCB1C886B5300B1617D /* SettingViewController.m in Sources */,
 				999FAE271C8C4A200083C6B0 /* MessageCell.m in Sources */,
@@ -642,11 +612,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		9910AFE31CB2080E006DF5F1 /* Info.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9910AFE21CB2080E006DF5F1 /* Base */,
+				9910AFE91CB21501006DF5F1 /* zh-Hans */,
+			);
+			name = Info.plist;
+			sourceTree = "<group>";
+		};
 		99F564641C9E811B005806A8 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				99F564631C9E811B005806A8 /* en */,
 				99F564651C9E811E005806A8 /* Base */,
+				9910AFE81CB20BFA006DF5F1 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -655,7 +634,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				99F564691C9E81FC005806A8 /* Base */,
-				99F5646B1C9E81FE005806A8 /* en */,
+				9910AFE71CB20BFA006DF5F1 /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -749,12 +728,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/Admob",
 				);
 				GCC_PREFIX_HEADER = "Record/Record-Prefix.pch";
-				INFOPLIST_FILE = Record/Info.plist;
+				INFOPLIST_FILE = Record/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -764,6 +745,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = aaa.Record;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -771,12 +753,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/Admob",
 				);
 				GCC_PREFIX_HEADER = "Record/Record-Prefix.pch";
-				INFOPLIST_FILE = Record/Info.plist;
+				INFOPLIST_FILE = Record/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -786,6 +770,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = aaa.Record;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

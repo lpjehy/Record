@@ -41,7 +41,7 @@
 - (void)showBack {
     UIButton *leftButton = [[UIButton alloc] init];
     leftButton.frame = CGRectMake(0, 0, 44, 44);
-    [leftButton setTitle:@"Back" forState:UIControlStateNormal];
+    [leftButton setTitle:NSLocalizedString(@"button_title_back", nil) forState:UIControlStateNormal];
     leftButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];

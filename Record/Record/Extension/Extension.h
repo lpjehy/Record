@@ -21,6 +21,6 @@
 
 
 - (NSString *)weekDayText;
-
++ (NSString *)textForWeekday:(NSInteger)weekday;
 
 @end

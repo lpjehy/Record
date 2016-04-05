@@ -18,4 +18,7 @@
 
 + (MessageManager *)getInstance;
 
+- (void)reloadData;
+- (NSArray *)allMessage;
+
 @end

@@ -23,7 +23,7 @@
 
 @implementation PillButton
 
-@synthesize isPlacebo, isTaken, isToday;
+@synthesize isBreakDay, isTaken, isToday;
 @synthesize day;
 
 - (id)init {
@@ -44,7 +44,7 @@
         
         dayLabel = [[UILabel alloc] init];
         dayLabel.textAlignment = NSTextAlignmentCenter;
-        
+        dayLabel.font = FontSmall;
         [self addSubview:dayLabel];
     }
     
@@ -55,8 +55,8 @@
     [super setFrame:frame];
     
     
-    backImageView.frame = CGRectMake(5, 5, self.width - 10, self.height - 10);
-    pillImageView.frame = CGRectMake(10, 10, self.width - 20, self.height - 20);
+    backImageView.frame = CGRectMake((self.width - 45) / 2, (self.height - 45) / 2, 45, 45);
+    pillImageView.frame = CGRectMake((self.width - 35) / 2, (self.height - 35) / 2, 35, 35);
     dayLabel.frame = CGRectMake(0, 0, self.width, self.height);
 }
 
@@ -89,19 +89,18 @@
             self.isTaken = NO;
         }
     }
+    
+    
 }
 
-- (void)setIsPlacebo:(BOOL)is {
-    isPlacebo = is;
-    if (is) {
-        pillImageView.image = [UIImage imageNamed:@"Pill_Placebo.png"];
-    }
+- (void)setIsBreakDay:(BOOL)is {
+    isBreakDay = is;
 }
 
 - (void)setIsToday:(BOOL)is {
     isToday = is;
     if (is) {
-        backImageView.image = [UIImage imageNamed:@"BG_Pill_Today.png"];
+        
         
         if (backImageView.tag == 0) {
             [self showToday];
@@ -127,35 +126,41 @@
     [UIView commitAnimations];
 }
 
-- (void)setIsTaken:(BOOL)is {
-    isTaken = is;
-    if (is) {
+- (void)resetState {
+    
+    if (isTaken) {
         NSString *imagename = [NSString stringWithFormat:@"Pill_Taken_%zi.png", arc4random() % 4 + 1];
         pillImageView.image = [UIImage imageNamed:imagename];
-        
-        if (!isToday) {
-            backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
-        }
-        
-    } else {
-        
-        if (isPlacebo) {
-            pillImageView.image = [UIImage imageNamed:@"Pill_Placebo.png"];
-        } else {
-            pillImageView.image = [UIImage imageNamed:@"Pill_Untaken.png"];
-        }
         
         if (isToday) {
             backImageView.image = [UIImage imageNamed:@"BG_Pill_Today.png"];
             
-        } else if ([[ScheduleManager getInstance].today isEarlier:day]) {
-            backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
         } else {
-            backImageView.image = [UIImage imageNamed:@"BG_Pill_Miss.png"];
+            backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
         }
-        
-        
+    } else {
+        if (isBreakDay && [ScheduleManager takePlaceboPills]) {
+            pillImageView.image = [UIImage imageNamed:@"Pill_Placebo.png"];
+        } else {
+            pillImageView.image = [UIImage imageNamed:@"Pill_Untaken.png"];
+        }
     }
+    
+    if (isToday) {
+        backImageView.image = [UIImage imageNamed:@"BG_Pill_Today.png"];
+        
+    } else if (isTaken || [[ScheduleManager getInstance].today isEarlier:day]) {
+        backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
+    } else {
+        backImageView.image = [UIImage imageNamed:@"BG_Pill_Miss.png"];
+    }
+    
+}
+
+- (void)setIsTaken:(BOOL)is {
+    isTaken = is;
+    
+    [self resetState];
 }
 
 @end

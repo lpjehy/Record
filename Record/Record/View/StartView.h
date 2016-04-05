@@ -10,6 +10,5 @@
 
 @interface StartView : UIButton
 
-+ (BOOL)hasShowed;
 
 @end
