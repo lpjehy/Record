@@ -59,6 +59,7 @@ static NSInteger DefaultBreakDays = 7;
     currentPackDay = currentDayFromStartDay % [ScheduleManager allDays];
     
     [ReminderManager resetNotify];
+    
 }
 
 + (ScheduleManager *)getInstance {
@@ -143,7 +144,7 @@ static NSInteger DefaultBreakDays = 7;
 + (NSInteger)breakDays {
     NSInteger safeDays = [[NSUserDefaults standardUserDefaults] integerForKey:BreakDaysKey];
     
-    if (safeDays == 0) {
+    if (safeDays == 0 && ![AppManager hasFirstSetDone]) {
         safeDays = DefaultBreakDays;
     }
     

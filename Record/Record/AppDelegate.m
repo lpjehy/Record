@@ -8,13 +8,10 @@
 
 #import "AppDelegate.h"
 
-#import "HelpView.h"
-
 #import "MainViewController.h"
 
 #import "SqlUtil.h"
 
-#import "NotifyUtil.h"
 
 #import "OnlineConfigUtil.h"
 #import "AdManager.h"
@@ -56,17 +53,7 @@
     
     [self createLayout];
     
-    NSLog(@"%f", [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSinceNow:-10]]);
     
-    
-    
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
-        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
-    }
-    else {
-        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
-    }
-
     NSMutableArray *array = [NSMutableArray arrayWithObjects:@"1", @"2", nil];
     NSArray *arr = @[@"2", @"3"];
     
@@ -85,11 +72,11 @@
     if ([shortcutItem.type isEqualToString:@"takepill"]) {
         [RecordManager record:[NSDate date]];
         type = @"untakepill";
-        title = @"Take";
+        title = NSLocalizedString(@"button_title_untake", nil);
     } else {
         [RecordManager deleteRecord:[NSDate date]];
         type = @"takepill";
-        title = @"Untake";
+        title = NSLocalizedString(@"button_title_take", nil);
     }
     
     UIApplicationShortcutItem *item = [[UIApplicationShortcutItem alloc] initWithType:type localizedTitle:title];
@@ -120,7 +107,10 @@
     
     [OnlineConfigUtil update];
     
-    [ReminderManager resetNotify];
+    if ([AppManager hasFirstSetDone]) {
+        [ReminderManager resetNotify];
+    }
+    
     /*
     for (UILocalNotification *notify in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
         NSLog(@"%@", notify.fireDate.description);

@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-static NSString *FinishSettingNotification = @"FinishSettingNotification";
+static NSString *SettingChangedNotification = @"SettingChangedNotification";
 
 @interface SettingViewController : BaseViewController
 

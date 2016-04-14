@@ -17,15 +17,16 @@
 "button_title_legend"="Legend";
 "button_title_today"="Today";
 
-"button_title_take"="Take";
-"button_title_untake"="Untake";
 
 "button_title_back"="Back";
 "button_title_close"="Close";
 "button_title_cancel"="Cancel";
+"button_title_confirm"="Confirm";
 "button_title_save"="Save";
 "button_title_view"="View";
 "button_title_done"="Done";
+"button_title_take"="Take";
+"button_title_untake"="Untake";
 
 "setting_module_schedule"="Schedule";
 "setting_module_reminders"="Reminders";
@@ -46,6 +47,8 @@
 
 
 "reminder_default_alertbody"="Please take your contraceptive pill~";
+
+
 
 
 "help_take_pill"="Tap to take pill, tap again to untake it";
@@ -69,6 +72,12 @@
 "weekday_sat"="SAT";
 "weekday_sun"="SUN";
 
+"date_unit_year"="Year";
+"date_unit_month"="Month";
+"date_unit_day"="Day";
+"date_unit_hour"="Hour";
+"date_unit_minute"="Minute";
+
 "month_january"="January";
 "month_february"="February";
 "month_march"="March";
@@ -82,12 +91,19 @@
 "month_november"="November";
 "month_december"="December";
 
-"pack_button_current_pack"="Today";
+"pack_button_current_pack"="Current pack";
 
 "pack_current_pack"="current pack";
 "pack_not_current_pack"="not current pack";
+"pack_in_future"="Pack in future";
 
 "message_missed"="Missed one";
 
 "message_day_info"="Today is %zi of %zi days";
+"message_day_confirm_setting"="Use %zi pill days + %zi %@ as your pill plan?";
 
+"business_breakdays"="break days";
+"business_placebo_pilldays"="placebo pill days";
+
+
+"alert_message_nohurry"="NO hurry to take this pill, it's not the day yet~";

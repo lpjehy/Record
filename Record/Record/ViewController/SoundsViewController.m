@@ -10,13 +10,20 @@
 
 #import "ReminderManager.h"
 
+#import "AudioManager.h"
+
 @interface SoundsViewController () <UITableViewDelegate, UITableViewDataSource> {
     UITableView *mainTableView;
+    
 }
+
+@property(nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 @end
 
 @implementation SoundsViewController
+
+@synthesize selectedIndexPath;
 
 - (void)createLayout {
     [self setNavigationBarTitle:@"Sounds"];
@@ -26,6 +33,7 @@
     mainTableView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
     mainTableView.delegate = self;
     mainTableView.dataSource = self;
+    
     [self.view addSubview:mainTableView];
 }
 
@@ -77,7 +85,15 @@
         
     }
     
-    cell.textLabel.text = [[ReminderManager getInstance].soundArray validObjectAtIndex:indexPath.row];
+    NSString *text = [[ReminderManager getInstance].soundArray validObjectAtIndex:indexPath.row];;
+    cell.textLabel.text = text;
+    
+    if ([text isEqualToString:[ReminderManager notificationSound]]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        self.selectedIndexPath = indexPath;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     
     return cell;
@@ -89,11 +105,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    [cell setSelected:NO animated:YES];
+    
+    cell = [tableView cellForRowAtIndexPath:selectedIndexPath];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    self.selectedIndexPath = indexPath;
+    
     NSArray *soundArray = [ReminderManager getInstance].soundArray;
     NSString *filename = [soundArray validObjectAtIndex:indexPath.row];
+    
+    [[AudioManager getInstance] playWithFilename:filename];
+      
+    
     [ReminderManager setNotificationSound:filename];
     
-    [[ReminderManager getInstance] playAudio:filename];
 }
 
 

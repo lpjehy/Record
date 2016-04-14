@@ -10,7 +10,7 @@
 			<key>UIApplicationShortcutItemType</key>
 			<string>takepill</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Take</string>
+			<string>服用</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

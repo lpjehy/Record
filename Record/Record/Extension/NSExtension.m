@@ -163,6 +163,18 @@
     return [NSString stringWithFormat:@"%04d-%02d-%02d", (int)self.year, (int)self.month, (int)self.day];
 }
 
+- (BOOL)isToday {
+    NSDateComponents *today = [NSDate date].components;
+    
+    BOOL isToday = NO;
+    
+    if (self.year == today.year && self.month == today.month && self.day == today.day) {
+        isToday = YES;
+    }
+    
+    return isToday;
+}
+
 
 + (NSString *)dateKeyWithDescription:(NSString *)description
 {

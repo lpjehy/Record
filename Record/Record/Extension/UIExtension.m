@@ -240,7 +240,7 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:delegate
-                                              cancelButtonTitle:@"确定"
+                                              cancelButtonTitle:NSLocalizedString(@"button_title_confirm", nil)
                                               otherButtonTitles:nil];
     [alertView show];
  

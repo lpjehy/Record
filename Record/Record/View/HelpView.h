@@ -10,7 +10,6 @@
 
 @interface HelpView : UIButton
 
-+ (HelpView *)getInstance;
 
 + (BOOL)PackHelpHasShowed;
 + (BOOL)CalendarHelpHasShowed;

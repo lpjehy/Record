@@ -28,4 +28,6 @@
 + (void)setFirstTakeByReminder;
 + (void)setFirstOpeningByReminder:(BOOL)is;
 
+
+
 @end

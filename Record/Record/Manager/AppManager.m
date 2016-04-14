@@ -8,6 +8,7 @@
 
 #import "AppManager.h"
 
+#import "RecordManager.h"
 
 static NSString *MarkFirstOpenedKey = @"MarkFirstOpened";
 static NSString *MarkFirstSetDoneKey = @"MarkFirstSetDone";
@@ -84,5 +85,6 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
     [[NSUserDefaults standardUserDefaults] setBool:is forKey:MarkIsFirstOpeningByReminderKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 
 @end

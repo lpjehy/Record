@@ -46,6 +46,17 @@ static NSMutableDictionary *recordDic = nil;
         [AnalyticsUtil event:Event_First_Take_By_Reminder];
     }
     
+    if (DeviceSystemVersion > 9.0 && date.components.isToday) {
+        NSString *type = nil;
+        NSString *title = nil;
+        type = @"untakepill";
+        title = NSLocalizedString(@"button_title_untake", nil);
+        
+        UIApplicationShortcutItem *item = [[UIApplicationShortcutItem alloc] initWithType:type localizedTitle:title];
+        // 将标签添加进Application的shortcutItems中。
+        [UIApplication sharedApplication].shortcutItems = @[item];
+    }
+    
 }
 
 + (NSString *)selectRecord:(NSDate *)date {
@@ -85,6 +96,18 @@ static NSMutableDictionary *recordDic = nil;
     [recordDic removeObjectForKey:today];
     
     [[SqlUtil getInstance] execSql:[NSString stringWithFormat:SQL_DELETE_RECORD, starttime, endtime]];
+    
+    
+    if (DeviceSystemVersion > 9.0 && date.components.isToday) {
+        NSString *type = nil;
+        NSString *title = nil;
+        type = @"takepill";
+        title = NSLocalizedString(@"button_title_take", nil);
+        
+        UIApplicationShortcutItem *item = [[UIApplicationShortcutItem alloc] initWithType:type localizedTitle:title];
+        // 将标签添加进Application的shortcutItems中。
+        [UIApplication sharedApplication].shortcutItems = @[item];
+    }
 }
 
 @end

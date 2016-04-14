@@ -38,6 +38,7 @@
 		9910AFDF1CB0D721006DF5F1 /* yoho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCE1CB0D721006DF5F1 /* yoho.mp3 */; };
 		9910AFE11CB2080E006DF5F1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFE31CB2080E006DF5F1 /* Info.plist */; };
 		991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 991163BB1CA9733C0068F9A6 /* SoundsViewController.m */; };
+		99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99152ACC1CB95EDE00AD7D69 /* AudioManager.m */; };
 		9923080F1CA6A73A00BA6994 /* CalendarMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */; };
 		992308121CA6A76600BA6994 /* LegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 992308111CA6A76600BA6994 /* LegendView.m */; };
 		992B579C1C9EE4CC00C96C55 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 992B57921C9EE4CC00C96C55 /* FMDatabase.m */; };
@@ -72,7 +73,6 @@
 		99D90FCB1C886B5300B1617D /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FCA1C886B5300B1617D /* SettingViewController.m */; };
 		99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FCE1C886F0F00B1617D /* SqlUtil.m */; };
 		99D90FD11C887A2700B1617D /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 99D90FD01C887A2700B1617D /* libsqlite3.0.tbd */; };
-		99D90FD41C88834200B1617D /* NotifyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FD31C88834200B1617D /* NotifyUtil.m */; };
 		99F564621C9E811B005806A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99F564641C9E811B005806A8 /* InfoPlist.strings */; };
 		99F564681C9E81FC005806A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99F5646A1C9E81FC005806A8 /* Localizable.strings */; };
 		99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F5646D1C9E897C005806A8 /* SettingItem.m */; };
@@ -125,6 +125,8 @@
 		9910AFE91CB21501006DF5F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/Info.plist"; sourceTree = "<group>"; };
 		991163BA1CA9733C0068F9A6 /* SoundsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundsViewController.h; path = ViewController/SoundsViewController.h; sourceTree = "<group>"; };
 		991163BB1CA9733C0068F9A6 /* SoundsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundsViewController.m; path = ViewController/SoundsViewController.m; sourceTree = "<group>"; };
+		99152ACB1CB95EDE00AD7D69 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = Manager/AudioManager.h; sourceTree = "<group>"; };
+		99152ACC1CB95EDE00AD7D69 /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioManager.m; path = Manager/AudioManager.m; sourceTree = "<group>"; };
 		9923080D1CA6A73A00BA6994 /* CalendarMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarMenuView.h; path = View/CalendarMenuView.h; sourceTree = "<group>"; };
 		9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarMenuView.m; path = View/CalendarMenuView.m; sourceTree = "<group>"; };
 		992308101CA6A76600BA6994 /* LegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegendView.h; path = View/LegendView.h; sourceTree = "<group>"; };
@@ -192,8 +194,6 @@
 		99D90FCD1C886F0F00B1617D /* SqlUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlUtil.h; sourceTree = "<group>"; };
 		99D90FCE1C886F0F00B1617D /* SqlUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqlUtil.m; sourceTree = "<group>"; };
 		99D90FD01C887A2700B1617D /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
-		99D90FD21C88834200B1617D /* NotifyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotifyUtil.h; path = Util/NotifyUtil.h; sourceTree = "<group>"; };
-		99D90FD31C88834200B1617D /* NotifyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotifyUtil.m; path = Util/NotifyUtil.m; sourceTree = "<group>"; };
 		99F564651C9E811E005806A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		99F564691C9E81FC005806A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		99F5646C1C9E897C005806A8 /* SettingItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingItem.h; path = Data/SettingItem.h; sourceTree = "<group>"; };
@@ -287,6 +287,8 @@
 				9909550E1C85D76F00797FFF /* AppManager.h */,
 				9909550F1C85D76F00797FFF /* AppManager.m */,
 				999FADFA1C8C124A0083C6B0 /* MessageManager.h */,
+				99152ACB1CB95EDE00AD7D69 /* AudioManager.h */,
+				99152ACC1CB95EDE00AD7D69 /* AudioManager.m */,
 				999FADFB1C8C124A0083C6B0 /* MessageManager.m */,
 				999FADF31C8C03E70083C6B0 /* RecordManager.h */,
 				999FADF41C8C03E70083C6B0 /* RecordManager.m */,
@@ -438,8 +440,6 @@
 			children = (
 				999FAE221C8C346C0083C6B0 /* AnalyticsUtil.h */,
 				999FAE231C8C346C0083C6B0 /* AnalyticsUtil.m */,
-				99D90FD21C88834200B1617D /* NotifyUtil.h */,
-				99D90FD31C88834200B1617D /* NotifyUtil.m */,
 				993D5A261C906A2E004A42CE /* OnlineConfigUtil.h */,
 				993D5A271C906A2E004A42CE /* OnlineConfigUtil.m */,
 				99D90FCD1C886F0F00B1617D /* SqlUtil.h */,
@@ -583,7 +583,6 @@
 				996004CB1C95B1DE001EFD89 /* StartView.m in Sources */,
 				996004B81C944659001EFD89 /* UrlUtil.m in Sources */,
 				999FADFC1C8C124A0083C6B0 /* MessageManager.m in Sources */,
-				99D90FD41C88834200B1617D /* NotifyUtil.m in Sources */,
 				990954FF1C85D5C300797FFF /* Record.xcdatamodeld in Sources */,
 				99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */,
 				990955201C85E47800797FFF /* HelpView.m in Sources */,
@@ -595,6 +594,7 @@
 				990955191C85D77A00797FFF /* UIExtension.m in Sources */,
 				992B57A01C9EE4CC00C96C55 /* FMResultSet.m in Sources */,
 				990955181C85D77A00797FFF /* NSExtension.m in Sources */,
+				99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */,
 				990955101C85D76F00797FFF /* AppManager.m in Sources */,
 				996004C51C954C2D001EFD89 /* MessageViewDelegate.m in Sources */,
 				991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */,

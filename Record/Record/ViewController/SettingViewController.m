@@ -18,6 +18,8 @@
 #import "WebViewController.h"
 #import "SoundsViewController.h"
 
+@import GoogleMobileAds;
+
 #import "SettingItem.h"
 
 typedef NS_ENUM(NSInteger, PickerType) {
@@ -37,9 +39,20 @@ typedef NS_ENUM(NSInteger, PickerType) {
     
     NSMutableArray *moduleArray;
     NSMutableDictionary *moduleDic;
+    
+    
+    
 }
 
 @property(nonatomic, strong) NSString *appID;
+
+@property(nonatomic, strong) NSString *initialPillsDay;
+@property(nonatomic, strong) NSString *initialBreakDay;
+@property(nonatomic, strong) NSString *initialStartDate;
+
+@property(nonatomic, strong) NSString *finalPillsDay;
+@property(nonatomic, strong) NSString *finalBreakDay;
+@property(nonatomic, strong) NSString *finalStartDate;
 
 @end
 
@@ -59,6 +72,10 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 @implementation SettingViewController
 
 @synthesize appID;
+
+@synthesize initialPillsDay, initialBreakDay, initialStartDate;
+@synthesize finalPillsDay, finalBreakDay, finalStartDate;
+
 
 - (id)init {
     self = [super init];
@@ -98,21 +115,33 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.enable = YES;
     [array addObject:item];
     
+    if (initialPillsDay == nil) {
+        self.initialPillsDay = item.textValue;
+    }
+    
+    self.finalPillsDay = item.textValue;
+    
     item = [[SettingItem alloc] init];
     item.item = Setting_Item_BreakDays;
     item.type = SettingTypeText;
     
-    NSInteger braekDay = [ScheduleManager breakDays];
-    item.textValue = [NSString stringWithFormat:@"%zi %@", braekDay, NSLocalizedString(@"day", nil)];;
+    NSInteger breakDay = [ScheduleManager breakDays];
+    item.textValue = [NSString stringWithFormat:@"%zi %@", breakDay, NSLocalizedString(@"day", nil)];;
     item.enable = YES;
     [array addObject:item];
+    
+    if (initialBreakDay == nil) {
+        self.initialBreakDay = item.textValue;
+    }
+    
+    self.finalBreakDay = item.textValue;
     
     item = [[SettingItem alloc] init];
     item.item = Setting_Item_TakePlaceboPills;
     item.type = SettingTypeSwitch;
     BOOL takePlaceboPills = [ScheduleManager takePlaceboPills];
     item.boolValue = takePlaceboPills;
-    item.enable = !isEveryDay;
+    item.enable = !isEveryDay && breakDay != 0;
     [array addObject:item];
     
     
@@ -127,6 +156,12 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.textValue = textValue;
     item.enable = YES;
     [array addObject:item];
+    
+    if (initialStartDate == nil) {
+        self.initialStartDate = item.textValue;
+    }
+    
+    self.finalStartDate = item.textValue;
     
     [moduleArray addObject:@"setting_module_schedule"];
     [moduleDic setValue:array forKey:@"setting_module_schedule"];
@@ -205,7 +240,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (void)finishSetting {
     [self dismiss];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:FinishSettingNotification object:nil];
+    
 }
 
 - (void)doneButtonPressed {
@@ -215,7 +250,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.24];
-    numberPickerView.originY = ScreenHeight;
+    numberPickerView.originY = ScreenHeight + 32;
     
     [UIView commitAnimations];
 }
@@ -228,16 +263,17 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     [numberPickerView reloadAllComponents];
     
     if (currentPickerType == PickerTypePillDays) {
-        [numberPickerView selectRow:[ScheduleManager pillDays] - 1 inComponent:0 animated:NO];
+        [numberPickerView selectRow:[ScheduleManager pillDays] - 5 inComponent:0 animated:NO];
     } else if (currentPickerType == PickerTypeBreakDays) {
-        [numberPickerView selectRow:[ScheduleManager breakDays] - 1 inComponent:0 animated:NO];
+        [numberPickerView selectRow:[ScheduleManager breakDays] inComponent:0 animated:NO];
     } else if (currentPickerType == PickerTypeStartDate) {
         NSDate *date = [ScheduleManager startDate];
         NSDateComponents *components = date.components;
         
-        [numberPickerView selectRow:components.year - 2000 inComponent:0 animated:NO];
-        [numberPickerView selectRow:components.month - 1 inComponent:1 animated:NO];
-        [numberPickerView selectRow:components.day - 1 inComponent:2 animated:NO];
+        
+        [numberPickerView selectRow:components.month - 1 inComponent:0 animated:NO];
+        [numberPickerView selectRow:components.day - 1 inComponent:1 animated:NO];
+        [numberPickerView selectRow:components.year - 2000 inComponent:2 animated:NO];
     } else if (currentPickerType == PickerTypeNotifyTime) {
         NSDate *date = [ReminderManager notificationTime];
         NSDateComponents *components = date.components;
@@ -268,32 +304,55 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         numberPickerView.delegate = self;
         numberPickerView.dataSource = self;
         numberPickerView.backgroundColor = [UIColor whiteColor];
-        
+        numberPickerView.clipsToBounds = NO;
         [self.view addSubview:numberPickerView];
         
+        
+        UIButton *button = [[UIButton alloc] init];
+        
+        button.backgroundColor = [UIColor whiteColor];
+        [button addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        button.frame = CGRectMake(0, -32, ScreenWidth, 44);
+        [numberPickerView addSubview:button];
+        
+        UILabel *cancelLabel = [[UILabel alloc] init];
+        cancelLabel.text = NSLocalizedString(@"button_title_cancel", nil);
+        cancelLabel.frame = CGRectMake(10, 0, 128, 44);
+        [button addSubview:cancelLabel];
+        
+        UILabel *confirmLabel = [[UILabel alloc] init];
+        confirmLabel.text = NSLocalizedString(@"button_title_done", nil);
+        confirmLabel.frame = CGRectMake(ScreenWidth - 138, 0, 128, 44);
+        confirmLabel.textAlignment = NSTextAlignmentRight;
+        [button addSubview:confirmLabel];
     }
 }
 
 - (void)closeButtonPressed {
-    if ([AppManager hasFirstSetDone]) {
+    
+    BOOL nochange = [initialPillsDay isEqualToString:finalPillsDay]
+    && [initialBreakDay isEqualToString:finalBreakDay]
+    && [initialStartDate isEqualToString:finalStartDate];
+    
+    if ([AppManager hasFirstSetDone] && nochange) {
         
         [self finishSetting];
     } else {
         [AppManager setFirstSetDone];
         
         
-        NSString *text = @"break days";
+        NSString *text = NSLocalizedString(@"business_breakdays", nil);
         if ([ScheduleManager takePlaceboPills]) {
-            text = @"placebo pills";
+            text = NSLocalizedString(@"business_placebo_pilldays", nil);
         }
         
-        NSString *message = [NSString stringWithFormat:@"Use %zi pill + %zi %@ as your contracptive pill plan", [ScheduleManager pillDays], [ScheduleManager breakDays], text];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"message_day_confirm_setting", nil), [ScheduleManager pillDays], [ScheduleManager breakDays], text];
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                             message:message
                                                            delegate:self
-                                                  cancelButtonTitle:@"确定"
-                                                  otherButtonTitles:@"取消", nil];
+                                                  cancelButtonTitle:NSLocalizedString(@"button_title_confirm", nil)
+                                                  otherButtonTitles:NSLocalizedString(@"button_title_cancel", nil), nil];
         [alertView show];
     }
 }
@@ -323,9 +382,25 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     self.view.backgroundColor = [UIColor colorWithWhite:68 / 255.0 alpha:1];
     
+    CGFloat currentY = 64;
+    
+    if ([AppManager hasFirstSetDone]) {
+        GADBannerView *bannerView = [[GADBannerView alloc] init];
+        bannerView.backgroundColor = [UIColor blackColor];
+        bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+        bannerView.rootViewController = self;
+        [bannerView loadRequest:[GADRequest request]];
+        bannerView.frame = CGRectMake(0, 64, ScreenWidth, 64);
+        [self.view addSubview:bannerView];
+        
+        currentY += 64;
+    }
+    
+    
+    
     mainTableView = [[UITableView alloc] init];
     mainTableView.backgroundColor = [UIColor clearColor];
-    mainTableView.frame = CGRectMake(0, 64, ScreenWidth, ScreenHeight - 64);
+    mainTableView.frame = CGRectMake(0, currentY, ScreenWidth, ScreenHeight - currentY);
     mainTableView.delegate = self;
     mainTableView.dataSource = self;
     mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -335,6 +410,11 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (![AppManager hasFirstSetDone]) {
+        
+        [ReminderManager setShouldRmind:YES];
+    }
     
     
     [self createLayout];
@@ -409,18 +489,19 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     NSInteger number = 0;
     if (currentPickerType == PickerTypePillDays) {
-        number = MaxPillDays;
+        number = MaxPillDays - 4;
     } else if (currentPickerType == PickerTypeBreakDays) {
-        number = MaxBreakDays;
+        number = MaxBreakDays + 1;
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 0) {
-            number = 100;
-        } else if (component == 1) {
+            
             number = 12;
+        } else if (component == 1) {
+            
+            NSDateComponents *date = [ScheduleManager startDate].components;
+            number = [NSDateComponents numberOfDaysInMonth:date.month year:date.year];
         } else {
-            NSInteger month = [pickerView selectedRowInComponent:1] + 1;
-            NSInteger year = [pickerView selectedRowInComponent:0] + 2000;
-            number = [NSDateComponents numberOfDaysInMonth:month year:year];
+            number = 100;
         }
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
@@ -438,22 +519,28 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
     NSString *title = nil;
-    if (currentPickerType == PickerTypePillDays || currentPickerType == PickerTypeBreakDays) {
-        title = [NSString stringWithInteger:row + 1];
+    if (currentPickerType == PickerTypePillDays) {
+        title = [NSString stringWithInteger:row + 5];
+        
+    } else if (currentPickerType == PickerTypeBreakDays) {
+        title = [NSString stringWithInteger:row];
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 0) {
-            title = [NSString stringWithFormat:@"%zi年", row + 2000];
+            
+            title = [NSString stringWithFormat:@"%zi %@", row + 1, NSLocalizedString(@"date_unit_month", nil)];
         } else if (component == 1) {
-            title = [NSString stringWithFormat:@"%zi月", row + 1];
+            
+            
+            title = [NSString stringWithFormat:@"%zi %@", row + 1, NSLocalizedString(@"date_unit_day", nil)];
         } else {
-            title = [NSString stringWithFormat:@"%zi日", row + 1];
+            title = [NSString stringWithFormat:@"%zi %@", row + 2000, NSLocalizedString(@"date_unit_year", nil)];
         }
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
         if (component == 0) {
-            title = [NSString stringWithFormat:@"%zi时", row];
+            title = [NSString stringWithFormat:@"%zi %@", row, NSLocalizedString(@"date_unit_hour", nil)];
         } else if (component == 1) {
-            title = [NSString stringWithFormat:@"%zi分", row];
+            title = [NSString stringWithFormat:@"%zi %@", row, NSLocalizedString(@"date_unit_minute", nil)];
         }
         
     }
@@ -464,16 +551,16 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
     if (currentPickerType == PickerTypePillDays) {
-        [ScheduleManager setPillDays:row + 1];
+        [ScheduleManager setPillDays:row + 5];
         
     } else if (currentPickerType == PickerTypeBreakDays) {
-        [ScheduleManager setSafeDays:row + 1];
+        [ScheduleManager setSafeDays:row];
         
         
     } else if (currentPickerType == PickerTypeStartDate) {
-        NSInteger year = [pickerView selectedRowInComponent:0] + 2000;
-        NSInteger month = [pickerView selectedRowInComponent:1] + 1;
-        NSInteger day = [pickerView selectedRowInComponent:2] + 1;
+        NSInteger year = [pickerView selectedRowInComponent:2] + 2000;
+        NSInteger month = [pickerView selectedRowInComponent:0] + 1;
+        NSInteger day = [pickerView selectedRowInComponent:1] + 1;
         
         NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
         
@@ -621,8 +708,10 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]) {
+    if ([buttonTitle isEqualToString:NSLocalizedString(@"button_title_confirm", nil)]) {
         [self finishSetting];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:SettingChangedNotification object:nil];
     }
 }
 

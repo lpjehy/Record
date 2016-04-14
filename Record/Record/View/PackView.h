@@ -10,7 +10,7 @@
 
 static NSString * PackCollectionViewCellIdentifier = @"PackCollectionViewCellIdentifier";
 
-
+static NSInteger const MaxDaysOfPack = 28;
 
 
 @interface PackView : UIView

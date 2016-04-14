@@ -7,9 +7,7 @@
 //
 
 #import "AdManager.h"
-@import GoogleMobileAds;
 
-#import "NotifyUtil.h"
 
 @implementation AdManager
 

@@ -53,7 +53,7 @@
     [self addSubview:titleLabel];
     
     markImageView = [[UIImageView alloc] init];
-    markImageView.frame = CGRectMake(self.width - 12, 2, 10, 10);
+    markImageView.frame = CGRectMake(self.width - 15, 2, 12, 12);
     [self addSubview:markImageView];
     
     
@@ -71,6 +71,7 @@
     }
     
     if (!isStarted) {
+        markImageView.image = nil;
         return;
     }
     
@@ -136,6 +137,7 @@
         
         NSDateComponents *startDay = [ScheduleManager getInstance].startDay;
         if ([day isEarlier:startDay]) {
+            isStarted = NO;
             return;
         }
         

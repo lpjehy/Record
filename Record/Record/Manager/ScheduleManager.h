@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-static NSInteger MaxPillDays = 48;
-static NSInteger MaxBreakDays = 8;
+static NSInteger MaxPillDays = 98;
+static NSInteger MaxBreakDays = 98;
 
 @interface ScheduleManager : NSObject
 

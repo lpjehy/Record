@@ -84,7 +84,12 @@
     if (valueSwitch == nil) {
         valueSwitch = [[UISwitch alloc] init];
         [valueSwitch addTarget:self action:@selector(switchAction) forControlEvents:UIControlEventValueChanged];
-        valueSwitch.frame = CGRectMake(ScreenWidth - 64, 6, 40, 32);
+        if (ISPad) {
+            valueSwitch.frame = CGRectMake(ScreenWidth - 96, 6, 40, 32);
+        } else {
+            valueSwitch.frame = CGRectMake(ScreenWidth - 64, 6, 40, 32);
+        }
+        
         [self.contentView addSubview:valueSwitch];
     }
 }
@@ -119,7 +124,13 @@
             
         }
         
-        valueLabel.originX = ScreenWidth - 28 - textWidth;
+        if (ISPad) {
+            valueLabel.originX = ScreenWidth - 64 - textWidth;
+        } else {
+            valueLabel.originX = ScreenWidth - 28 - textWidth;
+        }
+        
+        
         valueLabel.width = textWidth;
     }
     

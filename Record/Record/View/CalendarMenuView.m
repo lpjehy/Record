@@ -36,26 +36,26 @@
     return instance;
 }
 
-- (void)showInView:(CalendarDayButton *)cell {
+- (void)showInView:(CalendarDayButton *)button {
     [self.superview bringSubviewToFront:self];
     self.hidden = NO;
     
-    self.theCell = cell;
-    NSString *title = @"take";
-    if (cell.isTaken) {
-        title = @"untake";
+    self.theCell = button;
+    NSString *title = NSLocalizedString(@"button_title_take", nil);
+    if (button.isTaken) {
+        title = NSLocalizedString(@"button_title_untake", nil);
     }
     
     [takeButton setTitle:title forState:UIControlStateNormal];
     
-    UIScrollView *superView = (UIScrollView *)cell.superview;
-    CGFloat centerX = cell.center.x + 32;
-    if (centerX >= ScreenWidth - cell.width / 2) {
-        centerX = ScreenWidth - cell.width;
+    UIScrollView *superView = (UIScrollView *)button.superview;
+    CGFloat centerX = button.center.x + 32;
+    if (centerX >= ScreenWidth - button.width / 2) {
+        centerX = ScreenWidth - button.width;
     }
     
     
-    CGPoint center = CGPointMake(centerX, cell.center.y - superView.contentOffset.y + 32 + 100);
+    CGPoint center = CGPointMake(centerX, button.center.y - superView.contentOffset.y + 32 + superView.originY);
     
     
     
@@ -68,28 +68,28 @@
         self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
         
         backView = [[UIView alloc] init];
-        backView.frame = CGRectMake(0, 0, 64, 64);
+        backView.frame = CGRectMake(0, 0, 75, 80);
         backView.layer.cornerRadius = 5;
         backView.backgroundColor = [UIColor whiteColor];
         [self addSubview:backView];
         
         takeButton = [[UIButton alloc] init];
-        takeButton.frame = CGRectMake(0, 0, backView.width, 32);
-        takeButton.titleLabel.font = FontSmall;
+        takeButton.frame = CGRectMake(0, 0, backView.width, 40);
+        takeButton.titleLabel.font = FontNormal;
         [takeButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
         [takeButton addTarget:self action:@selector(takeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:takeButton];
         
         UIView *lineView = [[UIView alloc] init];
         lineView.backgroundColor = ColorGrayDark;
-        lineView.frame = CGRectMake(0, 32, backView.width, 0.5);
+        lineView.frame = CGRectMake(0, 40, backView.width, 0.5);
         
         [backView addSubview:lineView];
         
         cancelButton = [[UIButton alloc] init];
-        cancelButton.frame = CGRectMake(0, 32, backView.width, 32);
-        cancelButton.titleLabel.font = FontSmall;
-        [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        cancelButton.frame = CGRectMake(0, 40, backView.width, 40);
+        cancelButton.titleLabel.font = FontNormal;
+        [cancelButton setTitle:NSLocalizedString(@"button_title_cancel", nil) forState:UIControlStateNormal];
         [cancelButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
         [cancelButton addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:cancelButton];

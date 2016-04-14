@@ -141,7 +141,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
     
     NSString *time = [[NSUserDefaults standardUserDefaults] valueForKey:NotificationTimeKey];
     if (time == nil) {
-        date = [NSDate date];
+        date = [NSDate dateWithTimeIntervalSinceNow:-10];
         
         time = [date stringWithFormat:@"HH:mm"];
         [ReminderManager setNotificationTime:time];
@@ -263,36 +263,5 @@ static NSString *NotificationSoundKey = @"NotificationSound";
     
 }
 
-
-- (void)playAudio:(NSString *)filename {
-    static NSMutableDictionary *soundIDDic = nil;
-    if (soundIDDic == nil) {
-        soundIDDic = [[NSMutableDictionary alloc] init];
-    }
-    
-    NSNumber *soundIdNum = [soundIDDic validObjectForKey:filename];
-    if (soundIdNum == nil) {
-        SystemSoundID soundid = 0;
-        
-        if ([filename isEqualToString:UILocalNotificationDefaultSoundName]) {
-            soundid = 1002;
-        } else {
-            CFStringRef strRef = (__bridge CFStringRef)filename;
-            
-            
-            CFURLRef audioFileURLRef = CFBundleCopyResourceURL(CFBundleGetMainBundle(), strRef, CFSTR("mp3"), NULL);
-            AudioServicesCreateSystemSoundID(audioFileURLRef, &soundid);
-            CFRelease(audioFileURLRef);
-        }
-        
-        
-        
-        soundIdNum = [NSNumber numberWithUnsignedInteger:soundid];
-        
-        [soundIDDic setValue:soundIdNum forKey:filename];
-    }
-    
-    AudioServicesPlaySystemSound(soundIdNum.unsignedIntValue);
-}
 
 @end

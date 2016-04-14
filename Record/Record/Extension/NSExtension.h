@@ -68,7 +68,7 @@
 - (NSString *)dateDescription;
 - (NSString *)dateKey;
 
-
+- (BOOL)isToday;
 
 + (NSString *)dateKeyWithDescription:(NSString *)description;
 

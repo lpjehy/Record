@@ -24,22 +24,11 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
 @implementation HelpView
 
 
-+ (HelpView *)getInstance {
-    static HelpView *instance = nil;
-    if (instance == nil) {
-        instance = [[HelpView alloc] init];
-        
-    }
-    
-    return instance;
-}
 
 - (void)initView {
     self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
     self.hidden = YES;
     self.backgroundColor = ColorTranslucenceDark;
-    [KEY_WINDOW addSubview:self];
-    
     
     UIImageView *closeImageView = [[UIImageView alloc] init];
     closeImageView.frame = CGRectMake(ScreenWidth - 64, 12, 48, 48);
@@ -96,6 +85,8 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
 - (void)showPackHelp {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:HelpPackViewHasShowedKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self.superview bringSubviewToFront:self];
     
     self.hidden = NO;
     

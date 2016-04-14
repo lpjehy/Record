@@ -11,9 +11,7 @@
 
 #import "AdManager.h"
 
-#import "HelpView.h"
 
-#import "NotifyUtil.h"
 #import "LegendView.h"
 
 #import "RecordManager.h"
@@ -49,6 +47,8 @@ static NSInteger ScrollViewTagPack = 1;
 
 @interface MainViewController () <UIScrollViewDelegate> {
     
+    HelpView *helpView;
+    
     UIScrollView *baseScrollView;
     
     UILabel *monthLabel;
@@ -58,8 +58,10 @@ static NSInteger ScrollViewTagPack = 1;
     UIScrollView *packScrollView;
     
     NSInteger currentPage;
+    
+    
     NSInteger currentPack;
-    BOOL isPack2;
+    NSInteger currentSubPack;
     
     NSMutableArray *packViewArray;
     
@@ -94,9 +96,22 @@ static NSInteger ScrollViewTagPack = 1;
                                                  selector:@selector(calendarMonthChanged:)
                                                      name:CalendarMonthChangedNotification
                                                    object:nil];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(settingChanged)
+                                                     name:SettingChangedNotification
+                                                   object:nil];
+        
+        
+        
     }
     
     return self;
+}
+
+- (void)settingChanged {
+    [baseScrollView scrollToTop:NO];
 }
 
 - (void)calendarMonthChanged:(NSNotification *)notification {
@@ -113,9 +128,9 @@ static NSInteger ScrollViewTagPack = 1;
 
 - (void)helpButtonPressed {
     if (baseScrollView.contentOffset.y == 0) {
-        [[HelpView getInstance] showPackHelp];
+        [helpView showPackHelp];
     } else {
-        [[HelpView getInstance] showCalendarHelp];
+        [helpView showCalendarHelp];
     }
     
     
@@ -133,14 +148,16 @@ static NSInteger ScrollViewTagPack = 1;
         
         [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Packs.png"] forState:UIControlStateNormal];
         
+        if (![HelpView CalendarHelpHasShowed]) {
+            [helpView showCalendarHelp];
+        }
+        
     } else {
         [baseScrollView scrollToTop:YES];
         
         [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Calendar.png"] forState:UIControlStateNormal];
         
-        if (![HelpView CalendarHelpHasShowed]) {
-            [[HelpView getInstance] showCalendarHelp];
-        }
+        
     }
     
     
@@ -175,9 +192,7 @@ static NSInteger ScrollViewTagPack = 1;
 
 - (void)createPackLayout {
     
-    if (![HelpView PackHelpHasShowed]) {
-        [[HelpView getInstance] showPackHelp];
-    }
+    
     
     packViewArray = [[NSMutableArray alloc] init];
     
@@ -243,7 +258,9 @@ static NSInteger ScrollViewTagPack = 1;
     UIButton *legendButton = [[UIButton alloc] init];
     [legendButton setTitle:NSLocalizedString(@"button_title_legend", nil) forState:UIControlStateNormal];
     [legendButton setTitleColor:ColorGrayDark forState:UIControlStateNormal];
-    legendButton.frame = CGRectMake(10, 20, 64, 44);
+    legendButton.frame = CGRectMake(0, 20, 64, 44);
+    legendButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    legendButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [legendButton addTarget:self action:@selector(legendButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [calendarView addSubview:legendButton];
     
@@ -273,17 +290,15 @@ static NSInteger ScrollViewTagPack = 1;
     [calendarView addSubview:dateLabel];
     
     todayButton = [[UIButton alloc] init];
-    todayButton.frame = CGRectMake(ScreenWidth - 74, 20, 64, 44);
+    todayButton.frame = CGRectMake(ScreenWidth - 64, 20, 64, 44);
+    todayButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
     todayButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [todayButton addTarget:self action:@selector(todayButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [todayButton setTitle:NSLocalizedString(@"button_title_today", nil) forState:UIControlStateNormal];
     [calendarView addSubview:todayButton];
     
     
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = ColorGrayDark;
-    lineView.frame = CGRectMake(0, 64, ScreenWidth, 0.5);
-    [calendarView addSubview:lineView];
+    
     
     CGFloat size = ScreenWidth / 7;
     
@@ -297,6 +312,11 @@ static NSInteger ScrollViewTagPack = 1;
     
     CGFloat currentY = 64 + size;
     
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = ColorGrayDark;
+    lineView.frame = CGRectMake(0, currentY, ScreenWidth, 0.5);
+    [calendarView addSubview:lineView];
+    
     NSArray *weekdayArray = @[@7, @1, @2, @3, @4, @5, @6];
     
     for (int i = 0; i < 7; i++) {
@@ -308,19 +328,22 @@ static NSInteger ScrollViewTagPack = 1;
         weekdayLabel.text = [NSDateComponents textForWeekday:weekday];
         weekdayLabel.textAlignment = NSTextAlignmentCenter;
         [calendarView addSubview:weekdayLabel];
+        
+        if (i > 0) {
+            lineView = [[UIView alloc] init];
+            lineView.backgroundColor = ColorGrayDark;
+            lineView.frame = CGRectMake(size * i, currentY, 0.5, 35);
+            [calendarView addSubview:lineView];
+        }
     }
+    
+    
+    currentY += 35;
     
     lineView = [[UIView alloc] init];
     lineView.backgroundColor = ColorGrayDark;
-    lineView.frame = CGRectMake(0, 99.5, ScreenWidth, 0.5);
+    lineView.frame = CGRectMake(0, currentY, ScreenWidth, 0.5);
     [calendarView addSubview:lineView];
-    
-    for (int i = 1; i < 7; i++) {
-        lineView = [[UIView alloc] init];
-        lineView.backgroundColor = ColorGrayDark;
-        lineView.frame = CGRectMake(size * i, 64, 0.5, 35);
-        [calendarView addSubview:lineView];
-    }
     
     
     
@@ -332,19 +355,19 @@ static NSInteger ScrollViewTagPack = 1;
     [CalendarViewDelegate getInstance].thisScrollView = calendarScrollView;
     calendarScrollView.delegate = [CalendarViewDelegate getInstance];
     [calendarView addSubview:calendarScrollView];
-    calendarScrollView.frame = CGRectMake(0, 100, ScreenWidth, size * 5);
+    calendarScrollView.frame = CGRectMake(0, currentY, ScreenWidth, size * 5);
     
     for (int i = 1; i < 7; i++) {
         UIView *lineView = [[UIView alloc] init];
         lineView.backgroundColor = ColorGrayDark;
-        lineView.frame = CGRectMake(size * i, 100, 0.5, calendarScrollView.height);
+        lineView.frame = CGRectMake(size * i, currentY, 0.5, calendarScrollView.height);
         
         [calendarView addSubview:lineView];
     }
     
     
     
-    currentY = calendarScrollView.height + 100;
+    currentY += calendarScrollView.height;
     
     lineView = [[UIView alloc] init];
     lineView.backgroundColor = ColorGrayDark;
@@ -374,6 +397,7 @@ static NSInteger ScrollViewTagPack = 1;
     
     baseScrollView = [[UIScrollView alloc] init];
     baseScrollView.pagingEnabled = YES;
+    baseScrollView.scrollEnabled = NO;
     baseScrollView.delegate = self;
     baseScrollView.showsVerticalScrollIndicator = NO;
     baseScrollView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 90);
@@ -412,9 +436,9 @@ static NSInteger ScrollViewTagPack = 1;
     
     [self.view addSubview:settingButton];
     
-    /*
-    
-     */
+    helpView = [[HelpView alloc] init];
+    helpView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    [self.view addSubview:helpView];
 
 }
 
@@ -452,10 +476,13 @@ static NSInteger ScrollViewTagPack = 1;
         [AppManager setFirstPackShowed];
     }
     
+    if ([AppManager hasFirstSetDone] && ![HelpView PackHelpHasShowed]) {
+        [helpView showPackHelp];
+    }
+    
     /**/
     BOOL hideAnimated = YES;
     [self.navigationController setNavigationBarHidden:YES animated:hideAnimated];
-    
     
     [self reloadPackData];
     [[CalendarViewDelegate getInstance] reloadData];
@@ -519,16 +546,15 @@ static NSInteger ScrollViewTagPack = 1;
         NSInteger page = (NSInteger)scrollView.contentOffset.x / (NSInteger)scrollView.width;
         
         NSInteger allNum = [ScheduleManager allDays];
-        isPack2 = NO;
-        if (allNum > 28) {
-            NSInteger r = page % 2;
-            currentPack = page / 2;
+        if (allNum > MaxDaysOfPack) {
+            NSInteger pageOfPack = allNum / MaxDaysOfPack + 1;
             
-            if (r == 1) {
-                isPack2 = YES;
-            }
+            currentSubPack = page % pageOfPack;
+            currentPack = page / pageOfPack;
+            
         } else {
             currentPack = page;
+            currentSubPack = 0;
         }
         
         if (currentPage != page) {
@@ -545,19 +571,7 @@ static NSInteger ScrollViewTagPack = 1;
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView.tag == ScrollViewTagBase) {
-        if (scrollView.contentOffset.y == 0) {
-            [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Calendar.png"] forState:UIControlStateNormal];
-            
-        } else {
-            
-            [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Packs.png"] forState:UIControlStateNormal];
-            
-
-            
-            if (![HelpView CalendarHelpHasShowed]) {
-                [[HelpView getInstance] showCalendarHelp];
-            }
-        }
+        
     } else if (scrollView.tag == ScrollViewTagPack) {
         
         
@@ -570,10 +584,8 @@ static NSInteger ScrollViewTagPack = 1;
             tipLabel.hidden = NO;
             rightButton.hidden = YES;
         } else {
-            NSInteger pack = currentPage + [ScheduleManager getInstance].currentPack;
-            NSString *firstMonth = [NSDateComponents descriptionOfMonth:[[ScheduleManager getInstance] dateInPack:pack day:0].components.month];
-            NSString *lastMonth = [NSDateComponents descriptionOfMonth:[[ScheduleManager getInstance] dateInPack:pack day:[ScheduleManager allDays] - 1].components.month];
-            monthLabel.text = [NSString stringWithFormat:@"%@ - %@", firstMonth, lastMonth];
+            
+            monthLabel.text = NSLocalizedString(@"pack_in_future", nil);
             
             tipLabel.hidden = YES;
             rightButton.hidden = NO;

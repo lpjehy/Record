@@ -36,6 +36,5 @@
 
 @property(nonatomic, readonly) NSArray *soundArray;
 
-- (void)playAudio:(NSString *)filename;
 
 @end

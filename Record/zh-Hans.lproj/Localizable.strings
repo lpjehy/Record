@@ -15,17 +15,16 @@
 "button_title_legend"="说明";
 "button_title_today"="今日";
 
-"button_title_take"="服用";
-"button_title_untake"="撤销";
-
 
 "button_title_back"="返回";
 "button_title_close"="关闭";
 "button_title_cancel"="取消";
+"button_title_confirm"="确定";
 "button_title_save"="保存";
 "button_title_view"="查看";
 "button_title_done"="完成";
-
+"button_title_take"="服用";
+"button_title_untake"="撤销";
 
 "setting_module_schedule"="服药计划";
 "setting_module_reminders"="提醒";
@@ -66,6 +65,12 @@
 "weekday_sat"="周六";
 "weekday_sun"="周日";
 
+"date_unit_year"="年";
+"date_unit_month"="月";
+"date_unit_day"="日";
+"date_unit_hour"="时";
+"date_unit_minute"="分";
+
 "month_january"="一月";
 "month_february"="二月";
 "month_march"="三月";
@@ -87,3 +92,11 @@
 "message_missed"="漏服";
 
 "message_day_info"="今日是 %zi / %zi 天";
+
+"message_day_confirm_setting"="使用 %zi 个用药日 + %zi 个%@ 作为您的用药计划？";
+
+"business_breakdays"="断药日";
+"business_placebo_pilldays"="安慰剂日";
+
+
+"alert_message_nohurry"="不要着急哦，还没到那天呢~";

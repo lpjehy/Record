@@ -8,7 +8,6 @@
 
 #import "PackView.h"
 
-#import "NotifyUtil.h"
 
 #import "ScheduleManager.h"
 #import "RecordManager.h"
@@ -16,7 +15,7 @@
 
 #import "PillButton.h"
 
-static NSInteger const MaxDaysOfPack = 28;
+
 
 @interface PackView(){
     
@@ -25,23 +24,29 @@ static NSInteger const MaxDaysOfPack = 28;
     UILabel *infoLabel;
     UILabel *daysLabel;
     
-    NSMutableArray *dateArray;
+    NSMutableArray *dateButtonArray;
     
     float itemHeight;
     
     NSInteger currentPack;
-    BOOL isPack2;
+    NSInteger currentSubPack;
+    
 }
+
+@property(nonatomic, strong) NSDateComponents *firstDate;
+@property(nonatomic, strong) NSDateComponents *lastDate;
+
 @end
 
 
 @implementation PackView
 
+@synthesize firstDate, lastDate;
 
 - (void)pilldayButtonPressed:(PillButton *)button {
     NSDate *date = button.day.theDate;
     if (!date.isEarlier) {
-        [UIAlertView showMessage:@"不要着急哦，还没到那天呢~"];
+        [UIAlertView showMessage:NSLocalizedString(@"alert_message_nohurry", nil)];
         return;
     }
     
@@ -82,8 +87,6 @@ static NSInteger const MaxDaysOfPack = 28;
 
 - (void)createDateView {
     
-    NSInteger allNum = 28;
-    
     float buttonWidth = backImageView.width * 120 / 640;
     float baseX = backImageView.originX + buttonWidth;
     float baseY = 48;
@@ -92,7 +95,7 @@ static NSInteger const MaxDaysOfPack = 28;
     }
     
     
-    for (int i = 0; i < allNum; i++) {
+    for (int i = 0; i < MaxDaysOfPack; i++) {
         
         
         
@@ -106,7 +109,7 @@ static NSInteger const MaxDaysOfPack = 28;
         
         [self addSubview:pilldayButton];
         
-        [dateArray addObject:pilldayButton];
+        [dateButtonArray addObject:pilldayButton];
     }
 }
 
@@ -135,7 +138,7 @@ static NSInteger const MaxDaysOfPack = 28;
     daysLabel.textAlignment = NSTextAlignmentRight;
     [self addSubview:daysLabel];
     
-    CGFloat backWidth = (self.width - 40);
+    CGFloat backWidth = (self.width - 20);
     CGFloat backHeight = backWidth * 900 / 640;
     
     backImageView = [[UIImageView alloc] init];
@@ -160,7 +163,7 @@ static NSInteger const MaxDaysOfPack = 28;
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        dateArray = [[NSMutableArray alloc] init];
+        dateButtonArray = [[NSMutableArray alloc] init];
         
         
     }
@@ -171,17 +174,15 @@ static NSInteger const MaxDaysOfPack = 28;
 - (void)resetInfo {
     if (currentPack == 0) {
         infoLabel.textColor = [UIColor whiteColor];
-        NSString *text = NSLocalizedString(@"pack_current_pack", nil);
-        if (isPack2) {
-            text = [text stringByAppendingString:@" - 2"];
-        }
         
-        infoLabel.text = text;
         
     } else {
-        infoLabel.textColor = [UIColor redColor];
-        infoLabel.text = NSLocalizedString(@"pack_not_current_pack", nil);
+        infoLabel.textColor = [UIColor colorWithR:160 g:12 b:17 a:1];
     }
+    
+    NSString *text = [NSString stringWithFormat:@"%zi.%zi-%zi.%zi", firstDate.month, firstDate.day, lastDate.month, lastDate.day];
+    
+    infoLabel.text = text;
 }
 
 - (void)resetDays {
@@ -197,35 +198,42 @@ static NSInteger const MaxDaysOfPack = 28;
     [self createLayout];
     
     
+    self.firstDate = nil;
+    self.lastDate = nil;
+    
     
     NSInteger pillDayNum = [ScheduleManager pillDays];
     NSInteger allNum = [ScheduleManager allDays];
-    isPack2 = NO;
+    
     if (allNum > MaxDaysOfPack) {
-        currentPack = self.tag / 2;
-        NSInteger r = self.tag % 2;
-        if (r == 1) {
-            isPack2 = YES;
-        }
+        NSInteger page = self.tag;
+        NSInteger pageOfPack = allNum / MaxDaysOfPack + 1;
+        
+        currentSubPack = page % pageOfPack;
+        currentPack = page / pageOfPack;
     } else {
         currentPack = self.tag;
+        currentSubPack = 0;
     }
     
     
-    [self resetInfo];
+    
     [self resetDays];
     
-    for (int i = 0; i < dateArray.count; i++) {
-        PillButton *button = [dateArray validObjectAtIndex:i];
+    for (int i = 0; i < dateButtonArray.count; i++) {
+        PillButton *button = [dateButtonArray validObjectAtIndex:i];
         
-        NSInteger day = i;
-        if (isPack2) {
-            day += MaxDaysOfPack;
-        }
+        NSInteger day = i + currentSubPack * MaxDaysOfPack;
+        
         NSDateComponents *components = [[ScheduleManager getInstance] dateInPack:currentPack day:day].components;
         if (components) {
             [button setDay:components];
             
+            if (firstDate == nil) {
+                self.firstDate = components;
+            }
+            
+            self.lastDate = components;
             
             if (day < pillDayNum) {
                 button.hidden = NO;
@@ -250,6 +258,8 @@ static NSInteger const MaxDaysOfPack = 28;
         }
         
     }
+    
+    [self resetInfo];
 }
 
 @end

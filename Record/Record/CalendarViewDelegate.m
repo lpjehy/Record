@@ -93,6 +93,7 @@ static CGFloat MaxHeight = 1024000;
     for (CalendarDayButton *button in thisScrollView.subviews) {
         if ([button isKindOfClass:[CalendarDayButton class]]) {
             button.day = button.day;
+            [button resetState];
         }
     }
     
@@ -140,8 +141,10 @@ static CGFloat MaxHeight = 1024000;
                     BOOL isSelected = components.year == selectedDay.year && components.month == selectedDay.month && components.day == selectedDay.day;
                     button.isSelected = isSelected;
                     
+                    if (isSelected) {
+                        seletedButton = button;
+                    }
                     
-                    seletedButton = button;
                 }
                 
                 if (r == 0) {
@@ -240,7 +243,7 @@ static CGFloat MaxHeight = 1024000;
 }
 
 - (NSDateComponents *)firstDayForMonth:(NSInteger)monthIndex {
-    NSLog(@"firstDayForMonth 1");
+    
     
     static NSMutableDictionary *firstDayForMonthDic = nil;
     if (firstDayForMonthDic == nil) {
@@ -271,15 +274,12 @@ static CGFloat MaxHeight = 1024000;
         [firstDayForMonthDic setValue:firstDay forKey:monthKey];
     }
     
-    
-    
-    NSLog(@"firstDayForMonth 2");
     return firstDay;
     
 }
 
 - (CGFloat)heightForMonth:(NSInteger)month {
-    NSLog(@"heightForMonth 1");
+    
     static NSMutableDictionary *numberOfItemsInSectionDic = nil;
     if (numberOfItemsInSectionDic == nil) {
         numberOfItemsInSectionDic = [[NSMutableDictionary alloc] init];
@@ -312,7 +312,7 @@ static CGFloat MaxHeight = 1024000;
         
         [numberOfItemsInSectionDic setValue:number forKey:key];
     }
-    NSLog(@"heightForMonth 2");
+    
     return number.integerValue / 7 * (ScreenWidth / 7);
 }
 
@@ -322,18 +322,16 @@ static CGFloat MaxHeight = 1024000;
         return;
     }
     if (button.isFuture) {
-        [UIAlertView showMessage:@"No hurry to take this pill, it's not the day yet!"];
+        [UIAlertView showMessage:NSLocalizedString(@"alert_message_nohurry", nil)];
         return;
     }
     self.selectedDay = button.day;
-    
     
     
     seletedButton.isSelected = NO;
     seletedButton = button;
     
     button.isSelected = YES;
-    
     
     if (!button.isPlacebo || [ScheduleManager takePlaceboPills] || [ScheduleManager isEveryday]) {
         [[CalendarMenuView getInstance] showInView:button];

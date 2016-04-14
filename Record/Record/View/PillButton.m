@@ -129,6 +129,8 @@
 - (void)resetState {
     
     if (isTaken) {
+        dayLabel.textColor = [UIColor whiteColor];
+        
         NSString *imagename = [NSString stringWithFormat:@"Pill_Taken_%zi.png", arc4random() % 4 + 1];
         pillImageView.image = [UIImage imageNamed:imagename];
         
@@ -139,8 +141,18 @@
             backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
         }
     } else {
-        if (isBreakDay && [ScheduleManager takePlaceboPills]) {
-            pillImageView.image = [UIImage imageNamed:@"Pill_Placebo.png"];
+        
+        dayLabel.textColor = [UIColor blackColor];
+        
+        if (isBreakDay) {
+            if ([ScheduleManager takePlaceboPills]) {
+                pillImageView.image = [UIImage imageNamed:@"Pill_Placebo.png"];
+                self.enabled = YES;
+            } else {
+                pillImageView.image = nil;
+                self.enabled = NO;
+            }
+            
         } else {
             pillImageView.image = [UIImage imageNamed:@"Pill_Untaken.png"];
         }
