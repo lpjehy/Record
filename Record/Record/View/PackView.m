@@ -126,6 +126,7 @@
     }
     
     infoLabel = [[UILabel alloc] init];
+    infoLabel.textColor = [UIColor whiteColor];
     infoLabel.frame = CGRectMake(baseX, baseY, self.width - baseX * 2, infoLabel.font.lineHeight);
     [self addSubview:infoLabel];
     
@@ -172,13 +173,7 @@
 
 
 - (void)resetInfo {
-    if (currentPack == 0) {
-        infoLabel.textColor = [UIColor whiteColor];
-        
-        
-    } else {
-        infoLabel.textColor = [UIColor colorWithR:160 g:12 b:17 a:1];
-    }
+    
     
     NSString *text = [NSString stringWithFormat:@"%zi.%zi-%zi.%zi", firstDate.month, firstDate.day, lastDate.month, lastDate.day];
     

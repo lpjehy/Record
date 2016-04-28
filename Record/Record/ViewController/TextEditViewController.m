@@ -24,7 +24,7 @@
     self = [super init];
     if (self) {
         //键盘高度监听
-        [[NSNotificationCenter defaultCenter] addObserver:self
+        [NotificationCenter addObserver:self
                                                  selector:@selector(keyboardWillAppear:)
                                                      name:UIKeyboardWillShowNotification
                                                    object:nil];
@@ -37,7 +37,7 @@
 
 - (void)dealloc {
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [NotificationCenter removeObserver:self];
     
 }
 

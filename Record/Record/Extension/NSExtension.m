@@ -385,6 +385,10 @@
     return [NSString stringWithFormat:@"%zi-%02zi-%02zi %02zi:%02zi:%02zi.0", self.year, self.month, self.day, self.hour, self.minute, self.second].date;
 }
 
+- (NSString *)theDay {
+    return [NSString stringWithFormat:@"%zi-%02zi-%02zi", self.year, self.month, self.day];
+}
+
 + (NSInteger)numberOfDaysInMonth:(NSInteger)month year:(NSInteger) year
 {
     NSAssert(!(month < 1||month > 12), @"invalid month number");
@@ -459,6 +463,28 @@
     
     if (self.count == 0) {
         return nil;
+    }
+    
+    NSObject *object = [self objectForKey:key];
+    if ([object isKindOfClass:[NSNull class]]) {
+        return nil;
+    }
+    
+    return object;
+}
+
+@end
+
+@implementation NSCache (NSCacheExtension)
+
+- (id)validObjectForKey:(id)key
+{
+    if (key == nil) {
+        return nil;
+    }
+    
+    if (![self isKindOfClass:[NSCache class]]) {
+        return self;
     }
     
     NSObject *object = [self objectForKey:key];

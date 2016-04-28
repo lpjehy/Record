@@ -17,7 +17,7 @@ static NSString *SQL_INSERT_RECORD = @"INSERT INTO RECORD ('createtime') VALUES 
 static NSString *SQL_DELETE_RECORD = @"DELETE FROM RECORD WHERE createtime >= '%@' and createtime < '%@'";
 static NSString *SQL_SELECT_RECORD = @"SELECT * FROM RECORD";
 
-static NSMutableDictionary *recordDic = nil;
+static NSCache *recordCache = nil;
 
 @implementation RecordManager
 
@@ -33,8 +33,12 @@ static NSMutableDictionary *recordDic = nil;
             NSString *time = [[date stringWithFormat:@"yyyy-MM-dd "] stringByAppendingString:[[NSDate date] stringWithFormat:@"HH:mm:ss"]];
             if (time) {
                 NSString *key = [time componentsSeparatedByString:@" "].firstObject;
-                [recordDic setValue:time forKey:key];
+                [recordCache setObject:time forKey:key];
+                
+                [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": key}];
             }
+            
+            
         }
     } else {
         NSLog(@"已记录");
@@ -46,6 +50,7 @@ static NSMutableDictionary *recordDic = nil;
         [AnalyticsUtil event:Event_First_Take_By_Reminder];
     }
     
+    /*
     if (DeviceSystemVersion > 9.0 && date.components.isToday) {
         NSString *type = nil;
         NSString *title = nil;
@@ -56,6 +61,7 @@ static NSMutableDictionary *recordDic = nil;
         // 将标签添加进Application的shortcutItems中。
         [UIApplication sharedApplication].shortcutItems = @[item];
     }
+     */
     
 }
 
@@ -63,21 +69,22 @@ static NSMutableDictionary *recordDic = nil;
     
     [self createTable];
     
-    if (recordDic == nil) {
-        recordDic = [[NSMutableDictionary alloc] init];
+    if (recordCache == nil) {
+        recordCache = [[NSCache alloc] init];
+        recordCache.totalCostLimit = 10000000;
         
         NSArray *resultArray = [[SqlUtil getInstance] selectWithSql:SQL_SELECT_RECORD];
         for (NSDictionary *result in resultArray) {
             NSString *time = [result validObjectForKey:@"createtime"];
             if (time) {
                 NSString *key = [time componentsSeparatedByString:@" "].firstObject;
-                [recordDic setValue:time forKey:key];
+                [recordCache setObject:time forKey:key];
             }
         }
     }
     
     NSString *key = [date stringWithFormat:@"yyyy-MM-dd"];
-    NSString *record = [recordDic validObjectForKey:key];
+    NSString *record = [recordCache validObjectForKey:key];
     
     return record;
 }
@@ -93,11 +100,13 @@ static NSMutableDictionary *recordDic = nil;
     NSString *starttime = [today stringByAppendingString:@" 00:00:00"];
     NSString *endtime = [[[NSDate dateWithTimeInterval:TimeIntervalDay sinceDate:date] stringWithFormat:@"yyyy-MM-dd"] stringByAppendingString:@" 00:00:00"];
     
-    [recordDic removeObjectForKey:today];
+    [recordCache removeObjectForKey:today];
+    
+    [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": today}];
     
     [[SqlUtil getInstance] execSql:[NSString stringWithFormat:SQL_DELETE_RECORD, starttime, endtime]];
     
-    
+    /*
     if (DeviceSystemVersion > 9.0 && date.components.isToday) {
         NSString *type = nil;
         NSString *title = nil;
@@ -108,6 +117,7 @@ static NSMutableDictionary *recordDic = nil;
         // 将标签添加进Application的shortcutItems中。
         [UIApplication sharedApplication].shortcutItems = @[item];
     }
+     */
 }
 
 @end

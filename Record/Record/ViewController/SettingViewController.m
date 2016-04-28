@@ -7,6 +7,7 @@
 //
 
 #import "SettingViewController.h"
+#import "AudioManager.h"
 
 #import "SettingCell.h"
 #import "ReminderManager.h"
@@ -22,6 +23,8 @@
 
 #import "SettingItem.h"
 
+#import "AdManager.h"
+
 typedef NS_ENUM(NSInteger, PickerType) {
     PickerTypePillDays,//默认从0开始
     PickerTypeBreakDays,
@@ -33,6 +36,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
     
     UIPickerView *numberPickerView;
     UIButton *doneButton;
+    UIButton *confirmButton;
     
     PickerType currentPickerType;
     
@@ -214,7 +218,10 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.type = SettingTypeText;
     
     NSString *sound = [ReminderManager notificationSound];
-    item.textValue = NSLocalizedString(sound, nil);
+    if ([sound isEqualToString:UILocalNotificationDefaultSoundName]) {
+        sound = SoundNameDefault;
+    }
+    item.textValue = sound;
     item.enable = should;
     [array addObject:item];
     
@@ -246,19 +253,22 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (void)doneButtonPressed {
     
     doneButton.hidden = YES;
-    
+    confirmButton.hidden = YES;
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.24];
     numberPickerView.originY = ScreenHeight + 32;
     
     [UIView commitAnimations];
+    
+    numberPickerView.tag = 0;
 }
 
 - (void)showPickerView {
     [self createPickerView];
     
     doneButton.hidden = NO;
+    confirmButton.hidden = NO;
     
     [numberPickerView reloadAllComponents];
     
@@ -285,9 +295,51 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.24];
+    
     numberPickerView.originY = ScreenHeight - numberPickerView.height;
     
     [UIView commitAnimations];
+    
+    numberPickerView.tag = 1;
+}
+
+- (void)confirmButtonPressed {
+    
+    NSInteger row = [numberPickerView selectedRowInComponent:0];
+    if (currentPickerType == PickerTypePillDays) {
+        [ScheduleManager setPillDays:row + 5];
+        
+    } else if (currentPickerType == PickerTypeBreakDays) {
+        [ScheduleManager setSafeDays:row];
+        
+        
+    } else if (currentPickerType == PickerTypeStartDate) {
+        NSInteger year = [numberPickerView selectedRowInComponent:2] + 2000;
+        NSInteger month = [numberPickerView selectedRowInComponent:0] + 1;
+        NSInteger day = [numberPickerView selectedRowInComponent:1] + 1;
+        
+        NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
+        
+        [ScheduleManager setStartDate:dateString.date];
+        
+        
+    } else if (currentPickerType == PickerTypeNotifyTime) {
+        NSInteger hour = [numberPickerView selectedRowInComponent:0];
+        NSInteger minute = [numberPickerView selectedRowInComponent:1];
+        
+        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
+        
+        [ReminderManager setNotificationTime:dateString];
+        
+        
+    }
+    
+    [self reloadView];
+    
+    
+    [self doneButtonPressed];
+    
+    
 }
 
 - (void)createPickerView {
@@ -308,23 +360,29 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         [self.view addSubview:numberPickerView];
         
         
-        UIButton *button = [[UIButton alloc] init];
+        UIView *buttonView = [[UIView alloc] init];
         
-        button.backgroundColor = [UIColor whiteColor];
-        [button addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        button.frame = CGRectMake(0, -32, ScreenWidth, 44);
-        [numberPickerView addSubview:button];
+        buttonView.backgroundColor = [UIColor whiteColor];
+        buttonView.frame = CGRectMake(0, -32, ScreenWidth, 44);
+        [numberPickerView addSubview:buttonView];
         
         UILabel *cancelLabel = [[UILabel alloc] init];
         cancelLabel.text = NSLocalizedString(@"button_title_cancel", nil);
         cancelLabel.frame = CGRectMake(10, 0, 128, 44);
-        [button addSubview:cancelLabel];
+        [buttonView addSubview:cancelLabel];
         
         UILabel *confirmLabel = [[UILabel alloc] init];
         confirmLabel.text = NSLocalizedString(@"button_title_done", nil);
         confirmLabel.frame = CGRectMake(ScreenWidth - 138, 0, 128, 44);
         confirmLabel.textAlignment = NSTextAlignmentRight;
-        [button addSubview:confirmLabel];
+        [buttonView addSubview:confirmLabel];
+        
+        
+        confirmButton = [[UIButton alloc] init];
+        [confirmButton addTarget:self action:@selector(confirmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        confirmButton.hidden = YES;
+        confirmButton.frame = CGRectMake(ScreenWidth - 64 - 10, ScreenHeight - numberPickerView.height - 44, 64, 44);
+        [doneButton addSubview:confirmButton];
     }
 }
 
@@ -367,7 +425,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     
     rightButton.titleLabel.font = FontNormal;
-    [rightButton setTitleColor:ColorTextLight forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [self.view addSubview:rightButton];
@@ -387,7 +445,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     if ([AppManager hasFirstSetDone]) {
         GADBannerView *bannerView = [[GADBannerView alloc] init];
         bannerView.backgroundColor = [UIColor blackColor];
-        bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+        bannerView.adUnitID = AdMobUnitIdSetting;
         bannerView.rootViewController = self;
         [bannerView loadRequest:[GADRequest request]];
         bannerView.frame = CGRectMake(0, 64, ScreenWidth, 64);
@@ -497,9 +555,16 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
             
             number = 12;
         } else if (component == 1) {
+            if (pickerView.tag == 0) {
+                NSDateComponents *date = [ScheduleManager startDate].components;
+                
+                number = [NSDateComponents numberOfDaysInMonth:date.month year:date.year];
+            } else {
+                NSInteger month = [pickerView selectedRowInComponent:0] + 1;
+                NSInteger year = [pickerView selectedRowInComponent:2] + 2000;
+                number = [NSDateComponents numberOfDaysInMonth:month year:year];
+            }
             
-            NSDateComponents *date = [ScheduleManager startDate].components;
-            number = [NSDateComponents numberOfDaysInMonth:date.month year:date.year];
         } else {
             number = 100;
         }
@@ -551,35 +616,15 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
     if (currentPickerType == PickerTypePillDays) {
-        [ScheduleManager setPillDays:row + 5];
         
     } else if (currentPickerType == PickerTypeBreakDays) {
-        [ScheduleManager setSafeDays:row];
-        
         
     } else if (currentPickerType == PickerTypeStartDate) {
-        NSInteger year = [pickerView selectedRowInComponent:2] + 2000;
-        NSInteger month = [pickerView selectedRowInComponent:0] + 1;
-        NSInteger day = [pickerView selectedRowInComponent:1] + 1;
-        
-        NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
-        
-        [ScheduleManager setStartDate:dateString.date];
-        
-        [pickerView reloadComponent:2];
+        [pickerView reloadComponent:1];
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
-        NSInteger hour = [pickerView selectedRowInComponent:0];
-        NSInteger minute = [pickerView selectedRowInComponent:1];
-        
-        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
-        
-        [ReminderManager setNotificationTime:dateString];
-        
         
     }
-    
-    [self reloadView];
 }
 
 #pragma mark - UITableViewDelegate
@@ -589,29 +634,13 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 64;
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     
     UIView *headerView = [[UIView alloc] init];
-    headerView.frame = CGRectMake(0, 0, ScreenWidth, 64);
-    
-    
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = [UIColor colorWithWhite:105 / 255.0 alpha:1];
-    lineView.frame = CGRectMake(0, 0, ScreenWidth, 0.5);
-    [headerView addSubview:lineView];
-    
-    UILabel *headerLabel = [[UILabel alloc] init];
-    headerLabel.textColor = [UIColor colorWithWhite:161 / 255.0 alpha:1];
-    headerLabel.font = FontMiddle;
-    headerLabel.frame = CGRectMake(15, 20, ScreenWidth - 30, 44);
-    
-    NSString *title = NSLocalizedString([moduleArray validObjectAtIndex:section], nil);
-    headerLabel.text = title;
-    [headerView addSubview:headerLabel];
 
     
     return headerView;
@@ -621,11 +650,36 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     NSString *key = [moduleArray validObjectAtIndex:section];
     NSArray *itemArray = [moduleDic validObjectForKey:key];
-    return itemArray.count;
+    return itemArray.count + 1;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        
+        UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+        if(nil == cell) {
+            cell = [[SettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+            cell.textLabel.textColor = [UIColor colorWithWhite:161 / 255.0 alpha:1];
+            cell.textLabel.font = FontMiddle;
+            
+            
+            UIView *lineView = [[UIView alloc] init];
+            lineView.frame = CGRectMake(15, 44, ScreenWidth, 0.5);
+            lineView.backgroundColor = ColorGrayDark;
+            [cell.contentView addSubview:lineView];
+        }
+        
+        
+        NSString *title = NSLocalizedString([moduleArray validObjectAtIndex:indexPath.section], nil);
+        cell.textLabel.text = title;
+        
+        
+        return cell;
+        
+    }
+    
     
     SettingCell *cell = (SettingCell *)[tableView dequeueReusableCellWithIdentifier:SettingCellIdentifier];
     if(nil == cell) {
@@ -635,7 +689,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     NSString *key = [moduleArray validObjectAtIndex:indexPath.section];
     NSArray *itemArray = [moduleDic validObjectForKey:key];
-    SettingItem *item = [itemArray validObjectAtIndex:indexPath.row];
+    SettingItem *item = [itemArray validObjectAtIndex:indexPath.row - 1];
     
     [cell setItem:item];
     
@@ -645,7 +699,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
 }
 
@@ -653,7 +707,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     NSString *key = [moduleArray validObjectAtIndex:indexPath.section];
     NSArray *itemArray = [moduleDic validObjectForKey:key];
-    SettingItem *item = [itemArray validObjectAtIndex:indexPath.row];
+    SettingItem *item = [itemArray validObjectAtIndex:indexPath.row - 1];
     
     if (!item.enable) {
         return;
@@ -711,7 +765,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     if ([buttonTitle isEqualToString:NSLocalizedString(@"button_title_confirm", nil)]) {
         [self finishSetting];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:SettingChangedNotification object:nil];
+        [NotificationCenter postNotificationName:SettingChangedNotification object:nil];
     }
 }
 

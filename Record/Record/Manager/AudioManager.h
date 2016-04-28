@@ -10,6 +10,9 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
+
+static NSString *SoundNameDefault = @"Default";
+
 @interface AudioManager : NSObject < AVAudioPlayerDelegate> {
     
     AVAudioPlayer *defaultPlayer;
@@ -33,7 +36,6 @@
 
 - (BOOL)playWithFilename:(NSString *)filename;
 
-- (void)play;
 
 - (void)stopPlay;
 

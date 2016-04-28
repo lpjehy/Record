@@ -54,37 +54,25 @@
     [self createLayout];
     
     
-    NSMutableArray *array = [NSMutableArray arrayWithObjects:@"1", @"2", nil];
-    NSArray *arr = @[@"2", @"3"];
-    
-    [array addObjectsFromArray:arr];
-    
-    //NSLog(@"config: %@", [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://lpjehy.github.io/test.html?type=write"] encoding:NSUTF8StringEncoding error:NULL]);
-    
     
     return YES;
 }
 
-
+/*
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
-    NSString *type = nil;
-    NSString *title = nil;
+    
     if ([shortcutItem.type isEqualToString:@"takepill"]) {
         [RecordManager record:[NSDate date]];
-        type = @"untakepill";
-        title = NSLocalizedString(@"button_title_untake", nil);
     } else {
         [RecordManager deleteRecord:[NSDate date]];
-        type = @"takepill";
-        title = NSLocalizedString(@"button_title_take", nil);
     }
     
-    UIApplicationShortcutItem *item = [[UIApplicationShortcutItem alloc] initWithType:type localizedTitle:title];
-    // 将标签添加进Application的shortcutItems中。
-    [UIApplication sharedApplication].shortcutItems = @[item];
     
     [ReminderManager resetNotify];
 }
+
+ */
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

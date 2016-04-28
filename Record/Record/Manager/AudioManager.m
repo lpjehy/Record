@@ -82,7 +82,7 @@ static NSString *auditionID = @"auditionID";
 {
     self.audioID = nil;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AudioFinishedPlayingNotification" object:nil];
+    [NotificationCenter postNotificationName:@"AudioFinishedPlayingNotification" object:nil];
 }
 
 - (void)updatePlayerMeters
@@ -110,7 +110,7 @@ static NSString *auditionID = @"auditionID";
 - (void)resetPlayer
 {
     if (defaultPlayer) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AudioFinishedPlayingNotification" object:nil];
+        [NotificationCenter postNotificationName:@"AudioFinishedPlayingNotification" object:nil];
         [defaultPlayer stop];
         defaultPlayer = nil;
     }
@@ -118,7 +118,7 @@ static NSString *auditionID = @"auditionID";
 
 - (BOOL)playWithFilename:(NSString *)filename
 {
-    if ([filename isEqualToString:UILocalNotificationDefaultSoundName]) {
+    if ([filename isEqualToString:SoundNameDefault]) {
         [AudioManager playDefaultAudio];
         return YES;
     }
@@ -145,7 +145,7 @@ static NSString *auditionID = @"auditionID";
     if (defaultPlayer.playing) {
         [defaultPlayer stop];
         [self cancelSession];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AudioFinishedPlayingNotification" object:nil];
+        [NotificationCenter postNotificationName:@"AudioFinishedPlayingNotification" object:nil];
     }
 }
 

@@ -19,24 +19,6 @@
 		990955191C85D77A00797FFF /* UIExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955161C85D77A00797FFF /* UIExtension.m */; };
 		990955201C85E47800797FFF /* HelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909551F1C85E47800797FFF /* HelpView.m */; };
 		990F88731C984809000C500E /* PillButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 990F88721C984809000C500E /* PillButton.m */; };
-		9910AFCF1CB0D721006DF5F1 /* bird.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFBE1CB0D721006DF5F1 /* bird.mp3 */; };
-		9910AFD01CB0D721006DF5F1 /* cat1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFBF1CB0D721006DF5F1 /* cat1.mp3 */; };
-		9910AFD11CB0D721006DF5F1 /* cat2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC01CB0D721006DF5F1 /* cat2.mp3 */; };
-		9910AFD21CB0D721006DF5F1 /* cat3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC11CB0D721006DF5F1 /* cat3.mp3 */; };
-		9910AFD31CB0D721006DF5F1 /* cat4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC21CB0D721006DF5F1 /* cat4.mp3 */; };
-		9910AFD41CB0D721006DF5F1 /* cat5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC31CB0D721006DF5F1 /* cat5.mp3 */; };
-		9910AFD51CB0D721006DF5F1 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC41CB0D721006DF5F1 /* coin.mp3 */; };
-		9910AFD61CB0D721006DF5F1 /* cup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC51CB0D721006DF5F1 /* cup.mp3 */; };
-		9910AFD71CB0D721006DF5F1 /* doorbell1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC61CB0D721006DF5F1 /* doorbell1.mp3 */; };
-		9910AFD81CB0D721006DF5F1 /* doorbell2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC71CB0D721006DF5F1 /* doorbell2.mp3 */; };
-		9910AFD91CB0D721006DF5F1 /* melonfruit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC81CB0D721006DF5F1 /* melonfruit.mp3 */; };
-		9910AFDA1CB0D721006DF5F1 /* popcorn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFC91CB0D721006DF5F1 /* popcorn.mp3 */; };
-		9910AFDB1CB0D721006DF5F1 /* teddy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCA1CB0D721006DF5F1 /* teddy.mp3 */; };
-		9910AFDC1CB0D721006DF5F1 /* trafficlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCB1CB0D721006DF5F1 /* trafficlight.mp3 */; };
-		9910AFDD1CB0D721006DF5F1 /* turkey.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCC1CB0D721006DF5F1 /* turkey.mp3 */; };
-		9910AFDE1CB0D721006DF5F1 /* unpacking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCD1CB0D721006DF5F1 /* unpacking.mp3 */; };
-		9910AFDF1CB0D721006DF5F1 /* yoho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFCE1CB0D721006DF5F1 /* yoho.mp3 */; };
-		9910AFE11CB2080E006DF5F1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9910AFE31CB2080E006DF5F1 /* Info.plist */; };
 		991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 991163BB1CA9733C0068F9A6 /* SoundsViewController.m */; };
 		99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99152ACC1CB95EDE00AD7D69 /* AudioManager.m */; };
 		9923080F1CA6A73A00BA6994 /* CalendarMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */; };
@@ -73,6 +55,11 @@
 		99D90FCB1C886B5300B1617D /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FCA1C886B5300B1617D /* SettingViewController.m */; };
 		99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FCE1C886F0F00B1617D /* SqlUtil.m */; };
 		99D90FD11C887A2700B1617D /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 99D90FD01C887A2700B1617D /* libsqlite3.0.tbd */; };
+		99D9856C1CCFBD6800285B6F /* Cat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D985671CCFBD6800285B6F /* Cat.mp3 */; };
+		99D9856D1CCFBD6800285B6F /* Chewing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D985681CCFBD6800285B6F /* Chewing.mp3 */; };
+		99D9856E1CCFBD6800285B6F /* Coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D985691CCFBD6800285B6F /* Coin.mp3 */; };
+		99D9856F1CCFBD6800285B6F /* Drums.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D9856A1CCFBD6800285B6F /* Drums.mp3 */; };
+		99D985701CCFBD6800285B6F /* Yoho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D9856B1CCFBD6800285B6F /* Yoho.mp3 */; };
 		99F564621C9E811B005806A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99F564641C9E811B005806A8 /* InfoPlist.strings */; };
 		99F564681C9E81FC005806A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99F5646A1C9E81FC005806A8 /* Localizable.strings */; };
 		99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F5646D1C9E897C005806A8 /* SettingItem.m */; };
@@ -102,23 +89,6 @@
 		990955211C85E6E000797FFF /* Record-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Record-Prefix.pch"; sourceTree = "<group>"; };
 		990F88711C984809000C500E /* PillButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PillButton.h; path = View/PillButton.h; sourceTree = "<group>"; };
 		990F88721C984809000C500E /* PillButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PillButton.m; path = View/PillButton.m; sourceTree = "<group>"; };
-		9910AFBE1CB0D721006DF5F1 /* bird.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bird.mp3; path = Record/Resource/sound/bird.mp3; sourceTree = "<group>"; };
-		9910AFBF1CB0D721006DF5F1 /* cat1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat1.mp3; path = Record/Resource/sound/cat1.mp3; sourceTree = "<group>"; };
-		9910AFC01CB0D721006DF5F1 /* cat2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat2.mp3; path = Record/Resource/sound/cat2.mp3; sourceTree = "<group>"; };
-		9910AFC11CB0D721006DF5F1 /* cat3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat3.mp3; path = Record/Resource/sound/cat3.mp3; sourceTree = "<group>"; };
-		9910AFC21CB0D721006DF5F1 /* cat4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat4.mp3; path = Record/Resource/sound/cat4.mp3; sourceTree = "<group>"; };
-		9910AFC31CB0D721006DF5F1 /* cat5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cat5.mp3; path = Record/Resource/sound/cat5.mp3; sourceTree = "<group>"; };
-		9910AFC41CB0D721006DF5F1 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = coin.mp3; path = Record/Resource/sound/coin.mp3; sourceTree = "<group>"; };
-		9910AFC51CB0D721006DF5F1 /* cup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = cup.mp3; path = Record/Resource/sound/cup.mp3; sourceTree = "<group>"; };
-		9910AFC61CB0D721006DF5F1 /* doorbell1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = doorbell1.mp3; path = Record/Resource/sound/doorbell1.mp3; sourceTree = "<group>"; };
-		9910AFC71CB0D721006DF5F1 /* doorbell2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = doorbell2.mp3; path = Record/Resource/sound/doorbell2.mp3; sourceTree = "<group>"; };
-		9910AFC81CB0D721006DF5F1 /* melonfruit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = melonfruit.mp3; path = Record/Resource/sound/melonfruit.mp3; sourceTree = "<group>"; };
-		9910AFC91CB0D721006DF5F1 /* popcorn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = popcorn.mp3; path = Record/Resource/sound/popcorn.mp3; sourceTree = "<group>"; };
-		9910AFCA1CB0D721006DF5F1 /* teddy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = teddy.mp3; path = Record/Resource/sound/teddy.mp3; sourceTree = "<group>"; };
-		9910AFCB1CB0D721006DF5F1 /* trafficlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = trafficlight.mp3; path = Record/Resource/sound/trafficlight.mp3; sourceTree = "<group>"; };
-		9910AFCC1CB0D721006DF5F1 /* turkey.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = turkey.mp3; path = Record/Resource/sound/turkey.mp3; sourceTree = "<group>"; };
-		9910AFCD1CB0D721006DF5F1 /* unpacking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = unpacking.mp3; path = Record/Resource/sound/unpacking.mp3; sourceTree = "<group>"; };
-		9910AFCE1CB0D721006DF5F1 /* yoho.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = yoho.mp3; path = Record/Resource/sound/yoho.mp3; sourceTree = "<group>"; };
 		9910AFE21CB2080E006DF5F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		9910AFE71CB20BFA006DF5F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9910AFE81CB20BFA006DF5F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -142,6 +112,10 @@
 		992B57991C9EE4CC00C96C55 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDB.h; path = Others/FMDB/FMDB.h; sourceTree = "<group>"; };
 		992B579A1C9EE4CC00C96C55 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = Others/FMDB/FMResultSet.h; sourceTree = "<group>"; };
 		992B579B1C9EE4CC00C96C55 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = Others/FMDB/FMResultSet.m; sourceTree = "<group>"; };
+		992D29201CCC625200F9288A /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Header.h; path = Header/Header.h; sourceTree = "<group>"; };
+		992D29211CCC632B00F9288A /* Notifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Notifications.h; path = Header/Notifications.h; sourceTree = "<group>"; };
+		992D29221CCC636000F9288A /* Colors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Colors.h; path = Header/Colors.h; sourceTree = "<group>"; };
+		992D29231CCC636000F9288A /* Fonts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Fonts.h; path = Header/Fonts.h; sourceTree = "<group>"; };
 		993D5A1F1C90649E004A42CE /* SettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingCell.h; path = View/SettingCell.h; sourceTree = "<group>"; };
 		993D5A201C90649E004A42CE /* SettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingCell.m; path = View/SettingCell.m; sourceTree = "<group>"; };
 		993D5A231C9069F4004A42CE /* libUMOnlineConfig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUMOnlineConfig.a; path = Others/UMOnlineConfig/libUMOnlineConfig.a; sourceTree = "<group>"; };
@@ -152,7 +126,6 @@
 		996004B41C944453001EFD89 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = ViewController/WebViewController.m; sourceTree = "<group>"; };
 		996004B61C944659001EFD89 /* UrlUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UrlUtil.h; path = Util/UrlUtil.h; sourceTree = "<group>"; };
 		996004B71C944659001EFD89 /* UrlUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UrlUtil.m; path = Util/UrlUtil.m; sourceTree = "<group>"; };
-		996004B91C944736001EFD89 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		996004BD1C9467D4001EFD89 /* CalendarViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewDelegate.h; sourceTree = "<group>"; };
 		996004BE1C9467D4001EFD89 /* CalendarViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewDelegate.m; sourceTree = "<group>"; };
 		996004C31C954C2D001EFD89 /* MessageViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewDelegate.h; sourceTree = "<group>"; };
@@ -194,6 +167,11 @@
 		99D90FCD1C886F0F00B1617D /* SqlUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlUtil.h; sourceTree = "<group>"; };
 		99D90FCE1C886F0F00B1617D /* SqlUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqlUtil.m; sourceTree = "<group>"; };
 		99D90FD01C887A2700B1617D /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		99D985671CCFBD6800285B6F /* Cat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Cat.mp3; path = Record/Resource/sound/Cat.mp3; sourceTree = "<group>"; };
+		99D985681CCFBD6800285B6F /* Chewing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Chewing.mp3; path = Record/Resource/sound/Chewing.mp3; sourceTree = "<group>"; };
+		99D985691CCFBD6800285B6F /* Coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Coin.mp3; path = Record/Resource/sound/Coin.mp3; sourceTree = "<group>"; };
+		99D9856A1CCFBD6800285B6F /* Drums.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Drums.mp3; path = Record/Resource/sound/Drums.mp3; sourceTree = "<group>"; };
+		99D9856B1CCFBD6800285B6F /* Yoho.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Yoho.mp3; path = Record/Resource/sound/Yoho.mp3; sourceTree = "<group>"; };
 		99F564651C9E811E005806A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		99F564691C9E81FC005806A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		99F5646C1C9E897C005806A8 /* SettingItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingItem.h; path = Data/SettingItem.h; sourceTree = "<group>"; };
@@ -238,6 +216,7 @@
 		990954F01C85D5C300797FFF /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				992D291F1CCC624600F9288A /* Header */,
 				999FAE1C1C8C32F80083C6B0 /* Others */,
 				999FAE001C8C26300083C6B0 /* Calendar */,
 				999FADF61C8C0C0C0083C6B0 /* Data */,
@@ -248,7 +227,6 @@
 				9909551A1C85D77F00797FFF /* Extension */,
 				990954F41C85D5C300797FFF /* AppDelegate.h */,
 				990954F51C85D5C300797FFF /* AppDelegate.m */,
-				996004B91C944736001EFD89 /* Header.h */,
 				990955001C85D5C300797FFF /* Assets.xcassets */,
 				9910AFE31CB2080E006DF5F1 /* Info.plist */,
 				990954FD1C85D5C300797FFF /* Record.xcdatamodeld */,
@@ -286,9 +264,9 @@
 				999FAE2E1C8C578F0083C6B0 /* AdManager.m */,
 				9909550E1C85D76F00797FFF /* AppManager.h */,
 				9909550F1C85D76F00797FFF /* AppManager.m */,
-				999FADFA1C8C124A0083C6B0 /* MessageManager.h */,
 				99152ACB1CB95EDE00AD7D69 /* AudioManager.h */,
 				99152ACC1CB95EDE00AD7D69 /* AudioManager.m */,
+				999FADFA1C8C124A0083C6B0 /* MessageManager.h */,
 				999FADFB1C8C124A0083C6B0 /* MessageManager.m */,
 				999FADF31C8C03E70083C6B0 /* RecordManager.h */,
 				999FADF41C8C03E70083C6B0 /* RecordManager.m */,
@@ -364,6 +342,17 @@
 				992B579B1C9EE4CC00C96C55 /* FMResultSet.m */,
 			);
 			name = FMDB;
+			sourceTree = "<group>";
+		};
+		992D291F1CCC624600F9288A /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				992D29201CCC625200F9288A /* Header.h */,
+				992D29211CCC632B00F9288A /* Notifications.h */,
+				992D29221CCC636000F9288A /* Colors.h */,
+				992D29231CCC636000F9288A /* Fonts.h */,
+			);
+			name = Header;
 			sourceTree = "<group>";
 		};
 		993D5A221C9069EA004A42CE /* UMOnlineConfig */ = {
@@ -453,23 +442,11 @@
 		99F5643B1C9E6D6A005806A8 /* sounds */ = {
 			isa = PBXGroup;
 			children = (
-				9910AFBE1CB0D721006DF5F1 /* bird.mp3 */,
-				9910AFBF1CB0D721006DF5F1 /* cat1.mp3 */,
-				9910AFC01CB0D721006DF5F1 /* cat2.mp3 */,
-				9910AFC11CB0D721006DF5F1 /* cat3.mp3 */,
-				9910AFC21CB0D721006DF5F1 /* cat4.mp3 */,
-				9910AFC31CB0D721006DF5F1 /* cat5.mp3 */,
-				9910AFC41CB0D721006DF5F1 /* coin.mp3 */,
-				9910AFC51CB0D721006DF5F1 /* cup.mp3 */,
-				9910AFC61CB0D721006DF5F1 /* doorbell1.mp3 */,
-				9910AFC71CB0D721006DF5F1 /* doorbell2.mp3 */,
-				9910AFC81CB0D721006DF5F1 /* melonfruit.mp3 */,
-				9910AFC91CB0D721006DF5F1 /* popcorn.mp3 */,
-				9910AFCA1CB0D721006DF5F1 /* teddy.mp3 */,
-				9910AFCB1CB0D721006DF5F1 /* trafficlight.mp3 */,
-				9910AFCC1CB0D721006DF5F1 /* turkey.mp3 */,
-				9910AFCD1CB0D721006DF5F1 /* unpacking.mp3 */,
-				9910AFCE1CB0D721006DF5F1 /* yoho.mp3 */,
+				99D985671CCFBD6800285B6F /* Cat.mp3 */,
+				99D985681CCFBD6800285B6F /* Chewing.mp3 */,
+				99D985691CCFBD6800285B6F /* Coin.mp3 */,
+				99D9856A1CCFBD6800285B6F /* Drums.mp3 */,
+				99D9856B1CCFBD6800285B6F /* Yoho.mp3 */,
 			);
 			name = sounds;
 			sourceTree = "<group>";
@@ -500,12 +477,12 @@
 		990954E61C85D5C300797FFF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Jehy Fan";
 				TargetAttributes = {
 					990954ED1C85D5C300797FFF = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = SE3H8KG628;
+						DevelopmentTeam = X6BZVB5W84;
 					};
 				};
 			};
@@ -532,28 +509,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9910AFD11CB0D721006DF5F1 /* cat2.mp3 in Resources */,
+				99D985701CCFBD6800285B6F /* Yoho.mp3 in Resources */,
+				99D9856D1CCFBD6800285B6F /* Chewing.mp3 in Resources */,
 				996004C81C95AF9D001EFD89 /* image.xcassets in Resources */,
-				9910AFD21CB0D721006DF5F1 /* cat3.mp3 in Resources */,
+				99D9856F1CCFBD6800285B6F /* Drums.mp3 in Resources */,
 				99F564621C9E811B005806A8 /* InfoPlist.strings in Resources */,
-				9910AFD61CB0D721006DF5F1 /* cup.mp3 in Resources */,
 				99F564681C9E81FC005806A8 /* Localizable.strings in Resources */,
-				9910AFD71CB0D721006DF5F1 /* doorbell1.mp3 in Resources */,
-				9910AFD91CB0D721006DF5F1 /* melonfruit.mp3 in Resources */,
-				9910AFD81CB0D721006DF5F1 /* doorbell2.mp3 in Resources */,
-				9910AFE11CB2080E006DF5F1 /* Info.plist in Resources */,
-				9910AFD31CB0D721006DF5F1 /* cat4.mp3 in Resources */,
+				99D9856C1CCFBD6800285B6F /* Cat.mp3 in Resources */,
 				990955011C85D5C300797FFF /* Assets.xcassets in Resources */,
-				9910AFDE1CB0D721006DF5F1 /* unpacking.mp3 in Resources */,
-				9910AFDA1CB0D721006DF5F1 /* popcorn.mp3 in Resources */,
-				9910AFCF1CB0D721006DF5F1 /* bird.mp3 in Resources */,
-				9910AFD41CB0D721006DF5F1 /* cat5.mp3 in Resources */,
-				9910AFD01CB0D721006DF5F1 /* cat1.mp3 in Resources */,
-				9910AFDD1CB0D721006DF5F1 /* turkey.mp3 in Resources */,
-				9910AFD51CB0D721006DF5F1 /* coin.mp3 in Resources */,
-				9910AFDF1CB0D721006DF5F1 /* yoho.mp3 in Resources */,
-				9910AFDC1CB0D721006DF5F1 /* trafficlight.mp3 in Resources */,
-				9910AFDB1CB0D721006DF5F1 /* teddy.mp3 in Resources */,
+				99D9856E1CCFBD6800285B6F /* Coin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,8 +692,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jian Hu (TAKK6KY7QV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jian Hu (TAKK6KY7QV)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/Admob",
@@ -743,9 +707,9 @@
 					"$(PROJECT_DIR)/Record/Others/UMAnalytics",
 					"$(PROJECT_DIR)/Record/Others/UMOnlineConfig",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = aaa.Record;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cc27adfd-a99b-4cb2-97c0-8cdc642ddc7c";
 			};
 			name = Debug;
 		};
@@ -754,7 +718,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jian Hu (X6BZVB5W84)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/Admob",
@@ -768,9 +732,9 @@
 					"$(PROJECT_DIR)/Record/Others/UMAnalytics",
 					"$(PROJECT_DIR)/Record/Others/UMOnlineConfig",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = aaa.Record;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cc27adfd-a99b-4cb2-97c0-8cdc642ddc7c";
 			};
 			name = Release;
 		};

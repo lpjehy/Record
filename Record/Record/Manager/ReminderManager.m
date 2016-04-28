@@ -8,6 +8,7 @@
 
 #import "ReminderManager.h"
 #import "ScheduleManager.h"
+#import "AudioManager.h"
 
 
 #import <AudioToolbox/AudioToolbox.h>
@@ -18,6 +19,9 @@ static NSString *RemindInSafeDaysKey = @"RemindInSafeDays";
 static NSString *NotificationAlertBodyKey = @"NotificationAlertBody";
 static NSString *NotificationTimeKey = @"NotificationTime";
 static NSString *NotificationSoundKey = @"NotificationSound";
+
+
+
 
 #define DefaultAlertBody NSLocalizedString(@"reminder_default_alertbody", nil);
 
@@ -75,7 +79,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 - (id)init {
     self = [super init];
     if (self) {
-        soundArray = @[UILocalNotificationDefaultSoundName, @"bird", @"cat1", @"cat2", @"cat3", @"cat4", @"cat5", @"coin", @"cup", @"doorbell1", @"doorbell2", @"melonfruit", @"popcorn", @"teddy", @"trafficlight", @"turkey", @"unpacking", @"windbell", @"yoho"];
+        soundArray = @[SoundNameDefault, @"Chewing", @"Drums", @"Cat", @"Coin", @"Yoho"];
     }
     
     return self;
@@ -154,7 +158,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 }
 
 + (void)setNotificationSound:(NSString *)sound {
-    if (sound == nil || sound.length == 0) {
+    if (sound == nil || sound.length == 0 || [sound isEqualToString:SoundNameDefault]) {
         sound = UILocalNotificationDefaultSoundName;
     }
     

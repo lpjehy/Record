@@ -146,6 +146,9 @@ static NSInteger DefaultBreakDays = 7;
     
     if (safeDays == 0 && ![AppManager hasFirstSetDone]) {
         safeDays = DefaultBreakDays;
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:safeDays forKey:BreakDaysKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
     return safeDays;
@@ -176,6 +179,9 @@ static NSInteger DefaultBreakDays = 7;
     NSDate *startDate = [[NSUserDefaults standardUserDefaults] valueForKey:StartDateKey];
     if (startDate == nil) {
         startDate = [NSDate date];
+        NSDateComponents *day = startDate.components;
+        NSString *dayStr = [NSString stringWithFormat:@"%04zi-%02zi-%02zi 00:00:00.0", day.year, day.month, day.day];
+        startDate = dayStr.date;
         [ScheduleManager setStartDate:startDate];
     }
     

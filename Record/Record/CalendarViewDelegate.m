@@ -321,10 +321,7 @@ static CGFloat MaxHeight = 1024000;
     if (button.day == nil) {
         return;
     }
-    if (button.isFuture) {
-        [UIAlertView showMessage:NSLocalizedString(@"alert_message_nohurry", nil)];
-        return;
-    }
+    
     self.selectedDay = button.day;
     
     
@@ -332,6 +329,12 @@ static CGFloat MaxHeight = 1024000;
     seletedButton = button;
     
     button.isSelected = YES;
+    
+    if (button.isFuture) {
+        [UIAlertView showMessage:NSLocalizedString(@"alert_message_nohurry", nil)];
+        return;
+    }
+    
     
     if (!button.isPlacebo || [ScheduleManager takePlaceboPills] || [ScheduleManager isEveryday]) {
         [[CalendarMenuView getInstance] showInView:button];
@@ -354,14 +357,14 @@ static CGFloat MaxHeight = 1024000;
         
         [self reloadView];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
+        [NotificationCenter postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
         
     } else if (scrollView.contentOffset.y > nextOffsetY) {
         currentMonth++;
         
         [self reloadView];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
+        [NotificationCenter postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
     }
 
 }

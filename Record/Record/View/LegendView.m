@@ -33,8 +33,10 @@
         self.hidden = YES;
         
         UIImageView *backImageView = [[UIImageView alloc] init];
+        backImageView.layer.cornerRadius = 10;
+        backImageView.clipsToBounds = YES;
         backImageView.image = [UIImage imageNamed:@"Calendar_BG_Legend.png"];
-        backImageView.frame = CGRectMake((ScreenWidth - 270) / 2, (ScreenHeight - 285) / 2, 270, 285);
+        backImageView.frame = CGRectMake((ScreenWidth - 270) / 2, (ScreenHeight - 240) / 2, 270, 240);
         [self addSubview:backImageView];
         
         
@@ -59,24 +61,19 @@
         untakenLabel.textColor = ColorTextDark;
         [backImageView addSubview:untakenLabel];
         
-        UILabel *missedLabel = [[UILabel alloc] init];
-        missedLabel.text = NSLocalizedString(@"legend_missed", nil);
-        missedLabel.font = FontMiddle;
-        missedLabel.frame = CGRectMake(56, 144, 200, legendLabel.font.lineHeight);
-        missedLabel.textColor = ColorTextDark;
-        [backImageView addSubview:missedLabel];
+        
         
         UILabel *placeboLabel = [[UILabel alloc] init];
         placeboLabel.text = NSLocalizedString(@"legend_placebo", nil);
         placeboLabel.font = FontMiddle;
-        placeboLabel.frame = CGRectMake(56, 184, 200, legendLabel.font.lineHeight);
+        placeboLabel.frame = CGRectMake(56, 140, 200, legendLabel.font.lineHeight);
         placeboLabel.textColor = ColorTextDark;
         [backImageView addSubview:placeboLabel];
         
         UILabel *untakenPlaceboLabel = [[UILabel alloc] init];
         untakenPlaceboLabel.text = NSLocalizedString(@"legend_untaken_placebo", nil);
         untakenPlaceboLabel.font = FontMiddle;
-        untakenPlaceboLabel.frame = CGRectMake(56, 224, 200, legendLabel.font.lineHeight);
+        untakenPlaceboLabel.frame = CGRectMake(56, 180, 200, legendLabel.font.lineHeight);
         untakenPlaceboLabel.textColor = ColorTextDark;
         [backImageView addSubview:untakenPlaceboLabel];
         

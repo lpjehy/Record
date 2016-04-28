@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+
+
+
+
+
+
+
+
 @interface RecordManager : NSObject
 
 + (void)record:(NSDate *)date;

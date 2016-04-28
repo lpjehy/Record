@@ -46,6 +46,8 @@
         dayLabel.textAlignment = NSTextAlignmentCenter;
         dayLabel.font = FontSmall;
         [self addSubview:dayLabel];
+        
+        [NotificationCenter addObserver:self selector:@selector(pillStateChanged:) name:PillStateChangedNotification object:nil];
     }
     
     return self;
@@ -58,6 +60,28 @@
     backImageView.frame = CGRectMake((self.width - 45) / 2, (self.height - 45) / 2, 45, 45);
     pillImageView.frame = CGRectMake((self.width - 35) / 2, (self.height - 35) / 2, 35, 35);
     dayLabel.frame = CGRectMake(0, 0, self.width, self.height);
+}
+
+- (void)dealloc {
+    
+    
+    
+    [NotificationCenter removeObserver:self];
+}
+
+- (void)pillStateChanged:(NSNotification *)notification {
+    NSString *dayStr = [notification.userInfo validObjectForKey:@"time"];
+    if ([dayStr isEqualToString:day.theDay]) {
+        
+        NSString *record = [RecordManager selectRecord:day.theDate];
+        if (record) {
+            self.isTaken = YES;
+        } else {
+            self.isTaken = NO;
+        }
+        
+        NSLog(@"pill day: %@ record: %@", dayStr, record);
+    }
 }
 
 - (void)setDay:(NSDateComponents *)d {
@@ -80,14 +104,19 @@
         self.isToday = NO;
     }
     
+    
+    NSString *recordText = nil;
     if ([day isEarlier:today]) {
-        NSString *recordText = [RecordManager selectRecord:day.theDate];
+        recordText = [RecordManager selectRecord:day.theDate];
         //NSLog(@"recordText: %@", recordText);
-        if (recordText) {
-            self.isTaken = YES;
-        } else {
-            self.isTaken = NO;
-        }
+        
+    }
+    
+    
+    if (recordText) {
+        self.isTaken = YES;
+    } else {
+        self.isTaken = NO;
     }
     
     
@@ -161,10 +190,8 @@
     if (isToday) {
         backImageView.image = [UIImage imageNamed:@"BG_Pill_Today.png"];
         
-    } else if (isTaken || [[ScheduleManager getInstance].today isEarlier:day]) {
-        backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
     } else {
-        backImageView.image = [UIImage imageNamed:@"BG_Pill_Miss.png"];
+        backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
     }
     
 }

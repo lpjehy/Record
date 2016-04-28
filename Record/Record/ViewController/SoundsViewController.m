@@ -26,14 +26,32 @@
 @synthesize selectedIndexPath;
 
 - (void)createLayout {
-    [self setNavigationBarTitle:@"Sounds"];
-    [self showBack];
+    
+    [self.navigationController setNavigationBarHidden:YES];
+    
+    UIButton *leftButton = [[UIButton alloc] init];
+    leftButton.frame = CGRectMake(15, 20, 64, 44);
+    [leftButton setTitle:NSLocalizedString(@"button_title_back", nil) forState:UIControlStateNormal];
+    leftButton.titleLabel.font = FontNormal;
+    [leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.view addSubview:leftButton];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = NSLocalizedString(@"Sounds", nil);
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.frame = CGRectMake(64, 20, ScreenWidth - 128, 44);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:titleLabel];
+    
+    self.view.backgroundColor = [UIColor colorWithWhite:68 / 255.0 alpha:1];
     
     mainTableView = [[UITableView alloc] init];
-    mainTableView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
+    mainTableView.frame = CGRectMake(0, 64, ScreenWidth, ScreenHeight - 64);
     mainTableView.delegate = self;
     mainTableView.dataSource = self;
-    
+    mainTableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:mainTableView];
 }
 
@@ -49,18 +67,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO];
-}
-
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:YES];
-}
 
 
 #pragma mark - UITableViewDelegate
@@ -82,7 +88,8 @@
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     if(nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
-        
+        cell.backgroundColor = [UIColor clearColor];
+        cell.textLabel.textColor = [UIColor whiteColor];
     }
     
     NSString *text = [[ReminderManager getInstance].soundArray validObjectAtIndex:indexPath.row];;
@@ -106,11 +113,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
     [cell setSelected:NO animated:YES];
     
-    cell = [tableView cellForRowAtIndexPath:selectedIndexPath];
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    if (selectedIndexPath.row != indexPath.row) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        cell = [tableView cellForRowAtIndexPath:selectedIndexPath];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
     
     self.selectedIndexPath = indexPath;
     

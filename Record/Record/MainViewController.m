@@ -92,13 +92,13 @@ static NSInteger ScrollViewTagPack = 1;
 - (id)init {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
+        [NotificationCenter addObserver:self
                                                  selector:@selector(calendarMonthChanged:)
                                                      name:CalendarMonthChangedNotification
                                                    object:nil];
         
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
+        [NotificationCenter addObserver:self
                                                  selector:@selector(settingChanged)
                                                      name:SettingChangedNotification
                                                    object:nil];
@@ -112,6 +112,7 @@ static NSInteger ScrollViewTagPack = 1;
 
 - (void)settingChanged {
     [baseScrollView scrollToTop:NO];
+    
 }
 
 - (void)calendarMonthChanged:(NSNotification *)notification {
@@ -124,6 +125,34 @@ static NSInteger ScrollViewTagPack = 1;
 - (void)rightButtonPressed {
     rightButton.hidden = YES;
     [packScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    
+    
+    NSInteger page = (NSInteger)packScrollView.contentOffset.x / (NSInteger)packScrollView.width;
+    
+    NSInteger allNum = [ScheduleManager allDays];
+    if (allNum > MaxDaysOfPack) {
+        NSInteger pageOfPack = allNum / MaxDaysOfPack + 1;
+        
+        currentSubPack = page % pageOfPack;
+        currentPack = page / pageOfPack;
+        
+    } else {
+        currentPack = page;
+        currentSubPack = 0;
+    }
+    
+    if (currentPage != page) {
+        currentPage = page;
+        [self reloadPackData];
+    }
+    
+    
+    NSDateComponents *today = [ScheduleManager getInstance].today;
+    monthLabel.text = [NSString stringWithFormat:@"%@ %zi", [NSDateComponents descriptionOfMonth:today.month], today.day];
+    
+    tipLabel.text = [NSString stringWithFormat:NSLocalizedString(@"message_day_info", nil), [ScheduleManager getInstance].currentPackDay, [ScheduleManager allDays]];
+    tipLabel.hidden = NO;
+    rightButton.hidden = YES;
 }
 
 - (void)helpButtonPressed {
@@ -304,7 +333,7 @@ static NSInteger ScrollViewTagPack = 1;
     
     GADBannerView *bannerView = [[GADBannerView alloc] init];
     bannerView.backgroundColor = [UIColor blackColor];
-    bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+    bannerView.adUnitID = AdMobUnitIdCalendar;
     bannerView.rootViewController = self;
     [bannerView loadRequest:[GADRequest request]];
     bannerView.frame = CGRectMake(0, 64, ScreenWidth, size);

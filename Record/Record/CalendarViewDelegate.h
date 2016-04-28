@@ -10,7 +10,7 @@
 
 
 
-static NSString *CalendarMonthChangedNotification = @"CalendarMonthChangedNotification";
+
 
 static NSString *MonthHeader = @"MonthHeaderView";
 

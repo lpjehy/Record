@@ -45,7 +45,8 @@
     leftButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
     
@@ -54,6 +55,7 @@
 - (void)setNavigationBarTitle:(NSString *)title {
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.text = title;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.frame = CGRectMake(0, 0, 128, 44);
     
     self.navigationItem.titleView = titleLabel;

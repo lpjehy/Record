@@ -34,8 +34,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initView];
+        
+        
+        
+        [NotificationCenter addObserver:self selector:@selector(pillStateChanged:) name:PillStateChangedNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    
+    
+    
+    [NotificationCenter removeObserver:self];
 }
 
 - (void)initView {
@@ -60,12 +71,30 @@
 
 }
 
+
+- (void)pillStateChanged:(NSNotification *)notification {
+    NSString *dayStr = [notification.userInfo validObjectForKey:@"time"];
+    if ([dayStr isEqualToString:day.theDay]) {
+        
+        NSString *record = [RecordManager selectRecord:day.theDate];
+        if (record) {
+            self.isTaken = YES;
+        } else {
+            self.isTaken = NO;
+        }
+        
+        [self resetState];
+        
+        NSLog(@"calendar day: %@ record: %@", dayStr, record);
+    }
+}
+
 - (void)resetState {
     
-    if (isToday) {
-        frameImageView.image = [UIImage imageNamed:@"Calendar_Frame_Today.png"];
-    } else if (isSelected) {
+    if (isSelected) {
         frameImageView.image = [UIImage imageNamed:@"Calendar_Frame_FocusDay.png"];
+    } else if (isToday) {
+        frameImageView.image = [UIImage imageNamed:@"Calendar_Frame_Today.png"];
     } else {
         frameImageView.image = nil;
     }
@@ -100,15 +129,12 @@
                 markImageView.image = [UIImage imageNamed:@"Calendar_Pill_taken.png"];
             }
         } else {
-            if (isPlacebo) {
-                if ([ScheduleManager isEveryday] || [ScheduleManager takePlaceboPills]) {
-                    markImageView.image = [UIImage imageNamed:@"Calendar_Pill_miss.png"];
-                } else {
-                    markImageView.image = nil;
-                }
+            if (isPlacebo && ![ScheduleManager isEveryday] && ![ScheduleManager takePlaceboPills]) {
+                
+                markImageView.image = nil;
                 
             } else {
-                markImageView.image = [UIImage imageNamed:@"Calendar_Pill_miss.png"];
+                markImageView.image = [UIImage imageNamed:@"Calendar_Pill_future.png"];
             }
         }
         

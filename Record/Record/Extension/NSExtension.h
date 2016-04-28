@@ -91,6 +91,7 @@
 - (BOOL)isEqualTo:(NSDateComponents *)date;
 
 - (NSDate *)theDate;
+- (NSString *)theDay;
 
 @end
 
@@ -101,6 +102,11 @@
 
 @end
 
+@interface NSCache (NSCacheExtension)
+
+- (id)validObjectForKey:(id)key;
+
+@end
 
 
 @interface NSString (NSStringExtension)

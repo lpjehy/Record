@@ -12,6 +12,7 @@
 
 
 - (void)dismiss;
+- (void)back;
 
 - (void)showCancel;
 - (void)showBack;

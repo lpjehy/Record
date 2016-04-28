@@ -49,11 +49,10 @@
 "help_edit_date"="点击编辑日期";
 "help_switch_month"="上下滑动查看月份";
 
-"legend_taked"="taked";
-"legend_untaken"="un-taken";
-"legend_missed"="missed pill";
-"legend_placebo"="placebo pill";
-"legend_untaken_placebo"="un-taken placebo pill";
+"legend_taked"="服用";
+"legend_untaken"="未服用";
+"legend_placebo"="安慰剂";
+"legend_untaken_placebo"="未服用安慰剂";
 
 "day"="天";
 
@@ -88,6 +87,7 @@
 
 "pack_current_pack"="当前药板";
 "pack_not_current_pack"="非当前药板";
+"pack_in_future"="未来药板";
 
 "message_missed"="漏服";
 

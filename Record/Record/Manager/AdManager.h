@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString *AdMobUnitIdCalendar = @"ca-app-pub-8261113346738623/5067220599";
+static NSString *AdMobUnitIdSetting = @"ca-app-pub-8261113346738623/6543953791";
+
 @interface AdManager : NSObject
 
 + (void)test;
