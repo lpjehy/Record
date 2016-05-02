@@ -30,3 +30,5 @@
 #define ColorTextGray            [UIColor colorWithWhite:102.0 / 255.0 alpha:1]  //灰色字体颜色
 #define ColorTextDark            [UIColor colorWithWhite:51.0 / 255.0 alpha:1]  //黑色字体颜色
 
+
+#define ColorTextPill            [UIColor colorWithRed:63 / 255.0 green:79 / 255.0 blue:126 / 255.0 alpha:1]  //药片字体颜色

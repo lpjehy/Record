@@ -18,10 +18,27 @@ static NSString *MarkFirstTakeByReminderKey = @"MarkFirstTakeByRedminder";
 
 static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedminder";
 
+static NSString *AppLanguageKey = @"AppLanguage";
+
 @implementation AppManager
 
 + (void)Initialize
 {
+    if (![AppManager language]) {
+        NSString *language = [NSLocale preferredLanguages].firstObject;
+        if ([language isEqualToString:@"zh-Hant"]) {
+            language = @"zh-Hant";
+        } else if ([language hasPrefix:@"zh-Hans"]) {
+            language = @"zh-Hans";
+        } else {
+            language = @"Base";
+        }
+        
+        
+        [AppManager setLanguage:language];
+    }
+    
+    
     [AnalyticsUtil Initialize];
     
     
@@ -52,7 +69,7 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 + (void)setFirstSetDone {
-    [AnalyticsUtil event:Event_First_Set_Done];
+    
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:MarkFirstSetDoneKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -86,5 +103,13 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+
++ (NSString *)language {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:AppLanguageKey];
+}
++ (void)setLanguage:(NSString *)language {
+    [[NSUserDefaults standardUserDefaults] setValue:language forKey:AppLanguageKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 @end

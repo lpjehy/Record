@@ -31,7 +31,7 @@
     
     UIButton *leftButton = [[UIButton alloc] init];
     leftButton.frame = CGRectMake(15, 20, 64, 44);
-    [leftButton setTitle:NSLocalizedString(@"button_title_back", nil) forState:UIControlStateNormal];
+    [leftButton setTitle:LocalizedString(@"button_title_back") forState:UIControlStateNormal];
     leftButton.titleLabel.font = FontNormal;
     [leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
@@ -39,7 +39,7 @@
     [self.view addSubview:leftButton];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = NSLocalizedString(@"Sounds", nil);
+    titleLabel.text = LocalizedString(@"navigation_title_sounds");
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.frame = CGRectMake(64, 20, ScreenWidth - 128, 44);
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -92,8 +92,12 @@
         cell.textLabel.textColor = [UIColor whiteColor];
     }
     
-    NSString *text = [[ReminderManager getInstance].soundArray validObjectAtIndex:indexPath.row];;
+    NSString *text = [[ReminderManager getInstance].soundArray validObjectAtIndex:indexPath.row];
     cell.textLabel.text = text;
+    
+    if ([text isEqualToString:SoundNameDefault]) {
+        text = UILocalNotificationDefaultSoundName;
+    }
     
     if ([text isEqualToString:[ReminderManager notificationSound]]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;

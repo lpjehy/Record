@@ -126,6 +126,13 @@
     return [self isEarlierThan:[NSDate date]];
 }
 
+- (NSDate *)dayDate {
+    NSDateComponents *day = self.components;
+    NSString *str = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", day.year, day.month,day.day];
+    
+    return str.date;
+}
+
 - (NSDateComponents *)components
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -279,51 +286,51 @@
 {
     switch (month) {
         case 1:
-            return NSLocalizedString(@"month_january", nil);
+            return LocalizedString(@"month_january");
             break;
             
         case 2:
-            return NSLocalizedString(@"month_february", nil);
+            return LocalizedString(@"month_february");
             break;
             
         case 3:
-            return NSLocalizedString(@"month_march", nil);
+            return LocalizedString(@"month_march");
             break;
             
         case 4:
-            return NSLocalizedString(@"month_april", nil);
+            return LocalizedString(@"month_april");
             break;
             
         case 5:
-            return NSLocalizedString(@"month_may", nil);
+            return LocalizedString(@"month_may");
             break;
             
         case 6:
-            return NSLocalizedString(@"month_june", nil);
+            return LocalizedString(@"month_june");
             break;
             
         case 7:
-            return NSLocalizedString(@"month_july", nil);
+            return LocalizedString(@"month_july");
             break;
             
         case 8:
-            return NSLocalizedString(@"month_august", nil);
+            return LocalizedString(@"month_august");
             break;
             
         case 9:
-            return NSLocalizedString(@"month_september", nil);
+            return LocalizedString(@"month_september");
             break;
             
         case 10:
-            return NSLocalizedString(@"month_october", nil);
+            return LocalizedString(@"month_october");
             break;
             
         case 11:
-            return NSLocalizedString(@"month_november", nil);
+            return LocalizedString(@"month_november");
             break;
             
         case 12:
-            return NSLocalizedString(@"month_december", nil);
+            return LocalizedString(@"month_december");
             break;
             
         default:
@@ -383,6 +390,10 @@
 
 - (NSDate *)theDate {
     return [NSString stringWithFormat:@"%zi-%02zi-%02zi %02zi:%02zi:%02zi.0", self.year, self.month, self.day, self.hour, self.minute, self.second].date;
+}
+
+- (NSDate *)theDayDate {
+    return [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", self.year, self.month, self.day].date;
 }
 
 - (NSString *)theDay {

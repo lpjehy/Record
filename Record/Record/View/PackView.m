@@ -25,11 +25,15 @@
     UILabel *daysLabel;
     
     NSMutableArray *dateButtonArray;
+    NSMutableArray *weekdayLabelArray;
     
     float itemHeight;
     
     NSInteger currentPack;
     NSInteger currentSubPack;
+    
+    
+    
     
 }
 
@@ -44,7 +48,7 @@
 @synthesize firstDate, lastDate;
 
 - (void)pilldayButtonPressed:(PillButton *)button {
-    NSDate *date = button.day.theDate;
+    NSDate *date = button.day.theDayDate;
     if (!date.isEarlier) {
         [UIAlertView showMessage:NSLocalizedString(@"alert_message_nohurry", nil)];
         return;
@@ -63,24 +67,27 @@
 
 
 - (void)createWeekDayLayout {
-    NSArray *weekdayArray = @[@1, @2, @3, @4, @5, @6, @7];
+    
+    weekdayLabelArray = [[NSMutableArray alloc] init];
     
     float labelWidth = backImageView.width * 136 / 640;
     
-    CGFloat baseY = 48;
+    CGFloat baseY = 50;
     if (ISPad) {
         baseY = 80;
+    } else if (ScreenHeight == 568) {
+        baseY = 40;
     }
     
-    for (int i = 0; i < weekdayArray.count; i++) {
+    for (int i = 0; i < 7; i++) {
         UILabel *weekdayLabel = [[UILabel alloc] init];
         weekdayLabel.textColor = [UIColor whiteColor];
         weekdayLabel.font = FontNormal;
         weekdayLabel.textAlignment = NSTextAlignmentCenter;
         weekdayLabel.frame = CGRectMake(backImageView.originX, baseY + itemHeight * i, labelWidth, itemHeight);
-        NSInteger weekday = [[weekdayArray validObjectAtIndex:i] integerValue];
-        weekdayLabel.text = [NSDateComponents textForWeekday:weekday];
         [self addSubview:weekdayLabel];
+        
+        [weekdayLabelArray addObject:weekdayLabel];
     }
 }
 
@@ -92,6 +99,8 @@
     float baseY = 48;
     if (ISPad) {
         baseY = 80;
+    } else if (ScreenHeight == 568) {
+        baseY = 40;
     }
     
     
@@ -150,6 +159,8 @@
     
     if (ISPad) {
         itemHeight = (backHeight - 120) / 7;
+    } else if (ScreenHeight == 568) {
+        itemHeight = (backHeight - 56) / 7;
     } else {
         itemHeight = (backHeight - 72) / 7;
     }
@@ -222,6 +233,15 @@
         
         NSDateComponents *components = [[ScheduleManager getInstance] dateInPack:currentPack day:day].components;
         if (components) {
+            
+            if (i < 7) {
+                UILabel *weekdayLabel = [weekdayLabelArray validObjectAtIndex:i];
+                if (weekdayLabel) {
+                    weekdayLabel.text = [NSDateComponents textForWeekday:components.weekday];
+                }
+            }
+            
+            
             [button setDay:components];
             
             if (firstDate == nil) {

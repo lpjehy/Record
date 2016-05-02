@@ -41,10 +41,10 @@ static NSString *auditionID = @"auditionID";
 {
     AVAudioSession *session = [AVAudioSession sharedInstance];
     NSError *sessionError;
-    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&sessionError];
+    [session setCategory:AVAudioSessionCategoryPlayback error:&sessionError];
     if(session)
         [session setActive:YES error:nil];
-    
+        
     UInt32 doChangeDefaultRoute = 1;
     //AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker,sizeof(doChangeDefaultRoute), &doChangeDefaultRoute);
     NSError* error;
@@ -118,10 +118,6 @@ static NSString *auditionID = @"auditionID";
 
 - (BOOL)playWithFilename:(NSString *)filename
 {
-    if ([filename isEqualToString:SoundNameDefault]) {
-        [AudioManager playDefaultAudio];
-        return YES;
-    }
     
     NSString *string = [[NSBundle mainBundle] pathForResource:filename ofType:@"mp3"];
     //把音频文件转换成url格式
@@ -129,7 +125,7 @@ static NSString *auditionID = @"auditionID";
     
     NSError *playerError;
     defaultPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&playerError];
-    
+    defaultPlayer.volume = 1.0;
     
     [self activeSession];
     

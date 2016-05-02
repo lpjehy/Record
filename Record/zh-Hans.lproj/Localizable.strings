@@ -1,13 +1,15 @@
-/* 
-  本地.strings
-  Record
-
-  Created by Jehy Fan on 16/3/20.
-  Copyright © 2016年 Jehy Fan. All rights reserved.
-*/
+/*
+ 本地.strings
+ Record
+ 
+ Created by Jehy Fan on 16/3/20.
+ Copyright © 2016年 Jehy Fan. All rights reserved.
+ */
 
 
 "navigation_title_setting"="设置";
+"navigation_title_sounds"="声音";
+"navigation_title_languages"="语言";
 
 "button_title_help"="帮助";
 "button_title_setting"="设置";
@@ -32,17 +34,18 @@
 
 "Setting_Item_TakeEveryday"="每天都吃药";
 "Setting_Item_PillDays"="吃药天数";
-"Setting_Item_BeakDays"="断药天数";
-"Setting_Item_TakePlaceboPills"="我服用安慰剂";
+"Setting_Item_BeakDays"="停药天数";
+"Setting_Item_TakePlaceboPills"="我服用安慰丸";
 "Setting_Item_StartDay"="开始服用的日期";
 "Setting_Item_RemindTakePill"="提醒我吃药";
-"Setting_Item_RmindTakePlaceboPill"="提醒我吃安慰剂";
-"Setting_Item_NotifyAlertBody"="通知文案";
-"Setting_Item_NotifyTime"="通知时间";
-"Setting_Item_NotifySound"="通知声音";
+"Setting_Item_RmindTakePlaceboPill"="提醒我吃安慰丸";
+"Setting_Item_NotifyAlertBody"="提醒消息內容";
+"Setting_Item_NotifyTime"="提醒时间";
+"Setting_Item_NotifySound"="提醒铃声";
+"Setting_Item_Language"="语言";
 "Setting_Item_CheerUs"="鼓励我们";
 
-"reminder_default_alertbody"="请您服药~";
+"reminder_default_alertbody"="到吃药的时间了哟~";
 
 "help_take_pill"="点击服用，再次点击撤销";
 "help_check_pack"="左右滑动查看药板";
@@ -99,4 +102,19 @@
 "business_placebo_pilldays"="安慰剂日";
 
 
-"alert_message_nohurry"="不要着急哦，还没到那天呢~";
+"alert_message_nohurry"="不要着急哦，还没到那天呢";
+
+
+"start_hi"="您好";
+
+"start_subtitle"="小爱助您\n永远不会错过用药";
+
+"start_tap"="点击开始设置您的服药计划";
+
+
+"time_am"="上午";
+"time_pm"="下午";
+
+"language_Base"="英文";
+"language_zh-Hans"="中文(简体)";
+"language_zh-Hant"="中文(繁体)";

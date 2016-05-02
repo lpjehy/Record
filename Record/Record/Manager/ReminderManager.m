@@ -9,6 +9,7 @@
 #import "ReminderManager.h"
 #import "ScheduleManager.h"
 #import "AudioManager.h"
+#import "RecordManager.h"
 
 
 #import <AudioToolbox/AudioToolbox.h>
@@ -23,7 +24,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 
 
 
-#define DefaultAlertBody NSLocalizedString(@"reminder_default_alertbody", nil);
+#define DefaultAlertBody LocalizedString(@"reminder_default_alertbody");
 
 @interface ReminderManager () {
     
@@ -181,6 +182,10 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 
 + (void)resetNotify {
     
+    if ([UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone) {
+        return;
+    }
+    
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     BOOL remind = [[self class] shouldRmind];
@@ -194,12 +199,18 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             localNotification.repeatInterval = NSCalendarUnitDay;
             
             
-            localNotification.fireDate = [[self class] notificationTime];
+            NSDate *notifyDate = [[self class] notificationTime];
+            if ([RecordManager selectRecord:[NSDate date]]) {
+                //如果今天已服用，则第二天开始通知
+                notifyDate = [notifyDate dateByAddingTimeInterval:TimeIntervalDay];
+            }
+            
+            localNotification.fireDate = notifyDate;
             
             localNotification.alertBody = [[self class] notificationAlertBody];
             //localNotification.applicationIconBadgeNumber++;
             //设置通知动作按钮的标题
-            localNotification.alertAction = NSLocalizedString(@"button_title_view", nil);
+            localNotification.alertAction = LocalizedString(@"button_title_view");
             //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
             NSString *soundName = [[self class] notificationSound];
             if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
@@ -221,9 +232,9 @@ static NSString *NotificationSoundKey = @"NotificationSound";
     
     NSDate *beginDate = [[self class] notificationTime];
     NSInteger beginDay = [ScheduleManager getInstance].currentDayFromStartDay;
-    if (!beginDate.isEarlier) {
-        //beginDay++;
-        //beginDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay];
+    if (beginDate.isEarlier || [RecordManager selectRecord:[NSDate date]]) {
+        beginDay++;
+        beginDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay];
     }
     
     for (int i = 0; 1; i++) {
@@ -245,7 +256,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             localNotification.alertBody = [[self class] notificationAlertBody];
             //localNotification.applicationIconBadgeNumber++;
             //设置通知动作按钮的标题
-            localNotification.alertAction = NSLocalizedString(@"button_title_view", nil);
+            localNotification.alertAction = LocalizedString(@"button_title_view");
             //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
             NSString *soundName = [[self class] notificationSound];
             if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {

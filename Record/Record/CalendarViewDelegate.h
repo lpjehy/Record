@@ -24,9 +24,12 @@ static NSString *DayCell = @"DayCell";
 @property(nonatomic, strong) UIScrollView *thisScrollView;
 @property(nonatomic, assign) NSInteger currentMonth;
 
+
 - (void)reloadData;
 
 - (void)scrollToToday;
+
+- (void)resetView;
 - (void)reloadView;
 
 - (CGFloat)contentOffsetYForMonth:(NSInteger)month;

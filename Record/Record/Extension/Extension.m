@@ -28,26 +28,26 @@
 + (NSString *)textForWeekday:(NSInteger)weekday {
     NSString *text = nil;
     switch (weekday) {
-        case 1:
-            text = NSLocalizedString(@"weekday_mon", nil);
-            break;
         case 2:
-            text = NSLocalizedString(@"weekday_tue", nil);
+            text = LocalizedString(@"weekday_mon");
             break;
         case 3:
-            text = NSLocalizedString(@"weekday_wed", nil);
+            text = LocalizedString(@"weekday_tue");
             break;
         case 4:
-            text = NSLocalizedString(@"weekday_thr", nil);
+            text = LocalizedString(@"weekday_wed");
             break;
         case 5:
-            text = NSLocalizedString(@"weekday_fri", nil);
+            text = LocalizedString(@"weekday_thr");
             break;
         case 6:
-            text = NSLocalizedString(@"weekday_sat", nil);
+            text = LocalizedString(@"weekday_fri");
             break;
         case 7:
-            text = NSLocalizedString(@"weekday_sun", nil);
+            text = LocalizedString(@"weekday_sat");
+            break;
+        case 1:
+            text = LocalizedString(@"weekday_sun");
             break;
             
             

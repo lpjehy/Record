@@ -56,9 +56,14 @@
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
     
+    if (ScreenHeight == 568) {
+        backImageView.frame = CGRectMake((self.width - 40) / 2, (self.height - 40) / 2, 40, 40);
+        pillImageView.frame = CGRectMake((self.width - 32) / 2, (self.height - 32) / 2, 32, 32);
+    } else {
+        backImageView.frame = CGRectMake((self.width - 45) / 2, (self.height - 45) / 2, 45, 45);
+        pillImageView.frame = CGRectMake((self.width - 35) / 2, (self.height - 35) / 2, 35, 35);
+    }
     
-    backImageView.frame = CGRectMake((self.width - 45) / 2, (self.height - 45) / 2, 45, 45);
-    pillImageView.frame = CGRectMake((self.width - 35) / 2, (self.height - 35) / 2, 35, 35);
     dayLabel.frame = CGRectMake(0, 0, self.width, self.height);
 }
 
@@ -80,7 +85,6 @@
             self.isTaken = NO;
         }
         
-        NSLog(@"pill day: %@ record: %@", dayStr, record);
     }
 }
 
@@ -100,6 +104,12 @@
     //NSLog(@"components: %zi %zi %zi today:  %zi %zi %zi ", components.year, components.month, components.day, today.year, today.month, today.day);
     if (day.year == today.year && day.month == today.month && day.day == today.day) {
         self.isToday = YES;
+        NSLog(@"get pack today");
+        
+        
+        NSNumber *num = [NSNumber numberWithFloat:self.superview.originX];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:TodayPackSettedNotification object:nil userInfo:@{@"DestX":num}];
     } else {
         self.isToday = NO;
     }
@@ -108,7 +118,6 @@
     NSString *recordText = nil;
     if ([day isEarlier:today]) {
         recordText = [RecordManager selectRecord:day.theDate];
-        //NSLog(@"recordText: %@", recordText);
         
     }
     
@@ -127,6 +136,9 @@
 }
 
 - (void)setIsToday:(BOOL)is {
+    
+    backImageView.alpha = 1;
+    
     isToday = is;
     if (is) {
         
@@ -163,15 +175,10 @@
         NSString *imagename = [NSString stringWithFormat:@"Pill_Taken_%zi.png", arc4random() % 4 + 1];
         pillImageView.image = [UIImage imageNamed:imagename];
         
-        if (isToday) {
-            backImageView.image = [UIImage imageNamed:@"BG_Pill_Today.png"];
-            
-        } else {
-            backImageView.image = [UIImage imageNamed:@"BG_Pill_Normal.png"];
-        }
+        
     } else {
         
-        dayLabel.textColor = [UIColor blackColor];
+        dayLabel.textColor = ColorTextPill;
         
         if (isBreakDay) {
             if ([ScheduleManager takePlaceboPills]) {

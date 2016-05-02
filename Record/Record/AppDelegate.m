@@ -11,7 +11,7 @@
 #import "MainViewController.h"
 
 #import "SqlUtil.h"
-
+#import "LaunchView.h"
 
 #import "OnlineConfigUtil.h"
 #import "AdManager.h"
@@ -42,6 +42,9 @@
     self.window.rootViewController = mainNavigationController;
     
     [self.window makeKeyAndVisible];
+    
+    [LaunchView show];
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -54,6 +57,16 @@
     [self createLayout];
     
     
+    
+    /*
+    for (NSString *name in [UIFont familyNames]) {
+        NSLog(@"name ：%@", name);
+        for (NSString *subname in [UIFont fontNamesForFamilyName:name]) {
+            NSLog(@"subname ：%@", subname);
+        }
+        
+    }
+     */
     
     return YES;
 }
@@ -99,11 +112,7 @@
         [ReminderManager resetNotify];
     }
     
-    /*
-    for (UILocalNotification *notify in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
-        NSLog(@"%@", notify.fireDate.description);
-    }
-     */
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -111,6 +120,19 @@
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    NSLog(@"didRegisterUserNotificationSettings %@", notificationSettings.description);
+    
+    if (notificationSettings.types == UIUserNotificationTypeNone) {
+        
+        [AnalyticsUtil event:Event_Refuse_Notify];
+    } else {
+        
+    }
+}
+
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     //判断应用程序当前的运行状态，如果是激活状态，则进行提醒，否则不提醒

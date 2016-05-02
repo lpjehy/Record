@@ -18,3 +18,5 @@ static NSString *TabbarDidSelectedNotification =  @"TabbarDidSelectedNotificatio
 static NSString *CalendarMonthChangedNotification = @"CalendarMonthChangedNotification";
 
 static NSString *PillStateChangedNotification = @"PillStateChangedNotification";
+
+static NSString *TodayPackSettedNotification = @"TodayPackSettedNotification";

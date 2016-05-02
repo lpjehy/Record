@@ -62,5 +62,10 @@
 #define TimeIntervalYear     (60 * 60 * 24 * 30 * 12)
 
 
+//#define LocalizedString(key)  NSLocalizedString(key, nil)
 
+#define LocalizedString(key)  [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
+
+
+//#define LocalizedString(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"AppLanguage"]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:@"Language"]
 

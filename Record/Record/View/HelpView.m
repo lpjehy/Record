@@ -37,7 +37,7 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     
     
     tapLabel = [[UILabel alloc] init];
-    tapLabel.font = FontNormal;
+    tapLabel.font = FontMiddle;
     tapLabel.textAlignment = NSTextAlignmentCenter;
     tapLabel.frame = CGRectMake(0, 150, ScreenWidth, tapLabel.font.lineHeight);
     tapLabel.textColor = [UIColor whiteColor];
@@ -51,7 +51,7 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     
     
     swipeLabel = [[UILabel alloc] init];
-    swipeLabel.font = FontNormal;
+    swipeLabel.font = FontMiddle;
     swipeLabel.textAlignment = NSTextAlignmentCenter;
     swipeLabel.frame = CGRectMake(0, 360, ScreenWidth, tapLabel.font.lineHeight);
     swipeLabel.textColor = [UIColor whiteColor];
@@ -90,9 +90,9 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     
     self.hidden = NO;
     
-    tapLabel.text = NSLocalizedString(@"help_take_pill", nil);
+    tapLabel.text = LocalizedString(@"help_take_pill");
     
-    swipeLabel.text = NSLocalizedString(@"help_check_pack", nil);
+    swipeLabel.text = LocalizedString(@"help_check_pack");
     
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Right.png"];
     swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 105)];
@@ -104,9 +104,9 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     self.hidden = NO;
     
     
-    tapLabel.text = NSLocalizedString(@"help_edit_date", nil);
+    tapLabel.text = LocalizedString(@"help_edit_date");
     
-    swipeLabel.text = NSLocalizedString(@"help_switch_month", nil);
+    swipeLabel.text = LocalizedString(@"help_switch_month");
     
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Down.png"];
     swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 122)];

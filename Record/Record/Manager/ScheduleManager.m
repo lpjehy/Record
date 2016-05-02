@@ -9,6 +9,7 @@
 #import "ScheduleManager.h"
 
 #import "ReminderManager.h"
+#import "RecordManager.h"
 
 static NSString *IsEverydayKey = @"IsEveryday";
 static NSString *PillDaysKey = @"PillDays";
@@ -48,6 +49,7 @@ static NSInteger DefaultBreakDays = 7;
 
 - (void)resetDate {
     
+    self.today = NSDate.components;
     self.startDay = [ScheduleManager startDate].components;
     
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:[[self class] startDate]];
@@ -56,7 +58,7 @@ static NSInteger DefaultBreakDays = 7;
     currentDayFromStartDay = timeInterval / TimeIntervalDay;
     
     currentPack = currentDayFromStartDay / [ScheduleManager allDays];
-    currentPackDay = currentDayFromStartDay % [ScheduleManager allDays];
+    currentPackDay = currentDayFromStartDay % [ScheduleManager allDays] + 1;
     
     [ReminderManager resetNotify];
     
@@ -166,6 +168,17 @@ static NSInteger DefaultBreakDays = 7;
     
 }
 
+- (void)resetRecord:(NSDate *)date {
+    NSDate *todayDate = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", today.year, today.month, today.day].date;
+    while ([date isEarlierThan:todayDate]) {
+        [RecordManager record:date];
+        
+        date = [date dateByAddingTimeInterval:TimeIntervalDay];
+    }
+    
+    
+    [[[self class] getInstance] resetDate];
+}
 
 + (void)setStartDate:(NSDate *)date {
     
@@ -173,7 +186,7 @@ static NSInteger DefaultBreakDays = 7;
     [[NSUserDefaults standardUserDefaults] setValue:date forKey:StartDateKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [[[self class] getInstance] resetDate];
+    [[[self class] getInstance] performSelectorInBackground:@selector(resetRecord:) withObject:date];
 }
 + (NSDate *)startDate {
     NSDate *startDate = [[NSUserDefaults standardUserDefaults] valueForKey:StartDateKey];

@@ -109,7 +109,7 @@
     leftButton = [[UIButton alloc] init];
     [leftButton setImage:[UIImage imageNamed:@"Icon_Navbar_Back.png"] forState:UIControlStateNormal];
     [leftButton setTitle:@"返回" forState:UIControlStateNormal];
-    leftButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    leftButton.titleLabel.font = FontMiddle;
     [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     leftButton.titleEdgeInsets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 0.0f);
     leftButton.adjustsImageWhenHighlighted = NO;
@@ -124,7 +124,7 @@
     
     closeButton = [[UIButton alloc] init];
     [closeButton setTitle:@"关闭" forState:UIControlStateNormal];
-    closeButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    closeButton.titleLabel.font = FontMiddle;
     [closeButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     closeButton.adjustsImageWhenHighlighted = NO;
     closeButton.showsTouchWhenHighlighted = YES;

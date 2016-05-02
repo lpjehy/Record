@@ -1,10 +1,11 @@
 /* 
-  eglish.strings
-  Record
+  InfoPlist.strings
+  Reminder
 
-  Created by Jehy Fan on 16/3/20.
+  Created by Jehy Fan on 16/5/2.
   Copyright © 2016年 Jehy Fan. All rights reserved.
 */
 
 
-CFBundleDisplayName ="提醒";
+
+CFBundleDisplayName = "小爱提醒";

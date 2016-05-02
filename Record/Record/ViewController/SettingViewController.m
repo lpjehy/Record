@@ -18,6 +18,9 @@
 #import "TextEditViewController.h"
 #import "WebViewController.h"
 #import "SoundsViewController.h"
+#import "LanguagesViewController.h"
+
+
 
 @import GoogleMobileAds;
 
@@ -36,7 +39,7 @@ typedef NS_ENUM(NSInteger, PickerType) {
     
     UIPickerView *numberPickerView;
     UIButton *doneButton;
-    UIButton *confirmButton;
+    UIButton *cancelButton;
     
     PickerType currentPickerType;
     
@@ -71,6 +74,7 @@ static NSString *Setting_Item_RemindTakePlaceboPill = @"Setting_Item_RmindTakePl
 static NSString *Setting_Item_NotifyAlertBody = @"Setting_Item_NotifyAlertBody";
 static NSString *Setting_Item_NotifyTime = @"Setting_Item_NotifyTime";
 static NSString *Setting_Item_NotifySound = @"Setting_Item_NotifySound";
+static NSString *Setting_Item_Language = @"Setting_Item_Language";
 static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 
 @implementation SettingViewController
@@ -115,7 +119,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.type = SettingTypeText;
     
     NSInteger pillday = [ScheduleManager pillDays];
-    item.textValue = [NSString stringWithFormat:@"%zi %@", pillday, NSLocalizedString(@"day", nil)];
+    item.textValue = [NSString stringWithFormat:@"%zi %@", pillday, LocalizedString(@"day")];
     item.enable = YES;
     [array addObject:item];
     
@@ -130,7 +134,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.type = SettingTypeText;
     
     NSInteger breakDay = [ScheduleManager breakDays];
-    item.textValue = [NSString stringWithFormat:@"%zi %@", breakDay, NSLocalizedString(@"day", nil)];;
+    item.textValue = [NSString stringWithFormat:@"%zi %@", breakDay, LocalizedString(@"day")];;
     item.enable = YES;
     [array addObject:item];
     
@@ -209,7 +213,14 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.type = SettingTypeText;
     
     NSDate *nofityTime = [ReminderManager notificationTime];
-    item.textValue = [nofityTime stringWithFormat:@"HH:mm"];
+    components = nofityTime.components;
+    NSString *daytime = LocalizedString(@"time_am");
+    NSInteger hour = components.hour;
+    if (hour > 12) {
+        hour -= 12;
+        daytime = LocalizedString(@"time_pm");
+    }
+    item.textValue = [NSString stringWithFormat:@"%zi:%zi %@", hour, components.minute, daytime];
     item.enable = should;
     [array addObject:item];
     
@@ -228,6 +239,17 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     [moduleArray addObject:@"setting_module_reminders"];
     [moduleDic setValue:array forKey:@"setting_module_reminders"];
     
+    /*
+    array = [NSMutableArray array];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_Language;
+    item.type = SettingTypeText;
+    item.enable = YES;
+    NSString *stringKey = [NSString stringWithFormat:@"language_%@", [AppManager language]];
+    item.textValue = LocalizedString(stringKey);
+    
+    [array addObject:item];
     
     if (appID && ![appID isEqualToString:@"0"]) {
         item = [[SettingItem alloc] init];
@@ -237,9 +259,12 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         [array addObject:item];
         
         
-        [moduleArray addObject:@"setting_module_others"];
-        [moduleDic setValue:array forKey:@"setting_module_others"];
+        
     }
+    
+    [moduleArray addObject:@"setting_module_others"];
+    [moduleDic setValue:array forKey:@"setting_module_others"];
+    */
     
     [mainTableView reloadData];
 }
@@ -248,12 +273,13 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     [self dismiss];
     
     
+
 }
 
 - (void)doneButtonPressed {
     
     doneButton.hidden = YES;
-    confirmButton.hidden = YES;
+    cancelButton.hidden = YES;
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.24];
@@ -268,7 +294,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     [self createPickerView];
     
     doneButton.hidden = NO;
-    confirmButton.hidden = NO;
+    cancelButton.hidden = NO;
     
     [numberPickerView reloadAllComponents];
     
@@ -281,15 +307,19 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         NSDateComponents *components = date.components;
         
         
-        [numberPickerView selectRow:components.month - 1 inComponent:0 animated:NO];
-        [numberPickerView selectRow:components.day - 1 inComponent:1 animated:NO];
-        [numberPickerView selectRow:components.year - 2000 inComponent:2 animated:NO];
+        [numberPickerView selectRow:components.month - 1 inComponent:1 animated:NO];
+        [numberPickerView selectRow:components.day - 1 inComponent:2 animated:NO];
+        [numberPickerView selectRow:components.year - 2000 inComponent:3 animated:NO];
     } else if (currentPickerType == PickerTypeNotifyTime) {
         NSDate *date = [ReminderManager notificationTime];
         NSDateComponents *components = date.components;
-        
-        [numberPickerView selectRow:components.hour inComponent:0 animated:NO];
-        [numberPickerView selectRow:components.minute inComponent:1 animated:NO];
+        NSInteger hour = components.hour;
+        if (hour > 12) {
+            hour -= 12;
+            [numberPickerView selectRow:1 inComponent:3 animated:NO];
+        }
+        [numberPickerView selectRow:hour inComponent:1 animated:NO];
+        [numberPickerView selectRow:components.minute inComponent:2 animated:NO];
         
     }
     
@@ -314,18 +344,25 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         
         
     } else if (currentPickerType == PickerTypeStartDate) {
-        NSInteger year = [numberPickerView selectedRowInComponent:2] + 2000;
-        NSInteger month = [numberPickerView selectedRowInComponent:0] + 1;
-        NSInteger day = [numberPickerView selectedRowInComponent:1] + 1;
+        NSInteger year = [numberPickerView selectedRowInComponent:3] + 2000;
+        NSInteger month = [numberPickerView selectedRowInComponent:1] + 1;
+        NSInteger day = [numberPickerView selectedRowInComponent:2] + 1;
         
         NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
-        
-        [ScheduleManager setStartDate:dateString.date];
+        NSDate *theDate = dateString.date;
+        if (!theDate.isEarlier) {
+            theDate = [NSDate date].dayDate;
+        }
+        [ScheduleManager setStartDate:theDate];
         
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
-        NSInteger hour = [numberPickerView selectedRowInComponent:0];
-        NSInteger minute = [numberPickerView selectedRowInComponent:1];
+        NSInteger hour = [numberPickerView selectedRowInComponent:1];
+        NSInteger minute = [numberPickerView selectedRowInComponent:2];
+        NSInteger row = [numberPickerView selectedRowInComponent:3];
+        if (row == 1) {
+            hour += 12;
+        }
         
         NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
         
@@ -348,11 +385,11 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         doneButton = [[UIButton alloc] init];
         doneButton.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
         doneButton.hidden = YES;
-        [doneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [doneButton addTarget:self action:@selector(confirmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:doneButton];
         
         numberPickerView = [[UIPickerView alloc] init];
-        numberPickerView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 240);
+        numberPickerView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 216.0);
         numberPickerView.delegate = self;
         numberPickerView.dataSource = self;
         numberPickerView.backgroundColor = [UIColor whiteColor];
@@ -367,22 +404,22 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         [numberPickerView addSubview:buttonView];
         
         UILabel *cancelLabel = [[UILabel alloc] init];
-        cancelLabel.text = NSLocalizedString(@"button_title_cancel", nil);
+        cancelLabel.text = LocalizedString(@"button_title_cancel");
         cancelLabel.frame = CGRectMake(10, 0, 128, 44);
         [buttonView addSubview:cancelLabel];
         
         UILabel *confirmLabel = [[UILabel alloc] init];
-        confirmLabel.text = NSLocalizedString(@"button_title_done", nil);
+        confirmLabel.text = LocalizedString(@"button_title_done");
         confirmLabel.frame = CGRectMake(ScreenWidth - 138, 0, 128, 44);
         confirmLabel.textAlignment = NSTextAlignmentRight;
         [buttonView addSubview:confirmLabel];
         
         
-        confirmButton = [[UIButton alloc] init];
-        [confirmButton addTarget:self action:@selector(confirmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        confirmButton.hidden = YES;
-        confirmButton.frame = CGRectMake(ScreenWidth - 64 - 10, ScreenHeight - numberPickerView.height - 44, 64, 44);
-        [doneButton addSubview:confirmButton];
+        cancelButton = [[UIButton alloc] init];
+        [cancelButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        cancelButton.hidden = YES;
+        cancelButton.frame = CGRectMake(0, ScreenHeight - numberPickerView.height - 44, 64, 44);
+        [doneButton addSubview:cancelButton];
     }
 }
 
@@ -396,24 +433,27 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         
         [self finishSetting];
     } else {
-        [AppManager setFirstSetDone];
         
+        [AnalyticsUtil event:Event_First_Set_Done];
         
-        NSString *text = NSLocalizedString(@"business_breakdays", nil);
+        NSString *text = LocalizedString(@"business_breakdays");
         if ([ScheduleManager takePlaceboPills]) {
-            text = NSLocalizedString(@"business_placebo_pilldays", nil);
+            text = LocalizedString(@"business_placebo_pilldays");
         }
         
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"message_day_confirm_setting", nil), [ScheduleManager pillDays], [ScheduleManager breakDays], text];
+        NSString *message = [NSString stringWithFormat:LocalizedString(@"message_day_confirm_setting"), [ScheduleManager pillDays], [ScheduleManager breakDays], text];
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                             message:message
                                                            delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"button_title_confirm", nil)
-                                                  otherButtonTitles:NSLocalizedString(@"button_title_cancel", nil), nil];
+                                                  cancelButtonTitle:LocalizedString(@"button_title_confirm")
+                                                  otherButtonTitles:LocalizedString(@"button_title_cancel"), nil];
         [alertView show];
     }
 }
+
+
+#pragma mark - layout
 
 - (void)createLayout {
     [self.navigationController setNavigationBarHidden:YES];
@@ -421,7 +461,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(ScreenWidth - 64, 20, 64, 44);
     rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-    [rightButton setTitle:NSLocalizedString(@"button_title_done", nil) forState:UIControlStateNormal];
+    [rightButton setTitle:LocalizedString(@"button_title_done") forState:UIControlStateNormal];
     
     
     rightButton.titleLabel.font = FontNormal;
@@ -432,7 +472,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = NSLocalizedString(@"navigation_title_setting", nil);
+    titleLabel.text = LocalizedString(@"navigation_title_setting");
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.frame = CGRectMake(64, 20, ScreenWidth - 128, 44);
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -440,7 +480,10 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     self.view.backgroundColor = [UIColor colorWithWhite:68 / 255.0 alpha:1];
     
+    
     CGFloat currentY = 64;
+    
+    
     
     if ([AppManager hasFirstSetDone]) {
         GADBannerView *bannerView = [[GADBannerView alloc] init];
@@ -471,12 +514,21 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     if (![AppManager hasFirstSetDone]) {
         
+        
+        
+        [ScheduleManager setTakePlaceboPills:YES];
+        
         [ReminderManager setShouldRmind:YES];
+        [ReminderManager setRemindInSafeDays:YES];
+        
     }
     
     
     [self createLayout];
     
+    /**/
+    BOOL hideAnimated = YES;
+    [self.navigationController setNavigationBarHidden:YES animated:hideAnimated];
     
 }
 
@@ -484,9 +536,6 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 {
     [super viewWillAppear:animated];
     
-    /**/
-    BOOL hideAnimated = YES;
-    [self.navigationController setNavigationBarHidden:YES animated:hideAnimated];
     
     
     [self reloadView];
@@ -497,8 +546,6 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 {
     [super viewWillDisappear:animated];
     
-    
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -513,6 +560,11 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         [ScheduleManager setIsEveryday:value];
     } else if ([item.item isEqualToString:Setting_Item_TakePlaceboPills]) {
         [ScheduleManager setTakePlaceboPills:value];
+        
+        if (value) {
+            [ReminderManager setRemindInSafeDays:YES];
+        }
+        
     } else if ([item.item isEqualToString:Setting_Item_RemindTakePill]) {
         [ReminderManager setShouldRmind:value];
     } else if ([item.item isEqualToString:Setting_Item_RemindTakePlaceboPill]) {
@@ -535,9 +587,9 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     if (currentPickerType == PickerTypePillDays || currentPickerType == PickerTypeBreakDays) {
         number = 1;
     } else if (currentPickerType == PickerTypeStartDate) {
-        number = 3;
+        number = 5;
     } else if (currentPickerType == PickerTypeNotifyTime) {
-        number = 2;
+        number = 5;
     }
     
     return number;
@@ -551,29 +603,31 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     } else if (currentPickerType == PickerTypeBreakDays) {
         number = MaxBreakDays + 1;
     } else if (currentPickerType == PickerTypeStartDate) {
-        if (component == 0) {
+        if (component == 1) {
             
             number = 12;
-        } else if (component == 1) {
+        } else if (component == 2) {
             if (pickerView.tag == 0) {
                 NSDateComponents *date = [ScheduleManager startDate].components;
                 
                 number = [NSDateComponents numberOfDaysInMonth:date.month year:date.year];
             } else {
-                NSInteger month = [pickerView selectedRowInComponent:0] + 1;
-                NSInteger year = [pickerView selectedRowInComponent:2] + 2000;
+                NSInteger month = [pickerView selectedRowInComponent:1] + 1;
+                NSInteger year = [pickerView selectedRowInComponent:3] + 2000;
                 number = [NSDateComponents numberOfDaysInMonth:month year:year];
             }
             
-        } else {
-            number = 100;
+        } else if (component == 3) {
+            number = [NSDate date].components.year - 2000 + 1;
         }
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
-        if (component == 0) {
-            number = 24;
-        } else if (component == 1) {
+        if (component == 1) {
+            number = 12;
+        } else if (component == 2) {
             number = 60;
+        } else if (component == 3) {
+            number = 2;
         }
         
     }
@@ -590,22 +644,28 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     } else if (currentPickerType == PickerTypeBreakDays) {
         title = [NSString stringWithInteger:row];
     } else if (currentPickerType == PickerTypeStartDate) {
-        if (component == 0) {
+        if (component == 1) {
             
-            title = [NSString stringWithFormat:@"%zi %@", row + 1, NSLocalizedString(@"date_unit_month", nil)];
-        } else if (component == 1) {
+            title = [NSDateComponents descriptionOfMonth:row + 1];
+        } else if (component == 2) {
             
             
-            title = [NSString stringWithFormat:@"%zi %@", row + 1, NSLocalizedString(@"date_unit_day", nil)];
-        } else {
-            title = [NSString stringWithFormat:@"%zi %@", row + 2000, NSLocalizedString(@"date_unit_year", nil)];
+            title = [NSString stringWithFormat:@"%zi", row + 1];
+        } else if (component == 3) {
+            title = [NSString stringWithFormat:@"%zi", row + 2000];
         }
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
-        if (component == 0) {
-            title = [NSString stringWithFormat:@"%zi %@", row, NSLocalizedString(@"date_unit_hour", nil)];
-        } else if (component == 1) {
-            title = [NSString stringWithFormat:@"%zi %@", row, NSLocalizedString(@"date_unit_minute", nil)];
+        if (component == 1) {
+            title = [NSString stringWithFormat:@"%zi", row];
+        } else if (component == 2) {
+            title = [NSString stringWithFormat:@"%zi", row];
+        } else if (component == 3) {
+            if (row == 0) {
+                title = LocalizedString(@"time_am");
+            } else {
+                title = LocalizedString(@"time_pm");
+            }
         }
         
     }
@@ -620,7 +680,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     } else if (currentPickerType == PickerTypeBreakDays) {
         
     } else if (currentPickerType == PickerTypeStartDate) {
-        [pickerView reloadComponent:1];
+        [pickerView reloadComponent:2];
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
         
@@ -672,7 +732,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         }
         
         
-        NSString *title = NSLocalizedString([moduleArray validObjectAtIndex:indexPath.section], nil);
+        NSString *title = LocalizedString([moduleArray validObjectAtIndex:indexPath.section]);
         cell.textLabel.text = title;
         
         
@@ -755,17 +815,39 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     } else if ([item.item isEqualToString:Setting_Item_CheerUs]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appID]]];
         
+    } else if ([item.item isEqualToString:Setting_Item_Language]) {
+        
+        LanguagesViewController *languagesViewController = [[LanguagesViewController alloc] init];
+        
+        [self.navigationController pushViewController:languagesViewController animated:YES];
+        
     }
 
+    
+    
 }
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:NSLocalizedString(@"button_title_confirm", nil)]) {
+    if ([buttonTitle isEqualToString:LocalizedString(@"button_title_confirm")]) {
         [self finishSetting];
         
         [NotificationCenter postNotificationName:SettingChangedNotification object:nil];
+        
+        if (![AppManager hasFirstSetDone]) {
+            //ios8  注册本地通知
+            if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+                UIUserNotificationSettings *noteSetting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert
+                                                           | UIUserNotificationTypeBadge
+                                                           | UIUserNotificationTypeSound
+                                                                                            categories:nil];
+                [[UIApplication sharedApplication] registerUserNotificationSettings:noteSetting];
+            }
+        }
+        
+        
+        [AppManager setFirstSetDone];
     }
 }
 

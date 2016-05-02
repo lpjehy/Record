@@ -41,9 +41,9 @@
     self.hidden = NO;
     
     self.theCell = button;
-    NSString *title = NSLocalizedString(@"button_title_take", nil);
+    NSString *title = LocalizedString(@"button_title_take");
     if (button.isTaken) {
-        title = NSLocalizedString(@"button_title_untake", nil);
+        title = LocalizedString(@"button_title_untake");
     }
     
     [takeButton setTitle:title forState:UIControlStateNormal];
@@ -89,7 +89,7 @@
         cancelButton = [[UIButton alloc] init];
         cancelButton.frame = CGRectMake(0, 40, backView.width, 40);
         cancelButton.titleLabel.font = FontNormal;
-        [cancelButton setTitle:NSLocalizedString(@"button_title_cancel", nil) forState:UIControlStateNormal];
+        [cancelButton setTitle:LocalizedString(@"button_title_cancel") forState:UIControlStateNormal];
         [cancelButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
         [cancelButton addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:cancelButton];

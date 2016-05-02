@@ -85,7 +85,6 @@
         
         [self resetState];
         
-        NSLog(@"calendar day: %@ record: %@", dayStr, record);
     }
 }
 
@@ -154,7 +153,7 @@
         
         
         NSString *recordText = [RecordManager selectRecord:day.theDate];
-        //NSLog(@"recordText: %@", recordText);
+        
         if (recordText) {
             self.isTaken = YES;
         } else {

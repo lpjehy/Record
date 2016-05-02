@@ -41,21 +41,21 @@
         
         
         UILabel *legendLabel = [[UILabel alloc] init];
-        legendLabel.text = NSLocalizedString(@"button_title_legend", nil);
+        legendLabel.text = LocalizedString(@"button_title_legend");
         legendLabel.font = FontMiddle;
         legendLabel.frame = CGRectMake(36, 15, 128, legendLabel.font.lineHeight);
         legendLabel.textColor = ColorGrayDark;
         [backImageView addSubview:legendLabel];
         
         UILabel *takedLabel = [[UILabel alloc] init];
-        takedLabel.text = NSLocalizedString(@"legend_taked", nil);
+        takedLabel.text = LocalizedString(@"legend_taked");
         takedLabel.font = FontMiddle;
         takedLabel.frame = CGRectMake(56, 64, 200, legendLabel.font.lineHeight);
         takedLabel.textColor = ColorTextDark;
         [backImageView addSubview:takedLabel];
         
         UILabel *untakenLabel = [[UILabel alloc] init];
-        untakenLabel.text = NSLocalizedString(@"legend_untaken", nil);
+        untakenLabel.text = LocalizedString(@"legend_untaken");
         untakenLabel.font = FontMiddle;
         untakenLabel.frame = CGRectMake(56, 104, 200, legendLabel.font.lineHeight);
         untakenLabel.textColor = ColorTextDark;
@@ -64,14 +64,14 @@
         
         
         UILabel *placeboLabel = [[UILabel alloc] init];
-        placeboLabel.text = NSLocalizedString(@"legend_placebo", nil);
+        placeboLabel.text = LocalizedString(@"legend_placebo");
         placeboLabel.font = FontMiddle;
         placeboLabel.frame = CGRectMake(56, 140, 200, legendLabel.font.lineHeight);
         placeboLabel.textColor = ColorTextDark;
         [backImageView addSubview:placeboLabel];
         
         UILabel *untakenPlaceboLabel = [[UILabel alloc] init];
-        untakenPlaceboLabel.text = NSLocalizedString(@"legend_untaken_placebo", nil);
+        untakenPlaceboLabel.text = LocalizedString(@"legend_untaken_placebo");
         untakenPlaceboLabel.font = FontMiddle;
         untakenPlaceboLabel.frame = CGRectMake(56, 180, 200, legendLabel.font.lineHeight);
         untakenPlaceboLabel.textColor = ColorTextDark;

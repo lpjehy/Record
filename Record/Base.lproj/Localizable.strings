@@ -10,6 +10,8 @@
 
 
 "navigation_title_setting"="Setting";
+"navigation_title_sounds"="Sounds";
+"navigation_title_languages"="Languages";
 
 "button_title_help"="HELP";
 "button_title_setting"="SETTING";
@@ -43,7 +45,8 @@
 "Setting_Item_NotifyAlertBody"="Notification text";
 "Setting_Item_NotifyTime"="Time";
 "Setting_Item_NotifySound"="Sound";
-"Setting_Item_CheerUs"="Setting_Item_CheerUs";
+"Setting_Item_Language"="Language";
+"Setting_Item_CheerUs"="Cheer Us";
 
 
 "reminder_default_alertbody"="Please take your contraceptive pill~";
@@ -78,18 +81,18 @@
 "date_unit_hour"="Hour";
 "date_unit_minute"="Minute";
 
-"month_january"="January";
-"month_february"="February";
-"month_march"="March";
-"month_april"="April";
+"month_january"="Jan";
+"month_february"="Feb";
+"month_march"="Mar";
+"month_april"="Apr";
 "month_may"="May";
-"month_june"="June";
-"month_july"="July";
-"month_august"="August";
-"month_september"="September";
-"month_october"="October";
-"month_november"="November";
-"month_december"="December";
+"month_june"="Jun";
+"month_july"="Jul";
+"month_august"="Aug";
+"month_september"="Sep";
+"month_october"="Oct";
+"month_november"="Nov";
+"month_december"="Dec";
 
 "pack_button_current_pack"="Current pack";
 
@@ -106,4 +109,24 @@
 "business_placebo_pilldays"="placebo pill days";
 
 
-"alert_message_nohurry"="NO hurry to take this pill, it's not the day yet~";
+"alert_message_nohurry"="No hurry to take this pill, it's not the day yet";
+
+
+
+
+
+"start_hi"="Hi there";
+
+"start_subtitle"="Avery reminder helps you\nnever miss your pill";
+
+"start_tap"="Tap the button to set your Contraceptive pill";
+
+
+"time_am"="AM";
+"time_pm"="PM";
+
+
+"language_Base"="English";
+"language_zh-Hans"="Chinese(Simplified)";
+"language_zh-Hant"="Chinese(Traditional)";
+

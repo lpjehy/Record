@@ -72,8 +72,8 @@
     
     UIButton *leftButton = [[UIButton alloc] init];
     leftButton.frame = CGRectMake(0, 0, 64, 44);
-    [leftButton setTitle:NSLocalizedString(@"button_title_cancel", nil) forState:UIControlStateNormal];
-    leftButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    [leftButton setTitle:LocalizedString(@"button_title_cancel") forState:UIControlStateNormal];
+    leftButton.titleLabel.font = FontMiddle;
     [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -83,8 +83,8 @@
     
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(0, 0, 64, 44);
-    [rightButton setTitle:NSLocalizedString(@"button_title_save", nil) forState:UIControlStateNormal];
-    rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    [rightButton setTitle:LocalizedString(@"button_title_save") forState:UIControlStateNormal];
+    rightButton.titleLabel.font = FontMiddle;
     [rightButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
     rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;

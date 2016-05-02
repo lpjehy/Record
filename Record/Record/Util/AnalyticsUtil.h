@@ -15,6 +15,9 @@ static NSString *Event_First_Pack_Showed = @"first_pack_showed";
 static NSString *Event_First_Set_Done = @"first_set_done";
 static NSString *Event_First_Take_By_Reminder = @"first_take_by_reminder";
 
+static NSString *Event_Refuse_Notify = @"refuse_notify";
+
+
 @interface AnalyticsUtil : NSObject
 
 + (void)Initialize;

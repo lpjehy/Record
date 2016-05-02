@@ -27,7 +27,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         contentLabel = [[UILabel alloc] init];
-        contentLabel.font = FontSmall;
+        contentLabel.font = FontNormal;
         contentLabel.frame = CGRectMake(20, 0, ScreenWidth - 40, 44);
         contentLabel.textColor = [UIColor whiteColor];
         [self.contentView addSubview:contentLabel];

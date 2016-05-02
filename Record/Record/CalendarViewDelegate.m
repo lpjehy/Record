@@ -25,6 +25,7 @@ static CGFloat MaxHeight = 1024000;
     NSMutableDictionary *contentOffsetYForMonth;
     
     CalendarDayButton *seletedButton;
+    CalendarDayButton *todayButton;
     
     NSMutableDictionary *dayViewsDic;
     
@@ -74,17 +75,32 @@ static CGFloat MaxHeight = 1024000;
     return self;
 }
 
+- (void)resetView {
+    [dayViewsDic removeAllObjects];
+}
+
 - (void)scrollToToday {
-    [thisScrollView setContentOffset:CGPointMake(0, baseContentOffsetY) animated:YES];
+    
+    self.selectedDay = todayButton.day;
+    
+    
+    seletedButton.isSelected = NO;
+    seletedButton = todayButton;
+    
+    todayButton.isSelected = YES;
+    
+    CGFloat y = todayButton.originY - ScreenWidth / 7 * 2;
+    [thisScrollView setContentOffset:CGPointMake(0, y) animated:YES];
 }
 
 - (void)reloadData {
     self.startDay = [ScheduleManager startDate].components;
     self.today = NSDate.components;
-    
+    self.currentMonth = 0;
     
     thisScrollView.contentSize = CGSizeMake(ScreenWidth, MaxHeight);
-    thisScrollView.contentOffset = CGPointMake(0, baseContentOffsetY);
+    
+    
     
     if (dayViewsDic.count == 0) {
         [self reloadView];
@@ -94,14 +110,19 @@ static CGFloat MaxHeight = 1024000;
         if ([button isKindOfClass:[CalendarDayButton class]]) {
             button.day = button.day;
             [button resetState];
+            
+            if (button.isToday) {
+                todayButton = button;
+            }
         }
     }
     
-    
+    CGFloat y = todayButton.originY - ScreenWidth / 7 * 2;
+    thisScrollView.contentOffset = CGPointMake(0, y);
 }
 
 - (void)reloadView {
-    //NSLog(@"reloadView 1");
+    
     CGFloat size = ScreenWidth / 7;
     
     CGFloat startY = [self contentOffsetYForMonth:currentMonth] - [self heightForMonth:currentMonth - 1] - [self heightForMonth:currentMonth - 2];
@@ -137,6 +158,7 @@ static CGFloat MaxHeight = 1024000;
                 
                 NSDateComponents *components = [dayArray validObjectAtIndex:dayIndex];
                 button.day = components;
+                
                 if (components) {
                     BOOL isSelected = components.year == selectedDay.year && components.month == selectedDay.month && components.day == selectedDay.day;
                     button.isSelected = isSelected;
@@ -168,14 +190,11 @@ static CGFloat MaxHeight = 1024000;
             
         }
         
-        if (i == currentMonth) {
-            NSLog(@"year %zi month %zi day %zi weekday %zi num %zi", firstDay.year, firstDay.month, firstDay.day, firstDay.weekday, dayArray.count);
-        }
+        
         
         startY += [self heightForMonth:i];
     }
     
-    //NSLog(@"reloadView 2");
 }
 
 - (CGFloat)contentOffsetYForMonth:(NSInteger)month {
@@ -297,7 +316,7 @@ static CGFloat MaxHeight = 1024000;
             days += firstDay.weekday - 1;
         }
         
-        NSLog(@"month: %zi days: %zi weekday: %zi", month, days, firstDay.weekday);
+        
         NSInteger q = days / 7;
         NSInteger r = days % 7;
         if (r != 0) {
@@ -308,7 +327,6 @@ static CGFloat MaxHeight = 1024000;
         
         number = [NSNumber numberWithInteger:days];
         
-        NSLog(@"number: %zi", number.integerValue);
         
         [numberOfItemsInSectionDic setValue:number forKey:key];
     }
@@ -330,8 +348,12 @@ static CGFloat MaxHeight = 1024000;
     
     button.isSelected = YES;
     
+    
+    
     if (button.isFuture) {
-        [UIAlertView showMessage:NSLocalizedString(@"alert_message_nohurry", nil)];
+        [UIAlertView showMessage:LocalizedString(@"alert_message_nohurry")];
+        return;
+    } else if (!button.isStarted) {
         return;
     }
     

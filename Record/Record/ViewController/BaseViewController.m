@@ -24,7 +24,7 @@
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(0, 0, 64, 44);
     [rightButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    rightButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    rightButton.titleLabel.font = FontMiddle;
     [rightButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
@@ -41,8 +41,8 @@
 - (void)showBack {
     UIButton *leftButton = [[UIButton alloc] init];
     leftButton.frame = CGRectMake(0, 0, 44, 44);
-    [leftButton setTitle:NSLocalizedString(@"button_title_back", nil) forState:UIControlStateNormal];
-    leftButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    [leftButton setTitle:LocalizedString(@"button_title_back") forState:UIControlStateNormal];
+    leftButton.titleLabel.font = FontMiddle;
     [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

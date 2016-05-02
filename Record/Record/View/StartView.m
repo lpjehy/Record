@@ -17,19 +17,41 @@
         
         
         UILabel *hiLabel = [[UILabel alloc] init];
-        hiLabel.font = FontMax;
+       
         hiLabel.textColor = [UIColor whiteColor];
-        hiLabel.frame = CGRectMake(20, 64, ScreenWidth - 40, hiLabel.font.lineHeight);
-        hiLabel.text = @"Hi there";
+        
+        NSString *title = LocalizedString(@"start_hi");
+        
+        
+        
+        
+        hiLabel.text = title;
         [self addSubview:hiLabel];
         
         UILabel *subTitleLabel = [[UILabel alloc] init];
-        subTitleLabel.font = FontNormal;
+        
         subTitleLabel.textColor = [UIColor whiteColor];
         subTitleLabel.numberOfLines = 2;
-        subTitleLabel.frame = CGRectMake(20, 88, ScreenWidth - 40, subTitleLabel.font.lineHeight * 2 + 5);
-        subTitleLabel.text = @"My reminder helps you\nnever miss your pill";
+        
+        
+        subTitleLabel.text = LocalizedString(@"start_subtitle");
         [self addSubview:subTitleLabel];
+        
+        
+        if ([title isEqualToString:@"Hi there"]) {
+            hiLabel.font = FontLightMax;
+            hiLabel.frame = CGRectMake(27.4, 54.3, ScreenWidth - 40, hiLabel.font.lineHeight);
+            
+            subTitleLabel.font = FontLightMiddle;
+            subTitleLabel.frame = CGRectMake(27.4, 90, ScreenWidth - 40, subTitleLabel.font.lineHeight * 2 + 5);
+        } else {
+            hiLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:24];
+            hiLabel.frame = CGRectMake(26, 56, ScreenWidth - 40, hiLabel.font.lineHeight);
+            
+            
+            subTitleLabel.font = FontLightMiddle;
+            subTitleLabel.frame = CGRectMake(26, 95, ScreenWidth - 40, subTitleLabel.font.lineHeight * 2 + 5);
+        }
         
         UIImageView *startImageView = [[UIImageView alloc] init];
         startImageView.frame = CGRectMake((ScreenWidth - 77) / 2, 280, 77, 125);
@@ -38,11 +60,11 @@
         [self addSubview:startImageView];
         
         UILabel *tipLabel = [[UILabel alloc] init];
-        tipLabel.font = FontNormal;
+        tipLabel.font = FontLightMiddle;
         tipLabel.textColor = [UIColor whiteColor];
         tipLabel.textAlignment = NSTextAlignmentCenter;
         tipLabel.frame = CGRectMake(20, 420, ScreenWidth - 40, tipLabel.font.lineHeight * 2);
-        tipLabel.text = @"Tip the button to set your Contraceptive pill";
+        tipLabel.text = LocalizedString(@"start_tap");
         [self addSubview:tipLabel];
     }
     

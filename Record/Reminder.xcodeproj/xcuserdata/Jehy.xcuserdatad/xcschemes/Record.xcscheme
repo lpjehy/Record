@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "990954ED1C85D5C300797FFF"
-               BuildableName = "Record.app"
-               BlueprintName = "Record"
-               ReferencedContainer = "container:Record.xcodeproj">
+               BuildableName = "Reminder.app"
+               BlueprintName = "Reminder"
+               ReferencedContainer = "container:Reminder.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "990954ED1C85D5C300797FFF"
-            BuildableName = "Record.app"
-            BlueprintName = "Record"
-            ReferencedContainer = "container:Record.xcodeproj">
+            BuildableName = "Reminder.app"
+            BlueprintName = "Reminder"
+            ReferencedContainer = "container:Reminder.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "990954ED1C85D5C300797FFF"
-            BuildableName = "Record.app"
-            BlueprintName = "Record"
-            ReferencedContainer = "container:Record.xcodeproj">
+            BuildableName = "Reminder.app"
+            BlueprintName = "Reminder"
+            ReferencedContainer = "container:Reminder.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "990954ED1C85D5C300797FFF"
-            BuildableName = "Record.app"
-            BlueprintName = "Record"
-            ReferencedContainer = "container:Record.xcodeproj">
+            BuildableName = "Reminder.app"
+            BlueprintName = "Reminder"
+            ReferencedContainer = "container:Reminder.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

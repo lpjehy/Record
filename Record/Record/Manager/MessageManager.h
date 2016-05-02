@@ -18,6 +18,8 @@
 
 + (MessageManager *)getInstance;
 
+@property(nonatomic, strong) UITableView *messageTableView;
+
 - (void)reloadData;
 - (NSArray *)allMessage;
 

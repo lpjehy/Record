@@ -51,7 +51,7 @@
 - (BOOL)isEarlierThan:(NSDate *)date;
 - (BOOL)isEarlier;
 
-
+- (NSDate *)dayDate;
 - (NSDateComponents *)components;
 
 - (NSInteger)hour;
@@ -91,7 +91,9 @@
 - (BOOL)isEqualTo:(NSDateComponents *)date;
 
 - (NSDate *)theDate;
+- (NSDate *)theDayDate;
 - (NSString *)theDay;
+
 
 @end
 

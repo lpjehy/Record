@@ -85,6 +85,8 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     return instance;
 }
 
+@synthesize messageTableView;
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -100,18 +102,30 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     [messageArray removeAllObjects];
     
     
-    NSString *firstMessage = [NSString stringWithFormat:NSLocalizedString(@"message_day_info", nil), [ScheduleManager getInstance].currentPackDay, [ScheduleManager allDays]];
+    NSString *firstMessage = [NSString stringWithFormat:LocalizedString(@"message_day_info"), [ScheduleManager getInstance].currentPackDay, [ScheduleManager allDays]];
     [messageArray addObject:firstMessage];
     
     NSDate *startDate = [ScheduleManager startDate];
     for (int i = (int)[ScheduleManager getInstance].currentDayFromStartDay - 1; i >= 0; i--) {
         NSDate *date = [NSDate dateWithTimeInterval:TimeIntervalDay * i sinceDate:startDate];
+        
+        BOOL isBreakDay = [[ScheduleManager getInstance] isPlaceboDay:date.components];
+        if (isBreakDay && ![ScheduleManager takePlaceboPills]) {
+            continue;
+        }
+        
+        
         NSString *record = [RecordManager selectRecord:date];
         if (record == nil) {
             NSDateComponents *day = date.components;
-            NSString *message = [NSString stringWithFormat:@"%zi/%zi  %@", day.month, day.day, NSLocalizedString(@"message_missed", nil)];
+            NSString *message = [NSString stringWithFormat:@"%zi/%zi  %@", day.month, day.day, LocalizedString(@"message_missed")];
             [messageArray addObject:message];
         }
+    }
+    
+    
+    if (messageTableView) {
+        [messageTableView reloadData];
     }
 }
 

@@ -34,7 +34,7 @@
     if (self) {
         itemLabel = [[UILabel alloc] init];
         itemLabel.textColor = [UIColor whiteColor];
-        itemLabel.font = FontSmall;
+        itemLabel.font = FontNormal;
         itemLabel.frame = CGRectMake(15, 0, ScreenWidth * GoldenSectionPoint, 44);
         [self.contentView addSubview:itemLabel];
         
@@ -99,7 +99,7 @@
         valueLabel = [[UILabel alloc] init];
         valueLabel.textAlignment = NSTextAlignmentRight;
         valueLabel.frame = CGRectMake(ScreenWidth - 156, 6, 128, 32);
-        valueLabel.font = FontSmall;
+        valueLabel.font = FontNormal;
         valueLabel.textColor = ColorTextGray;
         [self.contentView addSubview:valueLabel];
         
@@ -110,7 +110,7 @@
     self.currentItem = item;
     
     
-    itemLabel.text = NSLocalizedString(item.item, nil);
+    itemLabel.text = LocalizedString(item.item);
     
     
     self.cellType = item.type;
