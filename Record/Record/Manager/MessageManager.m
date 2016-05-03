@@ -164,8 +164,10 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    return [MessageCell cellHeight];
 }
 
 @end

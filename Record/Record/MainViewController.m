@@ -25,6 +25,7 @@
 #import "SettingViewController.h"
 
 #import "HelpView.h"
+#import "MessageCell.h"
 
 #import "MessageManager.h"
 #import "ScheduleManager.h"
@@ -407,20 +408,22 @@ static NSInteger ScrollViewTagPack = 1;
     
     
     
+    CGFloat currentY = 64;
+    
+    if (ScreenHeight != 480) {
+        bannerView = [[GADBannerView alloc] init];
+        bannerView.backgroundColor = [UIColor blackColor];
+        bannerView.adUnitID = AdMobUnitIdCalendar;
+        bannerView.rootViewController = self;
+        [bannerView loadRequest:[GADRequest request]];
+        bannerView.frame = CGRectMake(0, 64, ScreenWidth, 50);
+        [calendarView addSubview:bannerView];
+        
+        currentY += 50;
+    }
+    
     
     CGFloat size = ScreenWidth / 7;
-    
-    
-    bannerView = [[GADBannerView alloc] init];
-    bannerView.backgroundColor = [UIColor blackColor];
-    bannerView.adUnitID = AdMobUnitIdCalendar;
-    bannerView.rootViewController = self;
-    [bannerView loadRequest:[GADRequest request]];
-    bannerView.frame = CGRectMake(0, 64, ScreenWidth, 50);
-    [calendarView addSubview:bannerView];
-    
-    
-    CGFloat currentY = 64 + 50;
     
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = ColorGrayDark;
@@ -489,6 +492,7 @@ static NSInteger ScrollViewTagPack = 1;
     messageTableView.frame = CGRectMake(0, currentY, ScreenWidth, calendarView.height - currentY);
     messageTableView.dataSource = [MessageManager getInstance];
     messageTableView.backgroundColor = [UIColor clearColor];
+    messageTableView.rowHeight = [MessageCell cellHeight];
     messageTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [calendarView addSubview:messageTableView];
     messageTableView.delegate = [MessageViewDelegate getInstance];

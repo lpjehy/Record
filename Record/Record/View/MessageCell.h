@@ -19,4 +19,6 @@ static NSString *MessageCellCellIdentifier = @"MessageCellCellIdentifier";
 
 - (void)setMessage:(NSString *)message;
 
++ (CGFloat)cellHeight;
+
 @end
