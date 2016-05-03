@@ -30,22 +30,18 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     self.hidden = YES;
     self.backgroundColor = ColorTranslucenceDark;
     
-    UIImageView *closeImageView = [[UIImageView alloc] init];
-    closeImageView.frame = CGRectMake(ScreenWidth - 64, 12, 48, 48);
-    closeImageView.image = [UIImage imageNamed:@""];
-    [self addSubview:closeImageView];
-    
     
     tapLabel = [[UILabel alloc] init];
     tapLabel.font = FontMiddle;
     tapLabel.textAlignment = NSTextAlignmentCenter;
-    tapLabel.frame = CGRectMake(0, 150, ScreenWidth, tapLabel.font.lineHeight);
+    
     tapLabel.textColor = [UIColor whiteColor];
     
     [self addSubview:tapLabel];
     
     tapImageView = [[UIImageView alloc] init];
-    tapImageView.frame = CGRectMake((ScreenWidth - 71) / 2, 200, 71, 107);
+    
+    
     tapImageView.image = [UIImage imageNamed:@"Gesture_Tap.png"];
     [self addSubview:tapImageView];
     
@@ -53,13 +49,26 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     swipeLabel = [[UILabel alloc] init];
     swipeLabel.font = FontMiddle;
     swipeLabel.textAlignment = NSTextAlignmentCenter;
-    swipeLabel.frame = CGRectMake(0, 360, ScreenWidth, tapLabel.font.lineHeight);
+    
+    
     swipeLabel.textColor = [UIColor whiteColor];
     
     [self addSubview:swipeLabel];
     
     swipeImageView = [[UIImageView alloc] init];
     [self addSubview:swipeImageView];
+    
+    
+    if (ScreenHeight == 480) {
+        tapLabel.frame = CGRectMake(0, 100, ScreenWidth, tapLabel.font.lineHeight);
+        tapImageView.frame = CGRectMake((ScreenWidth - 71) / 2, 150, 71, 107);
+        swipeLabel.frame = CGRectMake(0, 310, ScreenWidth, tapLabel.font.lineHeight);
+    } else {
+        tapLabel.frame = CGRectMake(0, 150, ScreenWidth, tapLabel.font.lineHeight);
+        tapImageView.frame = CGRectMake((ScreenWidth - 71) / 2, 200, 71, 107);
+        swipeLabel.frame = CGRectMake(0, 360, ScreenWidth, tapLabel.font.lineHeight);
+    }
+    
 }
 
 - (id)init {
@@ -95,7 +104,13 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     swipeLabel.text = LocalizedString(@"help_check_pack");
     
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Right.png"];
-    swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 105)];
+    
+    if (ScreenHeight == 480) {
+        swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 350, 100, 105)];
+    } else {
+        swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 105)];
+    }
+    
 }
 - (void)showCalendarHelp {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:HelpCalendarViewHasShowedKey];
@@ -109,7 +124,13 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     swipeLabel.text = LocalizedString(@"help_switch_month");
     
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Down.png"];
-    swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 122)];
+    
+    if (ScreenHeight == 480) {
+        swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 350, 100, 122)];
+    } else {
+        swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 122)];
+    }
+    
 }
 
 - (void)hide {

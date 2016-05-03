@@ -77,6 +77,8 @@
         baseY = 80;
     } else if (ScreenHeight == 568) {
         baseY = 40;
+    } else if (ScreenHeight == 480) {
+        baseY = 32;
     }
     
     for (int i = 0; i < 7; i++) {
@@ -101,6 +103,8 @@
         baseY = 80;
     } else if (ScreenHeight == 568) {
         baseY = 40;
+    } else if (ScreenHeight == 480) {
+        baseY = 32;
     }
     
     
@@ -132,6 +136,9 @@
     if (ISPad) {
         baseY = 40;
         baseX = 60;
+    } else if (ScreenHeight == 480) {
+        baseY = 10;
+        baseX = 20;
     }
     
     infoLabel = [[UILabel alloc] init];
@@ -161,6 +168,8 @@
         itemHeight = (backHeight - 120) / 7;
     } else if (ScreenHeight == 568) {
         itemHeight = (backHeight - 56) / 7;
+    } else if (ScreenHeight == 480) {
+        itemHeight = (backHeight - 48) / 7;
     } else {
         itemHeight = (backHeight - 72) / 7;
     }

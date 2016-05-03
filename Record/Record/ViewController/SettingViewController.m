@@ -673,6 +673,11 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     return title;
 }
 
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    
+    return 64;
+}
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
     if (currentPickerType == PickerTypePillDays) {

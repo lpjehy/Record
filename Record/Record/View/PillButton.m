@@ -59,6 +59,9 @@
     if (ScreenHeight == 568) {
         backImageView.frame = CGRectMake((self.width - 40) / 2, (self.height - 40) / 2, 40, 40);
         pillImageView.frame = CGRectMake((self.width - 32) / 2, (self.height - 32) / 2, 32, 32);
+    } else if (ScreenHeight == 480) {
+        backImageView.frame = CGRectMake((self.width - 32) / 2, (self.height - 32) / 2, 32, 32);
+        pillImageView.frame = CGRectMake((self.width - 24) / 2, (self.height - 24) / 2, 24, 24);
     } else {
         backImageView.frame = CGRectMake((self.width - 45) / 2, (self.height - 45) / 2, 45, 45);
         pillImageView.frame = CGRectMake((self.width - 35) / 2, (self.height - 35) / 2, 35, 35);

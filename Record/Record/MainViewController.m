@@ -303,6 +303,16 @@ static NSInteger ScrollViewTagPack = 1;
         rightButton.frame = CGRectMake(ScreenWidth - 132, 56, 128, 32);
         
         packScrollView.frame = CGRectMake(90, 128, ScreenWidth - 180, ScreenHeight - 338);
+    } else if (ScreenHeight == 480) {
+        monthLabel.font = FontBig;
+        monthLabel.frame = CGRectMake(26, 20, ScreenWidth - 40, FontLightMax.lineHeight);
+        
+        tipLabel.font = FontNormal;
+        tipLabel.frame = CGRectMake(26, 48, ScreenWidth - 40, FontLightMiddle.lineHeight);
+        
+        rightButton.frame = CGRectMake(ScreenWidth - 132, 24, 128, 32);
+        
+        packScrollView.frame = CGRectMake(37, 72, ScreenWidth - 74, ScreenHeight - 210);
     } else if (ScreenHeight == 568) {
         
         monthLabel.frame = CGRectMake(26, 27, ScreenWidth - 40, FontLightMax.lineHeight);

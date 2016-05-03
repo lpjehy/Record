@@ -26,7 +26,7 @@
 
 
 
-#define ISPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define ISPad 0//(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #define InterfaceOrientationLandscape ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft || [[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
 

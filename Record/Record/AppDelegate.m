@@ -56,7 +56,7 @@
     
     [self createLayout];
     
-    
+    NSLog(@"%f %f", ScreenWidth, ScreenHeight);
     
     /*
     for (NSString *name in [UIFont familyNames]) {

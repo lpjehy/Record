@@ -780,6 +780,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
 				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -806,6 +807,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
 				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
