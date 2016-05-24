@@ -9,6 +9,7 @@
 #import "CalendarMenuView.h"
 
 #import "RecordManager.h"
+#import "MessageManager.h"
 
 @interface CalendarMenuView () {
     UIView *backView;
@@ -96,9 +97,14 @@
         
         [self addTarget:self action:@selector(cancelButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(languageChanged) name:LanguageChangedNotification object:nil];
     }
     
     return self;
+}
+
+- (void)languageChanged {
+    [cancelButton setTitle:LocalizedString(@"button_title_cancel") forState:UIControlStateNormal];
 }
 
 - (void)takeButtonPressed {
@@ -111,6 +117,7 @@
     } else {
         [RecordManager deleteRecord:theCell.day.theDate];
     }
+    [[MessageManager getInstance] reloadData];
 }
 
 - (void)cancelButtonPressed {

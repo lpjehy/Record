@@ -24,6 +24,7 @@
 "button_title_close"="Close";
 "button_title_cancel"="Cancel";
 "button_title_confirm"="Confirm";
+"button_title_yes"="Yes";
 "button_title_save"="Save";
 "button_title_view"="View";
 "button_title_done"="Done";
@@ -50,7 +51,7 @@
 
 
 "reminder_default_alertbody"="Please take your contraceptive pill~";
-
+"reminder_take_pill"="Have you take the pills in time？Just open the Avery to record it~";
 
 
 
@@ -61,7 +62,6 @@
 
 "legend_taked"="taked";
 "legend_untaken"="un-taken";
-"legend_missed"="missed pill";
 "legend_placebo"="placebo pill";
 "legend_untaken_placebo"="un-taken placebo pill";
 
@@ -94,6 +94,13 @@
 "month_november"="Nov";
 "month_december"="Dec";
 
+"pack_title_day"="";
+
+"pack_subtitle_pilldays"="Today is day %zi of %zi days";
+"pack_subtitle_breakdays"="Today is day %zi of %zi days - Breakdays";
+"pack_subtitle_placebodays"="Today is day %zi of %zi days - Placebo pill days";
+
+
 "pack_button_current_pack"="Current pack";
 
 "pack_current_pack"="current pack";
@@ -102,15 +109,15 @@
 
 "message_missed"="Missed one";
 
-"message_day_info"="Today is %zi of %zi days";
-"message_day_confirm_setting"="Use %zi pill days + %zi %@ as your pill plan?";
+
+"message_day_confirm_setting"="Use %zi pills + %zi %@ as your plan?";
 
 "business_breakdays"="break days";
-"business_placebo_pilldays"="placebo pill days";
+"business_placebo_pilldays"="placebo pill";
 
 
 "alert_message_nohurry"="No hurry to take this pill, it's not the day yet";
-
+"alert_message_takepilleveryday"="Take pill everyday?";
 
 
 
@@ -125,8 +132,4 @@
 "time_am"="AM";
 "time_pm"="PM";
 
-
-"language_Base"="English";
-"language_zh-Hans"="Chinese(Simplified)";
-"language_zh-Hant"="Chinese(Traditional)";
 

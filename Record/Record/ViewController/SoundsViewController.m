@@ -30,9 +30,11 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     UIButton *leftButton = [[UIButton alloc] init];
-    leftButton.frame = CGRectMake(15, 20, 64, 44);
+    leftButton.frame = CGRectMake(15, 20, 80, 44);
+    [leftButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
+    leftButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [leftButton setTitle:LocalizedString(@"button_title_back") forState:UIControlStateNormal];
-    leftButton.titleLabel.font = FontNormal;
+    leftButton.titleLabel.font = FontMiddle;
     [leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -90,6 +92,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.tintColor = [UIColor whiteColor];
     }
     
     NSString *text = [[ReminderManager getInstance].soundArray validObjectAtIndex:indexPath.row];

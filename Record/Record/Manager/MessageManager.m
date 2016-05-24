@@ -102,8 +102,11 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     [messageArray removeAllObjects];
     
     
-    NSString *firstMessage = [NSString stringWithFormat:LocalizedString(@"message_day_info"), [ScheduleManager getInstance].currentPackDay, [ScheduleManager allDays]];
-    [messageArray addObject:firstMessage];
+    NSString *firstMessage = [[ScheduleManager getInstance] todayInfo];
+    if (firstMessage) {
+        [messageArray addObject:firstMessage];
+    }
+    
     
     NSDate *startDate = [ScheduleManager startDate];
     for (int i = (int)[ScheduleManager getInstance].currentDayFromStartDay - 1; i >= 0; i--) {

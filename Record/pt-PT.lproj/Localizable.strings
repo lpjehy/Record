@@ -1,0 +1,186 @@
+/*
+ 本地.strings
+ Record
+ 
+ Created by Jehy Fan on 16/3/20.
+ Copyright © 2016年 Jehy Fan. All rights reserved.
+ */
+
+
+
+
+"navigation_title_setting"="Configuração";
+
+"navigation_title_sounds"="Ringtone";
+
+"navigation_title_languages"="língua";
+
+"button_title_help"="GUIA";
+
+"button_title_setting"="CONFIGURAÇÃO";
+
+"button_title_legend"="Lenda";
+
+"button_title_today"="Hoje";
+
+"button_title_back"="De volta";
+
+"button_title_close"="Fechar";
+
+"button_title_cancel"="Não";
+
+"button_title_confirm"="Confirmar";
+
+"button_title_yes"="OK";
+
+"button_title_save"="Salvar";
+
+"button_title_view"="Visão";
+
+"button_title_done"="OK";
+
+"button_title_take"="Tomar";
+
+"button_title_untake"="Remover";
+
+"setting_module_schedule"="Cronograma";
+
+"setting_module_reminders"="Lembretes";
+
+"setting_module_others"="Outras";
+
+"Setting_Item_TakeEveryday"="Tome todos os dias";
+
+"Setting_Item_PillDays"="dias de uso da pílula";
+
+"Setting_Item_BeakDays"="Dias de quebrar";
+
+"Setting_Item_TakePlaceboPills"="Eu tomo placebo pílula";
+
+"Setting_Item_StartDay"="Começar a tomar atual pacote em";
+
+"Setting_Item_RemindTakePill"="Lembre-me de tomar pílula";
+
+"Setting_Item_RmindTakePlaceboPill"="Também me lembram quando toma placebo pílula";
+
+"Setting_Item_NotifyAlertBody"="Texto de notificação";
+
+"Setting_Item_NotifyTime"="Tempo";
+
+"Setting_Item_NotifySound"="Ringtone";
+
+"Setting_Item_Language"="Língua";
+
+"Setting_Item_CheerUs"="Torcendo por nós";
+
+"reminder_default_alertbody"="Tempo para tomar pílula anticoncepcional";
+
+"help_take_pill"="Toque uma pílula quando você toma um, toque novamente para removê-lo";
+
+"help_check_pack"="Deslize para a tela para verificar os pacotes de pílulas de futuros";
+
+"help_edit_date"="Toque em uma data para editar";
+
+"help_switch_month"="Deslize para cima e para baixo para mudar mês";
+
+"legend_taked"="tomado";
+
+"legend_untaken"="un-tomadas";
+
+"legend_placebo"="placebo pílula";
+
+"legend_untaken_placebo"="un-tomadas placebo pílula";
+
+"day"="Dias";
+
+"weekday_mon"="SEG";
+
+"weekday_tue"="TER";
+
+"weekday_wed"="QUA";
+
+"weekday_thr"="QUI";
+
+"weekday_fri"="SEX";
+
+"weekday_sat"="SAB";
+
+"weekday_sun"="DOM";
+
+"date_unit_year"="Ano";
+
+"date_unit_month"="Mês";
+
+"date_unit_day"="Dia";
+
+"date_unit_hour"="Hora";
+
+"date_unit_minute"="Minuto";
+
+"month_january"="JAN";
+
+"month_february"="FEV";
+
+"month_march"="MAR";
+
+"month_april"="ABR";
+
+"month_may"="MAI";
+
+"month_june"="JUN";
+
+"month_july"="JUL";
+
+"month_august"="AUG";
+
+"month_september"="SET";
+
+"month_october"="OUT";
+
+"month_november"="NOV";
+
+"month_december"="DEZ";
+
+"pack_title_day"="";
+
+"pack_subtitle_pilldays"="Hoje é dia de dia %zi de %zi dias";
+"pack_subtitle_breakdays"="Hoje é dia de dia %zi de %zi dias - Dias de quebrar";
+"pack_subtitle_placebodays"="Hoje é dia de dia %zi de %zi dias - Dias de placebo pílula";
+
+"pack_button_current_pack"="Pacote atual";
+
+"pack_current_pack"="Pacote atual";
+
+"pack_not_current_pack"="Não é pacote atual";
+
+"pack_in_future"="Pacote futuro";
+
+"message_missed"="Esquecer de tomar";
+
+
+
+"message_day_confirm_setting"="Use %zi pílulas + %zi placebo pílulas como o seu plano?";
+
+
+"business_breakdays"="quebrar";
+
+"business_placebo_pilldays"="placebo pílula";
+
+"alert_message_nohurry"="Isto é uma questão futura,não há necessidade de toma-lo agora";
+
+"alert_message_takepilleveryday"="Tome todos os dias?";
+
+
+
+"start_hi"="Olá";
+
+"start_subtitle"="Avery lembrete ajuda você nunca perca sua pílula";
+
+"start_tap"="Toque no botão para definir a sua Pílula anticoncepcional";
+
+"time_am"="AM";
+
+"time_pm"="PM";
+
+
+

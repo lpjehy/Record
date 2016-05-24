@@ -10,17 +10,13 @@
 
 #import "MainViewController.h"
 
-#import "SqlUtil.h"
 #import "LaunchView.h"
 
-#import "OnlineConfigUtil.h"
-#import "AdManager.h"
 
 #import "ReminderManager.h"
 #import "RecordManager.h"
-
-#import <AudioToolbox/AudioToolbox.h>
-#import <AVFoundation/AVFoundation.h>
+#import "MessageManager.h"
+#import "AudioManager.h"
 
 @interface AppDelegate () <UIAlertViewDelegate>
 
@@ -52,11 +48,10 @@
     
     [AppManager Initialize];
     
-    [AdManager test];
     
     [self createLayout];
     
-    NSLog(@"%f %f", ScreenWidth, ScreenHeight);
+    
     
     /*
     for (NSString *name in [UIFont familyNames]) {
@@ -76,10 +71,11 @@
     
     if ([shortcutItem.type isEqualToString:@"takepill"]) {
         [RecordManager record:[NSDate date]];
+ 
     } else {
         [RecordManager deleteRecord:[NSDate date]];
     }
-    
+    [[MessageManager getInstance] reloadData];
     
     [ReminderManager resetNotify];
 }
@@ -106,12 +102,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    [OnlineConfigUtil update];
     
-    if ([AppManager hasFirstSetDone]) {
-        [ReminderManager resetNotify];
-    }
     
+    [AppManager Update];
+    
+    application.applicationIconBadgeNumber = 0;
     
 }
 
@@ -140,27 +135,18 @@
     if (application.applicationState == UIApplicationStateActive) {
         NSString *record = [RecordManager selectRecord:[NSDate date]];
         if (record == nil) {
-            SystemSoundID audio = 0;
             
             NSString *soundName = [ReminderManager notificationSound];
             if ([soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
-                audio = 1002;
-            } else {
-                CFStringRef strRef = (__bridge CFStringRef)soundName;
-                
-                CFURLRef audioFileURLRef = CFBundleCopyResourceURL(CFBundleGetMainBundle(), strRef, CFSTR("mp3"), NULL);
-                AudioServicesCreateSystemSoundID(audioFileURLRef, &audio);
-                CFRelease(audioFileURLRef);
+                soundName = SoundNameDefault;
             }
+            [[AudioManager getInstance] playWithFilename:soundName];
             
-            
-            AudioServicesPlaySystemSound(audio);
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tip~"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                             message:notification.alertBody
                                                            delegate:self
-                                                  cancelButtonTitle:@"Cancel"
-                                                  otherButtonTitles:@"Take", nil];
+                                                  cancelButtonTitle:LocalizedString(@"button_title_cancel")
+                                                  otherButtonTitles:LocalizedString(@"button_title_take"), nil];
             [alert show];
         }
         
@@ -176,8 +162,9 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([title isEqualToString:@"Take"]) {
+    if ([title isEqualToString:LocalizedString(@"button_title_take")]) {
         [RecordManager record:[NSDate date]];
+        [[MessageManager getInstance] reloadData];
     }
 }
 

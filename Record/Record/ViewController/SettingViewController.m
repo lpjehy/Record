@@ -24,6 +24,8 @@
 
 @import GoogleMobileAds;
 
+
+
 #import "SettingItem.h"
 
 #import "AdManager.h"
@@ -53,12 +55,12 @@ typedef NS_ENUM(NSInteger, PickerType) {
 
 @property(nonatomic, strong) NSString *appID;
 
-@property(nonatomic, strong) NSString *initialPillsDay;
-@property(nonatomic, strong) NSString *initialBreakDay;
+@property(nonatomic) NSInteger initialPillsDay;
+@property(nonatomic) NSInteger initialBreakDay;
 @property(nonatomic, strong) NSString *initialStartDate;
 
-@property(nonatomic, strong) NSString *finalPillsDay;
-@property(nonatomic, strong) NSString *finalBreakDay;
+@property(nonatomic) NSInteger finalPillsDay;
+@property(nonatomic) NSInteger finalBreakDay;
 @property(nonatomic, strong) NSString *finalStartDate;
 
 @end
@@ -93,10 +95,23 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         moduleArray = [[NSMutableArray alloc] init];
         moduleDic = [[NSMutableDictionary alloc] init];
         
+        self.initialPillsDay = [ScheduleManager pillDays];
+        self.finalPillsDay = initialPillsDay;
         
+        self.initialBreakDay = [ScheduleManager breakDays];
+        self.finalBreakDay = initialBreakDay;
+        
+        self.initialStartDate = [ScheduleManager startDate].string;
+        self.finalStartDate = initialStartDate;
     }
     
     return self;
+}
+
+- (void)dealloc {
+    GADBannerView *bannerView = [AdManager settingView];
+    [bannerView removeFromSuperview];
+    bannerView.rootViewController = nil;
 }
 
 - (void)reloadView {
@@ -118,38 +133,28 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.item = Setting_Item_PillDays;
     item.type = SettingTypeText;
     
-    NSInteger pillday = [ScheduleManager pillDays];
-    item.textValue = [NSString stringWithFormat:@"%zi %@", pillday, LocalizedString(@"day")];
-    item.enable = YES;
+    
+    item.textValue = [NSString stringWithFormat:@"%zi %@", finalPillsDay, LocalizedString(@"day")];
+    item.enable = !isEveryDay;
     [array addObject:item];
     
-    if (initialPillsDay == nil) {
-        self.initialPillsDay = item.textValue;
-    }
     
-    self.finalPillsDay = item.textValue;
     
     item = [[SettingItem alloc] init];
     item.item = Setting_Item_BreakDays;
     item.type = SettingTypeText;
-    
-    NSInteger breakDay = [ScheduleManager breakDays];
-    item.textValue = [NSString stringWithFormat:@"%zi %@", breakDay, LocalizedString(@"day")];;
-    item.enable = YES;
+    item.textValue = [NSString stringWithFormat:@"%zi %@", finalBreakDay, LocalizedString(@"day")];;
+    item.enable = !isEveryDay;
     [array addObject:item];
     
-    if (initialBreakDay == nil) {
-        self.initialBreakDay = item.textValue;
-    }
     
-    self.finalBreakDay = item.textValue;
     
     item = [[SettingItem alloc] init];
     item.item = Setting_Item_TakePlaceboPills;
     item.type = SettingTypeSwitch;
     BOOL takePlaceboPills = [ScheduleManager takePlaceboPills];
     item.boolValue = takePlaceboPills;
-    item.enable = !isEveryDay && breakDay != 0;
+    item.enable = !isEveryDay;
     [array addObject:item];
     
     
@@ -158,18 +163,14 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.item = Setting_Item_StartDay;
     item.type = SettingTypeText;
     
-    NSDate *date = [ScheduleManager startDate];
+    NSDate *date = finalStartDate.date;
     NSDateComponents *components = date.components;
     NSString *textValue = [NSString stringWithFormat:@"%@ %zi/%zi/%zi", components.weekDayText, components.month, components.day, components.year];
     item.textValue = textValue;
     item.enable = YES;
     [array addObject:item];
     
-    if (initialStartDate == nil) {
-        self.initialStartDate = item.textValue;
-    }
     
-    self.finalStartDate = item.textValue;
     
     [moduleArray addObject:@"setting_module_schedule"];
     [moduleDic setValue:array forKey:@"setting_module_schedule"];
@@ -191,12 +192,8 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.type = SettingTypeSwitch;
     
     BOOL alsoRmind = [ReminderManager remindInSafeDays];
-    
-    if (!should || !takePlaceboPills) {
-        alsoRmind = NO;
-    }
     item.boolValue = alsoRmind;
-    item.enable = should && takePlaceboPills;
+    item.enable = should && takePlaceboPills && !isEveryDay;
     [array addObject:item];
     
     item = [[SettingItem alloc] init];
@@ -239,15 +236,15 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     [moduleArray addObject:@"setting_module_reminders"];
     [moduleDic setValue:array forKey:@"setting_module_reminders"];
     
-    /*
+    
     array = [NSMutableArray array];
     
     item = [[SettingItem alloc] init];
     item.item = Setting_Item_Language;
     item.type = SettingTypeText;
     item.enable = YES;
-    NSString *stringKey = [NSString stringWithFormat:@"language_%@", [AppManager language]];
-    item.textValue = LocalizedString(stringKey);
+    
+    item.textValue = [LanguageManager languageName:[LanguageManager language]];
     
     [array addObject:item];
     
@@ -264,10 +261,48 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     [moduleArray addObject:@"setting_module_others"];
     [moduleDic setValue:array forKey:@"setting_module_others"];
-    */
+    /**/
     
     [mainTableView reloadData];
 }
+
+
+
+- (void)closeButtonPressed {
+    
+    BOOL nochange = (initialPillsDay == finalPillsDay)
+    && (initialBreakDay == finalBreakDay)
+    && [initialStartDate isEqualToString:finalStartDate];
+    
+    if ([AppManager hasFirstSetDone] && nochange) {
+        
+        [self finishSetting];
+    } else {
+        if (![AppManager hasFirstSetDone]) {
+            [AnalyticsUtil event:Event_First_Set_Done];
+        }
+        
+        
+        NSString *text = LocalizedString(@"business_breakdays");
+        if ([ScheduleManager takePlaceboPills]) {
+            text = LocalizedString(@"business_placebo_pilldays");
+        }
+        
+        if (finalBreakDay > 1 && ![LanguageManager isZH_Han]) {
+            text = [text stringByAppendingString:@"s"];
+        }
+        
+        NSString *message = [NSString stringWithFormat:LocalizedString(@"message_day_confirm_setting"), finalPillsDay, finalBreakDay, text];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:LocalizedString(@"button_title_cancel")
+                                                  otherButtonTitles:LocalizedString(@"button_title_yes"), nil];
+        [alertView show];
+    }
+}
+
 
 - (void)finishSetting {
     [self dismiss];
@@ -276,7 +311,9 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 
 }
 
-- (void)doneButtonPressed {
+#pragma mark - picker
+
+- (void)pikcerDoneButtonPressed {
     
     doneButton.hidden = YES;
     cancelButton.hidden = YES;
@@ -290,6 +327,54 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     numberPickerView.tag = 0;
 }
 
+- (void)pickerConfirmButtonPressed {
+    
+    NSInteger row = [numberPickerView selectedRowInComponent:0];
+    if (currentPickerType == PickerTypePillDays) {
+        
+        self.finalPillsDay = row + 5;
+        
+    } else if (currentPickerType == PickerTypeBreakDays) {
+        
+        self.finalBreakDay = row + 1;
+        
+    } else if (currentPickerType == PickerTypeStartDate) {
+        NSInteger year = [numberPickerView selectedRowInComponent:3] + 2000;
+        NSInteger month = [numberPickerView selectedRowInComponent:1] + 1;
+        NSInteger day = [numberPickerView selectedRowInComponent:2] + 1;
+        
+        NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
+        NSDate *theDate = dateString.date;
+        if (!theDate.isEarlier) {
+            theDate = [NSDate date].dayDate;
+        }
+        
+        self.finalStartDate = theDate.string;
+        
+    } else if (currentPickerType == PickerTypeNotifyTime) {
+        NSInteger hour = [numberPickerView selectedRowInComponent:1];
+        NSInteger minute = [numberPickerView selectedRowInComponent:2];
+        NSInteger row = [numberPickerView selectedRowInComponent:3];
+        if (row == 1) {
+            hour += 12;
+        }
+        
+        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
+        
+        [ReminderManager setNotificationTime:dateString];
+        
+        
+    }
+    
+    [self reloadView];
+    
+    
+    [self pikcerDoneButtonPressed];
+    
+    
+}
+
+
 - (void)showPickerView {
     [self createPickerView];
     
@@ -301,7 +386,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     if (currentPickerType == PickerTypePillDays) {
         [numberPickerView selectRow:[ScheduleManager pillDays] - 5 inComponent:0 animated:NO];
     } else if (currentPickerType == PickerTypeBreakDays) {
-        [numberPickerView selectRow:[ScheduleManager breakDays] inComponent:0 animated:NO];
+        [numberPickerView selectRow:[ScheduleManager breakDays] - 1 inComponent:0 animated:NO];
     } else if (currentPickerType == PickerTypeStartDate) {
         NSDate *date = [ScheduleManager startDate];
         NSDateComponents *components = date.components;
@@ -333,51 +418,6 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     numberPickerView.tag = 1;
 }
 
-- (void)confirmButtonPressed {
-    
-    NSInteger row = [numberPickerView selectedRowInComponent:0];
-    if (currentPickerType == PickerTypePillDays) {
-        [ScheduleManager setPillDays:row + 5];
-        
-    } else if (currentPickerType == PickerTypeBreakDays) {
-        [ScheduleManager setSafeDays:row];
-        
-        
-    } else if (currentPickerType == PickerTypeStartDate) {
-        NSInteger year = [numberPickerView selectedRowInComponent:3] + 2000;
-        NSInteger month = [numberPickerView selectedRowInComponent:1] + 1;
-        NSInteger day = [numberPickerView selectedRowInComponent:2] + 1;
-        
-        NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
-        NSDate *theDate = dateString.date;
-        if (!theDate.isEarlier) {
-            theDate = [NSDate date].dayDate;
-        }
-        [ScheduleManager setStartDate:theDate];
-        
-        
-    } else if (currentPickerType == PickerTypeNotifyTime) {
-        NSInteger hour = [numberPickerView selectedRowInComponent:1];
-        NSInteger minute = [numberPickerView selectedRowInComponent:2];
-        NSInteger row = [numberPickerView selectedRowInComponent:3];
-        if (row == 1) {
-            hour += 12;
-        }
-        
-        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
-        
-        [ReminderManager setNotificationTime:dateString];
-        
-        
-    }
-    
-    [self reloadView];
-    
-    
-    [self doneButtonPressed];
-    
-    
-}
 
 - (void)createPickerView {
     if (numberPickerView == nil) {
@@ -385,7 +425,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         doneButton = [[UIButton alloc] init];
         doneButton.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
         doneButton.hidden = YES;
-        [doneButton addTarget:self action:@selector(confirmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [doneButton addTarget:self action:@selector(pickerConfirmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:doneButton];
         
         numberPickerView = [[UIPickerView alloc] init];
@@ -416,39 +456,10 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         
         
         cancelButton = [[UIButton alloc] init];
-        [cancelButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [cancelButton addTarget:self action:@selector(pikcerDoneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         cancelButton.hidden = YES;
         cancelButton.frame = CGRectMake(0, ScreenHeight - numberPickerView.height - 44, 64, 44);
         [doneButton addSubview:cancelButton];
-    }
-}
-
-- (void)closeButtonPressed {
-    
-    BOOL nochange = [initialPillsDay isEqualToString:finalPillsDay]
-    && [initialBreakDay isEqualToString:finalBreakDay]
-    && [initialStartDate isEqualToString:finalStartDate];
-    
-    if ([AppManager hasFirstSetDone] && nochange) {
-        
-        [self finishSetting];
-    } else {
-        
-        [AnalyticsUtil event:Event_First_Set_Done];
-        
-        NSString *text = LocalizedString(@"business_breakdays");
-        if ([ScheduleManager takePlaceboPills]) {
-            text = LocalizedString(@"business_placebo_pilldays");
-        }
-        
-        NSString *message = [NSString stringWithFormat:LocalizedString(@"message_day_confirm_setting"), [ScheduleManager pillDays], [ScheduleManager breakDays], text];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:message
-                                                           delegate:self
-                                                  cancelButtonTitle:LocalizedString(@"button_title_confirm")
-                                                  otherButtonTitles:LocalizedString(@"button_title_cancel"), nil];
-        [alertView show];
     }
 }
 
@@ -486,13 +497,12 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     
     if ([AppManager hasFirstSetDone]) {
-        GADBannerView *bannerView = [[GADBannerView alloc] init];
-        bannerView.backgroundColor = [UIColor blackColor];
-        bannerView.adUnitID = AdMobUnitIdSetting;
+        GADBannerView *bannerView = [AdManager settingView];
+        
         bannerView.rootViewController = self;
-        [bannerView loadRequest:[GADRequest request]];
-        bannerView.frame = CGRectMake(0, 64, ScreenWidth, 64);
+        
         [self.view addSubview:bannerView];
+        
         
         currentY += 64;
     }
@@ -507,6 +517,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:mainTableView];
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -557,16 +568,38 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     
     if ([item.item isEqualToString:Setting_Item_TakeEveryday]) {
-        [ScheduleManager setIsEveryday:value];
+        if (value) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                                                message:LocalizedString(@"alert_message_takepilleveryday")
+                                                               delegate:self
+                                                      cancelButtonTitle:LocalizedString(@"button_title_cancel")
+                                                      otherButtonTitles:LocalizedString(@"button_title_yes"), nil];
+            alertView.tag = value;
+            [alertView show];
+            
+            return;
+        } else {
+            [ScheduleManager setIsEveryday:value];
+        }
+        
+        
     } else if ([item.item isEqualToString:Setting_Item_TakePlaceboPills]) {
         [ScheduleManager setTakePlaceboPills:value];
         
         if (value) {
-            [ReminderManager setRemindInSafeDays:YES];
+            if ([ReminderManager shouldRmind]) {
+                [ReminderManager setRemindInSafeDays:YES];
+            }
+        } else {
+            [ReminderManager setRemindInSafeDays:NO];
         }
         
     } else if ([item.item isEqualToString:Setting_Item_RemindTakePill]) {
         [ReminderManager setShouldRmind:value];
+        
+        if (!value) {
+            [ReminderManager setRemindInSafeDays:NO];
+        }
     } else if ([item.item isEqualToString:Setting_Item_RemindTakePlaceboPill]) {
         [ReminderManager setRemindInSafeDays:value];
     }
@@ -601,7 +634,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     if (currentPickerType == PickerTypePillDays) {
         number = MaxPillDays - 4;
     } else if (currentPickerType == PickerTypeBreakDays) {
-        number = MaxBreakDays + 1;
+        number = MaxBreakDays;
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 1) {
             
@@ -642,7 +675,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
         title = [NSString stringWithInteger:row + 5];
         
     } else if (currentPickerType == PickerTypeBreakDays) {
-        title = [NSString stringWithInteger:row];
+        title = [NSString stringWithInteger:row + 1];
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 1) {
             
@@ -833,26 +866,64 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
 }
 
 
+#pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:LocalizedString(@"button_title_confirm")]) {
-        [self finishSetting];
+    if ([buttonTitle isEqualToString:LocalizedString(@"button_title_yes")]) {
         
-        [NotificationCenter postNotificationName:SettingChangedNotification object:nil];
-        
-        if (![AppManager hasFirstSetDone]) {
-            //ios8  注册本地通知
-            if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-                UIUserNotificationSettings *noteSetting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert
-                                                           | UIUserNotificationTypeBadge
-                                                           | UIUserNotificationTypeSound
-                                                                                            categories:nil];
-                [[UIApplication sharedApplication] registerUserNotificationSettings:noteSetting];
+        if ([alertView.message isEqualToString:LocalizedString(@"alert_message_takepilleveryday")]) {
+            //take everyday
+            [ScheduleManager setIsEveryday:alertView.tag];
+            
+            [ScheduleManager setTakePlaceboPills:YES];
+            
+            BOOL shouldRminder = [ReminderManager shouldRmind];
+            [ReminderManager setRemindInSafeDays:shouldRminder];
+            
+            
+            [self reloadView];
+            
+        } else {
+            
+            //完成设置
+            [self finishSetting];
+            
+            
+            
+            if (![AppManager hasFirstSetDone]) {
+                //ios8  注册本地通知
+                if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+                    UIUserNotificationSettings *noteSetting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert
+                                                               | UIUserNotificationTypeBadge
+                                                               | UIUserNotificationTypeSound
+                                                                                                categories:nil];
+                    [[UIApplication sharedApplication] registerUserNotificationSettings:noteSetting];
+                }
             }
+            
+            
+            [AppManager setFirstSetDone];
+            
+            [ScheduleManager setPillDays:finalPillsDay
+                               breakDays:finalBreakDay
+                               startDate:finalStartDate.date];
+            
+            NSDate *finalDate = finalStartDate.date;
+            NSDate *initialDate = initialStartDate.date;
+            if ([finalDate isEarlierThan:initialDate]) {
+                [[ScheduleManager getInstance] resetRecordFrom:finalDate toDate:initialDate];
+            }
+            
+            [NotificationCenter postNotificationName:SettingChangedNotification object:nil];
+            
         }
         
-        
-        [AppManager setFirstSetDone];
+    } else {
+        if ([alertView.message isEqualToString:LocalizedString(@"alert_message_takepilleveryday")]) {
+            [ScheduleManager setIsEveryday:NO];
+            [self reloadView];
+            
+        }
     }
 }
 

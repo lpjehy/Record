@@ -20,3 +20,6 @@ static NSString *CalendarMonthChangedNotification = @"CalendarMonthChangedNotifi
 static NSString *PillStateChangedNotification = @"PillStateChangedNotification";
 
 static NSString *TodayPackSettedNotification = @"TodayPackSettedNotification";
+
+
+static NSString *LanguageChangedNotification = @"LanguageChangedNotification";

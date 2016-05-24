@@ -172,6 +172,10 @@ static NSString *auditionID = @"auditionID";
     AudioServicesPlaySystemSound(pageAudio);
 }
 
++ (void)Vibrate {
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
+
 + (void)playDefaultAudio
 {
     AudioServicesPlaySystemSound(1002);

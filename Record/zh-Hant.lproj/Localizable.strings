@@ -22,6 +22,7 @@
 "button_title_close"="關閉";
 "button_title_cancel"="取消";
 "button_title_confirm"="確定";
+"button_title_yes"="確定";
 "button_title_save"="保存";
 "button_title_view"="查看";
 "button_title_done"="完成";
@@ -46,6 +47,7 @@
 "Setting_Item_CheerUs"="鼓勵我們";
 
 "reminder_default_alertbody"="到吃藥的時間了喲~";
+"reminder_take_pill"="您是否按時服藥了呢？來點擊小爱記錄壹下吧~";
 
 "help_take_pill"="點擊服用，再次點擊撤銷";
 "help_check_pack"="左右滑動查看藥板";
@@ -73,18 +75,24 @@
 "date_unit_hour"="時";
 "date_unit_minute"="分";
 
-"month_january"="壹月";
-"month_february"="二月";
-"month_march"="三月";
-"month_april"="四月";
-"month_may"="五月";
-"month_june"="六月";
-"month_july"="七月";
-"month_august"="八月";
-"month_september"="九月";
-"month_october"="十月";
-"month_november"="十壹月";
-"month_december"="十二月";
+"month_january"="1月";
+"month_february"="2月";
+"month_march"="3月";
+"month_april"="4月";
+"month_may"="5月";
+"month_june"="6月";
+"month_july"="7月";
+"month_august"="8月";
+"month_september"="9月";
+"month_october"="10月";
+"month_november"="11月";
+"month_december"="12月";
+
+"pack_title_day"="日";
+
+"pack_subtitle_pilldays"="今天是服藥日(%zi天)的第%zi天";
+"pack_subtitle_breakdays"="今天是停藥日(%zi天)的第%zi天";
+"pack_subtitle_placebodays"="今天是服用安慰劑(%zi天)的第%zi天";
 
 "pack_button_current_pack"="當前藥板";
 
@@ -94,15 +102,16 @@
 
 "message_missed"="漏服";
 
-"message_day_info"="今日是 %zi / %zi 天";
+
 
 "message_day_confirm_setting"="使用 %zi 個用藥日 + %zi 個%@ 作為您的用藥計劃？";
 
 "business_breakdays"="斷藥日";
-"business_placebo_pilldays"="安慰劑日";
+"business_placebo_pilldays"="安慰劑";
 
 
 "alert_message_nohurry"="不要著急哦，還沒到那天呢";
+"alert_message_takepilleveryday"="每天都吃藥?";
 
 
 "start_hi"="您好";
@@ -114,6 +123,3 @@
 "time_am"="上午";
 "time_pm"="下午";
 
-"language_Base"="英文";
-"language_zh-Hans"="中文(簡體)";
-"language_zh-Hant"="中文(繁體)";

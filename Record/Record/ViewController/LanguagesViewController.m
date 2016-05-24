@@ -10,6 +10,8 @@
 
 #import "MainViewController.h"
 
+#import "LanguageManager.h"
+
 @interface LanguagesViewController () <UITableViewDelegate, UITableViewDataSource> {
     UITableView *mainTableView;
     
@@ -32,8 +34,9 @@
 
 - (void)doneButtonPressed {
     NSString *languageKey = [languageArray validObjectAtIndex:selectedIndexPath.row];
-    [AppManager setLanguage:languageKey];
+    [LanguageManager setLanguage:languageKey];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:LanguageChangedNotification object:nil];
     
     [self dismissViewControllerAnimated:YES completion:^{
         MainViewController *mainViewController = [[MainViewController alloc] init];
@@ -52,9 +55,11 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     UIButton *leftButton = [[UIButton alloc] init];
-    leftButton.frame = CGRectMake(15, 20, 64, 44);
+    leftButton.frame = CGRectMake(15, 20, 80, 44);
+    [leftButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
+    leftButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [leftButton setTitle:LocalizedString(@"button_title_back") forState:UIControlStateNormal];
-    leftButton.titleLabel.font = FontNormal;
+    leftButton.titleLabel.font = FontMiddle;
     [leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -72,7 +77,7 @@
     doneButton.hidden = YES;
     doneButton.frame = CGRectMake(ScreenWidth - 74, 20, 64, 44);
     [doneButton setTitle:LocalizedString(@"button_title_done") forState:UIControlStateNormal];
-    doneButton.titleLabel.font = FontNormal;
+    doneButton.titleLabel.font = FontMiddle;
     [doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [doneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     doneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
@@ -92,7 +97,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    languageArray = @[@"Base", @"zh-Hant", @"zh-Hans"];
+    languageArray = @[@"Base", @"zh-Hant", @"zh-Hans", @"pt-PT"];
     
     
     [self createLayout];
@@ -126,15 +131,16 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.tintColor = [UIColor whiteColor];
     }
     
     NSString *languageKey = [languageArray validObjectAtIndex:indexPath.row];
-    NSString *language = [NSString stringWithFormat:@"language_%@", languageKey];
+    NSString *language = [LanguageManager languageName:languageKey];
     
     
-    cell.textLabel.text = LocalizedString(language);
+    cell.textLabel.text = language;
     
-    if ([languageKey isEqualToString:[AppManager language]]) {
+    if ([languageKey isEqualToString:[LanguageManager language]]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         self.selectedIndexPath = indexPath;
         originalRow = indexPath.row;

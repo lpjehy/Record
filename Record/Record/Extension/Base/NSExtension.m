@@ -282,62 +282,7 @@
     return weekDay;
 }
 
-+ (NSString *)descriptionOfMonth:(NSInteger)month
-{
-    switch (month) {
-        case 1:
-            return LocalizedString(@"month_january");
-            break;
-            
-        case 2:
-            return LocalizedString(@"month_february");
-            break;
-            
-        case 3:
-            return LocalizedString(@"month_march");
-            break;
-            
-        case 4:
-            return LocalizedString(@"month_april");
-            break;
-            
-        case 5:
-            return LocalizedString(@"month_may");
-            break;
-            
-        case 6:
-            return LocalizedString(@"month_june");
-            break;
-            
-        case 7:
-            return LocalizedString(@"month_july");
-            break;
-            
-        case 8:
-            return LocalizedString(@"month_august");
-            break;
-            
-        case 9:
-            return LocalizedString(@"month_september");
-            break;
-            
-        case 10:
-            return LocalizedString(@"month_october");
-            break;
-            
-        case 11:
-            return LocalizedString(@"month_november");
-            break;
-            
-        case 12:
-            return LocalizedString(@"month_december");
-            break;
-            
-        default:
-            return nil;
-            break;
-    }
-}
+
 
 + (NSInteger)currentYear
 {

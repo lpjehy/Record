@@ -14,6 +14,8 @@
 
 #import "LegendView.h"
 
+#import "AdView.h"
+
 #import "RecordManager.h"
 
 #import "MessageManager.h"
@@ -35,7 +37,7 @@
 
 #import "CalendarViewDelegate.h"
 
-@import GoogleMobileAds;
+
 
 #import "PackView.h"
 
@@ -52,9 +54,9 @@ static NSInteger ScrollViewTagPack = 1;
     
     UIScrollView *baseScrollView;
     
-    UILabel *monthLabel;
-    UILabel *tipLabel;
-    UIButton *rightButton;
+    UILabel *packTitleLabel;
+    UILabel *packSubTitleLabel;
+    UIButton *packRightButton;
     
     GADBannerView *bannerView;
     
@@ -88,6 +90,9 @@ static NSInteger ScrollViewTagPack = 1;
     
     
     BOOL shouldCheckTodayPack;
+    
+    
+    CGFloat todayPackX;
 }
 
 @end
@@ -99,15 +104,15 @@ static NSInteger ScrollViewTagPack = 1;
     self = [super init];
     if (self) {
         [NotificationCenter addObserver:self
-                                                 selector:@selector(calendarMonthChanged:)
-                                                     name:CalendarMonthChangedNotification
-                                                   object:nil];
+                               selector:@selector(calendarMonthChanged:)
+                                   name:CalendarMonthChangedNotification
+                                 object:nil];
         
         
         [NotificationCenter addObserver:self
-                                                 selector:@selector(settingChanged)
-                                                     name:SettingChangedNotification
-                                                   object:nil];
+                               selector:@selector(settingChanged)
+                                   name:SettingChangedNotification
+                                 object:nil];
         
         [NotificationCenter addObserver:self
                                selector:@selector(todayPackSetted:)
@@ -119,6 +124,9 @@ static NSInteger ScrollViewTagPack = 1;
          	                                         selector:@selector(currentLocaleDidChange)
          	                                             name:NSCurrentLocaleDidChangeNotification object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidBecomeActive)
+                                                     name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     
     return self;
@@ -128,10 +136,21 @@ static NSInteger ScrollViewTagPack = 1;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - Notifications
+
+#pragma apllication
+
+- (void)applicationDidBecomeActive {
+    shouldCheckTodayPack = YES;
+    [self reloadView];
+}
+
+
 - (void)currentLocaleDidChange {
     NSLog(@"currentLocaleDidChange");
 }
 
+#pragma bussness
 - (void)settingChanged {
     [baseScrollView scrollToTop:NO];
     [packScrollView setContentOffset:CGPointMake(0, 0)];
@@ -141,16 +160,16 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 - (void)todayPackSetted:(NSNotification *)notification {
-    if (shouldCheckTodayPack) {
+    if (shouldCheckTodayPack && packScrollView) {
         shouldCheckTodayPack = NO;
         
-        NSNumber *destX = [notification.userInfo validObjectForKey:@"DestX"];
-        [self performSelector:@selector(scrollToTodayPack:) withObject:destX afterDelay:.64];
+        todayPackX = [[notification.userInfo validObjectForKey:@"DestX"] floatValue];
+        [self performSelector:@selector(scrollToTodayPack) withObject:nil afterDelay:.64];
     }
 }
 
-- (void)scrollToTodayPack:(NSNumber *)destX {
-    [packScrollView setContentOffset:CGPointMake(destX.floatValue, 0) animated:YES];
+- (void)scrollToTodayPack {
+    [packScrollView setContentOffset:CGPointMake(todayPackX, 0) animated:YES];
 }
 
 - (void)calendarMonthChanged:(NSNotification *)notification {
@@ -160,12 +179,15 @@ static NSInteger ScrollViewTagPack = 1;
     }
 }
 
-- (void)rightButtonPressed {
-    rightButton.hidden = YES;
-    [packScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+- (void)packRightButtonPressed {
+    
+    [self scrollToTodayPack];
     
     
-    NSInteger page = (NSInteger)packScrollView.contentOffset.x / (NSInteger)packScrollView.width;
+    packRightButton.hidden = YES;
+    
+    
+    NSInteger page = (NSInteger)todayPackX / (NSInteger)packScrollView.width;
     
     NSInteger allNum = [ScheduleManager allDays];
     if (allNum > MaxDaysOfPack) {
@@ -185,12 +207,7 @@ static NSInteger ScrollViewTagPack = 1;
     }
     
     
-    NSDateComponents *today = [ScheduleManager getInstance].today;
-    monthLabel.text = [NSString stringWithFormat:@"%@ %zi", [NSDateComponents descriptionOfMonth:today.month], today.day];
-    
-    tipLabel.text = [NSString stringWithFormat:LocalizedString(@"message_day_info"), [ScheduleManager getInstance].currentPackDay, [ScheduleManager allDays]];
-    tipLabel.hidden = NO;
-    rightButton.hidden = YES;
+    [self resetPackInfo];
 }
 
 - (void)helpButtonPressed {
@@ -259,8 +276,71 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 
-- (void)adTaped {
-    NSLog(@"adTaped");
+#pragma mark - data
+- (void)reloadView {
+    [self resetPackInfo];
+    
+    [self reloadPackData];
+    [[CalendarViewDelegate getInstance] reloadData];
+    [[MessageManager getInstance] reloadData];
+}
+
+- (void)resetPackInfo {
+    if (currentPack == 0) {
+        
+        //设置主标题
+        NSDateComponents *today = [ScheduleManager getInstance].today;
+        
+        NSString *title = [NSString stringWithFormat:@"%@ %zi%@", [NSDateComponents descriptionOfMonth:today.month], today.day, LocalizedString(@"pack_title_day")];
+        if ([LanguageManager isZH_Han]) {
+            title = [title stringByReplacingOccurrencesOfString:@" " withString:@""];
+        }
+        
+        packTitleLabel.text = title;
+        
+        
+        packSubTitleLabel.text = [[ScheduleManager getInstance] todayInfo];
+        
+        packSubTitleLabel.hidden = NO;
+        packRightButton.hidden = YES;
+    } else {
+        
+        packTitleLabel.text = LocalizedString(@"pack_in_future");
+        
+        packSubTitleLabel.hidden = YES;
+        packRightButton.hidden = NO;
+    }
+    
+}
+
+- (void)reloadPackData {
+    if (packScrollView == nil) {
+        return;
+    }
+    
+    NSInteger pagenum = currentPage + 3;
+    
+    for (int i = 0; i < pagenum; i++) {
+        PackView *packView = [packViewArray validObjectAtIndex:i];
+        if (packView == nil) {
+            packView = [[PackView alloc] init];
+            packView.frame = CGRectMake(packScrollView.width * i, 0, packScrollView.width, packScrollView.height);
+            packView.tag = i;
+            
+            [packScrollView addSubview:packView];
+            
+            [packViewArray addObject:packView];
+        }
+        
+        
+        [packView reloadData];
+    }
+    
+    
+    packScrollView.contentSize = CGSizeMake(packScrollView.width * pagenum, packScrollView.height);
+    
+    
+    
 }
 
 #pragma mark - layout
@@ -271,68 +351,69 @@ static NSInteger ScrollViewTagPack = 1;
     
     packViewArray = [[NSMutableArray alloc] init];
     
-    monthLabel = [[UILabel alloc] init];
-    monthLabel.textColor = [UIColor whiteColor];
-    monthLabel.font = FontLightMax;
-    [baseScrollView addSubview:monthLabel];
+    packTitleLabel = [[UILabel alloc] init];
+    packTitleLabel.textColor = [UIColor whiteColor];
+    packTitleLabel.font = FontLightMax;
+    [baseScrollView addSubview:packTitleLabel];
     
-    tipLabel = [[UILabel alloc] init];
-    tipLabel.textColor = [UIColor whiteColor];
-    tipLabel.font = FontLightMiddle;
-    
-    
-    
-    
-    [baseScrollView addSubview:tipLabel];
+    packSubTitleLabel = [[UILabel alloc] init];
+    packSubTitleLabel.textColor = [UIColor whiteColor];
+    packSubTitleLabel.font = FontLightMiddle;
+    packSubTitleLabel.adjustsFontSizeToFitWidth = YES;
+    packSubTitleLabel.minimumScaleFactor = 0.5;
     
     
     
-    rightButton = [[UIButton alloc] init];
+    [baseScrollView addSubview:packSubTitleLabel];
     
-    [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [rightButton setTitle:LocalizedString(@"pack_button_current_pack") forState:UIControlStateNormal];
     
-    [rightButton addTarget:self action:@selector(rightButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [baseScrollView addSubview:rightButton];
+    
+    packRightButton = [[UIButton alloc] init];
+    
+    [packRightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [packRightButton setTitle:LocalizedString(@"pack_button_current_pack") forState:UIControlStateNormal];
+    
+    [packRightButton addTarget:self action:@selector(packRightButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [baseScrollView addSubview:packRightButton];
     
     packScrollView = [[UIScrollView alloc] init];
     if (ISPad) {
         
-        monthLabel.frame = CGRectMake(90, 58, ScreenWidth - 40, FontLightMax.lineHeight);
-        tipLabel.frame = CGRectMake(90, 95, ScreenWidth - 40, FontLightMiddle.lineHeight);
+        packTitleLabel.frame = CGRectMake(90, 58, ScreenWidth - 40, FontLightMax.lineHeight);
+        packSubTitleLabel.frame = CGRectMake(90, 95, ScreenWidth - 40, FontLightMiddle.lineHeight);
         
-        rightButton.frame = CGRectMake(ScreenWidth - 132, 56, 128, 32);
+        packRightButton.frame = CGRectMake(ScreenWidth - 132, 56, 128, 32);
         
         packScrollView.frame = CGRectMake(90, 128, ScreenWidth - 180, ScreenHeight - 338);
     } else if (ScreenHeight == 480) {
-        monthLabel.font = FontBig;
-        monthLabel.frame = CGRectMake(26, 20, ScreenWidth - 40, FontLightMax.lineHeight);
+        packTitleLabel.font = FontBig;
+        packTitleLabel.frame = CGRectMake(26, 20, ScreenWidth - 40, FontLightMax.lineHeight);
         
-        tipLabel.font = FontNormal;
-        tipLabel.frame = CGRectMake(26, 48, ScreenWidth - 40, FontLightMiddle.lineHeight);
+        packSubTitleLabel.font = FontNormal;
+        packSubTitleLabel.frame = CGRectMake(26, 48, ScreenWidth - 40, FontLightMiddle.lineHeight);
         
-        rightButton.frame = CGRectMake(ScreenWidth - 132, 24, 128, 32);
+        packRightButton.frame = CGRectMake(ScreenWidth - 132, 24, 128, 32);
         
         packScrollView.frame = CGRectMake(37, 72, ScreenWidth - 74, ScreenHeight - 210);
     } else if (ScreenHeight == 568) {
         
-        monthLabel.frame = CGRectMake(26, 27, ScreenWidth - 40, FontLightMax.lineHeight);
-        tipLabel.frame = CGRectMake(26, 64, ScreenWidth - 40, FontLightMiddle.lineHeight);
+        packTitleLabel.frame = CGRectMake(26, 27, ScreenWidth - 40, FontLightMax.lineHeight);
+        packSubTitleLabel.frame = CGRectMake(26, 64, ScreenWidth - 40, FontLightMiddle.lineHeight);
         
-        rightButton.frame = CGRectMake(ScreenWidth - 132, 32, 128, 32);
+        packRightButton.frame = CGRectMake(ScreenWidth - 132, 32, 128, 32);
         
         packScrollView.frame = CGRectMake(15, 97, ScreenWidth - 30, ScreenHeight - 210);
     } else {
         
-        monthLabel.frame = CGRectMake(26, 58, ScreenWidth - 40, FontLightMax.lineHeight);
-        tipLabel.frame = CGRectMake(26, 95, ScreenWidth - 40, FontLightMiddle.lineHeight);
+        packTitleLabel.frame = CGRectMake(26, 58, ScreenWidth - 40, FontLightMax.lineHeight);
+        packSubTitleLabel.frame = CGRectMake(26, 95, ScreenWidth - 40, FontLightMiddle.lineHeight);
         
-        rightButton.frame = CGRectMake(ScreenWidth - 132, 56, 128, 32);
+        packRightButton.frame = CGRectMake(ScreenWidth - 132, 56, 128, 32);
         
         packScrollView.frame = CGRectMake(20, 128, ScreenWidth - 40, ScreenHeight - 210);
     }
     
-    [self resetPackInfo];
+    
     
     packScrollView.clipsToBounds = NO;
     packScrollView.pagingEnabled = YES;
@@ -341,6 +422,8 @@ static NSInteger ScrollViewTagPack = 1;
     packScrollView.delegate = self;
     packScrollView.tag = ScrollViewTagPack;
     [baseScrollView addSubview:packScrollView];
+    
+    [self resetPackInfo];
     [self reloadPackData];
 }
 
@@ -411,11 +494,11 @@ static NSInteger ScrollViewTagPack = 1;
     CGFloat currentY = 64;
     
     if (ScreenHeight != 480) {
-        bannerView = [[GADBannerView alloc] init];
+        bannerView = [[AdView alloc] init];
         bannerView.backgroundColor = [UIColor blackColor];
         bannerView.adUnitID = AdMobUnitIdCalendar;
         bannerView.rootViewController = self;
-        [bannerView loadRequest:[GADRequest request]];
+        [bannerView loadRequest:[AdManager request]];
         bannerView.frame = CGRectMake(0, 64, ScreenWidth, 50);
         [calendarView addSubview:bannerView];
         
@@ -524,10 +607,10 @@ static NSInteger ScrollViewTagPack = 1;
     
     [self createCalendarLayout];
      
-    float buttonWidth = (ScreenWidth - 120) / 3;
+    float buttonWidth = (ScreenWidth - 70) / 2;
     
     helpButton = [[UIButton alloc] init];
-    helpButton.frame = CGRectMake(40, ScreenHeight - 80, buttonWidth, 70);
+    helpButton.frame = CGRectMake(0, ScreenHeight - 80, buttonWidth, 70);
     [helpButton addTarget:self action:@selector(helpButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [helpButton setTitle:LocalizedString(@"button_title_help") forState:UIControlStateNormal];
     [helpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -544,7 +627,7 @@ static NSInteger ScrollViewTagPack = 1;
 
     
     settingButton = [[UIButton alloc] init];
-    settingButton.frame = CGRectMake(40 + (20 + buttonWidth) * 2, ScreenHeight - 80, buttonWidth, 70);
+    settingButton.frame = CGRectMake((ScreenWidth + 70) / 2, ScreenHeight - 80, buttonWidth, 70);
     [settingButton addTarget:self action:@selector(settingButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [settingButton setTitle:LocalizedString(@"button_title_setting") forState:UIControlStateNormal];
     settingButton.titleLabel.font = FontMiddle;
@@ -605,11 +688,7 @@ static NSInteger ScrollViewTagPack = 1;
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-    [self resetPackInfo];
-    
-    [self reloadPackData];
-    [[CalendarViewDelegate getInstance] reloadData];
-    [[MessageManager getInstance] reloadData];
+    [self reloadView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -643,49 +722,7 @@ static NSInteger ScrollViewTagPack = 1;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)resetPackInfo {
-    if (currentPack == 0) {
-        NSDateComponents *today = [ScheduleManager getInstance].today;
-        monthLabel.text = [NSString stringWithFormat:@"%@ %zi", [NSDateComponents descriptionOfMonth:today.month], today.day];
-        
-        tipLabel.text = [NSString stringWithFormat:LocalizedString(@"message_day_info"), [ScheduleManager getInstance].currentPackDay, [ScheduleManager allDays]];
-        tipLabel.hidden = NO;
-        rightButton.hidden = YES;
-    } else {
-        
-        monthLabel.text = LocalizedString(@"pack_in_future");
-        
-        tipLabel.hidden = YES;
-        rightButton.hidden = NO;
-    }
 
-}
-
-- (void)reloadPackData {
-    NSInteger pagenum = currentPage + 3;
-    
-    for (int i = 0; i < pagenum; i++) {
-        PackView *packView = [packViewArray validObjectAtIndex:i];
-        if (packView == nil) {
-            packView = [[PackView alloc] init];
-            packView.frame = CGRectMake(packScrollView.width * i, 0, packScrollView.width, packScrollView.height);
-            packView.tag = i;
-            
-            [packScrollView addSubview:packView];
-            
-            [packViewArray addObject:packView];
-        }
-        
-        
-        [packView reloadData];
-    }
-    
-    
-    packScrollView.contentSize = CGSizeMake(packScrollView.width * pagenum, packScrollView.height);
-    
-    
-    
-}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView.tag == ScrollViewTagPack) {

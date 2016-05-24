@@ -36,7 +36,7 @@ static NSCache *recordCache = nil;
                 NSString *key = [time componentsSeparatedByString:@" "].firstObject;
                 [recordCache setObject:time forKey:key];
                 
-                [[MessageManager getInstance] reloadData];
+                
                 
                 [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": key}];
                 
@@ -44,7 +44,7 @@ static NSCache *recordCache = nil;
             }
         }
     } else {
-        NSLog(@"已记录");
+        NSLog(@"已记录 %@", date.string);
     }
     
     if ([AppManager isFirstOpeningByReminder]) {
@@ -79,7 +79,6 @@ static NSCache *recordCache = nil;
     
     NSString *key = [date stringWithFormat:@"yyyy-MM-dd"];
     NSString *record = [recordCache validObjectForKey:key];
-    
     if (record == nil) {
         
         NSString *starttime = [key stringByAppendingString:@" 00:00:00"];

@@ -13,6 +13,7 @@
 @interface AppManager : NSObject
 
 + (void)Initialize;
++ (void)Update;
 
 + (BOOL)hasFirstOpened;
 + (BOOL)hasFirstSetDone;
@@ -28,7 +29,6 @@
 + (void)setFirstTakeByReminder;
 + (void)setFirstOpeningByReminder:(BOOL)is;
 
-+ (NSString *)language;
-+ (void)setLanguage:(NSString *)language;
+
 
 @end

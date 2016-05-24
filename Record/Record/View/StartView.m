@@ -63,6 +63,7 @@
         tipLabel.font = FontLightMiddle;
         tipLabel.textColor = [UIColor whiteColor];
         tipLabel.textAlignment = NSTextAlignmentCenter;
+        tipLabel.numberOfLines = 2;
         tipLabel.frame = CGRectMake(20, 420, ScreenWidth - 40, tipLabel.font.lineHeight * 2);
         tipLabel.text = LocalizedString(@"start_tap");
         [self addSubview:tipLabel];

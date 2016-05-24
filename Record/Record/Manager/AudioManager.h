@@ -39,6 +39,7 @@ static NSString *SoundNameDefault = @"Default";
 
 - (void)stopPlay;
 
++ (void)Vibrate;
 
 + (void)playShakeAudio;
 + (void)playPageAudio;

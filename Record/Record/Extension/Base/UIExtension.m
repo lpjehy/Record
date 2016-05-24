@@ -162,8 +162,8 @@
 - (CGSize)textSizeWithSize:(CGSize)size
 {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-    paragraphStyle.lineBreakMode = self.lineBreakMode;
-    NSDictionary *attributes = @{NSFontAttributeName:self.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    NSDictionary *attributes = @{NSFontAttributeName:self.font, NSParagraphStyleAttributeName:paragraphStyle.copy, NSForegroundColorAttributeName:self.textColor};
     
     NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
     
@@ -175,13 +175,17 @@
 
 - (void)fixHeight
 {
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-    paragraphStyle.lineBreakMode = self.lineBreakMode;
-    NSDictionary *attributes = @{NSFontAttributeName:self.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    NSDictionary *attributes = @{NSFontAttributeName:self.font, NSParagraphStyleAttributeName:paragraphStyle.copy, NSForegroundColorAttributeName:self.textColor};
     
     NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
     
-    CGSize size = [self.text boundingRectWithSize:CGSizeMake(self.width, MAXFLOAT) options:options attributes:attributes context:nil].size;
+    CGSize size = [self.text boundingRectWithSize:CGSizeMake(self.width, MAXFLOAT)
+                                          options:options
+                                       attributes:attributes
+                                          context:nil].size;
 //    CGSize size = [self.text sizeWithFont:self.font
 //                        constrainedToSize:CGSizeMake(self.width, MAXFLOAT)
 //                            lineBreakMode:self.lineBreakMode];
@@ -240,7 +244,7 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:delegate
-                                              cancelButtonTitle:LocalizedString(@"button_title_confirm")
+                                              cancelButtonTitle:LocalizedString(@"button_title_yes")
                                               otherButtonTitles:nil];
     [alertView show];
  

@@ -35,6 +35,8 @@
         itemLabel = [[UILabel alloc] init];
         itemLabel.textColor = [UIColor whiteColor];
         itemLabel.font = FontNormal;
+        itemLabel.adjustsFontSizeToFitWidth = YES;
+        itemLabel.minimumScaleFactor = 0.7;
         itemLabel.frame = CGRectMake(15, 0, ScreenWidth * GoldenSectionPoint, 44);
         [self.contentView addSubview:itemLabel];
         
@@ -62,6 +64,8 @@
         
         [self createSwitchView];
         valueSwitch.hidden = NO;
+        
+        itemLabel.width = valueSwitch.originX - 25;
     } else if (type == SettingTypeText) {
         [self createTextView];
         valueLabel.hidden = NO;

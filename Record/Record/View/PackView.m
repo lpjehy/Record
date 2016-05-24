@@ -12,6 +12,7 @@
 #import "ScheduleManager.h"
 #import "RecordManager.h"
 #import "MessageManager.h"
+#import "AudioManager.h"
 
 #import "PillButton.h"
 
@@ -25,6 +26,7 @@
     UILabel *daysLabel;
     
     NSMutableArray *dateButtonArray;
+    NSMutableArray *lineViewArray;
     NSMutableArray *weekdayLabelArray;
     
     float itemHeight;
@@ -49,8 +51,9 @@
 
 - (void)pilldayButtonPressed:(PillButton *)button {
     NSDate *date = button.day.theDayDate;
+    NSLog(@"date: %@", date.string);
     if (!date.isEarlier) {
-        [UIAlertView showMessage:NSLocalizedString(@"alert_message_nohurry", nil)];
+        [UIAlertView showMessage:LocalizedString(@"alert_message_nohurry")];
         return;
     }
     
@@ -63,6 +66,9 @@
         button.isTaken = YES;
     }
     
+    [AudioManager Vibrate];
+    
+    [[MessageManager getInstance] reloadData];
 }
 
 
@@ -119,11 +125,16 @@
         
         [pilldayButton addTarget:self action:@selector(pilldayButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         pilldayButton.frame = CGRectMake(baseX + buttonWidth * q, baseY + itemHeight * r, buttonWidth, itemHeight);
-        
+        if (pilldayButton.originX < 0) {
+            NSLog(@"%zi %zi %zi %f %f", i, currentPack, currentSubPack, buttonWidth, itemHeight);
+        }
         [self addSubview:pilldayButton];
         
         [dateButtonArray addObject:pilldayButton];
+        
+        
     }
+    
 }
 
 - (void)createLayout {
@@ -185,7 +196,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         dateButtonArray = [[NSMutableArray alloc] init];
-        
+        lineViewArray = [[NSMutableArray alloc] init];
         
     }
     return self;
@@ -231,7 +242,13 @@
         currentSubPack = 0;
     }
     
+    for (UIView *lineView in lineViewArray) {
+        lineView.hidden = YES;
+    }
     
+    for (PillButton *button in dateButtonArray) {
+        button.day = nil;
+    }
     
     [self resetDays];
     
@@ -241,6 +258,7 @@
         NSInteger day = i + currentSubPack * MaxDaysOfPack;
         
         NSDateComponents *components = [[ScheduleManager getInstance] dateInPack:currentPack day:day].components;
+        
         if (components) {
             
             if (i < 7) {
@@ -250,8 +268,7 @@
                 }
             }
             
-            
-            [button setDay:components];
+            button.day = components;
             
             if (firstDate == nil) {
                 self.firstDate = components;
@@ -260,10 +277,10 @@
             self.lastDate = components;
             
             if (day < pillDayNum) {
-                button.hidden = NO;
+                
                 button.isBreakDay = NO;
             } else if (day < allNum) {
-                button.hidden = NO;
+                
                 if (![ScheduleManager isEveryday]) {
                     button.isBreakDay = YES;
                 } else {
@@ -271,15 +288,38 @@
                 }
                 
             } else {
-                button.hidden = YES;
+                
             }
             
             [button resetState];
             
             button.hidden = NO;
+            
+            /*
+            NSInteger q = i / 7;
+            if (q != 0) {
+                UIImageView *lineImageView = [lineViewArray validObjectAtIndex:q - 1];
+                if (lineImageView == nil) {
+                    lineImageView = [[UIImageView alloc] init];
+                    lineImageView.backgroundColor = [UIColor redColor];
+                    lineImageView.frame = CGRectMake(button.originX, button.center.y, 1, itemHeight * 6);
+                    
+                    [self addSubview:lineImageView];
+                    
+                    [lineViewArray addObject:lineImageView];
+                }
+                
+                lineImageView.hidden = NO;
+            }
+             */
         } else {
+            
+            
+            
             button.hidden = YES;
         }
+        
+        
         
     }
     

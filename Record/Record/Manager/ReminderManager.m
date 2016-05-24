@@ -208,7 +208,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             localNotification.fireDate = notifyDate;
             
             localNotification.alertBody = [[self class] notificationAlertBody];
-            //localNotification.applicationIconBadgeNumber++;
+            localNotification.applicationIconBadgeNumber = 1;
             //设置通知动作按钮的标题
             localNotification.alertAction = LocalizedString(@"button_title_view");
             //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
@@ -226,6 +226,8 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             [[[self class] getInstance] performSelectorInBackground:@selector(resetSpecialNotify) withObject:nil];
         }
     }
+    
+    [[[self class] getInstance] resetTakePillNotify];
 }
 
 - (void)resetSpecialNotify {
@@ -254,7 +256,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             }
             
             localNotification.alertBody = [[self class] notificationAlertBody];
-            //localNotification.applicationIconBadgeNumber++;
+            localNotification.applicationIconBadgeNumber = 1;
             //设置通知动作按钮的标题
             localNotification.alertAction = LocalizedString(@"button_title_view");
             //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
@@ -270,13 +272,48 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
             
             NSArray *array = [[UIApplication sharedApplication] scheduledLocalNotifications];
-            if (array.count >= 64) {
+            if (array.count >= 60) {
                 break;
             }
         }
     }
     
+    
+    
 }
 
+
+- (void)resetTakePillNotify {
+    
+    NSDate *beginDate = [[self class] notificationTime];
+    
+    for (int i = 1; i <= 4; i++) {
+        
+        //属于用药期内
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.repeatInterval = kCFCalendarUnitMonth;
+        
+        NSDate *fireDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay * 7 * 1 + 60 * 10];
+        localNotification.fireDate = fireDate;
+        
+        
+        localNotification.alertBody = LocalizedString(@"reminder_take_pill");
+        localNotification.applicationIconBadgeNumber = 1;
+        //设置通知动作按钮的标题
+        localNotification.alertAction = LocalizedString(@"button_title_view");
+        //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
+        NSString *soundName = [[self class] notificationSound];
+        if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
+            soundName = [soundName stringByAppendingString:@".mp3"];
+        }
+        localNotification.soundName = soundName;
+        
+        //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
+        //localNotification.userInfo = userInfo;
+        //在规定的日期触发通知
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    }
+}
 
 @end

@@ -17,6 +17,8 @@
     UIImageView *backImageView;
     UIImageView *pillImageView;
     UILabel *dayLabel;
+    
+    BOOL showingToday;
 }
 
 @end
@@ -94,42 +96,47 @@
 - (void)setDay:(NSDateComponents *)d {
     day = d;
     
-    dayLabel.text = [NSString stringWithInteger:day.day];
-    
-    
-    
-    NSDateComponents *today = NSDate.components;
-    
-    
-    
-    
-    
-    //NSLog(@"components: %zi %zi %zi today:  %zi %zi %zi ", components.year, components.month, components.day, today.year, today.month, today.day);
-    if (day.year == today.year && day.month == today.month && day.day == today.day) {
-        self.isToday = YES;
-        NSLog(@"get pack today");
+    if (day) {
+        dayLabel.text = [NSString stringWithInteger:day.day];
         
         
-        NSNumber *num = [NSNumber numberWithFloat:self.superview.originX];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:TodayPackSettedNotification object:nil userInfo:@{@"DestX":num}];
+        NSDateComponents *today = NSDate.components;
+        
+        
+        if (day.year == today.year && day.month == today.month && day.day == today.day) {
+            
+            self.isToday = YES;
+            
+            
+            NSNumber *num = [NSNumber numberWithFloat:self.superview.originX];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:TodayPackSettedNotification object:nil userInfo:@{@"DestX":num}];
+        } else {
+            self.isToday = NO;
+        }
+        
+        
+        NSString *recordText = nil;
+        if ([day isEarlier:today]) {
+            recordText = [RecordManager selectRecord:day.theDate];
+            
+        }
+        
+        
+        if (recordText) {
+            self.isTaken = YES;
+        } else {
+            self.isTaken = NO;
+        }
+
     } else {
+        dayLabel.text = nil;
         self.isToday = NO;
-    }
-    
-    
-    NSString *recordText = nil;
-    if ([day isEarlier:today]) {
-        recordText = [RecordManager selectRecord:day.theDate];
-        
-    }
-    
-    
-    if (recordText) {
-        self.isTaken = YES;
-    } else {
         self.isTaken = NO;
+        self.isBreakDay = NO;
     }
+    
     
     
 }
@@ -146,7 +153,8 @@
     if (is) {
         
         
-        if (backImageView.tag == 0) {
+        if (showingToday == NO) {
+            
             [self showToday];
         }
         
@@ -156,15 +164,30 @@
 }
 
 - (void)showToday {
-    if (!isToday) {
-        backImageView.tag = 0;
+    
+    //若今日已服，则停止闪烁
+    if (isTaken && backImageView.alpha == 1) {
+        
+        showingToday = NO;
         return;
     }
-    backImageView.tag = 1;
+    
+    //不是今日，则停止闪烁
+    if (!isToday || [UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+        
+        showingToday = NO;
+        return;
+    }
+    
+    
+    
+    showingToday = YES;
+    
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(showToday)];
     [UIView setAnimationDuration:.8];
+    
     backImageView.alpha = 1 - backImageView.alpha;
     
     [UIView commitAnimations];
@@ -173,11 +196,20 @@
 - (void)resetState {
     
     if (isTaken) {
-        dayLabel.textColor = [UIColor whiteColor];
         
-        NSString *imagename = [NSString stringWithFormat:@"Pill_Taken_%zi.png", arc4random() % 4 + 1];
-        pillImageView.image = [UIImage imageNamed:imagename];
-        
+        if (isBreakDay && ![ScheduleManager takePlaceboPills]) {
+            dayLabel.textColor = ColorTextPill;
+            
+            pillImageView.image = nil;
+            self.enabled = NO;
+            
+        } else {
+            dayLabel.textColor = [UIColor whiteColor];
+            
+            NSString *imagename = [NSString stringWithFormat:@"Pill_Taken_%zi.png", arc4random() % 4 + 1];
+            pillImageView.image = [UIImage imageNamed:imagename];
+            self.enabled = YES;
+        }
         
     } else {
         
@@ -210,6 +242,11 @@
     isTaken = is;
     
     [self resetState];
+    
+    if (!isTaken && isToday && showingToday == NO) {
+        
+        [self showToday];
+    }
 }
 
 @end

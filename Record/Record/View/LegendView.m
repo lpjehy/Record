@@ -9,7 +9,11 @@
 #import "LegendView.h"
 
 @interface LegendView () {
-    
+    UILabel *legendLabel;
+    UILabel *takedLabel;
+    UILabel *untakenLabel;
+    UILabel *placeboLabel;
+    UILabel *untakenPlaceboLabel;
 }
 
 @end
@@ -40,22 +44,22 @@
         [self addSubview:backImageView];
         
         
-        UILabel *legendLabel = [[UILabel alloc] init];
-        legendLabel.text = LocalizedString(@"button_title_legend");
+        legendLabel = [[UILabel alloc] init];
+        
         legendLabel.font = FontMiddle;
         legendLabel.frame = CGRectMake(36, 15, 128, legendLabel.font.lineHeight);
         legendLabel.textColor = ColorGrayDark;
         [backImageView addSubview:legendLabel];
         
-        UILabel *takedLabel = [[UILabel alloc] init];
-        takedLabel.text = LocalizedString(@"legend_taked");
+        takedLabel = [[UILabel alloc] init];
+        
         takedLabel.font = FontMiddle;
         takedLabel.frame = CGRectMake(56, 64, 200, legendLabel.font.lineHeight);
         takedLabel.textColor = ColorTextDark;
         [backImageView addSubview:takedLabel];
         
-        UILabel *untakenLabel = [[UILabel alloc] init];
-        untakenLabel.text = LocalizedString(@"legend_untaken");
+        untakenLabel = [[UILabel alloc] init];
+        
         untakenLabel.font = FontMiddle;
         untakenLabel.frame = CGRectMake(56, 104, 200, legendLabel.font.lineHeight);
         untakenLabel.textColor = ColorTextDark;
@@ -63,15 +67,15 @@
         
         
         
-        UILabel *placeboLabel = [[UILabel alloc] init];
-        placeboLabel.text = LocalizedString(@"legend_placebo");
+        placeboLabel = [[UILabel alloc] init];
+        
         placeboLabel.font = FontMiddle;
         placeboLabel.frame = CGRectMake(56, 140, 200, legendLabel.font.lineHeight);
         placeboLabel.textColor = ColorTextDark;
         [backImageView addSubview:placeboLabel];
         
-        UILabel *untakenPlaceboLabel = [[UILabel alloc] init];
-        untakenPlaceboLabel.text = LocalizedString(@"legend_untaken_placebo");
+        untakenPlaceboLabel = [[UILabel alloc] init];
+        
         untakenPlaceboLabel.font = FontMiddle;
         untakenPlaceboLabel.frame = CGRectMake(56, 180, 200, legendLabel.font.lineHeight);
         untakenPlaceboLabel.textColor = ColorTextDark;
@@ -80,9 +84,25 @@
         self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
         
         [self addTarget:self action:@selector(buttonPressed) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self setText];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(languageChanged) name:LanguageChangedNotification object:nil];
     }
     
     return self;
+}
+
+- (void)setText {
+    legendLabel.text = LocalizedString(@"button_title_legend");
+    takedLabel.text = LocalizedString(@"legend_taked");
+    untakenLabel.text = LocalizedString(@"legend_untaken");
+    placeboLabel.text = LocalizedString(@"legend_placebo");
+    untakenPlaceboLabel.text = LocalizedString(@"legend_untaken_placebo");
+}
+
+- (void)languageChanged {
+    [self setText];
 }
 
 - (void)buttonPressed {

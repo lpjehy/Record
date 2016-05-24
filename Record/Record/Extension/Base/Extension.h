@@ -11,16 +11,7 @@
 #import "UIExtension.h"
 
 
-
-@interface NSString(Imager)
-
-@end
+#import "NSDateComponents+Reminder.h"
 
 
-@interface NSDateComponents(Reminder)
 
-
-- (NSString *)weekDayText;
-+ (NSString *)textForWeekday:(NSInteger)weekday;
-
-@end

@@ -10,6 +10,7 @@
 
 #import "ReminderManager.h"
 #import "RecordManager.h"
+#import "MessageManager.h"
 
 static NSString *IsEverydayKey = @"IsEveryday";
 static NSString *PillDaysKey = @"PillDays";
@@ -24,8 +25,13 @@ static NSInteger DefaultBreakDays = 7;
 
 @implementation ScheduleManager
 
+@synthesize startDay;
 
-@synthesize currentDayFromStartDay, currentPack, today, currentPackDay, startDay;
+@synthesize today;
+
+@synthesize currentDayFromStartDay;
+
+@synthesize currentPack, currentPackDay;
 
 - (id)init {
     self = [super init];
@@ -104,23 +110,35 @@ static NSInteger DefaultBreakDays = 7;
     
     [[[self class] getInstance] resetDate];
 }
+
 + (BOOL)isEveryday {
     return [[NSUserDefaults standardUserDefaults] boolForKey:IsEverydayKey];
 }
 
 
-
-+ (void)setPillDays:(NSInteger)days {
-    if (days > MaxPillDays) {
-        days = MaxPillDays;
++ (void)setPillDays:(NSInteger)pilldays
+          breakDays:(NSInteger)breakDays
+          startDate:(NSDate *)date {
+    if (pilldays > MaxPillDays) {
+        pilldays = MaxPillDays;
+    }
+    
+    if (breakDays > MaxBreakDays) {
+        breakDays = MaxBreakDays;
     }
     
     
-    [[NSUserDefaults standardUserDefaults] setInteger:days forKey:PillDaysKey];
+    
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:pilldays forKey:PillDaysKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:breakDays forKey:BreakDaysKey];
+    [[NSUserDefaults standardUserDefaults] setValue:date forKey:StartDateKey];
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [[[self class] getInstance] resetDate];
 }
+
 + (NSInteger)pillDays {
     NSInteger pillDays = [[NSUserDefaults standardUserDefaults] integerForKey:PillDaysKey];
     
@@ -131,18 +149,7 @@ static NSInteger DefaultBreakDays = 7;
     return pillDays;
 }
 
-+ (void)setSafeDays:(NSInteger)days {
-    
-    if (days > MaxBreakDays) {
-        days = MaxBreakDays;
-    }
-    
-    
-    [[NSUserDefaults standardUserDefaults] setInteger:days forKey:BreakDaysKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [[[self class] getInstance] resetDate];
-}
+
 + (NSInteger)breakDays {
     NSInteger safeDays = [[NSUserDefaults standardUserDefaults] integerForKey:BreakDaysKey];
     
@@ -168,26 +175,32 @@ static NSInteger DefaultBreakDays = 7;
     
 }
 
-- (void)resetRecord:(NSDate *)date {
-    NSDate *todayDate = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", today.year, today.month, today.day].date;
-    while ([date isEarlierThan:todayDate]) {
-        [RecordManager record:date];
+- (void)resetRecordFrom:(NSDate *)startDate toDate:(NSDate *)endDate {
+    
+    NSDate *date = startDate;
+    
+    BOOL takePlaceboPill = [ScheduleManager takePlaceboPills];
+    NSLog(@"take PlaceboPill: %zi", takePlaceboPill);
+    
+    NSInteger allDays = [[self class] allDays];
+    NSInteger pillDay = [ScheduleManager pillDays];
+    for (int i = 0; [date isEarlierThan:endDate]; i++) {
+       
+        NSInteger r = i % allDays;
+        
+        if (takePlaceboPill || r < pillDay) {
+            NSLog(@"%zi day of %zi pill days: ", r, pillDay);
+            [RecordManager record:date];
+        }
+        
         
         date = [date dateByAddingTimeInterval:TimeIntervalDay];
     }
     
-    
-    [[[self class] getInstance] resetDate];
+    [[MessageManager getInstance] reloadData];
 }
 
-+ (void)setStartDate:(NSDate *)date {
-    
-    
-    [[NSUserDefaults standardUserDefaults] setValue:date forKey:StartDateKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [[[self class] getInstance] performSelectorInBackground:@selector(resetRecord:) withObject:date];
-}
+
 + (NSDate *)startDate {
     NSDate *startDate = [[NSUserDefaults standardUserDefaults] valueForKey:StartDateKey];
     if (startDate == nil) {
@@ -195,7 +208,9 @@ static NSInteger DefaultBreakDays = 7;
         NSDateComponents *day = startDate.components;
         NSString *dayStr = [NSString stringWithFormat:@"%04zi-%02zi-%02zi 00:00:00.0", day.year, day.month, day.day];
         startDate = dayStr.date;
-        [ScheduleManager setStartDate:startDate];
+        
+        
+        [[NSUserDefaults standardUserDefaults] setValue:startDate forKey:StartDateKey];
     }
     
     return startDate;
@@ -206,5 +221,37 @@ static NSInteger DefaultBreakDays = 7;
     return [[self class] pillDays] + [[self class] breakDays];
 }
 
+
+- (NSString *)todayInfo {
+    
+    //设置副标题
+    NSInteger currentDay = currentPackDay;
+    NSInteger allDays = [ScheduleManager pillDays];
+    
+    BOOL takePlaceBo = [ScheduleManager takePlaceboPills];
+    
+    
+    NSString *baseTitle = nil;
+    if (currentDay <= allDays) {
+        baseTitle = LocalizedString(@"pack_subtitle_pilldays");
+        
+    } else {
+        currentDay -= allDays;
+        allDays = [ScheduleManager breakDays];
+        if (takePlaceBo) {
+            baseTitle = LocalizedString(@"pack_subtitle_placebodays");
+        } else {
+            baseTitle = LocalizedString(@"pack_subtitle_breakdays");
+        }
+    }
+    
+    NSString *info = nil;
+    if ([LanguageManager isZH_Han]) {
+        info = [NSString stringWithFormat:baseTitle, allDays, currentDay];
+    } else {
+        info = [NSString stringWithFormat:baseTitle, currentDay, allDays];
+    }
+    return info;
+}
 
 @end

@@ -9,6 +9,9 @@
 #import "AppManager.h"
 
 #import "RecordManager.h"
+#import "OnlineConfigUtil.h"
+#import "ReminderManager.h"
+
 
 static NSString *MarkFirstOpenedKey = @"MarkFirstOpened";
 static NSString *MarkFirstSetDoneKey = @"MarkFirstSetDone";
@@ -18,30 +21,25 @@ static NSString *MarkFirstTakeByReminderKey = @"MarkFirstTakeByRedminder";
 
 static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedminder";
 
-static NSString *AppLanguageKey = @"AppLanguage";
+
 
 @implementation AppManager
 
 + (void)Initialize
 {
-    if (![AppManager language]) {
-        NSString *language = [NSLocale preferredLanguages].firstObject;
-        if ([language isEqualToString:@"zh-Hant"]) {
-            language = @"zh-Hant";
-        } else if ([language hasPrefix:@"zh-Hans"]) {
-            language = @"zh-Hans";
-        } else {
-            language = @"Base";
-        }
-        
-        
-        [AppManager setLanguage:language];
-    }
-    
+    [LanguageManager Initialize];
     
     [AnalyticsUtil Initialize];
     
     
+}
+
++ (void)Update {
+    [OnlineConfigUtil update];
+    
+    if ([AppManager hasFirstSetDone]) {
+        [ReminderManager resetNotify];
+    }
 }
 
 
@@ -104,12 +102,6 @@ static NSString *AppLanguageKey = @"AppLanguage";
 }
 
 
-+ (NSString *)language {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:AppLanguageKey];
-}
-+ (void)setLanguage:(NSString *)language {
-    [[NSUserDefaults standardUserDefaults] setValue:language forKey:AppLanguageKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
+
 
 @end

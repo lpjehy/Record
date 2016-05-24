@@ -34,7 +34,7 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     tapLabel = [[UILabel alloc] init];
     tapLabel.font = FontMiddle;
     tapLabel.textAlignment = NSTextAlignmentCenter;
-    
+    tapLabel.numberOfLines = 0;
     tapLabel.textColor = [UIColor whiteColor];
     
     [self addSubview:tapLabel];
@@ -49,7 +49,7 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     swipeLabel = [[UILabel alloc] init];
     swipeLabel.font = FontMiddle;
     swipeLabel.textAlignment = NSTextAlignmentCenter;
-    
+    swipeLabel.numberOfLines = 0;
     
     swipeLabel.textColor = [UIColor whiteColor];
     
@@ -60,13 +60,13 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     
     
     if (ScreenHeight == 480) {
-        tapLabel.frame = CGRectMake(0, 100, ScreenWidth, tapLabel.font.lineHeight);
+        tapLabel.frame = CGRectMake(10, 100, ScreenWidth - 20, tapLabel.font.lineHeight);
         tapImageView.frame = CGRectMake((ScreenWidth - 71) / 2, 150, 71, 107);
-        swipeLabel.frame = CGRectMake(0, 310, ScreenWidth, tapLabel.font.lineHeight);
+        swipeLabel.frame = CGRectMake(10, 310, ScreenWidth - 20, swipeLabel.font.lineHeight);
     } else {
-        tapLabel.frame = CGRectMake(0, 150, ScreenWidth, tapLabel.font.lineHeight);
+        tapLabel.frame = CGRectMake(10, 150, ScreenWidth - 20, tapLabel.font.lineHeight);
         tapImageView.frame = CGRectMake((ScreenWidth - 71) / 2, 200, 71, 107);
-        swipeLabel.frame = CGRectMake(0, 360, ScreenWidth, tapLabel.font.lineHeight);
+        swipeLabel.frame = CGRectMake(10, 360, ScreenWidth - 20, swipeLabel.font.lineHeight);
     }
     
 }
@@ -100,8 +100,10 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     self.hidden = NO;
     
     tapLabel.text = LocalizedString(@"help_take_pill");
+    [tapLabel fixHeight];
     
     swipeLabel.text = LocalizedString(@"help_check_pack");
+    [swipeLabel fixHeight];
     
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Right.png"];
     
@@ -120,8 +122,10 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
     
     
     tapLabel.text = LocalizedString(@"help_edit_date");
+    [tapLabel fixHeight];
     
     swipeLabel.text = LocalizedString(@"help_switch_month");
+    [swipeLabel fixHeight];
     
     swipeImageView.image = [UIImage imageNamed:@"Gesture_Swipe_Down.png"];
     

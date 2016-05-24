@@ -14,9 +14,6 @@
 		990955011C85D5C300797FFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 990955001C85D5C300797FFF /* Assets.xcassets */; };
 		9909550D1C85D76300797FFF /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909550C1C85D76300797FFF /* BaseViewController.m */; };
 		990955101C85D76F00797FFF /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909550F1C85D76F00797FFF /* AppManager.m */; };
-		990955171C85D77A00797FFF /* Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955121C85D77A00797FFF /* Extension.m */; };
-		990955181C85D77A00797FFF /* NSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955141C85D77A00797FFF /* NSExtension.m */; };
-		990955191C85D77A00797FFF /* UIExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 990955161C85D77A00797FFF /* UIExtension.m */; };
 		990955201C85E47800797FFF /* HelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909551F1C85E47800797FFF /* HelpView.m */; };
 		990F88731C984809000C500E /* PillButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 990F88721C984809000C500E /* PillButton.m */; };
 		991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 991163BB1CA9733C0068F9A6 /* SoundsViewController.m */; };
@@ -27,6 +24,9 @@
 		9911928B1CD47C6D00F12A5A /* Default-Portrait~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 991192861CD47C6D00F12A5A /* Default-Portrait~ipad@2x.png */; };
 		9911928C1CD47C6D00F12A5A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 991192871CD47C6D00F12A5A /* Default@2x.png */; };
 		99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99152ACC1CB95EDE00AD7D69 /* AudioManager.m */; };
+		9921681E1CF2FA4400471B16 /* NSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9921681A1CF2FA4400471B16 /* NSExtension.m */; };
+		9921681F1CF2FA4400471B16 /* UIExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9921681C1CF2FA4400471B16 /* UIExtension.m */; };
+		992168231CF2FAA300471B16 /* NSDateComponents+Reminder.m in Sources */ = {isa = PBXBuildFile; fileRef = 992168221CF2FAA300471B16 /* NSDateComponents+Reminder.m */; };
 		9923080F1CA6A73A00BA6994 /* CalendarMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */; };
 		992308121CA6A76600BA6994 /* LegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 992308111CA6A76600BA6994 /* LegendView.m */; };
 		992B579C1C9EE4CC00C96C55 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 992B57921C9EE4CC00C96C55 /* FMDatabase.m */; };
@@ -70,6 +70,8 @@
 		99D9856E1CCFBD6800285B6F /* Coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D985691CCFBD6800285B6F /* Coin.mp3 */; };
 		99D9856F1CCFBD6800285B6F /* Drums.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D9856A1CCFBD6800285B6F /* Drums.mp3 */; };
 		99D985701CCFBD6800285B6F /* Yoho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D9856B1CCFBD6800285B6F /* Yoho.mp3 */; };
+		99DB17411CE877AF00BB76D2 /* LanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DB17401CE877AF00BB76D2 /* LanguageManager.m */; };
+		99EAF7011CECC55D003AE064 /* AdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99EAF7001CECC55D003AE064 /* AdView.m */; };
 		99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F5646D1C9E897C005806A8 /* SettingItem.m */; };
 /* End PBXBuildFile section */
 
@@ -86,12 +88,6 @@
 		9909550C1C85D76300797FFF /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = ViewController/BaseViewController.m; sourceTree = "<group>"; };
 		9909550E1C85D76F00797FFF /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppManager.h; path = Manager/AppManager.h; sourceTree = "<group>"; };
 		9909550F1C85D76F00797FFF /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppManager.m; path = Manager/AppManager.m; sourceTree = "<group>"; };
-		990955111C85D77A00797FFF /* Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Extension.h; path = Extension/Extension.h; sourceTree = "<group>"; };
-		990955121C85D77A00797FFF /* Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Extension.m; path = Extension/Extension.m; sourceTree = "<group>"; };
-		990955131C85D77A00797FFF /* NSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSExtension.h; path = Extension/NSExtension.h; sourceTree = "<group>"; };
-		990955141C85D77A00797FFF /* NSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSExtension.m; path = Extension/NSExtension.m; sourceTree = "<group>"; };
-		990955151C85D77A00797FFF /* UIExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIExtension.h; path = Extension/UIExtension.h; sourceTree = "<group>"; };
-		990955161C85D77A00797FFF /* UIExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIExtension.m; path = Extension/UIExtension.m; sourceTree = "<group>"; };
 		9909551E1C85E47800797FFF /* HelpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpView.h; path = View/HelpView.h; sourceTree = "<group>"; };
 		9909551F1C85E47800797FFF /* HelpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpView.m; path = View/HelpView.m; sourceTree = "<group>"; };
 		990955211C85E6E000797FFF /* Reminder-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Reminder-Prefix.pch"; sourceTree = "<group>"; };
@@ -109,6 +105,16 @@
 		991192871CD47C6D00F12A5A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Record/Assets.xcassets/LaunchImage.launchimage/Default@2x.png"; sourceTree = "<group>"; };
 		99152ACB1CB95EDE00AD7D69 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = Manager/AudioManager.h; sourceTree = "<group>"; };
 		99152ACC1CB95EDE00AD7D69 /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioManager.m; path = Manager/AudioManager.m; sourceTree = "<group>"; };
+		992167BA1CF15C1700471B16 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		992167BB1CF15C1700471B16 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		992167BC1CF15C1700471B16 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "pt-BR"; path = "pt-BR.lproj/Info.plist"; sourceTree = "<group>"; };
+		992168171CF2FA4400471B16 /* Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Extension.h; path = Extension/Base/Extension.h; sourceTree = "<group>"; };
+		992168191CF2FA4400471B16 /* NSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSExtension.h; path = Extension/Base/NSExtension.h; sourceTree = "<group>"; };
+		9921681A1CF2FA4400471B16 /* NSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSExtension.m; path = Extension/Base/NSExtension.m; sourceTree = "<group>"; };
+		9921681B1CF2FA4400471B16 /* UIExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIExtension.h; path = Extension/Base/UIExtension.h; sourceTree = "<group>"; };
+		9921681C1CF2FA4400471B16 /* UIExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIExtension.m; path = Extension/Base/UIExtension.m; sourceTree = "<group>"; };
+		992168211CF2FAA300471B16 /* NSDateComponents+Reminder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDateComponents+Reminder.h"; path = "Extension/NSDateComponents+Reminder.h"; sourceTree = "<group>"; };
+		992168221CF2FAA300471B16 /* NSDateComponents+Reminder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDateComponents+Reminder.m"; path = "Extension/NSDateComponents+Reminder.m"; sourceTree = "<group>"; };
 		9923080D1CA6A73A00BA6994 /* CalendarMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarMenuView.h; path = View/CalendarMenuView.h; sourceTree = "<group>"; };
 		9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarMenuView.m; path = View/CalendarMenuView.m; sourceTree = "<group>"; };
 		992308101CA6A76600BA6994 /* LegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegendView.h; path = View/LegendView.h; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 		996C12501CD60EB5007253C6 /* Default.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Default.mp3; path = Record/Resource/sound/Default.mp3; sourceTree = "<group>"; };
 		998DE7DA1C89C42C00C3AA81 /* PackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackView.h; path = View/PackView.h; sourceTree = "<group>"; };
 		998DE7DB1C89C42C00C3AA81 /* PackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackView.m; path = View/PackView.m; sourceTree = "<group>"; };
+		99986ACB1CF2FE3E00F398F9 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Macro.h; path = Header/Macro.h; sourceTree = "<group>"; };
 		999FADF01C8BE1AE0083C6B0 /* ReminderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReminderManager.h; path = Manager/ReminderManager.h; sourceTree = "<group>"; };
 		999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReminderManager.m; path = Manager/ReminderManager.m; sourceTree = "<group>"; };
 		999FADF31C8C03E70083C6B0 /* RecordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordManager.h; path = Manager/RecordManager.h; sourceTree = "<group>"; };
@@ -195,6 +202,13 @@
 		99D985691CCFBD6800285B6F /* Coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Coin.mp3; path = Record/Resource/sound/Coin.mp3; sourceTree = "<group>"; };
 		99D9856A1CCFBD6800285B6F /* Drums.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Drums.mp3; path = Record/Resource/sound/Drums.mp3; sourceTree = "<group>"; };
 		99D9856B1CCFBD6800285B6F /* Yoho.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Yoho.mp3; path = Record/Resource/sound/Yoho.mp3; sourceTree = "<group>"; };
+		99DB173C1CE85FCC00BB76D2 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		99DB173D1CE85FCC00BB76D2 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		99DB173E1CE85FCC00BB76D2 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "pt-PT"; path = "pt-PT.lproj/Info.plist"; sourceTree = "<group>"; };
+		99DB173F1CE877AF00BB76D2 /* LanguageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageManager.h; path = Manager/LanguageManager.h; sourceTree = "<group>"; };
+		99DB17401CE877AF00BB76D2 /* LanguageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageManager.m; path = Manager/LanguageManager.m; sourceTree = "<group>"; };
+		99EAF6FF1CECC55D003AE064 /* AdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdView.h; path = View/AdView.h; sourceTree = "<group>"; };
+		99EAF7001CECC55D003AE064 /* AdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdView.m; path = View/AdView.m; sourceTree = "<group>"; };
 		99F5646C1C9E897C005806A8 /* SettingItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingItem.h; path = Data/SettingItem.h; sourceTree = "<group>"; };
 		99F5646D1C9E897C005806A8 /* SettingItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingItem.m; path = Data/SettingItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -236,7 +250,6 @@
 			children = (
 				990954F41C85D5C300797FFF /* AppDelegate.h */,
 				990954F51C85D5C300797FFF /* AppDelegate.m */,
-				999FAE001C8C26300083C6B0 /* Calendar */,
 				999FADF61C8C0C0C0083C6B0 /* Data */,
 				9909551A1C85D77F00797FFF /* Extension */,
 				996C125A1CD75B8E007253C6 /* Framework */,
@@ -266,12 +279,10 @@
 		9909551A1C85D77F00797FFF /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				990955111C85D77A00797FFF /* Extension.h */,
-				990955121C85D77A00797FFF /* Extension.m */,
-				990955131C85D77A00797FFF /* NSExtension.h */,
-				990955141C85D77A00797FFF /* NSExtension.m */,
-				990955151C85D77A00797FFF /* UIExtension.h */,
-				990955161C85D77A00797FFF /* UIExtension.m */,
+				992168171CF2FA4400471B16 /* Extension.h */,
+				992168211CF2FAA300471B16 /* NSDateComponents+Reminder.h */,
+				992168221CF2FAA300471B16 /* NSDateComponents+Reminder.m */,
+				992168201CF2FA9300471B16 /* Base */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -285,6 +296,8 @@
 				9909550F1C85D76F00797FFF /* AppManager.m */,
 				99152ACB1CB95EDE00AD7D69 /* AudioManager.h */,
 				99152ACC1CB95EDE00AD7D69 /* AudioManager.m */,
+				99DB173F1CE877AF00BB76D2 /* LanguageManager.h */,
+				99DB17401CE877AF00BB76D2 /* LanguageManager.m */,
 				999FADFA1C8C124A0083C6B0 /* MessageManager.h */,
 				999FADFB1C8C124A0083C6B0 /* MessageManager.m */,
 				999FADF31C8C03E70083C6B0 /* RecordManager.h */,
@@ -300,17 +313,12 @@
 		9909551C1C85D7A300797FFF /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				9909550B1C85D76300797FFF /* BaseViewController.h */,
-				9909550C1C85D76300797FFF /* BaseViewController.m */,
-				996004BD1C9467D4001EFD89 /* CalendarViewDelegate.h */,
-				996004BE1C9467D4001EFD89 /* CalendarViewDelegate.m */,
+				99986ACD1CF2FF0B00F398F9 /* Common */,
 				990954F71C85D5C300797FFF /* MainViewController.h */,
 				990954F81C85D5C300797FFF /* MainViewController.m */,
-				996004C31C954C2D001EFD89 /* MessageViewDelegate.h */,
-				996004C41C954C2D001EFD89 /* MessageViewDelegate.m */,
+				99986ACC1CF2FEFD00F398F9 /* Calendar */,
+				99986ACE1CF2FF1C00F398F9 /* Message */,
 				996C124F1CD5C20C007253C6 /* Setting */,
-				996004B31C944453001EFD89 /* WebViewController.h */,
-				996004B41C944453001EFD89 /* WebViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -324,6 +332,8 @@
 				999FAE021C8C26420083C6B0 /* CalendarDayButton.m */,
 				990F88711C984809000C500E /* PillButton.h */,
 				990F88721C984809000C500E /* PillButton.m */,
+				99EAF6FF1CECC55D003AE064 /* AdView.h */,
+				99EAF7001CECC55D003AE064 /* AdView.m */,
 				998DE7DA1C89C42C00C3AA81 /* PackView.h */,
 				998DE7DB1C89C42C00C3AA81 /* PackView.m */,
 				999FAE251C8C4A200083C6B0 /* MessageCell.h */,
@@ -354,6 +364,17 @@
 			name = images;
 			sourceTree = "<group>";
 		};
+		992168201CF2FA9300471B16 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				992168191CF2FA4400471B16 /* NSExtension.h */,
+				9921681A1CF2FA4400471B16 /* NSExtension.m */,
+				9921681B1CF2FA4400471B16 /* UIExtension.h */,
+				9921681C1CF2FA4400471B16 /* UIExtension.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
 		992B57901C9EE4C000C96C55 /* FMDB */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +400,7 @@
 				992D29211CCC632B00F9288A /* Notifications.h */,
 				992D29221CCC636000F9288A /* Colors.h */,
 				992D29231CCC636000F9288A /* Fonts.h */,
+				99986ACB1CF2FE3E00F398F9 /* Macro.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -431,6 +453,35 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		99986ACC1CF2FEFD00F398F9 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				996004BD1C9467D4001EFD89 /* CalendarViewDelegate.h */,
+				996004BE1C9467D4001EFD89 /* CalendarViewDelegate.m */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
+		99986ACD1CF2FF0B00F398F9 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				996004B31C944453001EFD89 /* WebViewController.h */,
+				996004B41C944453001EFD89 /* WebViewController.m */,
+				9909550B1C85D76300797FFF /* BaseViewController.h */,
+				9909550C1C85D76300797FFF /* BaseViewController.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		99986ACE1CF2FF1C00F398F9 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				996004C31C954C2D001EFD89 /* MessageViewDelegate.h */,
+				996004C41C954C2D001EFD89 /* MessageViewDelegate.m */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
 		999FADF61C8C0C0C0083C6B0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,13 +493,6 @@
 				99F5646D1C9E897C005806A8 /* SettingItem.m */,
 			);
 			name = Data;
-			sourceTree = "<group>";
-		};
-		999FAE001C8C26300083C6B0 /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Calendar;
 			sourceTree = "<group>";
 		};
 		999FAE1C1C8C32F80083C6B0 /* Others */ = {
@@ -551,6 +595,8 @@
 				Base,
 				"zh-Hant",
 				"zh-Hans",
+				"pt-PT",
+				"pt-BR",
 			);
 			mainGroup = 990954E51C85D5C300797FFF;
 			productRefGroup = 990954EF1C85D5C300797FFF /* Products */;
@@ -600,7 +646,6 @@
 				999FADF51C8C03E70083C6B0 /* RecordManager.m in Sources */,
 				9909550D1C85D76300797FFF /* BaseViewController.m in Sources */,
 				999FAE241C8C346C0083C6B0 /* AnalyticsUtil.m in Sources */,
-				990955171C85D77A00797FFF /* Extension.m in Sources */,
 				990954F61C85D5C300797FFF /* AppDelegate.m in Sources */,
 				996C124E1CD5B91D007253C6 /* LanguagesViewController.m in Sources */,
 				992B579D1C9EE4CC00C96C55 /* FMDatabaseAdditions.m in Sources */,
@@ -612,20 +657,23 @@
 				996004CB1C95B1DE001EFD89 /* StartView.m in Sources */,
 				996004B81C944659001EFD89 /* UrlUtil.m in Sources */,
 				999FADFC1C8C124A0083C6B0 /* MessageManager.m in Sources */,
+				99DB17411CE877AF00BB76D2 /* LanguageManager.m in Sources */,
 				990954FF1C85D5C300797FFF /* Record.xcdatamodeld in Sources */,
 				99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */,
 				990955201C85E47800797FFF /* HelpView.m in Sources */,
 				999FADF91C8C0C200083C6B0 /* Record.m in Sources */,
+				992168231CF2FAA300471B16 /* NSDateComponents+Reminder.m in Sources */,
 				992B579C1C9EE4CC00C96C55 /* FMDatabase.m in Sources */,
 				992B579E1C9EE4CC00C96C55 /* FMDatabasePool.m in Sources */,
 				99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */,
 				990954F31C85D5C300797FFF /* main.m in Sources */,
-				990955191C85D77A00797FFF /* UIExtension.m in Sources */,
+				99EAF7011CECC55D003AE064 /* AdView.m in Sources */,
 				992B57A01C9EE4CC00C96C55 /* FMResultSet.m in Sources */,
-				990955181C85D77A00797FFF /* NSExtension.m in Sources */,
 				99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */,
 				9911927D1CD3645800F12A5A /* LaunchView.m in Sources */,
+				9921681E1CF2FA4400471B16 /* NSExtension.m in Sources */,
 				990955101C85D76F00797FFF /* AppManager.m in Sources */,
+				9921681F1CF2FA4400471B16 /* UIExtension.m in Sources */,
 				996004C51C954C2D001EFD89 /* MessageViewDelegate.m in Sources */,
 				991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */,
 				99C749E81C91AB8B0054829C /* ScheduleManager.m in Sources */,
@@ -648,6 +696,8 @@
 				9910AFE21CB2080E006DF5F1 /* Base */,
 				99C22ADE1CD7808600F0DD2B /* zh-Hant */,
 				99C22AE11CD780D200F0DD2B /* zh-Hans */,
+				99DB173E1CE85FCC00BB76D2 /* pt-PT */,
+				992167BC1CF15C1700471B16 /* pt-BR */,
 			);
 			name = Info.plist;
 			sourceTree = "<group>";
@@ -658,6 +708,8 @@
 				99C22ADB1CD77FFA00F0DD2B /* Base */,
 				99C22ADD1CD7808500F0DD2B /* zh-Hant */,
 				99C22AE01CD780A600F0DD2B /* zh-Hans */,
+				99DB173C1CE85FCC00BB76D2 /* pt-PT */,
+				992167BA1CF15C1700471B16 /* pt-BR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -668,6 +720,8 @@
 				99C22AE51CD782C500F0DD2B /* Base */,
 				99C22AE71CD782C700F0DD2B /* zh-Hant */,
 				99C22AE81CD782CB00F0DD2B /* zh-Hans */,
+				99DB173D1CE85FCC00BB76D2 /* pt-PT */,
+				992167BB1CF15C1700471B16 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -779,7 +833,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
+				PROVISIONING_PROFILE = "8aac68e2-0a86-4d29-a805-6228e0a7f93f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -806,7 +860,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
+				PROVISIONING_PROFILE = "8aac68e2-0a86-4d29-a805-6228e0a7f93f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -74,7 +74,6 @@
 
 + (NSString *)simpleDescriptionOfWeekday:(NSInteger)weekday;
 + (NSString *)descriptionOfWeekday:(NSInteger)weekday;
-+ (NSString *)descriptionOfMonth:(NSInteger)month;
 
 + (NSInteger)currentYear;
 + (NSInteger)currentMonth;

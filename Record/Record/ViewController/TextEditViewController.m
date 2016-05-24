@@ -81,9 +81,11 @@
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftItem;
     
+    
+    
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(0, 0, 64, 44);
-    [rightButton setTitle:LocalizedString(@"button_title_save") forState:UIControlStateNormal];
+    [rightButton setTitle:LocalizedString(@"button_title_yes") forState:UIControlStateNormal];
     rightButton.titleLabel.font = FontMiddle;
     [rightButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];

@@ -21,30 +21,40 @@ static NSInteger MaxBreakDays = 98;
 @property(nonatomic, strong) NSDateComponents *today;
 @property(nonatomic, strong) NSDateComponents *startDay;
 
+
+
+
+
+- (void)resetRecordFrom:(NSDate *)startDate toDate:(NSDate *)endDate;
+
+#pragma mark - base info
+
++ (NSInteger)allDays;
+
+- (NSString *)todayInfo;
+
 - (NSDate *)dateInPack:(NSInteger)pack day:(NSInteger)day;
 
 - (BOOL)isPlaceboDay:(NSDateComponents *)day;
+
+#pragma mark - set
 
 + (void)setIsEveryday:(BOOL)everyday;
 + (BOOL)isEveryday;
 
 
-
-
-+ (void)setPillDays:(NSInteger)days;
-+ (NSInteger)pillDays;
-
-+ (void)setSafeDays:(NSInteger)days;
-+ (NSInteger)breakDays;
-
-
 + (void)setTakePlaceboPills:(BOOL)take;
 + (BOOL)takePlaceboPills;
 
-+ (void)setStartDate:(NSDate *)date;
++ (void)setPillDays:(NSInteger)pilldays
+          breakDays:(NSInteger)breakDays
+          startDate:(NSDate *)date;
+
++ (NSInteger)pillDays;
++ (NSInteger)breakDays;
 + (NSDate *)startDate;
 
-+ (NSInteger)allDays;
+
 
 
 @end
