@@ -233,10 +233,11 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     item.enable = should;
     [array addObject:item];
     
+    
     [moduleArray addObject:@"setting_module_reminders"];
     [moduleDic setValue:array forKey:@"setting_module_reminders"];
     
-    
+    /*
     array = [NSMutableArray array];
     
     item = [[SettingItem alloc] init];
@@ -261,7 +262,7 @@ static NSString *Setting_Item_CheerUs = @"Setting_Item_CheerUs";
     
     [moduleArray addObject:@"setting_module_others"];
     [moduleDic setValue:array forKey:@"setting_module_others"];
-    /**/
+    */
     
     [mainTableView reloadData];
 }

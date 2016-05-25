@@ -13,7 +13,7 @@
 
 - (NSString *)jsonString;
 
-
++ (NSArray *)propertyNames;
 
 @end
 

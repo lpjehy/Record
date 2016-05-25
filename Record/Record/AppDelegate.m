@@ -52,7 +52,6 @@
     [self createLayout];
     
     
-    
     /*
     for (NSString *name in [UIFont familyNames]) {
         NSLog(@"name ：%@", name);
