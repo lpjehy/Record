@@ -14,7 +14,7 @@
 
 
 #import "ReminderManager.h"
-#import "RecordManager.h"
+#import "RecordData.h"
 #import "MessageManager.h"
 #import "AudioManager.h"
 
@@ -132,7 +132,7 @@
     //判断应用程序当前的运行状态，如果是激活状态，则进行提醒，否则不提醒
     NSLog(@"didReceiveLocalNotification %@", notification.alertBody);
     if (application.applicationState == UIApplicationStateActive) {
-        NSString *record = [RecordManager selectRecord:[NSDate date]];
+        NSString *record = [RecordData selectRecord:[NSDate date]];
         if (record == nil) {
             
             NSString *soundName = [ReminderManager notificationSound];
@@ -162,7 +162,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if ([title isEqualToString:LocalizedString(@"button_title_take")]) {
-        [RecordManager record:[NSDate date]];
+        [RecordData record:[NSDate date]];
         [[MessageManager getInstance] reloadData];
     }
 }

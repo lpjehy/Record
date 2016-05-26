@@ -10,7 +10,7 @@
 
 
 #import "ScheduleManager.h"
-#import "RecordManager.h"
+#import "RecordData.h"
 #import "MessageManager.h"
 #import "AudioManager.h"
 
@@ -57,12 +57,12 @@
         return;
     }
     
-    NSString *record = [RecordManager selectRecord:date];
+    NSString *record = [RecordData selectRecord:date];
     if (record) {
         button.isTaken = NO;
-        [RecordManager deleteRecord:date];
+        [RecordData deleteRecord:date];
     } else {
-        [RecordManager record:date];
+        [RecordData record:date];
         button.isTaken = YES;
     }
     
@@ -81,9 +81,9 @@
     CGFloat baseY = 50;
     if (ISPad) {
         baseY = 80;
-    } else if (ScreenHeight == 568) {
+    } else if (ScreenHeight == ScreenHeight568) {
         baseY = 40;
-    } else if (ScreenHeight == 480) {
+    } else if (ScreenHeight == ScreenHeight480) {
         baseY = 32;
     }
     
@@ -107,9 +107,9 @@
     float baseY = 48;
     if (ISPad) {
         baseY = 80;
-    } else if (ScreenHeight == 568) {
+    } else if (ScreenHeight == ScreenHeight568) {
         baseY = 40;
-    } else if (ScreenHeight == 480) {
+    } else if (ScreenHeight == ScreenHeight480) {
         baseY = 32;
     }
     
@@ -147,7 +147,7 @@
     if (ISPad) {
         baseY = 40;
         baseX = 60;
-    } else if (ScreenHeight == 480) {
+    } else if (ScreenHeight == ScreenHeight480) {
         baseY = 10;
         baseX = 20;
     }
@@ -177,9 +177,9 @@
     
     if (ISPad) {
         itemHeight = (backHeight - 120) / 7;
-    } else if (ScreenHeight == 568) {
+    } else if (ScreenHeight == ScreenHeight568) {
         itemHeight = (backHeight - 56) / 7;
-    } else if (ScreenHeight == 480) {
+    } else if (ScreenHeight == ScreenHeight480) {
         itemHeight = (backHeight - 48) / 7;
     } else {
         itemHeight = (backHeight - 72) / 7;

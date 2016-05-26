@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Jehy Fan. All rights reserved.
 //
 
-#import "RecordManager.h"
+#import "RecordData.h"
 
 #import "MessageManager.h"
 
@@ -21,13 +21,13 @@ static NSString *SQL_SELECT_RECORD = @"SELECT * FROM RECORD WHERE createtime >= 
 
 static NSCache *recordCache = nil;
 
-@implementation RecordManager
+@implementation RecordData
 
 
 + (void)record:(NSDate *)date {
     [self createTable];
     
-    NSString *record = [RecordManager selectRecord:date];
+    NSString *record = [RecordData selectRecord:date];
     if (record == nil) {
         NSString *time = [[date stringWithFormat:@"yyyy-MM-dd "] stringByAppendingString:[[NSDate date] stringWithFormat:@"HH:mm:ss"]];
         if (time) {

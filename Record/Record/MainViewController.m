@@ -14,9 +14,9 @@
 
 #import "LegendView.h"
 
-#import "AdView.h"
+#import "AdBannerView.h"
 
-#import "RecordManager.h"
+#import "RecordData.h"
 
 #import "MessageManager.h"
 #import "MessageViewDelegate.h"
@@ -385,7 +385,8 @@ static NSInteger ScrollViewTagPack = 1;
         packRightButton.frame = CGRectMake(ScreenWidth - 132, 56, 128, 32);
         
         packScrollView.frame = CGRectMake(90, 128, ScreenWidth - 180, ScreenHeight - 338);
-    } else if (ScreenHeight == 480) {
+        
+    } else if (ScreenHeight == ScreenHeight480) {
         packTitleLabel.font = FontBig;
         packTitleLabel.frame = CGRectMake(26, 20, ScreenWidth - 40, FontLightMax.lineHeight);
         
@@ -395,7 +396,8 @@ static NSInteger ScrollViewTagPack = 1;
         packRightButton.frame = CGRectMake(ScreenWidth - 132, 24, 128, 32);
         
         packScrollView.frame = CGRectMake(37, 72, ScreenWidth - 74, ScreenHeight - 210);
-    } else if (ScreenHeight == 568) {
+        
+    } else if (ScreenHeight == ScreenHeight568) {
         
         packTitleLabel.frame = CGRectMake(26, 27, ScreenWidth - 40, FontLightMax.lineHeight);
         packSubTitleLabel.frame = CGRectMake(26, 64, ScreenWidth - 40, FontLightMiddle.lineHeight);
@@ -403,6 +405,7 @@ static NSInteger ScrollViewTagPack = 1;
         packRightButton.frame = CGRectMake(ScreenWidth - 132, 32, 128, 32);
         
         packScrollView.frame = CGRectMake(15, 97, ScreenWidth - 30, ScreenHeight - 210);
+        
     } else {
         
         packTitleLabel.frame = CGRectMake(26, 58, ScreenWidth - 40, FontLightMax.lineHeight);
@@ -453,7 +456,7 @@ static NSInteger ScrollViewTagPack = 1;
     lastButton.frame = CGRectMake(64, 20, 64, 44);
     [lastButton setImage:[UIImage imageNamed:@"Arrow_White_Left.png"] forState:UIControlStateNormal];
     lastButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    if (ScreenHeight == 568) {
+    if (ScreenHeight == ScreenHeight568) {
         lastButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
     }
     //
@@ -465,7 +468,7 @@ static NSInteger ScrollViewTagPack = 1;
     nextButton.frame = CGRectMake(ScreenWidth - 128, 20, 64, 44);
     [nextButton setImage:[UIImage imageNamed:@"Arrow_White_Right.png"] forState:UIControlStateNormal];
     nextButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    if (ScreenHeight == 568) {
+    if (ScreenHeight == ScreenHeight568) {
         nextButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     }
     [nextButton addTarget:self action:@selector(nextButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -493,8 +496,8 @@ static NSInteger ScrollViewTagPack = 1;
     
     CGFloat currentY = 64;
     
-    if (ScreenHeight != 480) {
-        bannerView = [[AdView alloc] init];
+    if (ScreenHeight != ScreenHeight480) {
+        bannerView = [[AdBannerView alloc] init];
         bannerView.backgroundColor = [UIColor blackColor];
         bannerView.adUnitID = AdMobUnitIdCalendar;
         bannerView.rootViewController = self;

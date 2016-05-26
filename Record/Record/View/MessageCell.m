@@ -53,7 +53,7 @@
 
 + (CGFloat)cellHeight {
     CGFloat height = 44;
-    if (ScreenHeight == 480) {
+    if (ScreenHeight == ScreenHeight480) {
         height = 32;
     }
     

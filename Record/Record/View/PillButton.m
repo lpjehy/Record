@@ -10,7 +10,7 @@
 
 #import "ScheduleManager.h"
 
-#import "RecordManager.h"
+#import "RecordData.h"
 
 
 @interface PillButton () {
@@ -58,10 +58,10 @@
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
     
-    if (ScreenHeight == 568) {
+    if (ScreenHeight == ScreenHeight568) {
         backImageView.frame = CGRectMake((self.width - 40) / 2, (self.height - 40) / 2, 40, 40);
         pillImageView.frame = CGRectMake((self.width - 32) / 2, (self.height - 32) / 2, 32, 32);
-    } else if (ScreenHeight == 480) {
+    } else if (ScreenHeight == ScreenHeight480) {
         backImageView.frame = CGRectMake((self.width - 32) / 2, (self.height - 32) / 2, 32, 32);
         pillImageView.frame = CGRectMake((self.width - 24) / 2, (self.height - 24) / 2, 24, 24);
     } else {
@@ -83,7 +83,7 @@
     NSString *dayStr = [notification.userInfo validObjectForKey:@"time"];
     if ([dayStr isEqualToString:day.theDay]) {
         
-        NSString *record = [RecordManager selectRecord:day.theDate];
+        NSString *record = [RecordData selectRecord:day.theDate];
         if (record) {
             self.isTaken = YES;
         } else {
@@ -119,7 +119,7 @@
         
         NSString *recordText = nil;
         if ([day isEarlier:today]) {
-            recordText = [RecordManager selectRecord:day.theDate];
+            recordText = [RecordData selectRecord:day.theDate];
             
         }
         

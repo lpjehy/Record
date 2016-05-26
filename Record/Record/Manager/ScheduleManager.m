@@ -9,7 +9,7 @@
 #import "ScheduleManager.h"
 
 #import "ReminderManager.h"
-#import "RecordManager.h"
+#import "RecordData.h"
 #import "MessageManager.h"
 
 static NSString *IsEverydayKey = @"IsEveryday";
@@ -90,13 +90,13 @@ static NSInteger DefaultBreakDays = 7;
     return [NSDate dateWithTimeInterval:timeInterval sinceDate:[self.class startDate]];
 }
 
-- (BOOL)isPlaceboDay:(NSDateComponents *)day {
+- (BOOL)isBreakDay:(NSDateComponents *)day {
     NSTimeInterval timeInterval = [[day theDate] timeIntervalSinceDate:[[self class] startDate]];
     
     NSInteger dayFromStartDay = (NSInteger)timeInterval / (NSInteger)TimeIntervalDay;
-    NSInteger r = dayFromStartDay % [ScheduleManager allDays];
+    NSInteger remainder = dayFromStartDay % [ScheduleManager allDays];
     
-    if (r >= [[self class] pillDays]) {
+    if (remainder >= [[self class] pillDays]) {
         return YES;
     }
     
@@ -190,7 +190,7 @@ static NSInteger DefaultBreakDays = 7;
         
         if (takePlaceboPill || r < pillDay) {
             NSLog(@"%zi day of %zi pill days: ", r, pillDay);
-            [RecordManager record:date];
+            [RecordData record:date];
         }
         
         

@@ -11,6 +11,11 @@
 #import <UIKit/UIKit.h>
 
 
+#import "ScheduleManager.h"
+
+
+
+
 @interface CalendarDayButton : UIButton
 {
     
@@ -19,12 +24,16 @@
 
 @property(nonatomic, strong) NSDateComponents *day;
 
-@property(nonatomic) BOOL isStarted;
-@property(nonatomic) BOOL isPlacebo;
-@property(nonatomic) BOOL isToday;
+
+@property(nonatomic) BOOL isBreakDay;
+
 @property(nonatomic) BOOL isTaken;
+
 @property(nonatomic) BOOL isSelected;
-@property(nonatomic) BOOL isFuture;
+
+@property(nonatomic) BOOL isToday;
+
+@property(nonatomic) DateStage stage;
 
 - (void)resetState;
 @end

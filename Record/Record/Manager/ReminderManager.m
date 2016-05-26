@@ -9,7 +9,7 @@
 #import "ReminderManager.h"
 #import "ScheduleManager.h"
 #import "AudioManager.h"
-#import "RecordManager.h"
+#import "RecordData.h"
 
 
 #import <AudioToolbox/AudioToolbox.h>
@@ -182,7 +182,8 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 
 + (void)resetNotify {
     
-    if ([UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone) {
+    if ([UIApplication instancesRespondToSelector:@selector(currentUserNotificationSettings)]
+         && [UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone) {
         return;
     }
     
@@ -200,7 +201,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
             
             
             NSDate *notifyDate = [[self class] notificationTime];
-            if ([RecordManager selectRecord:[NSDate date]]) {
+            if ([RecordData selectRecord:[NSDate date]]) {
                 //如果今天已服用，则第二天开始通知
                 notifyDate = [notifyDate dateByAddingTimeInterval:TimeIntervalDay];
             }
@@ -234,7 +235,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
     
     NSDate *beginDate = [[self class] notificationTime];
     NSInteger beginDay = [ScheduleManager getInstance].currentDayFromStartDay;
-    if (beginDate.isEarlier || [RecordManager selectRecord:[NSDate date]]) {
+    if (beginDate.isEarlier || [RecordData selectRecord:[NSDate date]]) {
         beginDay++;
         beginDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay];
     }

@@ -15,13 +15,13 @@
     if (self) {
         NSString *imageName = nil;
         
-        if (ScreenHeight == 480) {
+        if (ScreenHeight == ScreenHeight480) {
             imageName = @"Default.png";
-        } else if (ScreenHeight == 568) {
+        } else if (ScreenHeight == ScreenHeight568) {
             imageName = @"Default-568h.png";
-        } else if (ScreenHeight == 667) {
+        } else if (ScreenHeight == ScreenHeight667) {
             imageName = @"Default-375w-667h.png";
-        } else if (ScreenHeight == 736) {
+        } else if (ScreenHeight == ScreenHeight736) {
             imageName = @"Default-414w-736h.png";
         } else {
             imageName = @"Default-Portrait~ipad.png";
