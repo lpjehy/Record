@@ -182,7 +182,7 @@ static NSString *NotificationSoundKey = @"NotificationSound";
 
 + (void)resetNotify {
     
-    if ([UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone) {
+    if (IOS_8_OR_LATER && [UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone) {
         return;
     }
     
