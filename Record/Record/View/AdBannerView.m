@@ -17,6 +17,8 @@
     self = [super init];
     if (self) {
         self.delegate = self;
+        
+        self.backgroundColor = [UIColor clearColor];
     }
     
     return self;

@@ -27,8 +27,7 @@
     static AdBannerView *view = nil;
     if (view == nil) {
         
-        view = [[AdBannerView alloc] init];
-        view.backgroundColor = [UIColor blackColor];
+        view = [[AdBannerView alloc] init];        
         view.adUnitID = AdMobUnitIdSetting;
         view.rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
         [view loadRequest:[AdManager request]];

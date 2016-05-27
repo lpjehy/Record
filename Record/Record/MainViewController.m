@@ -43,7 +43,6 @@
 
 #import "StartView.h"
 
-#import "WebViewController.h"
 
 static NSInteger ScrollViewTagBase = 0;
 static NSInteger ScrollViewTagPack = 1;
@@ -497,8 +496,7 @@ static NSInteger ScrollViewTagPack = 1;
     CGFloat currentY = 64;
     
     if (ScreenHeight != ScreenHeight480) {
-        bannerView = [[AdBannerView alloc] init];
-        bannerView.backgroundColor = [UIColor blackColor];
+        bannerView = [[AdBannerView alloc] init];        
         bannerView.adUnitID = AdMobUnitIdCalendar;
         bannerView.rootViewController = self;
         [bannerView loadRequest:[AdManager request]];
@@ -652,6 +650,9 @@ static NSInteger ScrollViewTagPack = 1;
     [[CalendarViewDelegate getInstance] resetView];
     
     [self createLayout];
+    
+    // 预加载设置页广告
+    [AdManager settingView];
     
     
     if (![AppManager hasFirstOpened]) {
