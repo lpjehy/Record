@@ -28,7 +28,6 @@
     if (view == nil) {
         
         view = [[AdView alloc] init];
-        view.backgroundColor = [UIColor blackColor];
         view.adUnitID = AdMobUnitIdSetting;
         view.rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
         [view loadRequest:[AdManager request]];

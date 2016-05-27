@@ -243,7 +243,6 @@ static NSInteger ScrollViewTagPack = 1;
         
         [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Calendar.png"] forState:UIControlStateNormal];
         
-        
     }
     
     
@@ -495,7 +494,6 @@ static NSInteger ScrollViewTagPack = 1;
     
     if (ScreenHeight != 480) {
         bannerView = [[AdView alloc] init];
-        bannerView.backgroundColor = [UIColor blackColor];
         bannerView.adUnitID = AdMobUnitIdCalendar;
         bannerView.rootViewController = self;
         [bannerView loadRequest:[AdManager request]];
@@ -646,10 +644,13 @@ static NSInteger ScrollViewTagPack = 1;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    
+    
     [[CalendarViewDelegate getInstance] resetView];
     
     [self createLayout];
     
+    [AdManager settingView];
     
     if (![AppManager hasFirstOpened]) {
         

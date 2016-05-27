@@ -379,14 +379,21 @@ static CGFloat MaxHeight = 1024000;
         
         [self reloadView];
         
-        [NotificationCenter postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
+        NSDateComponents *day = [self firstDayForMonth:currentMonth];
+        if (day) {
+            [NotificationCenter postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":day}];
+        }
+        
         
     } else if (scrollView.contentOffset.y > nextOffsetY) {
         currentMonth++;
         
         [self reloadView];
         
-        [NotificationCenter postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":[self firstDayForMonth:currentMonth]}];
+        NSDateComponents *day = [self firstDayForMonth:currentMonth];
+        if (day) {
+            [NotificationCenter postNotificationName:CalendarMonthChangedNotification object:nil userInfo:@{@"day":day}];
+        }
     }
 
 }

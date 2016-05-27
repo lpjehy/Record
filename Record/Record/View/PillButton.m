@@ -110,8 +110,10 @@
             
             
             NSNumber *num = [NSNumber numberWithFloat:self.superview.originX];
+            if (num) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:TodayPackSettedNotification object:nil userInfo:@{@"DestX":num}];
+            }
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:TodayPackSettedNotification object:nil userInfo:@{@"DestX":num}];
         } else {
             self.isToday = NO;
         }

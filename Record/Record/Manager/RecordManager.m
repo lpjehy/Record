@@ -37,8 +37,10 @@ static NSCache *recordCache = nil;
                 [recordCache setObject:time forKey:key];
                 
                 
+                if (key) {
+                    [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": key}];
+                }
                 
-                [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": key}];
                 
                 NSLog(@"记录 %@", time);
             }
@@ -120,7 +122,10 @@ static NSCache *recordCache = nil;
     
     [[SqlUtil getInstance] execSql:[NSString stringWithFormat:SQL_DELETE_RECORD, starttime, endtime]];
     
-    [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": today}];
+    if (today) {
+        [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": today}];
+    }
+    
     
     [[MessageManager getInstance] reloadData];
     
