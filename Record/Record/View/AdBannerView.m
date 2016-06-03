@@ -6,17 +6,19 @@
 //  Copyright © 2016年 Jehy Fan. All rights reserved.
 //
 
-#import "AdView.h"
+#import "AdBannerView.h"
 
-@interface AdView () <GADBannerViewDelegate>
+@interface AdBannerView () <GADBannerViewDelegate>
 
 @end
-@implementation AdView
+@implementation AdBannerView
 
 - (id)init {
     self = [super init];
     if (self) {
         self.delegate = self;
+        
+        self.backgroundColor = [UIColor clearColor];
     }
     
     return self;

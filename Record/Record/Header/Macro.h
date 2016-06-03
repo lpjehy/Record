@@ -23,11 +23,7 @@
 #define InterfaceOrientationLandscape ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft || [[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
 
 
-#define ScreenWidth [UIScreen mainScreen].bounds.size.width
-#define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
-#define GoldenHeight [UIScreen mainScreen].bounds.size.width * 0.618
-#define GoldenSectionPoint 0.618
 
 
 

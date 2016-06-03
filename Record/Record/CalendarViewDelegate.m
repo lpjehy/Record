@@ -13,7 +13,7 @@
 
 
 #import "ScheduleManager.h"
-#import "RecordManager.h"
+#import "RecordData.h"
 
 #import "CalendarMenuView.h"
 
@@ -350,15 +350,15 @@ static CGFloat MaxHeight = 1024000;
     
     
     
-    if (button.isFuture) {
+    if (DateStageFuture ==  button.stage) {
         [UIAlertView showMessage:LocalizedString(@"alert_message_nohurry")];
         return;
-    } else if (!button.isStarted) {
+    } else if (DateStageUnstarted ==  button.stage) {
         return;
     }
     
     
-    if (!button.isPlacebo || [ScheduleManager takePlaceboPills] || [ScheduleManager isEveryday]) {
+    if (!button.isBreakDay || [ScheduleManager takePlaceboPills] || [ScheduleManager isEveryday]) {
         [[CalendarMenuView getInstance] showInView:button];
     }
     

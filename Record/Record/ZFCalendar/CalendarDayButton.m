@@ -12,7 +12,7 @@
 
 #import "CalendarDayButton.h"
 
-#import "RecordManager.h"
+#import "RecordData.h"
 #import "ScheduleManager.h"
 
 @interface CalendarDayButton () {
@@ -26,7 +26,7 @@
 
 @implementation CalendarDayButton
 
-@synthesize isStarted, isToday, isPlacebo, isTaken, isSelected, isFuture;
+@synthesize stage, isToday, isBreakDay, isTaken, isSelected;
 @synthesize day;
 
 - (id)initWithFrame:(CGRect)frame
@@ -76,7 +76,7 @@
     NSString *dayStr = [notification.userInfo validObjectForKey:@"time"];
     if ([dayStr isEqualToString:day.theDay]) {
         
-        NSString *record = [RecordManager selectRecord:day.theDate];
+        NSString *record = [RecordData selectRecord:day.theDate];
         if (record) {
             self.isTaken = YES;
         } else {
@@ -98,13 +98,15 @@
         frameImageView.image = nil;
     }
     
-    if (!isStarted) {
-        markImageView.image = nil;
-        return;
-    }
     
-    if (isFuture) {
-        if (isPlacebo) {
+    if (DateStageUnstarted == stage) {
+        // 未开始
+        markImageView.image = nil;
+        
+        
+    } else if (DateStageFuture == stage) {
+        // 未来
+        if (isBreakDay) {
             if ([ScheduleManager isEveryday] || [ScheduleManager takePlaceboPills]) {
                 markImageView.image = [UIImage imageNamed:@"Calendar_Placebo_future.png"];
             } else {
@@ -114,10 +116,11 @@
         } else {
             markImageView.image = [UIImage imageNamed:@"Calendar_Pill_future.png"];
         }
-    } else {
         
+    } else {
+        // 当前
         if (isTaken) {
-            if (isPlacebo) {
+            if (isBreakDay) {
                 if ([ScheduleManager takePlaceboPills]) {
                     markImageView.image = [UIImage imageNamed:@"Calendar_Placebo_taken.png"];
                 } else {
@@ -128,7 +131,7 @@
                 markImageView.image = [UIImage imageNamed:@"Calendar_Pill_taken.png"];
             }
         } else {
-            if (isPlacebo && ![ScheduleManager isEveryday] && ![ScheduleManager takePlaceboPills]) {
+            if (isBreakDay && ![ScheduleManager isEveryday] && ![ScheduleManager takePlaceboPills]) {
                 
                 markImageView.image = nil;
                 
@@ -151,9 +154,7 @@
         titleLabel.text = text;
         
         
-        
-        NSString *recordText = [RecordManager selectRecord:day.theDate];
-        
+        NSString *recordText = [RecordData selectRecord:day.theDate];
         if (recordText) {
             self.isTaken = YES;
         } else {
@@ -162,27 +163,31 @@
         
         NSDateComponents *startDay = [ScheduleManager getInstance].startDay;
         if ([day isEarlier:startDay]) {
-            isStarted = NO;
-            return;
-        }
-        
-        isStarted = YES;
-        
-        NSDateComponents *today = [ScheduleManager getInstance].today;
-        if (day.year == today.year && day.month == today.month && day.day == today.day) {
-            self.isToday = YES;
+            // 过去
+            stage = DateStageUnstarted;
+            
         } else {
-            self.isToday = NO;
+            
+            NSDateComponents *today = [ScheduleManager getInstance].today;
+            if (![day isEarlier:today]) {
+                // 未来
+                stage = DateStageFuture;
+                
+            } else {
+                // 当下
+                stage = DateStageStarted;
+                
+                if (day.year == today.year && day.month == today.month && day.day == today.day) {
+                    self.isToday = YES;
+                } else {
+                    self.isToday = NO;
+                }
+            }
+            
+            if (![ScheduleManager isEveryday]) {
+                self.isBreakDay = [[ScheduleManager getInstance] isBreakDay:day];
+            }
         }
-        
-        self.isFuture = ![day isEarlier:today];
-        
-        
-        
-        if (![ScheduleManager isEveryday]) {
-            self.isPlacebo = [[ScheduleManager getInstance] isPlaceboDay:day];
-        }
-        
         
     } else {
         titleLabel.text = nil;

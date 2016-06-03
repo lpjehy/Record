@@ -16,7 +16,7 @@
 
 
 
-@interface RecordManager : NSObject
+@interface RecordData : NSObject
 
 + (void)record:(NSDate *)date;
 

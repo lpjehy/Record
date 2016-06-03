@@ -8,7 +8,7 @@
 
 #import "CalendarMenuView.h"
 
-#import "RecordManager.h"
+#import "RecordData.h"
 #import "MessageManager.h"
 
 @interface CalendarMenuView () {
@@ -113,9 +113,9 @@
     theCell.isTaken = !theCell.isTaken;
     [theCell resetState];
     if (theCell.isTaken) {
-        [RecordManager record:theCell.day.theDate];
+        [RecordData record:theCell.day.theDate];
     } else {
-        [RecordManager deleteRecord:theCell.day.theDate];
+        [RecordData deleteRecord:theCell.day.theDate];
     }
     [[MessageManager getInstance] reloadData];
 }

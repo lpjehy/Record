@@ -47,10 +47,7 @@
 		996C12511CD60EB5007253C6 /* Default.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 996C12501CD60EB5007253C6 /* Default.mp3 */; };
 		998DE7DC1C89C42C00C3AA81 /* PackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 998DE7DB1C89C42C00C3AA81 /* PackView.m */; };
 		999FADF21C8BE1AE0083C6B0 /* ReminderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */; };
-		999FADF51C8C03E70083C6B0 /* RecordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADF41C8C03E70083C6B0 /* RecordManager.m */; };
-		999FADF91C8C0C200083C6B0 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADF81C8C0C200083C6B0 /* Record.m */; };
 		999FADFC1C8C124A0083C6B0 /* MessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADFB1C8C124A0083C6B0 /* MessageManager.m */; };
-		999FADFF1C8C125F0083C6B0 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADFE1C8C125F0083C6B0 /* Message.m */; };
 		999FAE131C8C26420083C6B0 /* CalendarDayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE021C8C26420083C6B0 /* CalendarDayButton.m */; };
 		999FAE211C8C33130083C6B0 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 999FAE1E1C8C33130083C6B0 /* libMobClickLibrary.a */; };
 		999FAE241C8C346C0083C6B0 /* AnalyticsUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE231C8C346C0083C6B0 /* AnalyticsUtil.m */; };
@@ -58,6 +55,9 @@
 		999FAE291C8C4CC20083C6B0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 999FAE281C8C4CC20083C6B0 /* libz.tbd */; };
 		999FAE2C1C8C574D0083C6B0 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 999FAE2B1C8C574D0083C6B0 /* GoogleMobileAds.framework */; };
 		999FAE2F1C8C578F0083C6B0 /* AdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE2E1C8C578F0083C6B0 /* AdManager.m */; };
+		99A630321CF58985001B03C9 /* RecordData.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A630311CF58985001B03C9 /* RecordData.m */; };
+		99A630371CF589A8001B03C9 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A630341CF589A8001B03C9 /* Message.m */; };
+		99A630381CF589A8001B03C9 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A630361CF589A8001B03C9 /* Record.m */; };
 		99C22ADA1CD77FFA00F0DD2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99C22ADC1CD77FFA00F0DD2B /* InfoPlist.strings */; };
 		99C22AE41CD782C500F0DD2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99C22AE61CD782C500F0DD2B /* Localizable.strings */; };
 		99C749E81C91AB8B0054829C /* ScheduleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99C749E71C91AB8B0054829C /* ScheduleManager.m */; };
@@ -71,7 +71,7 @@
 		99D9856F1CCFBD6800285B6F /* Drums.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D9856A1CCFBD6800285B6F /* Drums.mp3 */; };
 		99D985701CCFBD6800285B6F /* Yoho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D9856B1CCFBD6800285B6F /* Yoho.mp3 */; };
 		99DB17411CE877AF00BB76D2 /* LanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DB17401CE877AF00BB76D2 /* LanguageManager.m */; };
-		99EAF7011CECC55D003AE064 /* AdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99EAF7001CECC55D003AE064 /* AdView.m */; };
+		99EAF7011CECC55D003AE064 /* AdBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99EAF7001CECC55D003AE064 /* AdBannerView.m */; };
 		99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F5646D1C9E897C005806A8 /* SettingItem.m */; };
 /* End PBXBuildFile section */
 
@@ -159,14 +159,8 @@
 		99986ACB1CF2FE3E00F398F9 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Macro.h; path = Header/Macro.h; sourceTree = "<group>"; };
 		999FADF01C8BE1AE0083C6B0 /* ReminderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReminderManager.h; path = Manager/ReminderManager.h; sourceTree = "<group>"; };
 		999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReminderManager.m; path = Manager/ReminderManager.m; sourceTree = "<group>"; };
-		999FADF31C8C03E70083C6B0 /* RecordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordManager.h; path = Manager/RecordManager.h; sourceTree = "<group>"; };
-		999FADF41C8C03E70083C6B0 /* RecordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordManager.m; path = Manager/RecordManager.m; sourceTree = "<group>"; };
-		999FADF71C8C0C200083C6B0 /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Record.h; sourceTree = "<group>"; };
-		999FADF81C8C0C200083C6B0 /* Record.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Record.m; sourceTree = "<group>"; };
 		999FADFA1C8C124A0083C6B0 /* MessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageManager.h; path = Manager/MessageManager.h; sourceTree = "<group>"; };
 		999FADFB1C8C124A0083C6B0 /* MessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageManager.m; path = Manager/MessageManager.m; sourceTree = "<group>"; };
-		999FADFD1C8C125F0083C6B0 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		999FADFE1C8C125F0083C6B0 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		999FAE011C8C26420083C6B0 /* CalendarDayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarDayButton.h; path = ZFCalendar/CalendarDayButton.h; sourceTree = "<group>"; };
 		999FAE021C8C26420083C6B0 /* CalendarDayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarDayButton.m; path = ZFCalendar/CalendarDayButton.m; sourceTree = "<group>"; };
 		999FAE1E1C8C33130083C6B0 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = Others/UMAnalytics/libMobClickLibrary.a; sourceTree = "<group>"; };
@@ -180,6 +174,13 @@
 		999FAE2B1C8C574D0083C6B0 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = Others/Admob/GoogleMobileAds.framework; sourceTree = "<group>"; };
 		999FAE2D1C8C578F0083C6B0 /* AdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdManager.h; path = Manager/AdManager.h; sourceTree = "<group>"; };
 		999FAE2E1C8C578F0083C6B0 /* AdManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdManager.m; path = Manager/AdManager.m; sourceTree = "<group>"; };
+		99A6302F1CF581B4001B03C9 /* Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Size.h; path = Header/Size.h; sourceTree = "<group>"; };
+		99A630301CF58985001B03C9 /* RecordData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordData.h; path = Data/RecordData.h; sourceTree = "<group>"; };
+		99A630311CF58985001B03C9 /* RecordData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordData.m; path = Data/RecordData.m; sourceTree = "<group>"; };
+		99A630331CF589A8001B03C9 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = Data/Message.h; sourceTree = "<group>"; };
+		99A630341CF589A8001B03C9 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Message.m; path = Data/Message.m; sourceTree = "<group>"; };
+		99A630351CF589A8001B03C9 /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Record.h; path = Data/Record.h; sourceTree = "<group>"; };
+		99A630361CF589A8001B03C9 /* Record.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Record.m; path = Data/Record.m; sourceTree = "<group>"; };
 		99C22ADB1CD77FFA00F0DD2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		99C22ADD1CD7808500F0DD2B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		99C22ADE1CD7808600F0DD2B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hant"; path = "zh-Hant.lproj/Info.plist"; sourceTree = "<group>"; };
@@ -207,8 +208,8 @@
 		99DB173E1CE85FCC00BB76D2 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "pt-PT"; path = "pt-PT.lproj/Info.plist"; sourceTree = "<group>"; };
 		99DB173F1CE877AF00BB76D2 /* LanguageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguageManager.h; path = Manager/LanguageManager.h; sourceTree = "<group>"; };
 		99DB17401CE877AF00BB76D2 /* LanguageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageManager.m; path = Manager/LanguageManager.m; sourceTree = "<group>"; };
-		99EAF6FF1CECC55D003AE064 /* AdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdView.h; path = View/AdView.h; sourceTree = "<group>"; };
-		99EAF7001CECC55D003AE064 /* AdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdView.m; path = View/AdView.m; sourceTree = "<group>"; };
+		99EAF6FF1CECC55D003AE064 /* AdBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdBannerView.h; path = View/AdBannerView.h; sourceTree = "<group>"; };
+		99EAF7001CECC55D003AE064 /* AdBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdBannerView.m; path = View/AdBannerView.m; sourceTree = "<group>"; };
 		99F5646C1C9E897C005806A8 /* SettingItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingItem.h; path = Data/SettingItem.h; sourceTree = "<group>"; };
 		99F5646D1C9E897C005806A8 /* SettingItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingItem.m; path = Data/SettingItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -300,8 +301,6 @@
 				99DB17401CE877AF00BB76D2 /* LanguageManager.m */,
 				999FADFA1C8C124A0083C6B0 /* MessageManager.h */,
 				999FADFB1C8C124A0083C6B0 /* MessageManager.m */,
-				999FADF31C8C03E70083C6B0 /* RecordManager.h */,
-				999FADF41C8C03E70083C6B0 /* RecordManager.m */,
 				999FADF01C8BE1AE0083C6B0 /* ReminderManager.h */,
 				999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */,
 				99C749E61C91AB8B0054829C /* ScheduleManager.h */,
@@ -326,28 +325,28 @@
 		9909551D1C85E45700797FFF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9909551E1C85E47800797FFF /* HelpView.h */,
-				9909551F1C85E47800797FFF /* HelpView.m */,
+				99EAF6FF1CECC55D003AE064 /* AdBannerView.h */,
+				99EAF7001CECC55D003AE064 /* AdBannerView.m */,
 				999FAE011C8C26420083C6B0 /* CalendarDayButton.h */,
 				999FAE021C8C26420083C6B0 /* CalendarDayButton.m */,
-				990F88711C984809000C500E /* PillButton.h */,
-				990F88721C984809000C500E /* PillButton.m */,
-				99EAF6FF1CECC55D003AE064 /* AdView.h */,
-				99EAF7001CECC55D003AE064 /* AdView.m */,
-				998DE7DA1C89C42C00C3AA81 /* PackView.h */,
-				998DE7DB1C89C42C00C3AA81 /* PackView.m */,
-				999FAE251C8C4A200083C6B0 /* MessageCell.h */,
-				999FAE261C8C4A200083C6B0 /* MessageCell.m */,
-				993D5A1F1C90649E004A42CE /* SettingCell.h */,
-				993D5A201C90649E004A42CE /* SettingCell.m */,
-				992308101CA6A76600BA6994 /* LegendView.h */,
-				992308111CA6A76600BA6994 /* LegendView.m */,
-				996004C91C95B1DE001EFD89 /* StartView.h */,
-				996004CA1C95B1DE001EFD89 /* StartView.m */,
-				9911927B1CD3645800F12A5A /* LaunchView.h */,
-				9911927C1CD3645800F12A5A /* LaunchView.m */,
 				9923080D1CA6A73A00BA6994 /* CalendarMenuView.h */,
 				9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */,
+				9909551E1C85E47800797FFF /* HelpView.h */,
+				9909551F1C85E47800797FFF /* HelpView.m */,
+				9911927B1CD3645800F12A5A /* LaunchView.h */,
+				9911927C1CD3645800F12A5A /* LaunchView.m */,
+				992308101CA6A76600BA6994 /* LegendView.h */,
+				992308111CA6A76600BA6994 /* LegendView.m */,
+				999FAE251C8C4A200083C6B0 /* MessageCell.h */,
+				999FAE261C8C4A200083C6B0 /* MessageCell.m */,
+				998DE7DA1C89C42C00C3AA81 /* PackView.h */,
+				998DE7DB1C89C42C00C3AA81 /* PackView.m */,
+				990F88711C984809000C500E /* PillButton.h */,
+				990F88721C984809000C500E /* PillButton.m */,
+				993D5A1F1C90649E004A42CE /* SettingCell.h */,
+				993D5A201C90649E004A42CE /* SettingCell.m */,
+				996004C91C95B1DE001EFD89 /* StartView.h */,
+				996004CA1C95B1DE001EFD89 /* StartView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -401,6 +400,7 @@
 				992D29221CCC636000F9288A /* Colors.h */,
 				992D29231CCC636000F9288A /* Fonts.h */,
 				99986ACB1CF2FE3E00F398F9 /* Macro.h */,
+				99A6302F1CF581B4001B03C9 /* Size.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -485,12 +485,14 @@
 		999FADF61C8C0C0C0083C6B0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				999FADF71C8C0C200083C6B0 /* Record.h */,
-				999FADF81C8C0C200083C6B0 /* Record.m */,
-				999FADFD1C8C125F0083C6B0 /* Message.h */,
-				999FADFE1C8C125F0083C6B0 /* Message.m */,
+				99A630301CF58985001B03C9 /* RecordData.h */,
+				99A630311CF58985001B03C9 /* RecordData.m */,
 				99F5646C1C9E897C005806A8 /* SettingItem.h */,
 				99F5646D1C9E897C005806A8 /* SettingItem.m */,
+				99A630331CF589A8001B03C9 /* Message.h */,
+				99A630341CF589A8001B03C9 /* Message.m */,
+				99A630351CF589A8001B03C9 /* Record.h */,
+				99A630361CF589A8001B03C9 /* Record.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -643,9 +645,9 @@
 				996004BF1C9467D4001EFD89 /* CalendarViewDelegate.m in Sources */,
 				996004B51C944453001EFD89 /* WebViewController.m in Sources */,
 				99C749EE1C91BE930054829C /* TextEditViewController.m in Sources */,
-				999FADF51C8C03E70083C6B0 /* RecordManager.m in Sources */,
 				9909550D1C85D76300797FFF /* BaseViewController.m in Sources */,
 				999FAE241C8C346C0083C6B0 /* AnalyticsUtil.m in Sources */,
+				99A630371CF589A8001B03C9 /* Message.m in Sources */,
 				990954F61C85D5C300797FFF /* AppDelegate.m in Sources */,
 				996C124E1CD5B91D007253C6 /* LanguagesViewController.m in Sources */,
 				992B579D1C9EE4CC00C96C55 /* FMDatabaseAdditions.m in Sources */,
@@ -661,24 +663,24 @@
 				990954FF1C85D5C300797FFF /* Record.xcdatamodeld in Sources */,
 				99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */,
 				990955201C85E47800797FFF /* HelpView.m in Sources */,
-				999FADF91C8C0C200083C6B0 /* Record.m in Sources */,
 				992168231CF2FAA300471B16 /* NSDateComponents+Reminder.m in Sources */,
 				992B579C1C9EE4CC00C96C55 /* FMDatabase.m in Sources */,
 				992B579E1C9EE4CC00C96C55 /* FMDatabasePool.m in Sources */,
 				99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */,
 				990954F31C85D5C300797FFF /* main.m in Sources */,
-				99EAF7011CECC55D003AE064 /* AdView.m in Sources */,
+				99EAF7011CECC55D003AE064 /* AdBannerView.m in Sources */,
 				992B57A01C9EE4CC00C96C55 /* FMResultSet.m in Sources */,
+				99A630381CF589A8001B03C9 /* Record.m in Sources */,
 				99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */,
 				9911927D1CD3645800F12A5A /* LaunchView.m in Sources */,
 				9921681E1CF2FA4400471B16 /* NSExtension.m in Sources */,
 				990955101C85D76F00797FFF /* AppManager.m in Sources */,
+				99A630321CF58985001B03C9 /* RecordData.m in Sources */,
 				9921681F1CF2FA4400471B16 /* UIExtension.m in Sources */,
 				996004C51C954C2D001EFD89 /* MessageViewDelegate.m in Sources */,
 				991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */,
 				99C749E81C91AB8B0054829C /* ScheduleManager.m in Sources */,
 				999FADF21C8BE1AE0083C6B0 /* ReminderManager.m in Sources */,
-				999FADFF1C8C125F0083C6B0 /* Message.m in Sources */,
 				993D5A211C90649E004A42CE /* SettingCell.m in Sources */,
 				99D90FCB1C886B5300B1617D /* SettingViewController.m in Sources */,
 				999FAE271C8C4A200083C6B0 /* MessageCell.m in Sources */,
@@ -833,7 +835,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
+				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -860,7 +862,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
+				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

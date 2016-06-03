@@ -14,7 +14,7 @@
 #import "MessageCell.h"
 
 #import "ScheduleManager.h"
-#import "RecordManager.h"
+#import "RecordData.h"
 
 
 
@@ -112,13 +112,13 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     for (int i = (int)[ScheduleManager getInstance].currentDayFromStartDay - 1; i >= 0; i--) {
         NSDate *date = [NSDate dateWithTimeInterval:TimeIntervalDay * i sinceDate:startDate];
         
-        BOOL isBreakDay = [[ScheduleManager getInstance] isPlaceboDay:date.components];
+        BOOL isBreakDay = [[ScheduleManager getInstance] isBreakDay:date.components];
         if (isBreakDay && ![ScheduleManager takePlaceboPills]) {
             continue;
         }
         
         
-        NSString *record = [RecordManager selectRecord:date];
+        NSString *record = [RecordData selectRecord:date];
         if (record == nil) {
             NSDateComponents *day = date.components;
             NSString *message = [NSString stringWithFormat:@"%zi/%zi  %@", day.month, day.day, LocalizedString(@"message_missed")];

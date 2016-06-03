@@ -10,7 +10,7 @@
 
 #import "CalendarDayButton.h"
 
-typedef void (^CalendarMenuBlock)(void);
+
 
 @interface CalendarMenuView : UIButton
 

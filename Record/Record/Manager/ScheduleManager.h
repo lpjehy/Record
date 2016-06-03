@@ -8,6 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
+
+
+// 日期阶段
+typedef NS_ENUM(NSInteger, DateStage) {
+    // 开始日期之前
+    DateStageUnstarted = 0,
+    
+    // 开始服用
+    DateStageStarted = 1,
+    
+    // 未来
+    DateStageFuture = 2
+};
+
+
+
 static NSInteger MaxPillDays = 98;
 static NSInteger MaxBreakDays = 98;
 
@@ -35,7 +51,7 @@ static NSInteger MaxBreakDays = 98;
 
 - (NSDate *)dateInPack:(NSInteger)pack day:(NSInteger)day;
 
-- (BOOL)isPlaceboDay:(NSDateComponents *)day;
+- (BOOL)isBreakDay:(NSDateComponents *)day;
 
 #pragma mark - set
 

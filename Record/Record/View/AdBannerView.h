@@ -8,6 +8,6 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface AdView : GADBannerView
+@interface AdBannerView : GADBannerView
 
 @end

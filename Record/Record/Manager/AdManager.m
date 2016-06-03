@@ -7,7 +7,7 @@
 //
 
 #import "AdManager.h"
-#import "AdView.h"
+#import "AdBannerView.h"
 
 @implementation AdManager
 
@@ -24,10 +24,10 @@
 }
 
 + (GADBannerView *)settingView {
-    static AdView *view = nil;
+    static AdBannerView *view = nil;
     if (view == nil) {
         
-        view = [[AdView alloc] init];
+        view = [[AdBannerView alloc] init];  
         view.adUnitID = AdMobUnitIdSetting;
         view.rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
         [view loadRequest:[AdManager request]];

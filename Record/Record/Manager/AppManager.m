@@ -8,7 +8,7 @@
 
 #import "AppManager.h"
 
-#import "RecordManager.h"
+#import "RecordData.h"
 #import "OnlineConfigUtil.h"
 #import "ReminderManager.h"
 
