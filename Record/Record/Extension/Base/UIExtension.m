@@ -154,9 +154,6 @@
     
     return [self.text boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:options attributes:attributes context:nil].size;
     
-//    return [self.text sizeWithFont:self.font
-//                 constrainedToSize:CGSizeMake(MAXFLOAT, MAXFLOAT)
-//                     lineBreakMode:self.lineBreakMode];
 }
 
 - (CGSize)textSizeWithSize:(CGSize)size
@@ -168,9 +165,6 @@
     NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
     
     return [self.text boundingRectWithSize:size options:options attributes:attributes context:nil].size;
-//    return [self.text sizeWithFont:self.font
-//                 constrainedToSize:size
-//                     lineBreakMode:self.lineBreakMode];
 }
 
 - (void)fixHeight
@@ -186,9 +180,6 @@
                                           options:options
                                        attributes:attributes
                                           context:nil].size;
-//    CGSize size = [self.text sizeWithFont:self.font
-//                        constrainedToSize:CGSizeMake(self.width, MAXFLOAT)
-//                            lineBreakMode:self.lineBreakMode];
     
     if (self.numberOfLines != 0) {
         
@@ -226,10 +217,6 @@
     
     return [self.currentTitle boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:options attributes:attributes context:nil].size;
 
-    
-//    return [self.currentTitle sizeWithFont:self.titleLabel.font
-//                         constrainedToSize:CGSizeMake(MAXFLOAT, MAXFLOAT)
-//                             lineBreakMode:self.titleLabel.lineBreakMode];
 }
 
 
@@ -275,8 +262,11 @@
 
 - (void)resetStyle
 {
-    UIImageView *bgImage = [[UIImageView alloc] initWithImage:[UIImage imageWithSize:CGSizeMake(ScreenWidth, 3) color:ColorNavbar]];
-    bgImage.frame = CGRectMake(0, 0, ScreenWidth, 44);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    
+    UIImageView *bgImage = [[UIImageView alloc] initWithImage:[UIImage imageWithSize:CGSizeMake(width, 3)
+                                                                               color:[UIColor whiteColor]]];
+    bgImage.frame = CGRectMake(0, 0, width, 44);
     [self insertSubview:bgImage atIndex:1];
  
     

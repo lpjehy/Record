@@ -783,7 +783,7 @@
 
 - (NSObject *)jsonObject {
     
-    NSData *data = [self dataUsingEncoding:NSStringEncodingConversionAllowLossy];
+    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     
     NSError *error;
     NSObject *object = [NSJSONSerialization JSONObjectWithData:data
