@@ -11,10 +11,11 @@
 
 #import "ScheduleManager.h"
 #import "RecordData.h"
-#import "MessageManager.h"
 #import "AudioManager.h"
 
 #import "PillButton.h"
+
+
 
 
 
@@ -31,16 +32,13 @@
     
     float itemHeight;
     
-    NSInteger currentPack;
-    NSInteger currentSubPack;
-    
-    
-    
     
 }
 
 @property(nonatomic, strong) NSDateComponents *firstDate;
 @property(nonatomic, strong) NSDateComponents *lastDate;
+
+
 
 @end
 
@@ -49,9 +47,15 @@
 
 @synthesize firstDate, lastDate;
 
+@synthesize packIndex, subPackIndex;
+
+@synthesize timeInfo;
+
 - (void)pilldayButtonPressed:(PillButton *)button {
+    
+    
     NSDate *date = button.day.theDayDate;
-    NSLog(@"date: %@", date.string);
+    
     if (!date.isEarlier) {
         [UIAlertView showMessage:LocalizedString(@"alert_message_nohurry")];
         return;
@@ -64,11 +68,13 @@
     } else {
         [RecordData record:date];
         button.isTaken = YES;
+        
+        [ActionManager action:Action_Record];
+                
     }
     
     [AudioManager Vibrate];
     
-    [[MessageManager getInstance] reloadData];
 }
 
 
@@ -126,7 +132,7 @@
         [pilldayButton addTarget:self action:@selector(pilldayButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         pilldayButton.frame = CGRectMake(baseX + buttonWidth * q, baseY + itemHeight * r, buttonWidth, itemHeight);
         if (pilldayButton.originX < 0) {
-            NSLog(@"%zi %zi %zi %f %f", i, currentPack, currentSubPack, buttonWidth, itemHeight);
+            NSLog(@"%zi %zi %zi %f %f", i, packIndex, subPackIndex, buttonWidth, itemHeight);
         }
         [self addSubview:pilldayButton];
         
@@ -207,13 +213,13 @@
     
     
     NSString *text = [NSString stringWithFormat:@"%zi.%zi-%zi.%zi", firstDate.month, firstDate.day, lastDate.month, lastDate.day];
-    
+    self.timeInfo = text;
     infoLabel.text = text;
 }
 
 - (void)resetDays {
     if ([ScheduleManager isEveryday]) {
-        daysLabel.text = [NSString stringWithInteger:[ScheduleManager allDays]];
+        daysLabel.text = nil;
     } else {
         daysLabel.text = [NSString stringWithFormat:@"%zi + %zi", [ScheduleManager pillDays], [ScheduleManager breakDays]];
     }
@@ -223,7 +229,6 @@
     
     [self createLayout];
     
-    
     self.firstDate = nil;
     self.lastDate = nil;
     
@@ -231,15 +236,28 @@
     NSInteger pillDayNum = [ScheduleManager pillDays];
     NSInteger allNum = [ScheduleManager allDays];
     
+    NSInteger lastPack = 0;
+    NSInteger currentDayFromStart = [[ScheduleManager getInstance] currentDayFromStartDay];
+    if (currentDayFromStart > allNum) {
+        lastPack = 1;
+    }
+    
+    
+    
+    
+    
     if (allNum > MaxDaysOfPack) {
+        
         NSInteger page = self.tag;
         NSInteger pageOfPack = allNum / MaxDaysOfPack + 1;
         
-        currentSubPack = page % pageOfPack;
-        currentPack = page / pageOfPack;
+        
+        packIndex = page / pageOfPack - lastPack;
+        subPackIndex = page % pageOfPack;
+        
     } else {
-        currentPack = self.tag;
-        currentSubPack = 0;
+        packIndex = self.tag - lastPack;
+        subPackIndex = 0;
     }
     
     for (UIView *lineView in lineViewArray) {
@@ -255,9 +273,9 @@
     for (int i = 0; i < dateButtonArray.count; i++) {
         PillButton *button = [dateButtonArray validObjectAtIndex:i];
         
-        NSInteger day = i + currentSubPack * MaxDaysOfPack;
+        NSInteger day = i + subPackIndex * MaxDaysOfPack;
         
-        NSDateComponents *components = [[ScheduleManager getInstance] dateInPack:currentPack day:day].components;
+        NSDateComponents *components = [[ScheduleManager getInstance] dateInPack:packIndex day:day].components;
         
         if (components) {
             
@@ -269,6 +287,8 @@
             }
             
             button.day = components;
+            
+            
             
             if (firstDate == nil) {
                 self.firstDate = components;

@@ -37,7 +37,10 @@
         
         
         
-        [NotificationCenter addObserver:self selector:@selector(pillStateChanged:) name:PillStateChangedNotification object:nil];
+        [NotificationCenter addObserver:self
+                               selector:@selector(pillStateChanged:)
+                                   name:PillStateChangedNotification
+                                 object:nil];
     }
     return self;
 }
@@ -60,11 +63,11 @@
     titleLabel.frame = CGRectMake(0, 0, self.width, self.height);
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.font = FontSmall;
+    titleLabel.font = FontNormal;
     [self addSubview:titleLabel];
     
     markImageView = [[UIImageView alloc] init];
-    markImageView.frame = CGRectMake(self.width - 15, 2, 12, 12);
+    markImageView.frame = CGRectMake(self.width - 21, 2, 19, 19);
     [self addSubview:markImageView];
     
     

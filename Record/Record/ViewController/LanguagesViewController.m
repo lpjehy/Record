@@ -33,6 +33,8 @@
 
 
 - (void)doneButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     NSString *languageKey = [languageArray validObjectAtIndex:selectedIndexPath.row];
     [LanguageManager setLanguage:languageKey];
     

@@ -82,6 +82,8 @@
 #pragma mark - buttonPressed
 
 - (void)leftButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     if (baseWebView.canGoBack) {
         [baseWebView goBack];
         isShowCloseButton = YES;

@@ -113,6 +113,7 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
         swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 105)];
     }
     
+    [AnalyticsUtil eventDistinguishInitial:Event_view_help_pack];
 }
 - (void)showCalendarHelp {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:HelpCalendarViewHasShowedKey];
@@ -135,6 +136,7 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
         swipeImageView.frame = [swipeImageView.image frameInRect:CGRectMake((ScreenWidth - 100) / 2, 400, 100, 122)];
     }
     
+    [AnalyticsUtil eventDistinguishInitial:Event_view_help_calendar];
 }
 
 - (void)hide {

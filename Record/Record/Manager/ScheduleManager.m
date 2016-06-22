@@ -10,7 +10,6 @@
 
 #import "ReminderManager.h"
 #import "RecordData.h"
-#import "MessageManager.h"
 
 static NSString *IsEverydayKey = @"IsEveryday";
 static NSString *PillDaysKey = @"PillDays";
@@ -180,7 +179,6 @@ static NSInteger DefaultBreakDays = 7;
     NSDate *date = startDate;
     
     BOOL takePlaceboPill = [ScheduleManager takePlaceboPills];
-    NSLog(@"take PlaceboPill: %zi", takePlaceboPill);
     
     NSInteger allDays = [[self class] allDays];
     NSInteger pillDay = [ScheduleManager pillDays];
@@ -189,7 +187,6 @@ static NSInteger DefaultBreakDays = 7;
         NSInteger r = i % allDays;
         
         if (takePlaceboPill || r < pillDay) {
-            NSLog(@"%zi day of %zi pill days: ", r, pillDay);
             [RecordData record:date];
         }
         
@@ -197,7 +194,6 @@ static NSInteger DefaultBreakDays = 7;
         date = [date dateByAddingTimeInterval:TimeIntervalDay];
     }
     
-    [[MessageManager getInstance] reloadData];
 }
 
 

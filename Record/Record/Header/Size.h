@@ -17,9 +17,14 @@
 
 
 
-const CGFloat ScreenHeight480 = 480.0;
-const CGFloat ScreenHeight568 = 568.0;
-const CGFloat ScreenHeight667 = 667.0;
-const CGFloat ScreenHeight736 = 736.0;
+//const CGFloat ScreenHeight480 = 480.0;
+//const CGFloat ScreenHeight568 = 568.0;
+//const CGFloat ScreenHeight667 = 667.0;
+//const CGFloat ScreenHeight736 = 736.0;
+
+#define ScreenHeight480 480.0
+#define ScreenHeight568 568.0
+#define ScreenHeight667 667.0
+#define ScreenHeight736 736.0
 
 

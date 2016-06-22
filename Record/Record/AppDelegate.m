@@ -15,7 +15,7 @@
 
 #import "ReminderManager.h"
 #import "RecordData.h"
-#import "MessageManager.h"
+
 #import "AudioManager.h"
 
 @interface AppDelegate () <UIAlertViewDelegate>
@@ -23,6 +23,7 @@
 @end
 
 @implementation AppDelegate
+
 
 
 - (void)createLayout {
@@ -43,14 +44,22 @@
     
 }
 
+
+#pragma mark - UIApplicationDelegate
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
     [AppManager Initialize];
     
     
+    
+    
     [self createLayout];
     
+    
+    //[ReminderManager checkNotifications];
     
     /*
     for (NSString *name in [UIFont familyNames]) {
@@ -74,7 +83,6 @@
     } else {
         [RecordManager deleteRecord:[NSDate date]];
     }
-    [[MessageManager getInstance] reloadData];
     
     [ReminderManager resetNotify];
 }
@@ -105,7 +113,11 @@
     
     [AppManager Update];
     
-    application.applicationIconBadgeNumber = 0;
+    
+    if (application.applicationIconBadgeNumber != 0) {
+        application.applicationIconBadgeNumber = 0;
+        
+    }
     
 }
 
@@ -115,26 +127,31 @@
     [self saveContext];
 }
 
+#pragma mark Notification
+
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
     NSLog(@"didRegisterUserNotificationSettings %@", notificationSettings.description);
     
-    if (notificationSettings.types == UIUserNotificationTypeNone) {
-        
-        [AnalyticsUtil event:Event_Refuse_Notify];
-    } else {
-        
-    }
+    [ReminderManager setDidRegisterUserNotificationSettings];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:DidRegisterUserNotificationSettingsNotification
+                                                        object:nil];
+    
+    
 }
 
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     //判断应用程序当前的运行状态，如果是激活状态，则进行提醒，否则不提醒
     NSLog(@"didReceiveLocalNotification %@", notification.alertBody);
+    
+    application.applicationIconBadgeNumber = 0;
+    
     if (application.applicationState == UIApplicationStateActive) {
         NSString *record = [RecordData selectRecord:[NSDate date]];
         if (record == nil) {
-            
+                        
             NSString *soundName = [ReminderManager notificationSound];
             if ([soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
                 soundName = SoundNameDefault;
@@ -156,15 +173,20 @@
             [AppManager setFirstOpenedByReminder];
         }
     }
-
 }
+
+#pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if ([title isEqualToString:LocalizedString(@"button_title_take")]) {
         [RecordData record:[NSDate date]];
-        [[MessageManager getInstance] reloadData];
+        
+        
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CheckSnoozeNotification object:nil];
     }
+    
 }
 
 #pragma mark - Core Data stack

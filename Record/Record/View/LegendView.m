@@ -106,6 +106,8 @@
 }
 
 - (void)buttonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     self.hidden = YES;
 }
 

@@ -15,11 +15,11 @@
 #import "LegendView.h"
 
 #import "AdBannerView.h"
+#import "SnoozeView.h"
+#import "FeedBackView.h"
 
 #import "RecordData.h"
 
-#import "MessageManager.h"
-#import "MessageViewDelegate.h"
 
 #import "CalendarDayButton.h"
 
@@ -31,6 +31,7 @@
 
 #import "MessageManager.h"
 #import "ScheduleManager.h"
+#import "ReminderManager.h"
 
 
 #import "OnlineConfigUtil.h"
@@ -42,6 +43,7 @@
 #import "PackView.h"
 
 #import "StartView.h"
+
 
 
 static NSInteger ScrollViewTagBase = 0;
@@ -63,7 +65,6 @@ static NSInteger ScrollViewTagPack = 1;
     
     NSInteger currentPage;
     
-    
     NSInteger currentPack;
     NSInteger currentSubPack;
     
@@ -84,12 +85,13 @@ static NSInteger ScrollViewTagPack = 1;
     UIButton *mainButton;
     UIButton *settingButton;
     
+    UIImageView *settingAlertImageView;
     
     StartView *startView;
     
     
     BOOL shouldCheckTodayPack;
-    
+    BOOL moveToTodayAnimate;
     
     CGFloat todayPackX;
 }
@@ -118,14 +120,36 @@ static NSInteger ScrollViewTagPack = 1;
                                    name:TodayPackSettedNotification
                                  object:nil];
         
+        [NotificationCenter addObserver:self
+                               selector:@selector(checkSetting)
+                                   name:DidRegisterUserNotificationSettingsNotification
+                                 object:nil];
+        
+        [NotificationCenter addObserver:self
+                               selector:@selector(checkSnooze)
+                                   name:CheckSnoozeNotification
+                                 object:nil];
+        
+        
+        [NotificationCenter addObserver:self
+                               selector:@selector(pillStateChanged:)
+                                   name:PillStateChangedNotification
+                                 object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
          	                                         selector:@selector(currentLocaleDidChange)
-         	                                             name:NSCurrentLocaleDidChangeNotification object:nil];
+         	                                             name:NSCurrentLocaleDidChangeNotification
+                                                   object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(applicationDidBecomeActive)
-                                                     name:UIApplicationDidBecomeActiveNotification object:nil];
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillResignActive)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:nil];
     }
     
     return self;
@@ -140,8 +164,25 @@ static NSInteger ScrollViewTagPack = 1;
 #pragma apllication
 
 - (void)applicationDidBecomeActive {
-    shouldCheckTodayPack = YES;
-    [self reloadView];
+    
+    
+    
+    [self performSelector:@selector(checkView) withObject:nil afterDelay:1];
+    
+    if (baseScrollView.contentOffset.y != 0) {
+        //显示日历中
+        [AnalyticsUtil beginEventDistinguishInitial:Event_view_calendar];
+    }
+    
+    
+    
+}
+
+- (void)applicationWillResignActive {
+    if (baseScrollView.contentOffset.y != 0) {
+        //显示日历中
+        [AnalyticsUtil endEventDistinguishInitial:Event_view_calendar];
+    }
 }
 
 
@@ -149,26 +190,59 @@ static NSInteger ScrollViewTagPack = 1;
     NSLog(@"currentLocaleDidChange");
 }
 
+
+
+
 #pragma bussness
 - (void)settingChanged {
     [baseScrollView scrollToTop:NO];
-    [packScrollView setContentOffset:CGPointMake(0, 0)];
+    
+    NSInteger currentPackIndex = 0;
+    
+    NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:[ScheduleManager startDate]];
+    NSInteger days = interval / TimeIntervalDay;
+    if (days > [ScheduleManager allDays]) {
+        //有上一药板
+        currentPackIndex = 1;
+        
+        if ([ScheduleManager allDays] > MaxDaysOfPack) {
+            //一个周期有两个子药板
+            currentPackIndex = 2;
+        }
+    }
+        
+    NSInteger currentPackX = currentPackIndex * packScrollView.width;
+    if (packScrollView.contentOffset.x != currentPackX) {
+        [packScrollView setContentOffset:CGPointMake(currentPackX, 0)];
+    }
     
     shouldCheckTodayPack = YES;
+    moveToTodayAnimate = YES;
     
 }
 
 - (void)todayPackSetted:(NSNotification *)notification {
+    
+    todayPackX = [[notification.userInfo validObjectForKey:@"DestX"] floatValue];
     if (shouldCheckTodayPack && packScrollView) {
         shouldCheckTodayPack = NO;
         
-        todayPackX = [[notification.userInfo validObjectForKey:@"DestX"] floatValue];
         [self performSelector:@selector(scrollToTodayPack) withObject:nil afterDelay:.64];
     }
 }
 
 - (void)scrollToTodayPack {
-    [packScrollView setContentOffset:CGPointMake(todayPackX, 0) animated:YES];
+    if (packScrollView.contentOffset.x == todayPackX) {
+        return;
+    }
+    
+    [packScrollView setContentOffset:CGPointMake(todayPackX, 0) animated:moveToTodayAnimate];
+    if (moveToTodayAnimate) {
+        [self performSelector:@selector(resetPackInfo) withObject:nil afterDelay:.37];
+    } else {
+        [self resetPackInfo];
+    }
+    
 }
 
 - (void)calendarMonthChanged:(NSNotification *)notification {
@@ -178,8 +252,52 @@ static NSInteger ScrollViewTagPack = 1;
     }
 }
 
-- (void)packRightButtonPressed {
+- (void)pillStateChanged:(NSNotification *)notification {
     
+    NSString *type = [notification.userInfo valueForKey:@"type"];
+    NSString *time = [notification.userInfo valueForKey:@"time"];
+    if ([type isEqualToString:@"insert"]) {
+        // 吃药
+        
+        if ([FeedBackView shouldShow]) {
+            [[FeedBackView getInstance] showInView:baseScrollView];
+        }
+        
+        if ([time isEqualToString:[ScheduleManager getInstance].today.theDay]) {
+            [[SnoozeView getInstance] cancel];
+        } else {
+            
+        }
+        
+    } else {
+        // 取消吃药
+        if ([time isEqualToString:[ScheduleManager getInstance].today.theDay]) {
+            
+            if ([ReminderManager canSnooze]) {
+                [[SnoozeView getInstance] showInView:baseScrollView];
+            } else {
+                [[SnoozeView getInstance] cancel];
+            }
+            
+            [ReminderManager resetNotify];
+        } else {
+            
+        }
+        
+    }
+    
+    [[MessageManager getInstance] reloadData];
+    
+}
+
+#pragma mark - Functions
+
+- (void)packRightButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
+    [AnalyticsUtil event:Event_back_to_current_pack_click];
+    
+    moveToTodayAnimate = YES;
     [self scrollToTodayPack];
     
     
@@ -210,7 +328,10 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 - (void)helpButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     if (baseScrollView.contentOffset.y == 0) {
+        
         [helpView showPackHelp];
     } else {
         [helpView showCalendarHelp];
@@ -221,8 +342,8 @@ static NSInteger ScrollViewTagPack = 1;
 
 
 
-- (void)calendarButtonPressed {
-    
+- (void)mainButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
     
     
     if (baseScrollView.contentOffset.y == 0) {
@@ -237,11 +358,17 @@ static NSInteger ScrollViewTagPack = 1;
             [helpView showCalendarHelp];
         }
         
+        [AnalyticsUtil beginEventDistinguishInitial:Event_view_calendar];
+        
+        
     } else {
+        
         [baseScrollView scrollToTop:YES];
         
         [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Calendar.png"] forState:UIControlStateNormal];
         
+        
+        [AnalyticsUtil endEventDistinguishInitial:Event_view_calendar];
     }
     
     
@@ -249,6 +376,12 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 - (void)settingButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
+    [AnalyticsUtil eventDistinguishInitial:Event_view_setting];
+    
+    
+    
     SettingViewController *settingViewController = [[SettingViewController alloc] init];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingViewController];
@@ -256,26 +389,114 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 - (void)legendButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     [[LegendView getInstance] show];
 }
 
 - (void)todayButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     [[CalendarViewDelegate getInstance] scrollToToday];
 }
 
 
 - (void)lastButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     [calendarScrollView setContentOffset:CGPointMake(0, [[CalendarViewDelegate getInstance] contentOffsetYForMonth:[CalendarViewDelegate getInstance].currentMonth - 1]) animated:YES];
     
 }
 
 - (void)nextButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     [calendarScrollView setContentOffset:CGPointMake(0, [[CalendarViewDelegate getInstance] contentOffsetYForMonth:[CalendarViewDelegate getInstance].currentMonth + 1]) animated:YES];
 }
 
+#pragma mark - view
+
+- (void)checkView {
+    [self performSelector:@selector(checkSetting) withObject:nil afterDelay:1];
+    
+    
+    [self reloadView];
+    
+    
+}
+
+- (void)checkSnooze {
+    if ([ReminderManager canSnooze]) {
+        
+        [[SnoozeView getInstance] showInView:baseScrollView];
+    } else {
+        [[SnoozeView getInstance] cancel];
+    }
+}
+
+- (void)checkSetting {
+    
+    if (![AppManager hasFirstSetDone]) {
+        return;
+    }
+    
+    if ([ReminderManager hasAuthority]) {
+        
+        settingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        settingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+        
+        if (settingAlertImageView) {
+            
+            [UIView animateWithDuration:0.24 animations:^{
+                settingAlertImageView.alpha = 0;
+            }];
+        }
+        
+        
+    } else if (settingButton) {
+        
+        [self createSettingAlertLayout];
+        
+        
+        CGFloat labelX = settingButton.originX + (settingButton.width - settingButton.titleSize.width) / 2;
+        CGFloat endx = labelX - 24;
+        CGFloat size = 0;
+        if (endx >= (ScreenWidth + 70) / 2 + 2) {
+            //如果红点未触碰到日历按钮
+            
+            settingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+            settingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+            
+            size = 27;
+            labelX -= size + 2;
+        } else {
+            settingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            settingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 4);
+            
+            size = 24;
+            labelX = ScreenWidth - 2 - settingButton.titleSize.width - size - 1;
+            
+        }
+        settingAlertImageView.frame = CGRectMake(labelX, settingButton.originY + (settingButton.height - size) / 2, size, size);
+        
+        if (settingAlertImageView.alpha == 0) {
+            [UIView animateWithDuration:0.24 animations:^{
+                settingAlertImageView.alpha = 1;
+            } completion:^(BOOL finished) {
+                [settingAlertImageView animatExpandWithRange:0.2];
+            }];
+        } else {
+            [settingAlertImageView animatExpandWithRange:0.2];
+        }
+        
+        
+    }
+    
+}
 
 #pragma mark - data
 - (void)reloadView {
+    
     [self resetPackInfo];
     
     [self reloadPackData];
@@ -284,7 +505,27 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 - (void)resetPackInfo {
-    if (currentPack == 0) {
+    
+    NSInteger packViewIndex = packScrollView.contentOffset.x / (NSInteger)packScrollView.width;
+    PackView *view = [packViewArray validObjectAtIndex:packViewIndex];
+    
+    if (view.packIndex < 0) {
+        packTitleLabel.text = LocalizedString(@"pack_in_previous");
+        
+        
+        PackView *view = [packViewArray validObjectAtIndex:currentPack];
+        packSubTitleLabel.text = view.timeInfo;
+        packSubTitleLabel.hidden = NO;
+        
+        packRightButton.hidden = NO;
+        
+        if ([ReminderManager canSnooze]) {
+            [[SnoozeView getInstance] hide];
+        } else {
+            [[SnoozeView getInstance] cancel];
+        }
+        
+    } else if (view.packIndex == 0) {
         
         //设置主标题
         NSDateComponents *today = [ScheduleManager getInstance].today;
@@ -296,12 +537,49 @@ static NSInteger ScrollViewTagPack = 1;
         
         packTitleLabel.text = title;
         
+        if ([ScheduleManager isEveryday]) {
+            packSubTitleLabel.text = LocalizedString(@"pack_sub_title_take_everyday");
+        } else {
+            packSubTitleLabel.text = [[ScheduleManager getInstance] todayInfo];
+        }
         
-        packSubTitleLabel.text = [[ScheduleManager getInstance] todayInfo];
         
         packSubTitleLabel.hidden = NO;
         packRightButton.hidden = YES;
+        
+        
+        if ([ReminderManager canSnooze]) {
+            
+            static NSDate *firstTime = nil;
+            if (firstTime == nil) {
+                firstTime = [NSDate date];
+            }
+            
+            if ([firstTime timeIntervalSinceNow] < -2) {
+                // 第二次激活时，直接显示
+                
+                [[SnoozeView getInstance] showInView:baseScrollView];
+            } else {
+                static  NSInteger showTime = 0;
+                if (showTime == 0) {
+                    showTime++;
+                    NSLog(@"starttime");
+                    [[SnoozeView getInstance] performSelector:@selector(showInView:) withObject:baseScrollView afterDelay:1.5];
+                }
+                
+            }
+            
+            
+        } else {
+            [[SnoozeView getInstance] cancel];
+        }
     } else {
+        
+        if ([ReminderManager canSnooze]) {
+            [[SnoozeView getInstance] hide];
+        } else {
+            [[SnoozeView getInstance] cancel];
+        }
         
         packTitleLabel.text = LocalizedString(@"pack_in_future");
         
@@ -316,7 +594,7 @@ static NSInteger ScrollViewTagPack = 1;
         return;
     }
     
-    NSInteger pagenum = currentPage + 3;
+    NSInteger pagenum = currentPage + 4;
     
     for (int i = 0; i < pagenum; i++) {
         PackView *packView = [packViewArray validObjectAtIndex:i];
@@ -424,8 +702,7 @@ static NSInteger ScrollViewTagPack = 1;
     packScrollView.tag = ScrollViewTagPack;
     [baseScrollView addSubview:packScrollView];
     
-    [self resetPackInfo];
-    [self reloadPackData];
+    
 }
 
 - (void)createCalendarLayout {
@@ -450,25 +727,23 @@ static NSInteger ScrollViewTagPack = 1;
     legendButton.titleLabel.font = FontMiddle;
     [calendarView addSubview:legendButton];
     
+    // 除去说明，标题，今日三个项目剩下的空间留给两个按钮
+    CGFloat buttonWidth = (ScreenWidth - 64 * 3) / 2;
+    
     UIButton *lastButton = [[UIButton alloc] init];
-    lastButton.frame = CGRectMake(64, 20, 64, 44);
+    lastButton.frame = CGRectMake(64, 20, buttonWidth, 44);
     [lastButton setImage:[UIImage imageNamed:@"Arrow_White_Left.png"] forState:UIControlStateNormal];
+    lastButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20);
     lastButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    if (ScreenHeight == ScreenHeight568) {
-        lastButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-    }
-    //
     [lastButton addTarget:self action:@selector(lastButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [calendarView addSubview:lastButton];
     
     
     UIButton *nextButton = [[UIButton alloc] init];
-    nextButton.frame = CGRectMake(ScreenWidth - 128, 20, 64, 44);
+    nextButton.frame = CGRectMake(ScreenWidth - buttonWidth - 64, 20, buttonWidth, 44);
     [nextButton setImage:[UIImage imageNamed:@"Arrow_White_Right.png"] forState:UIControlStateNormal];
+    nextButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
     nextButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    if (ScreenHeight == ScreenHeight568) {
-        nextButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    }
     [nextButton addTarget:self action:@selector(nextButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [calendarView addSubview:nextButton];
     
@@ -578,7 +853,6 @@ static NSInteger ScrollViewTagPack = 1;
     messageTableView.rowHeight = [MessageCell cellHeight];
     messageTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [calendarView addSubview:messageTableView];
-    messageTableView.delegate = [MessageViewDelegate getInstance];
     [MessageManager getInstance].messageTableView = messageTableView;
     
     
@@ -619,7 +893,7 @@ static NSInteger ScrollViewTagPack = 1;
     
     mainButton = [[UIButton alloc] init];
     mainButton.frame = CGRectMake((ScreenWidth - 70) / 2, ScreenHeight - 80, 70, 70);
-    [mainButton addTarget:self action:@selector(calendarButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [mainButton addTarget:self action:@selector(mainButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     
     [mainButton setBackgroundImage:[UIImage imageNamed:@"Btn_Calendar.png"] forState:UIControlStateNormal];
     
@@ -641,12 +915,24 @@ static NSInteger ScrollViewTagPack = 1;
 
 }
 
+- (void)createSettingAlertLayout {
+    if (settingAlertImageView == nil) {
+        settingAlertImageView = [[UIImageView alloc] init];
+        
+        settingAlertImageView.image = [UIImage imageNamed:@"Icon_alert.png"];
+        [self.view addSubview:settingAlertImageView];
+        
+        [self.view bringSubviewToFront:helpView];
+    }
+}
 
+#pragma mark - view life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    
+    shouldCheckTodayPack = YES;
+    moveToTodayAnimate = NO;
     
     [[CalendarViewDelegate getInstance] resetView];
     
@@ -673,7 +959,11 @@ static NSInteger ScrollViewTagPack = 1;
         
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingViewController];
         [self presentViewController:navigationController animated:NO completion:NULL];
+    } else {
+        
+        [self performSelector:@selector(checkSetting) withObject:nil afterDelay:1];
     }
+    
    
 }
 
@@ -681,6 +971,11 @@ static NSInteger ScrollViewTagPack = 1;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (baseScrollView.contentOffset.y != 0) {
+        //显示日历中
+        [AnalyticsUtil beginEventDistinguishInitial:Event_view_calendar];
+    }
     
     if (![AppManager hasFirstPackShowed]) {
         [AppManager setFirstPackShowed];
@@ -693,6 +988,9 @@ static NSInteger ScrollViewTagPack = 1;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [self reloadView];
+    
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -711,6 +1009,12 @@ static NSInteger ScrollViewTagPack = 1;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    if (baseScrollView.contentOffset.y != 0) {
+        //显示日历中
+        [AnalyticsUtil endEventDistinguishInitial:Event_view_calendar];
+    }
+    
     if (startView) {
         startView.hidden = YES;
         
@@ -727,6 +1031,15 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if (scrollView.tag == ScrollViewTagPack) {
+        
+    }
+    
+    
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView.tag == ScrollViewTagPack) {
@@ -763,6 +1076,15 @@ static NSInteger ScrollViewTagPack = 1;
         
         [self resetPackInfo];
         
+        if (scrollView.contentOffset.x != todayPackX) {
+            //非当前药板
+            [AnalyticsUtil eventDistinguishInitialAndOnceActive:Event_view_future_pack];
+            
+            [[FeedBackView getInstance] hide];
+        } else if (scrollView.contentOffset.x == todayPackX) {
+            //返回当前药板
+            [AnalyticsUtil event:Event_back_to_current_pack_swipe];
+        }
     }
     
 }

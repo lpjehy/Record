@@ -10,6 +10,6 @@
 
 @implementation SettingItem
 
-@synthesize item, type, textValue, boolValue, enable;
+@synthesize item, type, textValue, linkedText, boolValue, enable;
 
 @end

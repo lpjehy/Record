@@ -8,17 +8,9 @@
 
 
 
-
-"navigation_title_setting"="Setting";
-"navigation_title_sounds"="Sounds";
-"navigation_title_languages"="Languages";
-
-"button_title_help"="HELP";
-"button_title_setting"="SETTING";
-
-"button_title_legend"="Legend";
-"button_title_today"="Today";
-
+/**
+ * 通用按钮标题
+ */
 
 "button_title_back"="Back";
 "button_title_close"="Close";
@@ -31,6 +23,67 @@
 "button_title_take"="Take";
 "button_title_untake"="Untake";
 
+
+/**
+ * 导航栏标题
+ */
+
+"navigation_title_setting"="Setting";
+"navigation_title_sounds"="Sounds";
+"navigation_title_languages"="Languages";
+
+
+/**
+ * 主要按钮标题
+ */
+"button_title_help"="HELP";
+"button_title_setting"="SETTING";
+
+
+
+/**
+ * 药板相关业务
+ */
+
+"pack_sub_title_take_everyday"="Take everyday";
+
+
+"pack_title_day"="";
+
+"pack_subtitle_pilldays"="Today is day %zi of %zi days";
+"pack_subtitle_breakdays"="Today is day %zi of %zi days - Breakdays";
+"pack_subtitle_placebodays"="Today is day %zi of %zi days - Placebo pill days";
+
+
+"pack_button_current_pack"="Current pack";
+
+"pack_current_pack"="current pack";
+"pack_not_current_pack"="not current pack";
+"pack_in_future"="Pack in future";
+"pack_in_previous"="Previous pack";
+
+
+
+/**
+ * 日历相关业务
+ */
+"button_title_legend"="Legend";
+"button_title_today"="Today";
+
+/**
+ *  日历说明
+ */
+"legend_taked"="taked";
+"legend_untaken"="un-taken";
+"legend_placebo"="placebo pill";
+"legend_untaken_placebo"="un-taken placebo pill";
+
+
+/**
+ * 设置相关文案
+ */
+
+// 主模块
 "setting_module_schedule"="Schedule";
 "setting_module_reminders"="Reminders";
 "setting_module_others"="Others";
@@ -41,29 +94,61 @@
 "Setting_Item_BeakDays"="Break days";
 "Setting_Item_TakePlaceboPills"="Take placebo pills";
 "Setting_Item_StartDay"="Start taking current pack at";
+
+
+"Setting_Item_Auth_Guide_Alert"="Please allow notification!";
+
+
 "Setting_Item_RemindTakePill"="Remind me to take pill";
 "Setting_Item_RmindTakePlaceboPill"="Also remind when taking placebo pill";
 "Setting_Item_NotifyAlertBody"="Notification text";
 "Setting_Item_NotifyTime"="Time";
 "Setting_Item_NotifySound"="Sound";
 "Setting_Item_Language"="Language";
-"Setting_Item_CheerUs"="Cheer Us";
 
+
+/**
+ *  权限提醒
+ */
+"auth_alert_title"="You did not allow notifications";
+"auth_alert_message"="Avery can't remind you to take pill :( ";
+"auth_alert_notallow"="Never mind";
+"auth_alert_allow"="Fix now";
+
+
+"Setting_Item_Auth_Guide_Subtitle"="To make sure you get reminder of taking pills, please do the following:";
+"Setting_Item_Auth_Guide_Step1_Open"="1 - Click to open ";
+"Setting_Item_Auth_Guide_Step1_Setting"="Avery setting on iPhone";
+"Setting_Item_Auth_Guide_Step2_Choose"="2 - Choose ";
+"Setting_Item_Auth_Guide_Step2_Notification"="Notification";
+"Setting_Item_Auth_Guide_Step3"="3 - Turn on all the setting";
+
+/**
+ * 通知相关
+ */
 
 "reminder_default_alertbody"="Please take your contraceptive pill~";
 "reminder_take_pill"="Have you take the pills in time？Just open the Avery to record it~";
 
 
+/**
+ *  Snooez
+ */
+"snoooze_button_title"="Snooze";
+"snoooze_action_title"="Remind me again after";
+"snoooze_time_minutes"="minutes";
+"snoooze_time_hour"="hour";
 
+
+/**
+ *  帮助文案
+ */
 "help_take_pill"="Tap to take pill, tap again to untake it";
 "help_check_pack"="Swipe to check incoming packs of pills";
 "help_edit_date"="Tap a date to edit";
 "help_switch_month"="Swipe up & down to switch month";
 
-"legend_taked"="taked";
-"legend_untaken"="un-taken";
-"legend_placebo"="placebo pill";
-"legend_untaken_placebo"="un-taken placebo pill";
+
 
 "day"="Days";
 
@@ -94,18 +179,7 @@
 "month_november"="Nov";
 "month_december"="Dec";
 
-"pack_title_day"="";
 
-"pack_subtitle_pilldays"="Today is day %zi of %zi days";
-"pack_subtitle_breakdays"="Today is day %zi of %zi days - Breakdays";
-"pack_subtitle_placebodays"="Today is day %zi of %zi days - Placebo pill days";
-
-
-"pack_button_current_pack"="Current pack";
-
-"pack_current_pack"="current pack";
-"pack_not_current_pack"="not current pack";
-"pack_in_future"="Pack in future";
 
 "message_missed"="Missed one";
 
@@ -120,7 +194,9 @@
 "alert_message_takepilleveryday"="Take pill everyday?";
 
 
-
+/**
+ *  启动画面
+ */
 
 "start_hi"="Hi there";
 
@@ -129,7 +205,19 @@
 "start_tap"="Tap the button to set your Contraceptive pill";
 
 
+/**
+ *  时间
+ */
 "time_am"="AM";
 "time_pm"="PM";
 
 
+
+
+/**
+ *  反馈
+ */
+
+"feedback_enjoy"="Do you enjoy Avery Reminder?";
+"feedback_feedbacks"="Can you give me some feedbacks?";
+"feedback_rate"="Can you give me a rate & review?";

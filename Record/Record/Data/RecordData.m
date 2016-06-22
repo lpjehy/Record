@@ -8,7 +8,6 @@
 
 #import "RecordData.h"
 
-#import "MessageManager.h"
 
 #import "SqlUtil.h"
 
@@ -38,7 +37,7 @@ static NSCache *recordCache = nil;
                 
                 
                 if (key) {
-                    [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": key}];
+                    [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": key, @"type":@"insert"}];
                 }
                 
                 
@@ -113,21 +112,20 @@ static NSCache *recordCache = nil;
 + (void)deleteRecord:(NSDate *)date {
     [self createTable];
     
-    NSString *today = [date stringWithFormat:@"yyyy-MM-dd"];
-    NSString *starttime = [today stringByAppendingString:@" 00:00:00"];
+    NSString *theday = [date stringWithFormat:@"yyyy-MM-dd"];
+    NSString *starttime = [theday stringByAppendingString:@" 00:00:00"];
     NSString *endtime = [[NSDate dateWithTimeInterval:TimeIntervalDay sinceDate:date] stringWithFormat:@"yyyy-MM-dd 00:00:00"];
     
-    [recordCache removeObjectForKey:today];
+    [recordCache removeObjectForKey:theday];
     
     
     [[SqlUtil getInstance] execSql:[NSString stringWithFormat:SQL_DELETE_RECORD, starttime, endtime]];
     
-    if (today) {
-        [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": today}];
+    if (theday) {
+        [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": theday, @"type":@"delete"}];
     }
     
     
-    [[MessageManager getInstance] reloadData];
     
     /*
     if (DeviceSystemVersion > 9.0 && date.components.isToday) {

@@ -27,6 +27,11 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
 
 + (void)Initialize
 {
+    if ([AppManager hasFirstSetDone]) {
+        [ActionManager action:Action_APP_Init];
+    }
+    
+    
     [LanguageManager Initialize];
     
     [AnalyticsUtil Initialize];
@@ -35,11 +40,19 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
 }
 
 + (void)Update {
+    
+    [[AnalyticsUtil getOnceActiveKeys] removeAllObjects];
+    
+    [ActionManager action:Action_APP_Active];
+    
+    
     [OnlineConfigUtil update];
     
-    if ([AppManager hasFirstSetDone]) {
-        [ReminderManager resetNotify];
-    }
+    [ReminderManager checkReminder];
+    
+    
+    
+    
 }
 
 
@@ -67,7 +80,7 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 + (void)setFirstSetDone {
-    
+    [AnalyticsUtil event:Event_First_Set_Done];
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:MarkFirstSetDoneKey];
     [[NSUserDefaults standardUserDefaults] synchronize];

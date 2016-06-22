@@ -26,6 +26,8 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
 
 @interface MessageManager () {
     NSMutableArray *messageArray;
+    
+    BOOL isReloading;
 }
 
 @end
@@ -99,6 +101,16 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
 }
 
 - (void)reloadData {
+    if (isReloading) {
+        // 时间锁，防止多个数据操作时重复更新视图
+        return;
+    }
+    isReloading = YES;
+    
+    [self performSelector:@selector(dealReload) withObject:nil afterDelay:0.36];
+}
+
+- (void)dealReload {
     [messageArray removeAllObjects];
     
     
@@ -130,6 +142,8 @@ static NSString *SQL_SELECT_MESSAGE = @"SELECT * FROM MESSAGE";
     if (messageTableView) {
         [messageTableView reloadData];
     }
+    
+    isReloading = NO;
 }
 
 - (NSArray *)allMessage {

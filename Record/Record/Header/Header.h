@@ -9,6 +9,8 @@
 #import "Extension.h"
 
 #import "UrlUtil.h"
+#import "AnalyticsUtil.h"
+#import "ActionManager.h"
 
 #import "AppManager.h"
 #import "LanguageManager.h"

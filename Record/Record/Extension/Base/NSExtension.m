@@ -1224,3 +1224,14 @@
 }
 
 @end
+
+@implementation NSURL(NSURLExtension)
+
++ (void)openUrl:(NSString *)url {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
+
+
+@end
+

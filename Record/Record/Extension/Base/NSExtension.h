@@ -198,3 +198,11 @@
 + (UIColor *)colorWithHexadecimal:(NSString *)hexadecimal;
 
 @end
+
+@interface NSURL(NSURLExtension)
+
++ (void)openUrl:(NSString *)url;
+
+
+
+@end

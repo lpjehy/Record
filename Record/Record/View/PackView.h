@@ -16,6 +16,12 @@ static NSInteger const MaxDaysOfPack = 28;
 @interface PackView : UIView
 
 
+@property(nonatomic, strong) NSString *timeInfo;
+
+@property(nonatomic, readonly) NSInteger packIndex;
+@property(nonatomic, readonly) NSInteger subPackIndex;
+
+
 - (void)reloadData;
 
 @end

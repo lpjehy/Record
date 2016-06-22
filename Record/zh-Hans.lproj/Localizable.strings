@@ -29,6 +29,8 @@
 "button_title_take"="服用";
 "button_title_untake"="撤销";
 
+"pack_sub_title_take_everyday"="每天都吃药";
+
 "setting_module_schedule"="服药计划";
 "setting_module_reminders"="提醒";
 "setting_module_others"="其它";
@@ -38,16 +40,40 @@
 "Setting_Item_BeakDays"="停药天数";
 "Setting_Item_TakePlaceboPills"="我服用安慰丸";
 "Setting_Item_StartDay"="开始服用的日期";
+"Setting_Item_Auth_Guide_Alert"="请允许通知提醒！";
 "Setting_Item_RemindTakePill"="提醒我吃药";
 "Setting_Item_RmindTakePlaceboPill"="提醒我吃安慰丸";
 "Setting_Item_NotifyAlertBody"="提醒消息內容";
 "Setting_Item_NotifyTime"="提醒时间";
 "Setting_Item_NotifySound"="提醒铃声";
 "Setting_Item_Language"="语言";
-"Setting_Item_CheerUs"="鼓励我们";
+
+/**
+ *  权限提醒
+ */
+"auth_alert_title"="你确定不接收通知？";
+"auth_alert_message"="小爱将无法提醒你用药";
+"auth_alert_notallow"="不接受";
+"auth_alert_allow"="接受";
+
+"Setting_Item_Auth_Guide_Subtitle"="为确保您收到服药的提醒，请按以下步骤操作：";
+"Setting_Item_Auth_Guide_Step1_Open"="1 - 打开";
+"Setting_Item_Auth_Guide_Step1_Setting"="小爱提醒在iPhone上的设置页面";
+"Setting_Item_Auth_Guide_Step2_Choose"="2 - 选择 ";
+"Setting_Item_Auth_Guide_Step2_Notification"="通知";
+"Setting_Item_Auth_Guide_Step3"="3 - 打开提醒下的全部选项";
 
 "reminder_default_alertbody"="到吃药的时间了哟~";
 "reminder_take_pill"="您是否按时服药了呢？来点击小爱记录一下吧~";
+
+/**
+ *  Snooez
+ */
+"snoooze_button_title"="延迟提醒";
+"snoooze_action_title"="过会儿提醒我";
+"snoooze_time_minutes"="分钟";
+"snoooze_time_hour"="小时";
+
 
 "help_take_pill"="点击服用，再次点击撤销";
 "help_check_pack"="左右滑动查看药板";
@@ -99,6 +125,7 @@
 "pack_current_pack"="当前药板";
 "pack_not_current_pack"="非当前药板";
 "pack_in_future"="未来药板";
+"pack_in_previous"="上一板药";
 
 "message_missed"="漏服";
 
@@ -122,4 +149,15 @@
 
 "time_am"="上午";
 "time_pm"="下午";
+
+/**
+ *  反馈
+ */
+
+"feedback_enjoy"="您是否喜欢小爱提醒?";
+"feedback_feedbacks"="您可以给我一些意见吗?";
+"feedback_rate"="您可以给我一个评价和星级吗?";
+
+
+
 

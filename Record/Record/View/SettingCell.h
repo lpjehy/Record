@@ -19,16 +19,20 @@ static NSString *SettingCellIdentifier = @"SettingCellIdentifier";
 // Display customization
 
 - (void)settingCellSwitchChangedForItem:(SettingItem *)item value:(BOOL)value;
+- (void)settingCellLinkClickedForItem:(SettingItem *)item;
 @end;
 
 @interface SettingCell : UITableViewCell
 
 @property(nonatomic) SettingType cellType;
-
+@property(nonatomic, strong) SettingItem *currentItem;
 
 
 @property(nonatomic, weak) id<SettingCellDelegate> delegate;
 
 - (void)setItem:(SettingItem *)item;
+
+
++ (CGFloat)cellHeight;
 
 @end

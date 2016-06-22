@@ -43,6 +43,8 @@
 
 "button_title_untake"="Remover";
 
+"pack_sub_title_take_everyday"="Tome todos os dias";
+
 "setting_module_schedule"="Cronograma";
 
 "setting_module_reminders"="Lembretes";
@@ -51,7 +53,7 @@
 
 "Setting_Item_TakeEveryday"="Tome todos os dias";
 
-"Setting_Item_PillDays"="dias de uso da pílula";
+"Setting_Item_PillDays"="Dias de uso da pílula";
 
 "Setting_Item_BeakDays"="Dias de quebrar";
 
@@ -59,6 +61,7 @@
 
 "Setting_Item_StartDay"="Começar a tomar atual pacote em";
 
+"Setting_Item_Auth_Guide_Alert"="Permita a notificação !";
 "Setting_Item_RemindTakePill"="Lembre-me de tomar pílula";
 
 "Setting_Item_RmindTakePlaceboPill"="Também me lembram quando toma placebo pílula";
@@ -71,9 +74,33 @@
 
 "Setting_Item_Language"="Língua";
 
-"Setting_Item_CheerUs"="Torcendo por nós";
+
+"Setting_Item_Auth_Guide_Subtitle"="Para ter certeza de obter lembrete de tomar pílulas, por favor, faça o seguinte:";
+"Setting_Item_Auth_Guide_Step1_Open"="1 - Abra ";
+"Setting_Item_Auth_Guide_Step1_Setting"="ajustes Avery no iPhone";
+"Setting_Item_Auth_Guide_Step2_Choose"="2 - Selecione ";
+"Setting_Item_Auth_Guide_Step2_Notification"="Notificações";
+"Setting_Item_Auth_Guide_Step3"="3 - Ative todas as definições";
+
+/**
+ *  权限提醒
+ */
+"auth_alert_title"="Você não permitir a notificação";
+"auth_alert_message"="Avery não pode lembrá-lo tomar pílula \n:( ";
+"auth_alert_notallow"="OK";
+"auth_alert_allow"="Consertá-lo";
+
 
 "reminder_default_alertbody"="Tempo para tomar pílula anticoncepcional";
+
+/**
+ *  Snooez
+ */
+"snoooze_button_title"="Adiado";
+"snoooze_action_title"="Adiar por";
+"snoooze_time_minutes"="minutos";
+"snoooze_time_hour"="hora";
+
 
 "help_take_pill"="Toque uma pílula quando você toma um, toque novamente para removê-lo";
 
@@ -154,6 +181,7 @@
 "pack_not_current_pack"="Não é pacote atual";
 
 "pack_in_future"="Pacote futuro";
+"pack_in_previous"="Pacote anterior";
 
 "message_missed"="Esquecer de tomar";
 
@@ -183,4 +211,13 @@
 "time_pm"="PM";
 
 
+
+
+/**
+ *  反馈
+ */
+
+"feedback_enjoy"="Você gosta de Avery Lembrete?";
+"feedback_feedbacks"="Você pode me dar alguns conselhos?";
+"feedback_rate"="Escreva um comentário para nós";
 

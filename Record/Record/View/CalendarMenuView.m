@@ -9,7 +9,6 @@
 #import "CalendarMenuView.h"
 
 #import "RecordData.h"
-#import "MessageManager.h"
 
 @interface CalendarMenuView () {
     UIView *backView;
@@ -108,19 +107,23 @@
 }
 
 - (void)takeButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     self.hidden = YES;
     
     theCell.isTaken = !theCell.isTaken;
     [theCell resetState];
     if (theCell.isTaken) {
         [RecordData record:theCell.day.theDate];
+                
     } else {
         [RecordData deleteRecord:theCell.day.theDate];
     }
-    [[MessageManager getInstance] reloadData];
 }
 
 - (void)cancelButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
     self.hidden = YES;
 }
 

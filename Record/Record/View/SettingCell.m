@@ -8,15 +8,16 @@
 
 #import "SettingCell.h"
 
+
+
 @interface SettingCell() {
     UILabel *itemLabel;
     UILabel *valueLabel;
     UISwitch *valueSwitch;
     
-    
 }
 
-@property(nonatomic, strong) SettingItem *currentItem;
+
 
 @end
 
@@ -54,28 +55,42 @@
     // Configure the view for the selected state
 }
 
++ (CGFloat)cellHeight {
+    return 44;
+}
+
 - (void)setCellType:(SettingType)type {
+    cellType = type;
     if (type == SettingTypeNormal) {
-        valueLabel.hidden = YES;
+        self.accessoryType = UITableViewCellAccessoryNone;
         
+        valueLabel.hidden = YES;
         valueSwitch.hidden = YES;
+        
     } else if (type == SettingTypeSwitch) {
+        
+        self.accessoryType = UITableViewCellAccessoryNone;
+        
         valueLabel.hidden = YES;
         
         [self createSwitchView];
         valueSwitch.hidden = NO;
         
         itemLabel.width = valueSwitch.originX - 25;
+        
     } else if (type == SettingTypeText) {
         [self createTextView];
         valueLabel.hidden = NO;
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         valueSwitch.hidden = YES;
+        
     }
+    
 }
 
 
+#pragma mark - actions
 -(void)switchAction
 {
     BOOL boolValue = valueSwitch.on;
@@ -84,6 +99,8 @@
     }
 }
 
+
+#pragma mark - layout
 - (void)createSwitchView {
     if (valueSwitch == nil) {
         valueSwitch = [[UISwitch alloc] init];
@@ -110,6 +127,8 @@
     }
 }
 
+
+
 - (void)setItem:(SettingItem *)item {
     self.currentItem = item;
     
@@ -119,32 +138,12 @@
     
     self.cellType = item.type;
     
-    if (item.textValue) {
-        valueLabel.text = item.textValue;
-        CGFloat textWidth = [valueLabel textSize].width;
-        CGFloat maxWidth = ScreenWidth - itemLabel.textSize.width - itemLabel.originX - 50;
-        if (textWidth > maxWidth) {
-            textWidth = maxWidth;
-            
-        }
-        
-        if (ISPad) {
-            valueLabel.originX = ScreenWidth - 64 - textWidth;
-        } else {
-            valueLabel.originX = ScreenWidth - 28 - textWidth;
-        }
-        
-        
-        valueLabel.width = textWidth;
-    }
-    
-    
-    valueSwitch.on = item.boolValue;
-    
     if (item.enable) {
+        itemLabel.textColor = [UIColor whiteColor];
         valueSwitch.enabled = YES;
         valueLabel.textColor = [UIColor whiteColor];
     } else {
+        itemLabel.textColor = ColorTextGray;
         valueSwitch.enabled = NO;
         valueLabel.textColor = ColorTextGray;
     }
@@ -152,11 +151,35 @@
     
     if (cellType == SettingTypeNormal) {
         
+        
+        
     } else if (cellType == SettingTypeSwitch) {
+        valueSwitch.on = item.boolValue;
         
     } else if (cellType == SettingTypeText) {
+        if (item.textValue) {
+            valueLabel.text = item.textValue;
+            CGFloat textWidth = [valueLabel textSize].width;
+            CGFloat maxWidth = ScreenWidth - itemLabel.textSize.width - itemLabel.originX - 44;
+            if (textWidth > maxWidth) {
+                textWidth = maxWidth;
+                
+            }
+            
+            if (ISPad) {
+                valueLabel.originX = ScreenWidth - 64 - textWidth;
+            } else {
+                valueLabel.originX = ScreenWidth - 28 - textWidth;
+            }
+            
+            
+            valueLabel.width = textWidth;
+        }
+
         
     }
+    
+    
 }
 
 

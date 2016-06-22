@@ -12,7 +12,8 @@
 typedef NS_ENUM(NSInteger, SettingType) {
     SettingTypeNormal,//默认从0开始
     SettingTypeSwitch,
-    SettingTypeText
+    SettingTypeText,
+    SettingTypeLinkedText,
 };
 
 @interface SettingItem : NSObject
@@ -21,6 +22,7 @@ typedef NS_ENUM(NSInteger, SettingType) {
 @property(nonatomic, strong) NSString *item;
 @property(nonatomic, assign) SettingType type;
 @property(nonatomic, strong) NSString *textValue;
+@property(nonatomic, strong) NSString *linkedText;
 @property(nonatomic, assign) BOOL boolValue;
 @property(nonatomic, assign) BOOL enable;
 

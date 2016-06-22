@@ -40,16 +40,15 @@
 		996004B51C944453001EFD89 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004B41C944453001EFD89 /* WebViewController.m */; };
 		996004B81C944659001EFD89 /* UrlUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004B71C944659001EFD89 /* UrlUtil.m */; };
 		996004BF1C9467D4001EFD89 /* CalendarViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004BE1C9467D4001EFD89 /* CalendarViewDelegate.m */; };
-		996004C51C954C2D001EFD89 /* MessageViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004C41C954C2D001EFD89 /* MessageViewDelegate.m */; };
 		996004C81C95AF9D001EFD89 /* image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 996004C71C95AF9D001EFD89 /* image.xcassets */; };
 		996004CB1C95B1DE001EFD89 /* StartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 996004CA1C95B1DE001EFD89 /* StartView.m */; };
 		996C124E1CD5B91D007253C6 /* LanguagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 996C124D1CD5B91D007253C6 /* LanguagesViewController.m */; };
 		996C12511CD60EB5007253C6 /* Default.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 996C12501CD60EB5007253C6 /* Default.mp3 */; };
+		998045731D03D37F008FE40E /* SnoozeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 998045721D03D37F008FE40E /* SnoozeView.m */; };
 		998DE7DC1C89C42C00C3AA81 /* PackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 998DE7DB1C89C42C00C3AA81 /* PackView.m */; };
 		999FADF21C8BE1AE0083C6B0 /* ReminderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */; };
 		999FADFC1C8C124A0083C6B0 /* MessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FADFB1C8C124A0083C6B0 /* MessageManager.m */; };
 		999FAE131C8C26420083C6B0 /* CalendarDayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE021C8C26420083C6B0 /* CalendarDayButton.m */; };
-		999FAE211C8C33130083C6B0 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 999FAE1E1C8C33130083C6B0 /* libMobClickLibrary.a */; };
 		999FAE241C8C346C0083C6B0 /* AnalyticsUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE231C8C346C0083C6B0 /* AnalyticsUtil.m */; };
 		999FAE271C8C4A200083C6B0 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 999FAE261C8C4A200083C6B0 /* MessageCell.m */; };
 		999FAE291C8C4CC20083C6B0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 999FAE281C8C4CC20083C6B0 /* libz.tbd */; };
@@ -60,6 +59,7 @@
 		99A630381CF589A8001B03C9 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A630361CF589A8001B03C9 /* Record.m */; };
 		99C22ADA1CD77FFA00F0DD2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99C22ADC1CD77FFA00F0DD2B /* InfoPlist.strings */; };
 		99C22AE41CD782C500F0DD2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99C22AE61CD782C500F0DD2B /* Localizable.strings */; };
+		99C3A0351D0BE9EE00929F63 /* SettingOpenNotifyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 99C3A0341D0BE9EE00929F63 /* SettingOpenNotifyCell.m */; };
 		99C749E81C91AB8B0054829C /* ScheduleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99C749E71C91AB8B0054829C /* ScheduleManager.m */; };
 		99C749EE1C91BE930054829C /* TextEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99C749ED1C91BE930054829C /* TextEditViewController.m */; };
 		99D90FCB1C886B5300B1617D /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D90FCA1C886B5300B1617D /* SettingViewController.m */; };
@@ -72,7 +72,12 @@
 		99D985701CCFBD6800285B6F /* Yoho.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 99D9856B1CCFBD6800285B6F /* Yoho.mp3 */; };
 		99DB17411CE877AF00BB76D2 /* LanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99DB17401CE877AF00BB76D2 /* LanguageManager.m */; };
 		99EAF7011CECC55D003AE064 /* AdBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99EAF7001CECC55D003AE064 /* AdBannerView.m */; };
+		99F4B0F41D0AD30100335BA8 /* ActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F4B0F31D0AD30100335BA8 /* ActionManager.m */; };
+		99F4D2D51D07104D0031F9B4 /* FeedBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F4D2D41D07104D0031F9B4 /* FeedBackView.m */; };
 		99F5646E1C9E897C005806A8 /* SettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 99F5646D1C9E897C005806A8 /* SettingItem.m */; };
+		99FEA7381D09A4A1004F9FA5 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FEA7371D09A4A1004F9FA5 /* UIView+Animations.m */; };
+		99FEA73A1D09BD10004F9FA5 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99FEA7391D09BD0F004F9FA5 /* MessageUI.framework */; };
+		CC8F9360547F92E7A5E1288E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB8309C64EC839DE75CB1726 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -146,14 +151,14 @@
 		996004B71C944659001EFD89 /* UrlUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UrlUtil.m; path = Util/UrlUtil.m; sourceTree = "<group>"; };
 		996004BD1C9467D4001EFD89 /* CalendarViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewDelegate.h; sourceTree = "<group>"; };
 		996004BE1C9467D4001EFD89 /* CalendarViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewDelegate.m; sourceTree = "<group>"; };
-		996004C31C954C2D001EFD89 /* MessageViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewDelegate.h; sourceTree = "<group>"; };
-		996004C41C954C2D001EFD89 /* MessageViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewDelegate.m; sourceTree = "<group>"; };
 		996004C71C95AF9D001EFD89 /* image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = image.xcassets; path = Record/Resource/image.xcassets; sourceTree = "<group>"; };
 		996004C91C95B1DE001EFD89 /* StartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartView.h; path = View/StartView.h; sourceTree = "<group>"; };
 		996004CA1C95B1DE001EFD89 /* StartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartView.m; path = View/StartView.m; sourceTree = "<group>"; };
 		996C124C1CD5B91D007253C6 /* LanguagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LanguagesViewController.h; path = ViewController/LanguagesViewController.h; sourceTree = "<group>"; };
 		996C124D1CD5B91D007253C6 /* LanguagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguagesViewController.m; path = ViewController/LanguagesViewController.m; sourceTree = "<group>"; };
 		996C12501CD60EB5007253C6 /* Default.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Default.mp3; path = Record/Resource/sound/Default.mp3; sourceTree = "<group>"; };
+		998045711D03D37F008FE40E /* SnoozeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SnoozeView.h; path = View/SnoozeView.h; sourceTree = "<group>"; };
+		998045721D03D37F008FE40E /* SnoozeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SnoozeView.m; path = View/SnoozeView.m; sourceTree = "<group>"; };
 		998DE7DA1C89C42C00C3AA81 /* PackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackView.h; path = View/PackView.h; sourceTree = "<group>"; };
 		998DE7DB1C89C42C00C3AA81 /* PackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackView.m; path = View/PackView.m; sourceTree = "<group>"; };
 		99986ACB1CF2FE3E00F398F9 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Macro.h; path = Header/Macro.h; sourceTree = "<group>"; };
@@ -163,9 +168,6 @@
 		999FADFB1C8C124A0083C6B0 /* MessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageManager.m; path = Manager/MessageManager.m; sourceTree = "<group>"; };
 		999FAE011C8C26420083C6B0 /* CalendarDayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarDayButton.h; path = ZFCalendar/CalendarDayButton.h; sourceTree = "<group>"; };
 		999FAE021C8C26420083C6B0 /* CalendarDayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarDayButton.m; path = ZFCalendar/CalendarDayButton.m; sourceTree = "<group>"; };
-		999FAE1E1C8C33130083C6B0 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = Others/UMAnalytics/libMobClickLibrary.a; sourceTree = "<group>"; };
-		999FAE1F1C8C33130083C6B0 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = Others/UMAnalytics/MobClick.h; sourceTree = "<group>"; };
-		999FAE201C8C33130083C6B0 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClickSocialAnalytics.h; path = Others/UMAnalytics/MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		999FAE221C8C346C0083C6B0 /* AnalyticsUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsUtil.h; path = Util/AnalyticsUtil.h; sourceTree = "<group>"; };
 		999FAE231C8C346C0083C6B0 /* AnalyticsUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsUtil.m; path = Util/AnalyticsUtil.m; sourceTree = "<group>"; };
 		999FAE251C8C4A200083C6B0 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageCell.h; path = View/MessageCell.h; sourceTree = "<group>"; };
@@ -189,6 +191,8 @@
 		99C22AE51CD782C500F0DD2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		99C22AE71CD782C700F0DD2B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		99C22AE81CD782CB00F0DD2B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		99C3A0331D0BE9EE00929F63 /* SettingOpenNotifyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingOpenNotifyCell.h; path = View/SettingOpenNotifyCell.h; sourceTree = "<group>"; };
+		99C3A0341D0BE9EE00929F63 /* SettingOpenNotifyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingOpenNotifyCell.m; path = View/SettingOpenNotifyCell.m; sourceTree = "<group>"; };
 		99C749E61C91AB8B0054829C /* ScheduleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScheduleManager.h; path = Manager/ScheduleManager.h; sourceTree = "<group>"; };
 		99C749E71C91AB8B0054829C /* ScheduleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScheduleManager.m; path = Manager/ScheduleManager.m; sourceTree = "<group>"; };
 		99C749EC1C91BE930054829C /* TextEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextEditViewController.h; path = ViewController/TextEditViewController.h; sourceTree = "<group>"; };
@@ -210,8 +214,18 @@
 		99DB17401CE877AF00BB76D2 /* LanguageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LanguageManager.m; path = Manager/LanguageManager.m; sourceTree = "<group>"; };
 		99EAF6FF1CECC55D003AE064 /* AdBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdBannerView.h; path = View/AdBannerView.h; sourceTree = "<group>"; };
 		99EAF7001CECC55D003AE064 /* AdBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdBannerView.m; path = View/AdBannerView.m; sourceTree = "<group>"; };
+		99F4B0F21D0AD30100335BA8 /* ActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionManager.h; path = Manager/ActionManager.h; sourceTree = "<group>"; };
+		99F4B0F31D0AD30100335BA8 /* ActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionManager.m; path = Manager/ActionManager.m; sourceTree = "<group>"; };
+		99F4D2D31D07104D0031F9B4 /* FeedBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedBackView.h; path = View/FeedBackView.h; sourceTree = "<group>"; };
+		99F4D2D41D07104D0031F9B4 /* FeedBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedBackView.m; path = View/FeedBackView.m; sourceTree = "<group>"; };
 		99F5646C1C9E897C005806A8 /* SettingItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingItem.h; path = Data/SettingItem.h; sourceTree = "<group>"; };
 		99F5646D1C9E897C005806A8 /* SettingItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingItem.m; path = Data/SettingItem.m; sourceTree = "<group>"; };
+		99FEA7361D09A4A1004F9FA5 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Extension/Base/UIView+Animations.h"; sourceTree = "<group>"; };
+		99FEA7371D09A4A1004F9FA5 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Extension/Base/UIView+Animations.m"; sourceTree = "<group>"; };
+		99FEA7391D09BD0F004F9FA5 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9B407CAD648452BB11BE8333 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DBD17C54839DF46E2C69DA73 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FB8309C64EC839DE75CB1726 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,22 +233,43 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99FEA73A1D09BD10004F9FA5 /* MessageUI.framework in Frameworks */,
 				999FAE291C8C4CC20083C6B0 /* libz.tbd in Frameworks */,
 				99D90FD11C887A2700B1617D /* libsqlite3.0.tbd in Frameworks */,
 				999FAE2C1C8C574D0083C6B0 /* GoogleMobileAds.framework in Frameworks */,
 				993D5A251C9069F4004A42CE /* libUMOnlineConfig.a in Frameworks */,
-				999FAE211C8C33130083C6B0 /* libMobClickLibrary.a in Frameworks */,
+				CC8F9360547F92E7A5E1288E /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26C88D93A695E8EE3DFBB6D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B407CAD648452BB11BE8333 /* Pods.debug.xcconfig */,
+				DBD17C54839DF46E2C69DA73 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		86618609F055171CE086164D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99FEA7391D09BD0F004F9FA5 /* MessageUI.framework */,
+				FB8309C64EC839DE75CB1726 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		990954E51C85D5C300797FFF = {
 			isa = PBXGroup;
 			children = (
 				990954F01C85D5C300797FFF /* Record */,
 				990954EF1C85D5C300797FFF /* Products */,
+				26C88D93A695E8EE3DFBB6D0 /* Pods */,
+				86618609F055171CE086164D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -291,6 +326,8 @@
 		9909551B1C85D79000797FFF /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				99F4B0F21D0AD30100335BA8 /* ActionManager.h */,
+				99F4B0F31D0AD30100335BA8 /* ActionManager.m */,
 				999FAE2D1C8C578F0083C6B0 /* AdManager.h */,
 				999FAE2E1C8C578F0083C6B0 /* AdManager.m */,
 				9909550E1C85D76F00797FFF /* AppManager.h */,
@@ -316,7 +353,6 @@
 				990954F71C85D5C300797FFF /* MainViewController.h */,
 				990954F81C85D5C300797FFF /* MainViewController.m */,
 				99986ACC1CF2FEFD00F398F9 /* Calendar */,
-				99986ACE1CF2FF1C00F398F9 /* Message */,
 				996C124F1CD5C20C007253C6 /* Setting */,
 			);
 			name = ViewController;
@@ -325,28 +361,17 @@
 		9909551D1C85E45700797FFF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				99F4B0F71D0AE6B600335BA8 /* Calendar */,
+				99F4B0F61D0AE69E00335BA8 /* Common */,
+				99F4B0F51D0AE68A00335BA8 /* Pack */,
 				99EAF6FF1CECC55D003AE064 /* AdBannerView.h */,
 				99EAF7001CECC55D003AE064 /* AdBannerView.m */,
-				999FAE011C8C26420083C6B0 /* CalendarDayButton.h */,
-				999FAE021C8C26420083C6B0 /* CalendarDayButton.m */,
-				9923080D1CA6A73A00BA6994 /* CalendarMenuView.h */,
-				9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */,
-				9909551E1C85E47800797FFF /* HelpView.h */,
-				9909551F1C85E47800797FFF /* HelpView.m */,
-				9911927B1CD3645800F12A5A /* LaunchView.h */,
-				9911927C1CD3645800F12A5A /* LaunchView.m */,
-				992308101CA6A76600BA6994 /* LegendView.h */,
-				992308111CA6A76600BA6994 /* LegendView.m */,
 				999FAE251C8C4A200083C6B0 /* MessageCell.h */,
 				999FAE261C8C4A200083C6B0 /* MessageCell.m */,
-				998DE7DA1C89C42C00C3AA81 /* PackView.h */,
-				998DE7DB1C89C42C00C3AA81 /* PackView.m */,
-				990F88711C984809000C500E /* PillButton.h */,
-				990F88721C984809000C500E /* PillButton.m */,
 				993D5A1F1C90649E004A42CE /* SettingCell.h */,
 				993D5A201C90649E004A42CE /* SettingCell.m */,
-				996004C91C95B1DE001EFD89 /* StartView.h */,
-				996004CA1C95B1DE001EFD89 /* StartView.m */,
+				99C3A0331D0BE9EE00929F63 /* SettingOpenNotifyCell.h */,
+				99C3A0341D0BE9EE00929F63 /* SettingOpenNotifyCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -368,6 +393,8 @@
 			children = (
 				992168191CF2FA4400471B16 /* NSExtension.h */,
 				9921681A1CF2FA4400471B16 /* NSExtension.m */,
+				99FEA7361D09A4A1004F9FA5 /* UIView+Animations.h */,
+				99FEA7371D09A4A1004F9FA5 /* UIView+Animations.m */,
 				9921681B1CF2FA4400471B16 /* UIExtension.h */,
 				9921681C1CF2FA4400471B16 /* UIExtension.m */,
 			);
@@ -473,15 +500,6 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
-		99986ACE1CF2FF1C00F398F9 /* Message */ = {
-			isa = PBXGroup;
-			children = (
-				996004C31C954C2D001EFD89 /* MessageViewDelegate.h */,
-				996004C41C954C2D001EFD89 /* MessageViewDelegate.m */,
-			);
-			name = Message;
-			sourceTree = "<group>";
-		};
 		999FADF61C8C0C0C0083C6B0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,19 +521,8 @@
 				992B57901C9EE4C000C96C55 /* FMDB */,
 				993D5A221C9069EA004A42CE /* UMOnlineConfig */,
 				999FAE2A1C8C57450083C6B0 /* Admob */,
-				999FAE1D1C8C32FE0083C6B0 /* UMAnalytics */,
 			);
 			name = Others;
-			sourceTree = "<group>";
-		};
-		999FAE1D1C8C32FE0083C6B0 /* UMAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				999FAE1E1C8C33130083C6B0 /* libMobClickLibrary.a */,
-				999FAE1F1C8C33130083C6B0 /* MobClick.h */,
-				999FAE201C8C33130083C6B0 /* MobClickSocialAnalytics.h */,
-			);
-			name = UMAnalytics;
 			sourceTree = "<group>";
 		};
 		999FAE2A1C8C57450083C6B0 /* Admob */ = {
@@ -541,6 +548,47 @@
 			name = Util;
 			sourceTree = "<group>";
 		};
+		99F4B0F51D0AE68A00335BA8 /* Pack */ = {
+			isa = PBXGroup;
+			children = (
+				998DE7DA1C89C42C00C3AA81 /* PackView.h */,
+				998DE7DB1C89C42C00C3AA81 /* PackView.m */,
+				990F88711C984809000C500E /* PillButton.h */,
+				990F88721C984809000C500E /* PillButton.m */,
+			);
+			name = Pack;
+			sourceTree = "<group>";
+		};
+		99F4B0F61D0AE69E00335BA8 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				99F4D2D31D07104D0031F9B4 /* FeedBackView.h */,
+				99F4D2D41D07104D0031F9B4 /* FeedBackView.m */,
+				9909551E1C85E47800797FFF /* HelpView.h */,
+				9909551F1C85E47800797FFF /* HelpView.m */,
+				9911927B1CD3645800F12A5A /* LaunchView.h */,
+				9911927C1CD3645800F12A5A /* LaunchView.m */,
+				998045711D03D37F008FE40E /* SnoozeView.h */,
+				998045721D03D37F008FE40E /* SnoozeView.m */,
+				996004C91C95B1DE001EFD89 /* StartView.h */,
+				996004CA1C95B1DE001EFD89 /* StartView.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		99F4B0F71D0AE6B600335BA8 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				999FAE011C8C26420083C6B0 /* CalendarDayButton.h */,
+				999FAE021C8C26420083C6B0 /* CalendarDayButton.m */,
+				9923080D1CA6A73A00BA6994 /* CalendarMenuView.h */,
+				9923080E1CA6A73A00BA6994 /* CalendarMenuView.m */,
+				992308101CA6A76600BA6994 /* LegendView.h */,
+				992308111CA6A76600BA6994 /* LegendView.m */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
 		99F5643B1C9E6D6A005806A8 /* sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,9 +609,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 990955081C85D5C300797FFF /* Build configuration list for PBXNativeTarget "Reminder" */;
 			buildPhases = (
+				6A52041AB93D2CEED1A93315 /* Check Pods Manifest.lock */,
 				990954EA1C85D5C300797FFF /* Sources */,
 				990954EB1C85D5C300797FFF /* Frameworks */,
 				990954EC1C85D5C300797FFF /* Resources */,
+				4A81FC076F4E0C35DE1E87DF /* Embed Pods Frameworks */,
+				2631D7A091D5AF6CCDB5BD41 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -635,6 +686,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2631D7A091D5AF6CCDB5BD41 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A81FC076F4E0C35DE1E87DF /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6A52041AB93D2CEED1A93315 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		990954EA1C85D5C300797FFF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -672,20 +771,24 @@
 				992B57A01C9EE4CC00C96C55 /* FMResultSet.m in Sources */,
 				99A630381CF589A8001B03C9 /* Record.m in Sources */,
 				99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */,
+				99FEA7381D09A4A1004F9FA5 /* UIView+Animations.m in Sources */,
+				99F4B0F41D0AD30100335BA8 /* ActionManager.m in Sources */,
 				9911927D1CD3645800F12A5A /* LaunchView.m in Sources */,
 				9921681E1CF2FA4400471B16 /* NSExtension.m in Sources */,
 				990955101C85D76F00797FFF /* AppManager.m in Sources */,
 				99A630321CF58985001B03C9 /* RecordData.m in Sources */,
 				9921681F1CF2FA4400471B16 /* UIExtension.m in Sources */,
-				996004C51C954C2D001EFD89 /* MessageViewDelegate.m in Sources */,
 				991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */,
 				99C749E81C91AB8B0054829C /* ScheduleManager.m in Sources */,
 				999FADF21C8BE1AE0083C6B0 /* ReminderManager.m in Sources */,
 				993D5A211C90649E004A42CE /* SettingCell.m in Sources */,
 				99D90FCB1C886B5300B1617D /* SettingViewController.m in Sources */,
+				99C3A0351D0BE9EE00929F63 /* SettingOpenNotifyCell.m in Sources */,
 				999FAE271C8C4A200083C6B0 /* MessageCell.m in Sources */,
+				99F4D2D51D07104D0031F9B4 /* FeedBackView.m in Sources */,
 				992B579F1C9EE4CC00C96C55 /* FMDatabaseQueue.m in Sources */,
 				992308121CA6A76600BA6994 /* LegendView.m in Sources */,
+				998045731D03D37F008FE40E /* SnoozeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,6 +918,7 @@
 		};
 		990955091C85D5C300797FFF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B407CAD648452BB11BE8333 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -835,13 +939,15 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
+				PROVISIONING_PROFILE = "8aac68e2-0a86-4d29-a805-6228e0a7f93f";
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Debug;
 		};
 		9909550A1C85D5C300797FFF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBD17C54839DF46E2C69DA73 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -862,8 +968,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
+				PROVISIONING_PROFILE = "8aac68e2-0a86-4d29-a805-6228e0a7f93f";
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Release;
 		};

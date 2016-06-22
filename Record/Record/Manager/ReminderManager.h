@@ -8,7 +8,49 @@
 
 #import <Foundation/Foundation.h>
 
+
+
+// 激活提醒4个
+static NSInteger NotificationNumActive = 4;
+ 
+// 每天都吃药时，只需一个本地通知；非每天吃药时的通知为
+static NSInteger NotificationNumSpecific = 48;
+ 
+
+// 余下一个为Snooze通知
+
+
 @interface ReminderManager : NSObject
+
+@property(nonatomic, readonly) NSArray *soundArray;
+
++ (ReminderManager *)getInstance;
+
+
++ (void)resetNotify;
++ (void)checkReminder;
+
+
++ (void)checkNotifications;
+
+#pragma mark - Authority
+/**
+ *  通知权限相关
+ */
+
++ (BOOL)hasAuthority;
+
+
++ (void)setDidRegisterUserNotificationSettings;
+
++ (BOOL)didRegisterUserNotificationSettings;
+
+#pragma mark - Business
+/**
+ *  业务相关
+ *
+ *
+ */
 
 + (void)setShouldRmind:(BOOL)should;
 + (BOOL)shouldRmind;
@@ -27,14 +69,23 @@
 + (NSString *)notificationSound;
 
 
-+ (void)resetNotify;
 
-+ (ReminderManager *)getInstance;
+#pragma mark - Snooze
 
-+ (void)test;
++ (BOOL)canSnooze;
 
 
-@property(nonatomic, readonly) NSArray *soundArray;
++ (UILocalNotification *)snoozeNotification;
++ (void)cancelSnoozeNotification;
+
+
+
+
++ (void)snoozeInInterval:(NSTimeInterval)interval;
+
+
+
+
 
 
 @end

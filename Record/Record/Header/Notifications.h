@@ -23,3 +23,12 @@ static NSString *TodayPackSettedNotification = @"TodayPackSettedNotification";
 
 
 static NSString *LanguageChangedNotification = @"LanguageChangedNotification";
+
+
+
+
+
+static NSString *DidRegisterUserNotificationSettingsNotification = @"DidRegisterUserNotificationSettingsNotification";
+
+
+static NSString *CheckSnoozeNotification = @"CheckSnoozeNotification";

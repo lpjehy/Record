@@ -21,12 +21,16 @@
     BOOL showingToday;
 }
 
+@property(nonatomic, strong) UIImage *takenImage;
+
 @end
 
 @implementation PillButton
 
 @synthesize isBreakDay, isTaken, isToday;
 @synthesize day;
+
+@synthesize takenImage;
 
 - (id)init {
     self = [super init];
@@ -49,7 +53,10 @@
         dayLabel.font = FontSmall;
         [self addSubview:dayLabel];
         
-        [NotificationCenter addObserver:self selector:@selector(pillStateChanged:) name:PillStateChangedNotification object:nil];
+        [NotificationCenter addObserver:self
+                               selector:@selector(pillStateChanged:)
+                                   name:PillStateChangedNotification
+                                 object:nil];
     }
     
     return self;
@@ -208,8 +215,12 @@
         } else {
             dayLabel.textColor = [UIColor whiteColor];
             
-            NSString *imagename = [NSString stringWithFormat:@"Pill_Taken_%zi.png", arc4random() % 4 + 1];
-            pillImageView.image = [UIImage imageNamed:imagename];
+            if (takenImage == nil) {
+                NSString *imagename = [NSString stringWithFormat:@"Pill_Taken_%zi.png", arc4random() % 4 + 1];
+                self.takenImage = [UIImage imageNamed:imagename];
+            }
+            
+            pillImageView.image = takenImage;
             self.enabled = YES;
         }
         
