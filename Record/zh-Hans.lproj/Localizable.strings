@@ -42,7 +42,7 @@
 "Setting_Item_StartDay"="开始服用的日期";
 "Setting_Item_Auth_Guide_Alert"="请允许通知提醒！";
 "Setting_Item_RemindTakePill"="提醒我吃药";
-"Setting_Item_RmindTakePlaceboPill"="提醒我吃安慰丸";
+"Setting_Item_RemindTakePlaceboPill"="提醒我吃安慰丸";
 "Setting_Item_NotifyAlertBody"="提醒消息內容";
 "Setting_Item_NotifyTime"="提醒时间";
 "Setting_Item_NotifySound"="提醒铃声";

@@ -74,10 +74,12 @@ static NSString *Setting_Item_BreakDays = @"Setting_Item_BeakDays";
 static NSString *Setting_Item_TakePlaceboPills = @"Setting_Item_TakePlaceboPills";
 static NSString *Setting_Item_StartDay = @"Setting_Item_StartDay";
 
+static NSString *Setting_Item_Repill = @"Setting_Item_Repill";
+
 static NSString *Setting_Item_Auth_Guide_Alert = @"Setting_Item_Auth_Guide_Alert";
 
 static NSString *Setting_Item_RemindTakePill = @"Setting_Item_RemindTakePill";
-static NSString *Setting_Item_RemindTakePlaceboPill = @"Setting_Item_RmindTakePlaceboPill";
+static NSString *Setting_Item_RemindTakePlaceboPill = @"Setting_Item_RemindTakePlaceboPill";
 static NSString *Setting_Item_NotifyAlertBody = @"Setting_Item_NotifyAlertBody";
 static NSString *Setting_Item_NotifyTime = @"Setting_Item_NotifyTime";
 static NSString *Setting_Item_NotifySound = @"Setting_Item_NotifySound";
@@ -307,7 +309,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     [moduleArray addObject:@"setting_module_reminders"];
     [moduleDic setValue:array forKey:@"setting_module_reminders"];
     
-    
+    /*
     array = [NSMutableArray array];
     
     item = [[SettingItem alloc] init];
@@ -323,7 +325,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     
     [moduleArray addObject:@"setting_module_others"];
     [moduleDic setValue:array forKey:@"setting_module_others"];
-    /**/
+    */
     
     [mainTableView reloadData];
 }

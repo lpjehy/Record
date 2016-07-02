@@ -45,7 +45,7 @@
 
 
 "Setting_Item_RemindTakePill"="提醒我吃藥";
-"Setting_Item_RmindTakePlaceboPill"="提醒我吃安慰丸";
+"Setting_Item_RemindTakePlaceboPill"="提醒我吃安慰丸";
 "Setting_Item_NotifyAlertBody"="提醒簡訊內容";
 "Setting_Item_NotifyTime"="提醒時間";
 "Setting_Item_NotifySound"="提醒鈴聲";

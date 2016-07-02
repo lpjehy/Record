@@ -59,12 +59,12 @@
 
 "Setting_Item_TakePlaceboPills"="Eu tomo placebo pílula";
 
-"Setting_Item_StartDay"="Começar a tomar atual pacote em";
+"Setting_Item_StartDay"="Comece a tomar o pacote atual no";
 
 "Setting_Item_Auth_Guide_Alert"="Permita a notificação !";
 "Setting_Item_RemindTakePill"="Lembre-me de tomar pílula";
 
-"Setting_Item_RmindTakePlaceboPill"="Também me lembram quando toma placebo pílula";
+"Setting_Item_RemindTakePlaceboPill"="Também me lembram quando toma placebo pílula";
 
 "Setting_Item_NotifyAlertBody"="Texto de notificação";
 
