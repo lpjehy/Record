@@ -45,7 +45,7 @@ static NSInteger MaxBreakDays = 98;
 
 #pragma mark - base info
 
-+ (NSInteger)allDays;
+- (void)resetDate;
 
 - (NSString *)todayInfo;
 
@@ -53,11 +53,10 @@ static NSInteger MaxBreakDays = 98;
 
 - (BOOL)isBreakDay:(NSDateComponents *)day;
 
-#pragma mark - set
+#pragma mark - Config
 
-+ (void)setIsEveryday:(BOOL)everyday;
++ (void)setEveryday:(BOOL)everyday;
 + (BOOL)isEveryday;
-
 
 + (void)setTakePlaceboPills:(BOOL)take;
 + (BOOL)takePlaceboPills;
@@ -70,7 +69,7 @@ static NSInteger MaxBreakDays = 98;
 + (NSInteger)breakDays;
 + (NSDate *)startDate;
 
-
++ (NSInteger)allDays;
 
 
 @end

@@ -33,6 +33,8 @@
 #import "ScheduleManager.h"
 #import "ReminderManager.h"
 
+#import "NotifyManager.h"
+
 
 #import "OnlineConfigUtil.h"
 
@@ -104,52 +106,9 @@ static NSInteger ScrollViewTagPack = 1;
 - (id)init {
     self = [super init];
     if (self) {
-        [NotificationCenter addObserver:self
-                               selector:@selector(calendarMonthChanged:)
-                                   name:CalendarMonthChangedNotification
-                                 object:nil];
         
         
-        [NotificationCenter addObserver:self
-                               selector:@selector(settingChanged)
-                                   name:SettingChangedNotification
-                                 object:nil];
-        
-        [NotificationCenter addObserver:self
-                               selector:@selector(todayPackSetted:)
-                                   name:TodayPackSettedNotification
-                                 object:nil];
-        
-        [NotificationCenter addObserver:self
-                               selector:@selector(checkSetting)
-                                   name:DidRegisterUserNotificationSettingsNotification
-                                 object:nil];
-        
-        [NotificationCenter addObserver:self
-                               selector:@selector(checkSnooze)
-                                   name:CheckSnoozeNotification
-                                 object:nil];
-        
-        
-        [NotificationCenter addObserver:self
-                               selector:@selector(pillStateChanged:)
-                                   name:PillStateChangedNotification
-                                 object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-         	                                         selector:@selector(currentLocaleDidChange)
-         	                                             name:NSCurrentLocaleDidChangeNotification
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive)
-                                                     name:UIApplicationDidBecomeActiveNotification
-                                                   object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationWillResignActive)
-                                                     name:UIApplicationWillResignActiveNotification
-                                                   object:nil];
+        [self addObserver];
     }
     
     return self;
@@ -160,6 +119,56 @@ static NSInteger ScrollViewTagPack = 1;
 }
 
 #pragma mark - Notifications
+
+- (void)addObserver {
+    [NotificationCenter addObserver:self
+                           selector:@selector(calendarMonthChanged:)
+                               name:CalendarMonthChangedNotification
+                             object:nil];
+    
+    
+    [NotificationCenter addObserver:self
+                           selector:@selector(settingChanged)
+                               name:SettingChangedNotification
+                             object:nil];
+    
+    [NotificationCenter addObserver:self
+                           selector:@selector(todayPackSetted:)
+                               name:TodayPackSettedNotification
+                             object:nil];
+    
+    [NotificationCenter addObserver:self
+                           selector:@selector(checkSetting)
+                               name:DidRegisterUserNotificationSettingsNotification
+                             object:nil];
+    
+    [NotificationCenter addObserver:self
+                           selector:@selector(checkSnooze)
+                               name:CheckSnoozeNotification
+                             object:nil];
+    
+    
+    [NotificationCenter addObserver:self
+                           selector:@selector(pillStateChanged:)
+                               name:PillStateChangedNotification
+                             object:nil];
+    
+        
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(currentLocaleDidChange)
+                                                 name:NSCurrentLocaleDidChangeNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+}
 
 #pragma apllication
 
@@ -265,6 +274,8 @@ static NSInteger ScrollViewTagPack = 1;
         
         if ([time isEqualToString:[ScheduleManager getInstance].today.theDay]) {
             [[SnoozeView getInstance] cancel];
+            
+            [NotifyManager resetRemindNotify];
         } else {
             
         }
@@ -279,12 +290,13 @@ static NSInteger ScrollViewTagPack = 1;
                 [[SnoozeView getInstance] cancel];
             }
             
-            [ReminderManager resetNotify];
+            [NotifyManager resetRemindNotify];
         } else {
             
         }
-        
     }
+    
+    
     
     [[MessageManager getInstance] reloadData];
     
@@ -440,7 +452,7 @@ static NSInteger ScrollViewTagPack = 1;
         return;
     }
     
-    if ([ReminderManager hasAuthority]) {
+    if ([NotifyManager hasAuthority]) {
         
         settingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         settingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -530,7 +542,7 @@ static NSInteger ScrollViewTagPack = 1;
         //设置主标题
         NSDateComponents *today = [ScheduleManager getInstance].today;
         
-        NSString *title = [NSString stringWithFormat:@"%@ %zi%@", [NSDateComponents descriptionOfMonth:today.month], today.day, LocalizedString(@"pack_title_day")];
+        NSString *title = [NSString stringWithFormat:@"%@ %zi%@", [NSDateComponents descriptionOfMonth:today.month], today.day, LocalizedString(@"pack_title_unit_day")];
         if ([LanguageManager isZH_Han]) {
             title = [title stringByReplacingOccurrencesOfString:@" " withString:@""];
         }
@@ -563,7 +575,6 @@ static NSInteger ScrollViewTagPack = 1;
                 static  NSInteger showTime = 0;
                 if (showTime == 0) {
                     showTime++;
-                    NSLog(@"starttime");
                     [[SnoozeView getInstance] performSelector:@selector(showInView:) withObject:baseScrollView afterDelay:1.5];
                 }
                 
@@ -964,7 +975,6 @@ static NSInteger ScrollViewTagPack = 1;
         [self performSelector:@selector(checkSetting) withObject:nil afterDelay:1];
     }
     
-   
 }
 
 

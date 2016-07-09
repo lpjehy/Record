@@ -26,12 +26,13 @@ static NSString *auditionID = @"auditionID";
 
 @synthesize playerPaused;
 
+@synthesize soundArray;
+
 - (id)init
 {
     self = [super init];
-    
     if (self) {
-        
+        soundArray = @[SoundNameMute, SoundNameDefault, @"Chewing", @"Drums", @"Cat", @"Coin", @"Yoho"];
     }
     
     return self;

@@ -5,101 +5,135 @@
  Created by Jehy Fan on 16/3/20.
  Copyright © 2016年 Jehy Fan. All rights reserved.
  */
-
-
-
-
-"navigation_title_setting"="Configuração";
-
-"navigation_title_sounds"="Ringtone";
-
-"navigation_title_languages"="língua";
-
-"button_title_help"="GUIA";
-
-"button_title_setting"="CONFIGURAÇÃO";
-
-"button_title_legend"="Lenda";
-
-"button_title_today"="Hoje";
-
-"button_title_back"="De volta";
-
-"button_title_close"="Fechar";
-
+/**
+ * 通用按钮标题
+ */
 "button_title_cancel"="Não";
-
-"button_title_confirm"="Confirmar";
-
 "button_title_yes"="OK";
-
-"button_title_save"="Salvar";
-
-"button_title_view"="Visão";
-
 "button_title_done"="OK";
-
+/**
+ * 导航栏标题
+ */
+"navigation_title_setting"="Configuração";
+"navigation_title_sounds"="Ringtone";
+"navigation_title_languages"="língua";
+/**
+ *  启动画面
+ */
+"start_hi"="Olá";
+"start_subtitle"="Avery lembrete ajuda você nunca perca sua pílula";
+"start_tap"="Toque no botão para definir a sua Pílula anticoncepcional";
+/**
+ * 主要按钮标题
+ */
+"button_title_help"="GUIA";
+"button_title_setting"="CONFIGURAÇÃO";
+/**
+ *  主业务相关
+ */
+// 按钮标题
 "button_title_take"="Tomar";
-
 "button_title_untake"="Remover";
-
+/**
+ * 药板相关业务
+ */
 "pack_sub_title_take_everyday"="Tome todos os dias";
-
+// 只有中文需要
+"pack_title_unit_day"="";
+"pack_subtitle_pilldays"="Hoje é dia de dia %zi de %zi dias";
+"pack_subtitle_breakdays"="Hoje é dia de dia %zi de %zi dias - Dias de quebrar";
+"pack_subtitle_placebodays"="Hoje é dia de dia %zi de %zi dias - Dias de placebo pílula";
+// 药板页按钮
+"pack_button_current_pack"="Pacote atual";
+// 药板标题
+"pack_in_future"="Pacote futuro";
+"pack_in_previous"="Pacote anterior";
+/**
+ *  操作提示文案
+ */
+"alert_message_nohurry"="Isto é uma questão futura,não há necessidade de toma-lo agora";
+/**
+ * 日历相关业务
+ */
+// 按钮标题
+"button_title_legend"="Lenda";
+"button_title_today"="Hoje";
+// 日历说明
+"legend_taked"="tomado";
+"legend_untaken"="un-tomadas";
+"legend_placebo"="placebo pílula";
+"legend_untaken_placebo"="un-tomadas placebo pílula";
+/**
+ *  消息流
+ */
+"message_missed"="pílula esquecida";
+/**
+ * 设置相关文案
+ */
+// 主模块
 "setting_module_schedule"="Cronograma";
-
-"setting_module_reminders"="Lembretes";
-
+"setting_module_refill"="Recarga de pílula";
+"setting_module_reminders"="Lembrete";
 "setting_module_others"="Outras";
-
-"Setting_Item_TakeEveryday"="Tome todos os dias";
-
-"Setting_Item_PillDays"="Dias de uso da pílula";
-
-"Setting_Item_BeakDays"="Dias de quebrar";
-
-"Setting_Item_TakePlaceboPills"="Eu tomo placebo pílula";
-
-"Setting_Item_StartDay"="Comece a tomar o pacote atual no";
-
+// 计划
+"Setting_Item_Take_Everyday"="Tome todos os dias";
+"Setting_Item_Pill_Days"="Dias de uso da pílula";
+"Setting_Item_Break_Days"="Dias de quebrar";
+"Setting_Item_Take_Placebo_Pills"="Eu tomo placebo pílula";
+"Setting_Item_Start_Day"="Comece a tomar o pacote atual no";
+// Refill
+"Setting_Item_Refill_Switch"="Lembrete de recarga de pílula";
+"Setting_Item_Refill_Left_Pill_Num"="Pílula restantes";
+"Setting_Item_Refill_Notify_Pill_Num"="Lembrete";
+"Setting_Item_Refill_Notify_Time"="Tempo";
+"Setting_Item_Refill_Notify_Sound"="Ringtone";
+// 权限获取
 "Setting_Item_Auth_Guide_Alert"="Permita a notificação !";
-
-
-
-
-
-"Setting_Item_RemindTakePill"="Lembre-me de tomar pílula";
-
-"Setting_Item_RemindTakePlaceboPill"="Também me lembram quando toma placebo pílula";
-
-"Setting_Item_NotifyAlertBody"="Texto de notificação";
-
-"Setting_Item_NotifyTime"="Tempo";
-
-"Setting_Item_NotifySound"="Ringtone";
-
-"Setting_Item_Language"="Língua";
-
-
-
 "Setting_Item_Auth_Guide_Subtitle"="Para ter certeza de obter lembrete de tomar pílulas, por favor, faça o seguinte:";
 "Setting_Item_Auth_Guide_Step1_Open"="1 - Abra ";
 "Setting_Item_Auth_Guide_Step1_Setting"="ajustes Avery no iPhone";
 "Setting_Item_Auth_Guide_Step2_Choose"="2 - Selecione ";
 "Setting_Item_Auth_Guide_Step2_Notification"="Notificações";
 "Setting_Item_Auth_Guide_Step3"="3 - Ative todas as definições";
-
+// 提醒
+"Setting_Item_Remind_Take_Pill"="Lembre-me de tomar pílula";
+"Setting_Item_Remind_Take_Placebo_Pill"="Também me lembram quando toma placebo pílula";
+"Setting_Item_Notify_Alert_Body"="Texto de notificação";
+"Setting_Item_Notify_Time"="Tempo";
+"Setting_Item_Notify_Repeat"="Repita a cada hora até que a pílula tomada";
+"Setting_Item_Notify_Sound"="Ringtone";
+// 语言
+"Setting_Item_Language"="Língua";
+/**
+ *  计划确认
+ */
+"message_day_confirm_setting_bearkday"="Use %zi + %zi(Dias de quebrar) como o seu plano?";
+"message_day_confirm_setting_bearkdays"="Use %zi + %zi(Dias de quebrar) como o seu plano?";
+"message_day_confirm_setting_placebopill"="Use %zi + %zi(Dias de placebo pílula) como o seu plano?";
+"message_day_confirm_setting_placebopills"="Use %zi + %zi(Dias de placebo pílula) como o seu plano?";
+"alert_message_takepilleveryday"="Tome todos os dias?";
+"unit_day"="Dias";
+/**
+ *  refill
+ */
+"refill_pill_left"="1 pílula restante";
+"refill_pills_left"="%zi pílula restantes";
+"refill_pills_before"="Antes de zi% pílula";
+"refill_alert_title"="Você preencher os seus comprimidos?";
 /**
  *  权限提醒
  */
 "auth_alert_title"="Você não permitir a notificação";
-"auth_alert_message"="Avery não pode lembrá-lo tomar pílula \n:( ";
-"auth_alert_notallow"="OK";
+"auth_alert_message"="Avery não pode lembrá-lo tomar pílula :(";
+"auth_alert_notallow"="Não";
 "auth_alert_allow"="Consertá-lo";
-
-
+/**
+ * 提醒相关
+ */
+// 提醒吃药默认文案
 "reminder_default_alertbody"="Tempo para tomar pílula anticoncepcional";
-
-
+// 提醒激活应用，以重置相关通知
+"Notification_AlertBody_Active_App"="Você tomar os comprimidos no tempo? ";
 /**
  *  Snooez
  */
@@ -107,122 +141,44 @@
 "snoooze_action_title"="Adiar por";
 "snoooze_time_minutes"="minutos";
 "snoooze_time_hour"="hora";
-
-
+/**
+ *  帮助文案
+ */
 "help_take_pill"="Toque uma pílula quando você toma um, toque novamente para removê-lo";
-
 "help_check_pack"="Deslize para a tela para verificar os pacotes de pílulas de futuros";
-
 "help_edit_date"="Toque em uma data para editar";
-
 "help_switch_month"="Deslize para cima e para baixo para mudar mês";
-
-"legend_taked"="tomado";
-
-"legend_untaken"="un-tomadas";
-
-"legend_placebo"="placebo pílula";
-
-"legend_untaken_placebo"="un-tomadas placebo pílula";
-
-"day"="Dias";
-
+/**
+ *  日期相关
+ */
 "weekday_mon"="SEG";
-
 "weekday_tue"="TER";
-
 "weekday_wed"="QUA";
-
 "weekday_thr"="QUI";
-
 "weekday_fri"="SEX";
-
 "weekday_sat"="SAB";
-
 "weekday_sun"="DOM";
-
-"date_unit_year"="Ano";
-
-"date_unit_month"="Mês";
-
-"date_unit_day"="Dia";
-
-"date_unit_hour"="Hora";
-
-"date_unit_minute"="Minuto";
-
 "month_january"="JAN";
-
 "month_february"="FEV";
-
 "month_march"="MAR";
-
 "month_april"="ABR";
-
 "month_may"="MAI";
-
 "month_june"="JUN";
-
 "month_july"="JUL";
-
 "month_august"="AUG";
-
 "month_september"="SET";
-
 "month_october"="OUT";
-
 "month_november"="NOV";
-
 "month_december"="DEZ";
-
-"pack_title_day"="";
-
-"pack_subtitle_pilldays"="Hoje é dia de dia %zi de %zi dias";
-"pack_subtitle_breakdays"="Hoje é dia de dia %zi de %zi dias - Dias de quebrar";
-"pack_subtitle_placebodays"="Hoje é dia de dia %zi de %zi dias - Dias de placebo pílula";
-
-"pack_button_current_pack"="Pacote atual";
-
-"pack_current_pack"="Pacote atual";
-
-"pack_not_current_pack"="Não é pacote atual";
-
-"pack_in_future"="Pacote futuro";
-"pack_in_previous"="Pacote anterior";
-
-
-"message_missed"="Esquecer de tomar";
-
-
-
-"message_day_confirm_setting"="Use %zi pílulas + %zi placebo pílulas como o seu plano?";
-
-
-"business_breakdays"="quebrar";
-
-"business_placebo_pilldays"="placebo pílula";
-
-"alert_message_nohurry"="Isto é uma questão futura,não há necessidade de toma-lo agora";
-
-"alert_message_takepilleveryday"="Tome todos os dias?";
-
-
-
-"start_hi"="Olá";
-
-"start_subtitle"="Avery lembrete ajuda você nunca perca sua pílula";
-
-"start_tap"="Toque no botão para definir a sua Pílula anticoncepcional";
-
+/**
+ *  时间
+ */
 "time_am"="AM";
-
 "time_pm"="PM";
-
-
 /**
  *  反馈
  */
-
 "feedback_enjoy"="Você gosta de Avery Lembrete?";
 "feedback_feedbacks"="Você pode me dar alguns conselhos?";
-"feedback_rate"="Escreva um comentário para nós";
+"feedback_rate"="Indique esse programa para o mercado?";
+

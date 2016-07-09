@@ -21,6 +21,8 @@
 + (void)record:(NSDate *)date;
 
 + (NSString *)selectRecord:(NSDate *)date;
++ (NSArray *)selectRecordFromDate:(NSDate *)startDate toDate:(NSDate *)endDate;
+
 + (void)deleteRecord:(NSDate *)date;
 
 @end

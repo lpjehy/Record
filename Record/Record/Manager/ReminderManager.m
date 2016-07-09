@@ -11,6 +11,8 @@
 #import "AudioManager.h"
 #import "RecordData.h"
 
+#import "NotifyManager.h"
+
 
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
@@ -19,21 +21,19 @@ static NSString *ShouldRemindKey = @"ShouldRemind";
 static NSString *RemindInSafeDaysKey = @"RemindInSafeDays";
 static NSString *NotificationAlertBodyKey = @"NotificationAlertBody";
 static NSString *NotificationTimeKey = @"NotificationTime";
+static NSString *RemindRepeatKey = @"RemindRepeatKey";
 static NSString *NotificationSoundKey = @"NotificationSound";
 
 
 
-static NSString *DidRegisterUserNotificationSettingsKey = @"DidRegisterUserNotificationSettings";
 
 
 
-static NSString *LocalNotificationUserinfoTypeKey = @"LocalNotificationUserinfoKeyType";
-static NSString *LocalNotificationTypeActive = @"LocalNotificationTypeActive";
-static NSString *LocalNotificationTypeTakePill = @"LocalNotificationTypeTakePill";
-static NSString *LocalNotificationTypeTakePillSpecial = @"LocalNotificationTypeTakePillSpecial";
-static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
+
 
 #define DefaultAlertBody LocalizedString(@"reminder_default_alertbody");
+
+static NSString *DefaulNotifyTime = @"22:00";
 
 @interface ReminderManager () <UIAlertViewDelegate> {
     
@@ -46,7 +46,7 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
 
 @implementation ReminderManager
 
-@synthesize soundArray;
+
 
 
 
@@ -62,7 +62,7 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
 - (id)init {
     self = [super init];
     if (self) {
-        soundArray = @[SoundNameDefault, @"Chewing", @"Drums", @"Cat", @"Coin", @"Yoho"];
+        
     }
     
     return self;
@@ -70,217 +70,8 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
 
 
 
-#pragma mark - Set Notifications
 
-
-+ (void)checkReminder {
-    if ([AppManager hasFirstSetDone]) {
-        // 用户已经确认过本地通知权限
-        
-        if ([ReminderManager hasAuthority]) {
-            // 如果有权限
-            
-            [ReminderManager resetNotify];
-            
-            
-        }
-    }
-}
-
-+ (void)clearNotifications {
-    for (UILocalNotification *notification in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
-        NSDictionary *userinfo = notification.userInfo;
-        NSString *type = [userinfo validObjectForKey:LocalNotificationUserinfoTypeKey];
-        if (type == nil || ![type isEqualToString:LocalNotificationTypeSnooze]) {
-            [[UIApplication sharedApplication] cancelLocalNotification:notification];
-        }
-    }
-}
-
-+ (void)resetNotify {
-    
-    if (![ReminderManager hasAuthority]) {
-        return;
-    }
-    
-    [ReminderManager clearNotifications];
-    
-    BOOL remind = [[self class] shouldRmind];
-    if (remind) {
-        BOOL remindEveryDay = [ScheduleManager isEveryday];
-        BOOL takePlacebo = [ScheduleManager takePlaceboPills];
-        BOOL reminderForPlaceBoPill = [ReminderManager remindInSafeDays];
-        if (remindEveryDay || (takePlacebo && reminderForPlaceBoPill)) {
-            
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            localNotification.timeZone = [NSTimeZone defaultTimeZone];
-            localNotification.repeatInterval = NSCalendarUnitDay;
-            
-            
-            NSDate *notifyDate = [[self class] notificationTime];
-            if ([RecordData selectRecord:[NSDate date]]) {
-                //如果今天已服用，则第二天开始通知
-                notifyDate = [notifyDate dateByAddingTimeInterval:TimeIntervalDay];
-            }
-            
-            localNotification.fireDate = notifyDate;
-            
-            localNotification.alertBody = [[self class] notificationAlertBody];
-            localNotification.applicationIconBadgeNumber = 1;
-            //设置通知动作按钮的标题
-            localNotification.alertAction = LocalizedString(@"button_title_view");
-            //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-            NSString *soundName = [[self class] notificationSound];
-            if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
-                soundName = [soundName stringByAppendingString:@".mp3"];
-            }
-            localNotification.soundName = soundName;
-            
-            //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-            localNotification.userInfo = @{LocalNotificationUserinfoTypeKey:LocalNotificationTypeTakePill};
-            //在规定的日期触发通知
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-        } else {
-            [[[self class] getInstance] performSelectorInBackground:@selector(resetSpecialNotify) withObject:nil];
-        }
-    }
-    
-    [[[self class] getInstance] resetActiveNotify];
-}
-
-- (void)resetSpecialNotify {
-    
-    NSDate *beginDate = [[self class] notificationTime];
-    NSInteger beginDay = [ScheduleManager getInstance].currentDayFromStartDay;
-    if (beginDate.isEarlier || [RecordData selectRecord:[NSDate date]]) {
-        beginDay++;
-        beginDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay];
-    }
-    
-    for (int i = 0; 1; i++) {
-        
-        NSInteger theday = beginDay + i;
-        NSInteger remainder = theday % [ScheduleManager allDays];
-        if (remainder < [ScheduleManager pillDays]) {
-            
-            //属于用药期内
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            localNotification.timeZone = [NSTimeZone defaultTimeZone];
-            localNotification.repeatInterval = NSCalendarUnitDay;
-            NSDate *fireDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay * i];
-            localNotification.fireDate = fireDate;
-            if ([UIApplication sharedApplication].scheduledLocalNotifications.count == 0) {
-                
-            }
-            
-            localNotification.alertBody = [[self class] notificationAlertBody];
-            localNotification.applicationIconBadgeNumber = 1;
-            //设置通知动作按钮的标题
-            localNotification.alertAction = LocalizedString(@"button_title_view");
-            //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-            NSString *soundName = [[self class] notificationSound];
-            if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
-                soundName = [soundName stringByAppendingString:@".mp3"];
-            }
-            localNotification.soundName = soundName;
-            
-            //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-            localNotification.userInfo = @{LocalNotificationUserinfoTypeKey:LocalNotificationTypeTakePillSpecial};
-            
-            //在规定的日期触发通知
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            
-            NSArray *array = [[UIApplication sharedApplication] scheduledLocalNotifications];
-            if (array.count >= NotificationNumSpecific) {
-                break;
-            }
-        }
-    }
-    
-    
-    
-}
-
-
-/*
- 每周一次通知，按月循环
- */
-- (void)resetActiveNotify {
-    
-    NSDate *beginDate = [[self class] notificationTime];
-    
-    for (int i = 1; i <= NotificationNumActive; i++) {
-        
-        //属于用药期内
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        localNotification.repeatInterval = kCFCalendarUnitMonth;
-        
-        NSDate *fireDate = [beginDate dateByAddingTimeInterval:TimeIntervalDay * 7 * i + 60 * 10];
-        localNotification.fireDate = fireDate;
-        
-        
-        localNotification.alertBody = LocalizedString(@"reminder_take_pill");
-        localNotification.applicationIconBadgeNumber = 1;
-        //设置通知动作按钮的标题
-        localNotification.alertAction = LocalizedString(@"button_title_view");
-        //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-        NSString *soundName = [[self class] notificationSound];
-        if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
-            soundName = [soundName stringByAppendingString:@".mp3"];
-        }
-        localNotification.soundName = soundName;
-        
-        //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-        localNotification.userInfo = @{LocalNotificationUserinfoTypeKey:LocalNotificationTypeActive};
-        //在规定的日期触发通知
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    }
-}
-
-+ (void)checkNotifications {
-    for (UILocalNotification *notification in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
-        NSDictionary *userinfo = notification.userInfo;
-        NSString *type = [userinfo validObjectForKey:LocalNotificationUserinfoTypeKey];
-        NSLog(@"%@ %@", type, notification.fireDate.description);
-        
-        
-    }
-}
-
-
-#pragma mark - Authority
-
-+ (void)setDidRegisterUserNotificationSettings {
-    [[NSUserDefaults standardUserDefaults] setInteger:YES forKey:DidRegisterUserNotificationSettingsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-}
-+ (BOOL)didRegisterUserNotificationSettings {
-    NSInteger did = [[NSUserDefaults standardUserDefaults] boolForKey:DidRegisterUserNotificationSettingsKey];
-    
-    
-    return did;
-}
-
-//
-
-/**
- *  获取本地推送权限状态
- *
- *  @return
- */
-+ (BOOL)hasAuthority {
-    if ([UIApplication instancesRespondToSelector:@selector(currentUserNotificationSettings)]
-        && [UIApplication sharedApplication].currentUserNotificationSettings.types == UIUserNotificationTypeNone) {
-        return NO;
-    }
-    
-    return YES;
-}
-
-
-#pragma mark - Business
+#pragma mark - Config
 /**
  *  业务相关
  *
@@ -291,30 +82,30 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
     [[NSUserDefaults standardUserDefaults] setInteger:should forKey:ShouldRemindKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [ReminderManager resetNotify];
+    [NotifyManager resetRemindNotify];
 }
-+ (BOOL)shouldRmind {
++ (BOOL)shouldRemind {
     NSInteger should = [[NSUserDefaults standardUserDefaults] boolForKey:ShouldRemindKey];
     
     
     return should;
 }
 
-+ (void)setRemindInSafeDays:(BOOL)remind {
++ (void)setRemindPlaceboPill:(BOOL)remind {
     [[NSUserDefaults standardUserDefaults] setInteger:remind forKey:RemindInSafeDaysKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     
-    [ReminderManager resetNotify];
+    [NotifyManager resetRemindNotify];
 }
-+ (BOOL)remindInSafeDays {
++ (BOOL)remindPlaceboPill {
     NSInteger remindInSafeDays = [[NSUserDefaults standardUserDefaults] boolForKey:RemindInSafeDaysKey];
     
     
     return remindInSafeDays;
 }
 
-+ (void)setNotificationAlertBody:(NSString *)alertBody {
++ (void)setNotifyAlertBody:(NSString *)alertBody {
     if (alertBody == nil || alertBody.length == 0) {
         alertBody = DefaultAlertBody;
     }
@@ -322,9 +113,10 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
     [[NSUserDefaults standardUserDefaults] setObject:alertBody forKey:NotificationAlertBodyKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [ReminderManager resetNotify];
+    [NotifyManager resetRemindNotify];
 }
-+ (NSString *)notificationAlertBody {
+
++ (NSString *)notifyAlertBody {
     NSString * alertBody = [[NSUserDefaults standardUserDefaults] valueForKey:NotificationAlertBodyKey];
     
     if (alertBody == nil) {
@@ -335,44 +127,64 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
 }
 
 
-+ (void)setNotificationTime:(NSString *)time {
++ (void)setNotifyTime:(NSString *)time {
     [[NSUserDefaults standardUserDefaults] setValue:time forKey:NotificationTimeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [ReminderManager resetNotify];
+    [NotifyManager resetRemindNotify];
+    
+    [NotifyManager resetActiveNotify];
 }
-+ (NSDate *)notificationTime {
+
++ (NSDate *)notifyTime {
     NSDate *date = nil;
     
     NSString *time = [[NSUserDefaults standardUserDefaults] valueForKey:NotificationTimeKey];
     if (time == nil) {
-        date = [NSDate dateWithTimeIntervalSinceNow:-10];
         
-        time = [date stringWithFormat:@"HH:mm"];
-        [ReminderManager setNotificationTime:time];
-    } else {
-        NSDateComponents *today = NSDate.components;
-        date = [NSString stringWithFormat:@"%zi-%02zi-%02zi %@:00.0", today.year, today.month, today.day, time].date;
+        time = DefaulNotifyTime;
+        [ReminderManager setNotifyTime:time];
     }
+    
+    NSDateComponents *today = NSDate.components;
+    date = [NSString stringWithFormat:@"%zi-%02zi-%02zi %@:00.0", today.year, today.month, today.day, time].date;
     
     return date;
 }
 
-+ (void)setNotificationSound:(NSString *)sound {
-    if (sound == nil || sound.length == 0 || [sound isEqualToString:SoundNameDefault]) {
-        sound = UILocalNotificationDefaultSoundName;
++ (void)setRemindRepeat:(BOOL)repeat {
+    [[NSUserDefaults standardUserDefaults] setInteger:repeat forKey:RemindRepeatKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [NotifyManager resetRemindNotify];
+}
+
++ (BOOL)remindRepeat {
+    NSInteger repeat = [[NSUserDefaults standardUserDefaults] boolForKey:RemindRepeatKey];
+    
+    
+    return repeat;
+}
+
+
++ (void)setNotifySound:(NSString *)sound {
+    if (sound == nil || sound.length == 0) {
+        sound = SoundNameDefault;
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:sound forKey:NotificationSoundKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [ReminderManager resetNotify];
+    [NotifyManager resetRemindNotify];
+    
+    [NotifyManager resetActiveNotify];
 }
-+ (NSString *)notificationSound {
+
++ (NSString *)notifySound {
     NSString * sound = [[NSUserDefaults standardUserDefaults] valueForKey:NotificationSoundKey];
     
-    if (sound == nil) {
-        sound = UILocalNotificationDefaultSoundName;
+    if (sound == nil || [sound isEqualToString:UILocalNotificationDefaultSoundName]) {
+        sound = SoundNameDefault;
     }
     
     return sound;
@@ -382,19 +194,19 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
 #pragma mark - Snooze
 
 + (BOOL)canSnooze {
-    if ([ReminderManager hasAuthority]
+    if ([NotifyManager hasAuthority]
         // 有通知权限
         
-        && [ReminderManager shouldRmind]) {
+        && [ReminderManager shouldRemind]) {
         // 需要通知
         
         if ([ScheduleManager isEveryday]
-            || ([ScheduleManager takePlaceboPills] && [ReminderManager remindInSafeDays])
+            || ([ScheduleManager takePlaceboPills] && [ReminderManager remindPlaceboPill])
             || ![[ScheduleManager getInstance] isBreakDay:[ScheduleManager getInstance].today]) {
             //这一天需要通知
             
             
-            NSDate *remindDate = [ReminderManager notificationTime];
+            NSDate *remindDate = [ReminderManager notifyTime];
             if ([remindDate isEarlier]) {
                 // 已经过了通知时间
                 
@@ -439,37 +251,6 @@ static NSString *LocalNotificationTypeSnooze = @"LocalNotificationTypeSnooze";
 }
 
 
-+ (void)snoozeInInterval:(NSTimeInterval)interval {
-    UILocalNotification *localNotification = [ReminderManager snoozeNotification];
-    if (localNotification != nil) {
-        
-        [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
-        
-    }
-    
-    localNotification = [[UILocalNotification alloc] init];
-    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    
-    localNotification.alertBody = [[self class] notificationAlertBody];
-    localNotification.applicationIconBadgeNumber = 1;
-    //设置通知动作按钮的标题
-    localNotification.alertAction = LocalizedString(@"button_title_view");
-    //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-    NSString *soundName = [[self class] notificationSound];
-    if (![soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
-        soundName = [soundName stringByAppendingString:@".mp3"];
-    }
-    localNotification.soundName = soundName;
-    localNotification.userInfo = @{LocalNotificationUserinfoTypeKey:LocalNotificationTypeSnooze};
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:interval];
-    
-    //[[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    
-    
-}
 
 
 

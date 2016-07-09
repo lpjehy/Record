@@ -7,7 +7,9 @@
 //
 
 #import "SnoozeView.h"
+#import "FeedBackView.h"
 
+#import "NotifyManager.h"
 
 #import "ReminderManager.h"
 
@@ -120,7 +122,6 @@
 
 
 - (void)showInView:(UIView *)view {
-    NSLog(@"show");
     if (isShowed == YES || view == nil) {
         return;
     }
@@ -131,12 +132,16 @@
     [self resetTitle];
     
     [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.5f initialSpringVelocity:0.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        NSLog(@"show start");
+        
         self.originY = 0;
         
     } completion:^(BOOL finished) {
-         NSLog(@"show completion");
+        
     }];
+    
+    
+    // Snooze优先级大于Feedback
+    [[FeedBackView getInstance] hide];
     
 }
 
@@ -182,10 +187,7 @@
     }
     
     if (interval != 0) {
-        [ReminderManager snoozeInInterval:interval];
-        
-        
-        
+        [NotifyManager snoozeInInterval:interval];
         
         [self resetTitle];
     }

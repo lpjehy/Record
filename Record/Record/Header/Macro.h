@@ -43,7 +43,7 @@
 
 
 
-
+#define TimeIntervalMinute   60
 #define TimeIntervalHour     (60 * 60)
 #define TimeIntervalDay      (60 * 60 * 24)
 #define TimeIntervalMonth    (60 * 60 * 24 * 30)

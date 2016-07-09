@@ -20,36 +20,9 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void)showCancel {
-    UIButton *rightButton = [[UIButton alloc] init];
-    rightButton.frame = CGRectMake(0, 0, 64, 44);
-    [rightButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    rightButton.titleLabel.font = FontMiddle;
-    [rightButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
-    rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-    self.navigationItem.rightBarButtonItem = rightItem;
-
-}
-
 
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)showBack {
-    UIButton *leftButton = [[UIButton alloc] init];
-    leftButton.frame = CGRectMake(0, 0, 44, 44);
-    [leftButton setTitle:LocalizedString(@"button_title_back") forState:UIControlStateNormal];
-    leftButton.titleLabel.font = FontMiddle;
-    [leftButton setTitleColor:ColorTextDark forState:UIControlStateNormal];
-    [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-    self.navigationItem.leftBarButtonItem = leftItem;
-    
 }
 
 - (void)setNavigationBarTitle:(NSString *)title {

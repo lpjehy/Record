@@ -8,6 +8,15 @@
 
 #import "BaseViewController.h"
 
+typedef NS_ENUM(NSInteger, SoundType) {
+    SoundTypeRefill,//默认从0开始
+    SoundTypeRemind
+};
+
+
 @interface SoundsViewController : BaseViewController
+
+
+@property(nonatomic) SoundType type;
 
 @end

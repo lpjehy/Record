@@ -11,11 +11,14 @@
 
 #import "RecordData.h"
 
+#import "NotifyManager.h"
+
 #import "SettingCell.h"
 #import "SettingOpenNotifyCell.h"
 
 #import "ReminderManager.h"
 #import "ScheduleManager.h"
+#import "RefillManager.h"
 
 #import "OnlineConfigUtil.h"
 
@@ -37,7 +40,11 @@ typedef NS_ENUM(NSInteger, PickerType) {
     PickerTypePillDays,//默认从0开始
     PickerTypeBreakDays,
     PickerTypeStartDate,
-    PickerTypeNotifyTime};
+    PickerTypeRefillLeftPills,
+    PickerTypeRefillCondition,
+    PickerTypeRefillNotifyTime,
+    PickerTypeNotifyTime
+};
 
 @interface SettingViewController () <UITableViewDataSource, UITableViewDelegate, SettingCellDelegate, TextEditViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate> {
     UITableView *mainTableView;
@@ -51,6 +58,8 @@ typedef NS_ENUM(NSInteger, PickerType) {
     
     NSMutableArray *moduleArray;
     NSMutableDictionary *moduleDic;
+    
+    BOOL changedFromEveryDay;
     
 }
 
@@ -68,21 +77,28 @@ typedef NS_ENUM(NSInteger, PickerType) {
 @end
 
 
-static NSString *Setting_Item_TakeEveryday = @"Setting_Item_TakeEveryday";
-static NSString *Setting_Item_PillDays = @"Setting_Item_PillDays";
-static NSString *Setting_Item_BreakDays = @"Setting_Item_BeakDays";
-static NSString *Setting_Item_TakePlaceboPills = @"Setting_Item_TakePlaceboPills";
-static NSString *Setting_Item_StartDay = @"Setting_Item_StartDay";
+static NSString *Setting_Item_Take_Everyday = @"Setting_Item_Take_Everyday";
+static NSString *Setting_Item_Pill_Days = @"Setting_Item_Pill_Days";
+static NSString *Setting_Item_Break_Days = @"Setting_Item_Break_Days";
+static NSString *Setting_Item_Take_Placebo_Pills = @"Setting_Item_Take_Placebo_Pills";
+static NSString *Setting_Item_Start_Day = @"Setting_Item_Start_Day";
 
-static NSString *Setting_Item_Repill = @"Setting_Item_Repill";
+
+static NSString *Setting_Item_Refill_Switch = @"Setting_Item_Refill_Switch";
+static NSString *Setting_Item_Refill_Left_Pill_Num = @"Setting_Item_Refill_Left_Pill_Num";
+static NSString *Setting_Item_Refill_Notify_Pill_Num = @"Setting_Item_Refill_Notify_Pill_Num";
+static NSString *Setting_Item_Refill_Notify_Time = @"Setting_Item_Refill_Notify_Time";
+static NSString *Setting_Item_Refill_Notify_Sound = @"Setting_Item_Refill_Notify_Sound";
+
 
 static NSString *Setting_Item_Auth_Guide_Alert = @"Setting_Item_Auth_Guide_Alert";
 
-static NSString *Setting_Item_RemindTakePill = @"Setting_Item_RemindTakePill";
-static NSString *Setting_Item_RemindTakePlaceboPill = @"Setting_Item_RemindTakePlaceboPill";
-static NSString *Setting_Item_NotifyAlertBody = @"Setting_Item_NotifyAlertBody";
-static NSString *Setting_Item_NotifyTime = @"Setting_Item_NotifyTime";
-static NSString *Setting_Item_NotifySound = @"Setting_Item_NotifySound";
+static NSString *Setting_Item_Remind_Take_Pill = @"Setting_Item_Remind_Take_Pill";
+static NSString *Setting_Item_Remind_Take_Placebo_Pill = @"Setting_Item_Remind_Take_Placebo_Pill";
+static NSString *Setting_Item_Notify_Alert_Body = @"Setting_Item_Notify_Alert_Body";
+static NSString *Setting_Item_Notify_Time = @"Setting_Item_Notify_Time";
+static NSString *Setting_Item_Notify_Repeat = @"Setting_Item_Notify_Repeat";
+static NSString *Setting_Item_Notify_Sound = @"Setting_Item_Notify_Sound";
 static NSString *Setting_Item_Language = @"Setting_Item_Language";
 
 
@@ -121,16 +137,8 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         self.initialStartDate = [ScheduleManager startDate].string;
         self.finalStartDate = initialStartDate;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationDidBecomeActive)
-                                                     name:UIApplicationDidBecomeActiveNotification
-                                                   object:nil];
         
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didRegisterUserNotificationSettings)
-                                                     name:DidRegisterUserNotificationSettingsNotification
-                                                   object:nil];
+        [self addObserver];
         
     }
     
@@ -145,6 +153,24 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)addObserver {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didRegisterUserNotificationSettings)
+                                                 name:DidRegisterUserNotificationSettingsNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refillStateChanged)
+                                                 name:RefillStateChangedNotification
+                                               object:nil];
+}
+
 #pragma mark - Notifications
 - (void)applicationDidBecomeActive {
     NSLog(@"SettringViewController applicationDidBecomeActive");
@@ -155,7 +181,12 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
 
 
 - (void)didRegisterUserNotificationSettings {
-    if ([ReminderManager hasAuthority]) {
+    if ([NotifyManager hasAuthority]) {
+        
+        [NotifyManager resetRemindNotify];
+        
+        [NotifyManager resetActiveNotify];
+        
         [self dismiss];
         
     } else {
@@ -174,16 +205,22 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     }
 }
 
+- (void)refillStateChanged {
+    [self reloadView];
+}
+
 
 #pragma mark - view
 - (void)reloadView {
     [moduleArray removeAllObjects];
     [moduleDic removeAllObjects];
     
+    
+    #pragma mark schedule
     NSMutableArray *array = [NSMutableArray array];
     
     SettingItem *item = [[SettingItem alloc] init];
-    item.item = Setting_Item_TakeEveryday;
+    item.item = Setting_Item_Take_Everyday;
     item.type = SettingTypeSwitch;
     
     BOOL isEveryDay = [ScheduleManager isEveryday];
@@ -192,27 +229,27 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     [array addObject:item];
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_PillDays;
+    item.item = Setting_Item_Pill_Days;
     item.type = SettingTypeText;
     
     
-    item.textValue = [NSString stringWithFormat:@"%zi %@", finalPillsDay, LocalizedString(@"day")];
+    item.textValue = [NSString stringWithFormat:@"%zi %@", finalPillsDay, LocalizedString(@"unit_day")];
     item.enable = !isEveryDay;
     [array addObject:item];
     
     
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_BreakDays;
+    item.item = Setting_Item_Break_Days;
     item.type = SettingTypeText;
-    item.textValue = [NSString stringWithFormat:@"%zi %@", finalBreakDay, LocalizedString(@"day")];;
+    item.textValue = [NSString stringWithFormat:@"%zi %@", finalBreakDay, LocalizedString(@"unit_day")];;
     item.enable = !isEveryDay;
     [array addObject:item];
     
     
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_TakePlaceboPills;
+    item.item = Setting_Item_Take_Placebo_Pills;
     item.type = SettingTypeSwitch;
     BOOL takePlaceboPills = [ScheduleManager takePlaceboPills];
     item.boolValue = takePlaceboPills;
@@ -222,7 +259,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_StartDay;
+    item.item = Setting_Item_Start_Day;
     item.type = SettingTypeText;
     
     NSDate *date = finalStartDate.date;
@@ -238,50 +275,124 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     [moduleDic setValue:array forKey:@"setting_module_schedule"];
     
     
-    array = [NSMutableArray array];
-    
     BOOL remindEnable = YES;
-    if ([ReminderManager didRegisterUserNotificationSettings] && ![ReminderManager hasAuthority]) {
-        item = [[SettingItem alloc] init];
-        item.item = Setting_Item_Auth_Guide_Alert;
-        [array addObject:item];
+    if ([NotifyManager didRegisterUserNotificationSettings] && ![NotifyManager hasAuthority]) {
+        
         
         remindEnable = NO;
         
     }
     
+    /*
+    #pragma mark refill
+    array = [NSMutableArray array];
+    
+    
+    BOOL shouldNotifyRefill = [RefillManager shouldNotify];
+    
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_RemindTakePill;
+    item.item = Setting_Item_Refill_Switch;
+    item.type = SettingTypeSwitch;
+    item.boolValue = shouldNotifyRefill;
+    item.enable = remindEnable;
+    [array addObject:item];
+    
+    if (shouldNotifyRefill) {
+        item = [[SettingItem alloc] init];
+        item.item = Setting_Item_Refill_Left_Pill_Num;
+        item.type = SettingTypeText;
+        item.textValue = [NSString stringWithInteger:[RefillManager leftPillNum]];
+        item.enable = remindEnable;
+        [array addObject:item];
+    }
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_Refill_Notify_Pill_Num;
+    item.type = SettingTypeText;
+    
+    NSInteger pillNum = [RefillManager notifyPillNum];
+    NSString *text = [NSString stringWithFormat:LocalizedString(@"refill_pills_before"), [RefillManager notifyPillNum]];
+    if (pillNum > 1 && ![LanguageManager isZH_Han]) {
+        text = [text stringByAppendingString:@"s"];
+    }
+    item.textValue = text;
+    item.enable = remindEnable && shouldNotifyRefill;
+    [array addObject:item];
+    
+    if (shouldNotifyRefill) {
+        item = [[SettingItem alloc] init];
+        item.item = Setting_Item_Refill_Notify_Time;
+        item.type = SettingTypeText;
+        
+        NSDate *nofityTime = [RefillManager notifyTime];
+        components = nofityTime.components;
+        NSString *daytime = LocalizedString(@"time_am");
+        NSInteger hour = components.hour;
+        if (hour > 12) {
+            hour -= 12;
+            daytime = LocalizedString(@"time_pm");
+        }
+        item.textValue = [NSString stringWithFormat:@"%02zi:%02zi %@", hour, components.minute, daytime];
+        item.enable = remindEnable;
+        [array addObject:item];
+        
+        item = [[SettingItem alloc] init];
+        item.item = Setting_Item_Refill_Notify_Sound;
+        item.type = SettingTypeText;
+        
+        NSString *sound = [RefillManager notifySound];
+        item.textValue = sound;
+        item.enable = remindEnable;
+        [array addObject:item];
+        
+    }
+    
+    
+    [moduleArray addObject:@"setting_module_refill"];
+    [moduleDic setValue:array forKey:@"setting_module_refill"];
+    */
+    
+    #pragma mark remind
+    array = [NSMutableArray array];
+    
+    if (!remindEnable) {
+        item = [[SettingItem alloc] init];
+        item.item = Setting_Item_Auth_Guide_Alert;
+        [array addObject:item];
+    }
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_Remind_Take_Pill;
     item.type = SettingTypeSwitch;
     
-    BOOL should = [ReminderManager shouldRmind];
-    item.boolValue = should;
+    BOOL shouldRemind = [ReminderManager shouldRemind];
+    item.boolValue = shouldRemind;
     item.enable = remindEnable;
     [array addObject:item];
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_RemindTakePlaceboPill;
+    item.item = Setting_Item_Remind_Take_Placebo_Pill;
     item.type = SettingTypeSwitch;
     
-    BOOL alsoRmind = [ReminderManager remindInSafeDays];
+    BOOL alsoRmind = [ReminderManager remindPlaceboPill];
     item.boolValue = alsoRmind;
-    item.enable = remindEnable && should && takePlaceboPills && !isEveryDay;
+    item.enable = remindEnable && shouldRemind && takePlaceboPills && !isEveryDay;
     [array addObject:item];
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_NotifyAlertBody;
+    item.item = Setting_Item_Notify_Alert_Body;
     item.type = SettingTypeText;
     
-    NSString *alertBody = [ReminderManager notificationAlertBody];
+    NSString *alertBody = [ReminderManager notifyAlertBody];
     item.textValue = alertBody;
-    item.enable = remindEnable && should;
+    item.enable = remindEnable && shouldRemind;
     [array addObject:item];
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_NotifyTime;
+    item.item = Setting_Item_Notify_Time;
     item.type = SettingTypeText;
     
-    NSDate *nofityTime = [ReminderManager notificationTime];
+    NSDate *nofityTime = [ReminderManager notifyTime];
     components = nofityTime.components;
     NSString *daytime = LocalizedString(@"time_am");
     NSInteger hour = components.hour;
@@ -289,27 +400,36 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         hour -= 12;
         daytime = LocalizedString(@"time_pm");
     }
-    item.textValue = [NSString stringWithFormat:@"%zi:%zi %@", hour, components.minute, daytime];
-    item.enable = remindEnable && should;
+    item.textValue = [NSString stringWithFormat:@"%02zi:%02zi %@", hour, components.minute, daytime];
+    item.enable = remindEnable && shouldRemind;
     [array addObject:item];
     
     item = [[SettingItem alloc] init];
-    item.item = Setting_Item_NotifySound;
+    item.item = Setting_Item_Notify_Repeat;
+    item.type = SettingTypeSwitch;
+    
+    BOOL repeat = [ReminderManager remindRepeat];
+    item.boolValue = repeat;
+    item.enable = remindEnable && shouldRemind;
+    [array addObject:item];
+    
+    item = [[SettingItem alloc] init];
+    item.item = Setting_Item_Notify_Sound;
     item.type = SettingTypeText;
     
-    NSString *sound = [ReminderManager notificationSound];
-    if ([sound isEqualToString:UILocalNotificationDefaultSoundName]) {
-        sound = SoundNameDefault;
-    }
+    NSString *sound = [ReminderManager notifySound];
     item.textValue = sound;
-    item.enable = remindEnable && should;
+    item.enable = remindEnable && shouldRemind;
     [array addObject:item];
 
     
     [moduleArray addObject:@"setting_module_reminders"];
     [moduleDic setValue:array forKey:@"setting_module_reminders"];
     
+    
     /*
+    #pragma mark other
+    
     array = [NSMutableArray array];
     
     item = [[SettingItem alloc] init];
@@ -337,7 +457,8 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     
     BOOL nochange = (initialPillsDay == finalPillsDay)
     && (initialBreakDay == finalBreakDay)
-    && [initialStartDate isEqualToString:finalStartDate];
+    && [initialStartDate isEqualToString:finalStartDate]
+    && !changedFromEveryDay;
     
     if ([AppManager hasFirstSetDone] && nochange) {
         
@@ -350,16 +471,21 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
             
         } else {
             
-            NSString *text = LocalizedString(@"business_breakdays");
-            if ([ScheduleManager takePlaceboPills]) {
-                text = LocalizedString(@"business_placebo_pilldays");
-            }
+            NSString *text = nil;
             
             if (finalBreakDay > 1 && ![LanguageManager isZH_Han]) {
-                text = [text stringByAppendingString:@"s"];
+                text = LocalizedString(@"message_day_confirm_setting_bearkdays");
+                if ([ScheduleManager takePlaceboPills]) {
+                    text = LocalizedString(@"message_day_confirm_setting_placebopills");
+                }
+            } else {
+                LocalizedString(@"message_day_confirm_setting_bearkday");
+                if ([ScheduleManager takePlaceboPills]) {
+                    text = LocalizedString(@"message_day_confirm_setting_placebopill");
+                }
             }
             
-            NSString *message = [NSString stringWithFormat:LocalizedString(@"message_day_confirm_setting"), finalPillsDay, finalBreakDay, text];
+            NSString *message = [NSString stringWithFormat:text, finalPillsDay, finalBreakDay];
             
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                                 message:message
@@ -397,7 +523,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
          */
         [AppManager setFirstSetDone];
         
-        NSDate *notifyDate = [ReminderManager notificationTime];
+        NSDate *notifyDate = [ReminderManager notifyTime];
         if (notifyDate.isEarlier) {
             [RecordData record:[NSDate date]];
         }
@@ -412,6 +538,9 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
             
             
         } else {
+            
+            [NotifyManager resetActiveNotify];
+            
             [self dismiss];
         }
         
@@ -420,159 +549,6 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     }
 }
 
-#pragma mark - picker
-
-- (void)pikcerDoneButtonPressed {
-    [AnalyticsUtil buttonClicked:__FUNCTION__];
-    
-    doneButton.hidden = YES;
-    cancelButton.hidden = YES;
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.24];
-    numberPickerView.originY = ScreenHeight + 32;
-    
-    [UIView commitAnimations];
-    
-    numberPickerView.tag = 0;
-}
-
-- (void)pickerConfirmButtonPressed {
-    [AnalyticsUtil buttonClicked:__FUNCTION__];
-    
-    NSInteger row = [numberPickerView selectedRowInComponent:0];
-    if (currentPickerType == PickerTypePillDays) {
-        
-        self.finalPillsDay = row + 5;
-        
-    } else if (currentPickerType == PickerTypeBreakDays) {
-        
-        self.finalBreakDay = row + 1;
-        
-    } else if (currentPickerType == PickerTypeStartDate) {
-        NSInteger year = [numberPickerView selectedRowInComponent:3] + 2000;
-        NSInteger month = [numberPickerView selectedRowInComponent:1] + 1;
-        NSInteger day = [numberPickerView selectedRowInComponent:2] + 1;
-        
-        NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
-        NSDate *theDate = dateString.date;
-        if (!theDate.isEarlier) {
-            theDate = [NSDate date].dayDate;
-        }
-        
-        self.finalStartDate = theDate.string;
-        
-    } else if (currentPickerType == PickerTypeNotifyTime) {
-        NSInteger hour = [numberPickerView selectedRowInComponent:1];
-        NSInteger minute = [numberPickerView selectedRowInComponent:2];
-        NSInteger row = [numberPickerView selectedRowInComponent:3];
-        if (row == 1) {
-            hour += 12;
-        }
-        
-        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
-        
-        [ReminderManager setNotificationTime:dateString];
-        
-        
-    }
-    
-    [self reloadView];
-    
-    
-    [self pikcerDoneButtonPressed];
-    
-    
-}
-
-
-- (void)showPickerView {
-    [self createPickerView];
-    
-    doneButton.hidden = NO;
-    cancelButton.hidden = NO;
-    
-    [numberPickerView reloadAllComponents];
-    
-    if (currentPickerType == PickerTypePillDays) {
-        [numberPickerView selectRow:[ScheduleManager pillDays] - 5 inComponent:0 animated:NO];
-    } else if (currentPickerType == PickerTypeBreakDays) {
-        [numberPickerView selectRow:[ScheduleManager breakDays] - 1 inComponent:0 animated:NO];
-    } else if (currentPickerType == PickerTypeStartDate) {
-        NSDate *date = [ScheduleManager startDate];
-        NSDateComponents *components = date.components;
-        
-        
-        [numberPickerView selectRow:components.month - 1 inComponent:1 animated:NO];
-        [numberPickerView selectRow:components.day - 1 inComponent:2 animated:NO];
-        [numberPickerView selectRow:components.year - 2000 inComponent:3 animated:NO];
-    } else if (currentPickerType == PickerTypeNotifyTime) {
-        NSDate *date = [ReminderManager notificationTime];
-        NSDateComponents *components = date.components;
-        NSInteger hour = components.hour;
-        if (hour > 12) {
-            hour -= 12;
-            [numberPickerView selectRow:1 inComponent:3 animated:NO];
-        }
-        [numberPickerView selectRow:hour inComponent:1 animated:NO];
-        [numberPickerView selectRow:components.minute inComponent:2 animated:NO];
-        
-    }
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.24];
-    
-    numberPickerView.originY = ScreenHeight - numberPickerView.height;
-    
-    [UIView commitAnimations];
-    
-    numberPickerView.tag = 1;
-}
-
-
-- (void)createPickerView {
-    if (numberPickerView == nil) {
-        
-        doneButton = [[UIButton alloc] init];
-        doneButton.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-        doneButton.hidden = YES;
-        [doneButton addTarget:self action:@selector(pickerConfirmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:doneButton];
-        
-        numberPickerView = [[UIPickerView alloc] init];
-        numberPickerView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 216.0);
-        numberPickerView.delegate = self;
-        numberPickerView.dataSource = self;
-        numberPickerView.backgroundColor = [UIColor whiteColor];
-        numberPickerView.clipsToBounds = NO;
-        [self.view addSubview:numberPickerView];
-        
-        
-        UIView *buttonView = [[UIView alloc] init];
-        
-        buttonView.backgroundColor = [UIColor whiteColor];
-        buttonView.frame = CGRectMake(0, -32, ScreenWidth, 44);
-        [numberPickerView addSubview:buttonView];
-        
-        UILabel *cancelLabel = [[UILabel alloc] init];
-        cancelLabel.text = LocalizedString(@"button_title_cancel");
-        cancelLabel.frame = CGRectMake(10, 0, 128, 44);
-        [buttonView addSubview:cancelLabel];
-        
-        UILabel *confirmLabel = [[UILabel alloc] init];
-        confirmLabel.text = LocalizedString(@"button_title_done");
-        confirmLabel.frame = CGRectMake(ScreenWidth - 138, 0, 128, 44);
-        confirmLabel.textAlignment = NSTextAlignmentRight;
-        [buttonView addSubview:confirmLabel];
-        
-        
-        cancelButton = [[UIButton alloc] init];
-        [cancelButton addTarget:self action:@selector(pikcerDoneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        cancelButton.hidden = YES;
-        cancelButton.frame = CGRectMake(0, ScreenHeight - numberPickerView.height - 44, 64, 44);
-        [doneButton addSubview:cancelButton];
-    }
-}
 
 
 #pragma mark - layout
@@ -641,7 +617,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         [ScheduleManager setTakePlaceboPills:YES];
         
         [ReminderManager setShouldRmind:YES];
-        [ReminderManager setRemindInSafeDays:YES];
+        [ReminderManager setRemindPlaceboPill:YES];
         
     }
     
@@ -670,8 +646,8 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     [super viewDidAppear:animated];
     
     
-    if ([AppManager hasFirstSetDone] && ![ReminderManager hasAuthority]) {
-        [mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]
+    if ([AppManager hasFirstSetDone] && ![NotifyManager hasAuthority]) {
+        [mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]
                              atScrollPosition:UITableViewScrollPositionTop
                                      animated:YES];
     }
@@ -694,7 +670,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
 - (void)settingCellSwitchChangedForItem:(SettingItem *)item value:(BOOL)value {
     
     
-    if ([item.item isEqualToString:Setting_Item_TakeEveryday]) {
+    if ([item.item isEqualToString:Setting_Item_Take_Everyday]) {
         if (value) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                                 message:LocalizedString(@"alert_message_takepilleveryday")
@@ -706,34 +682,42 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
             
             return;
         } else {
-            [ScheduleManager setIsEveryday:value];
+            [ScheduleManager setEveryday:value];
+            changedFromEveryDay = YES;
         }
         
         
-    } else if ([item.item isEqualToString:Setting_Item_TakePlaceboPills]) {
+    } else if ([item.item isEqualToString:Setting_Item_Take_Placebo_Pills]) {
         [ScheduleManager setTakePlaceboPills:value];
         
         if (value) {
-            if ([ReminderManager shouldRmind]) {
-                [ReminderManager setRemindInSafeDays:YES];
+            if ([ReminderManager shouldRemind]) {
+                [ReminderManager setRemindPlaceboPill:YES];
             }
         } else {
-            [ReminderManager setRemindInSafeDays:NO];
+            [ReminderManager setRemindPlaceboPill:NO];
         }
         
-    } else if ([item.item isEqualToString:Setting_Item_RemindTakePill]) {
+    } else if ([item.item isEqualToString:Setting_Item_Refill_Switch]) {
+        [RefillManager setShouldNotify:value];
+        return;
+        
+    } else if ([item.item isEqualToString:Setting_Item_Remind_Take_Pill]) {
         [ReminderManager setShouldRmind:value];
         if (value) {
             
         } else {
             
-            [ReminderManager setRemindInSafeDays:NO];
+            [ReminderManager setRemindPlaceboPill:NO];
         }
         
         
         
-    } else if ([item.item isEqualToString:Setting_Item_RemindTakePlaceboPill]) {
-        [ReminderManager setRemindInSafeDays:value];
+    } else if ([item.item isEqualToString:Setting_Item_Remind_Take_Placebo_Pill]) {
+        [ReminderManager setRemindPlaceboPill:value];
+        
+    } else if ([item.item isEqualToString:Setting_Item_Notify_Repeat]) {
+        [ReminderManager setRemindRepeat:value];
     }
     
     [self reloadView];
@@ -747,20 +731,222 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
 }
 
 - (void)textEditViewTextChanged:(NSString *)text {
-    [ReminderManager setNotificationAlertBody:text];
+    [ReminderManager setNotifyAlertBody:text];
     [self reloadView];
 }
+
+
+#pragma mark - picker
+
+- (void)pikcerDoneButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
+    doneButton.hidden = YES;
+    cancelButton.hidden = YES;
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.24];
+    numberPickerView.originY = ScreenHeight + 32;
+    
+    [UIView commitAnimations];
+    
+    numberPickerView.tag = 0;
+}
+
+- (void)pickerConfirmButtonPressed {
+    [AnalyticsUtil buttonClicked:__FUNCTION__];
+    
+    NSInteger row = [numberPickerView selectedRowInComponent:0];
+    if (currentPickerType == PickerTypePillDays) {
+        
+        self.finalPillsDay = row + 5;
+        
+    } else if (currentPickerType == PickerTypeBreakDays) {
+        
+        self.finalBreakDay = row + 1;
+        
+    } else if (currentPickerType == PickerTypeStartDate) {
+        NSInteger year = [numberPickerView selectedRowInComponent:3] + 2000;
+        NSInteger month = [numberPickerView selectedRowInComponent:1] + 1;
+        NSInteger day = [numberPickerView selectedRowInComponent:2] + 1;
+        
+        NSString *dateString = [NSString stringWithFormat:@"%zi-%02zi-%02zi 00:00:00.0", year, month, day];
+        NSDate *theDate = dateString.date;
+        if (!theDate.isEarlier) {
+            theDate = [NSDate date].dayDate;
+        }
+        
+        self.finalStartDate = theDate.string;
+        
+        
+    } else if (currentPickerType == PickerTypeRefillLeftPills) {
+        
+        [RefillManager setLeftPillNum:row + 1];
+        
+    } else if (currentPickerType == PickerTypeRefillCondition) {
+        
+        [RefillManager setNotifyPillNum:row + 1];
+        
+    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
+        
+        NSInteger hour = [numberPickerView selectedRowInComponent:1];
+        NSInteger minute = [numberPickerView selectedRowInComponent:2];
+        NSInteger row = [numberPickerView selectedRowInComponent:3];
+        if (row == 1) {
+            hour += 12;
+        }
+        
+        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
+        
+        [RefillManager setNotifyTime:dateString];
+        
+    } else if (currentPickerType == PickerTypeNotifyTime) {
+        NSInteger hour = [numberPickerView selectedRowInComponent:1];
+        NSInteger minute = [numberPickerView selectedRowInComponent:2];
+        NSInteger row = [numberPickerView selectedRowInComponent:3];
+        if (row == 1) {
+            hour += 12;
+        }
+        
+        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
+        
+        [ReminderManager setNotifyTime:dateString];
+        
+        
+    }
+    
+    [self reloadView];
+    
+    
+    [self pikcerDoneButtonPressed];
+    
+    
+}
+
+
+- (void)showPickerView {
+    [self createPickerView];
+    
+    doneButton.hidden = NO;
+    cancelButton.hidden = NO;
+    
+    [numberPickerView reloadAllComponents];
+    
+    if (currentPickerType == PickerTypePillDays) {
+        [numberPickerView selectRow:[ScheduleManager pillDays] - 5 inComponent:0 animated:NO];
+        
+    } else if (currentPickerType == PickerTypeBreakDays) {
+        [numberPickerView selectRow:[ScheduleManager breakDays] - 1 inComponent:0 animated:NO];
+        
+    } else if (currentPickerType == PickerTypeStartDate) {
+        NSDate *date = [ScheduleManager startDate];
+        NSDateComponents *components = date.components;
+        
+        
+        [numberPickerView selectRow:components.month - 1 inComponent:1 animated:NO];
+        [numberPickerView selectRow:components.day - 1 inComponent:2 animated:NO];
+        [numberPickerView selectRow:components.year - 2000 inComponent:3 animated:NO];
+        
+    } else if (currentPickerType == PickerTypeRefillLeftPills) {
+        [numberPickerView selectRow:[RefillManager leftPillNum] - 1 inComponent:0 animated:NO];
+        
+    } else if (currentPickerType == PickerTypeRefillCondition) {
+        [numberPickerView selectRow:[RefillManager notifyPillNum] - 1 inComponent:0 animated:NO];
+        
+    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
+        NSDate *date = [RefillManager notifyTime];
+        NSDateComponents *components = date.components;
+        NSInteger hour = components.hour;
+        if (hour > 12) {
+            hour -= 12;
+            [numberPickerView selectRow:1 inComponent:3 animated:NO];
+        }
+        [numberPickerView selectRow:hour inComponent:1 animated:NO];
+        [numberPickerView selectRow:components.minute inComponent:2 animated:NO];
+        
+    } else if (currentPickerType == PickerTypeNotifyTime) {
+        NSDate *date = [ReminderManager notifyTime];
+        NSDateComponents *components = date.components;
+        NSInteger hour = components.hour;
+        if (hour > 12) {
+            hour -= 12;
+            [numberPickerView selectRow:1 inComponent:3 animated:NO];
+        }
+        [numberPickerView selectRow:hour inComponent:1 animated:NO];
+        [numberPickerView selectRow:components.minute inComponent:2 animated:NO];
+        
+    }
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.24];
+    
+    numberPickerView.originY = ScreenHeight - numberPickerView.height;
+    
+    [UIView commitAnimations];
+    
+    numberPickerView.tag = 1;
+}
+
+
+- (void)createPickerView {
+    if (numberPickerView == nil) {
+        
+        doneButton = [[UIButton alloc] init];
+        doneButton.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        doneButton.hidden = YES;
+        [doneButton addTarget:self action:@selector(pickerConfirmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:doneButton];
+        
+        numberPickerView = [[UIPickerView alloc] init];
+        numberPickerView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 216.0);
+        numberPickerView.delegate = self;
+        numberPickerView.dataSource = self;
+        numberPickerView.backgroundColor = [UIColor whiteColor];
+        numberPickerView.clipsToBounds = NO;
+        [self.view addSubview:numberPickerView];
+        
+        
+        UIView *buttonView = [[UIView alloc] init];
+        
+        buttonView.backgroundColor = [UIColor whiteColor];
+        buttonView.frame = CGRectMake(0, -32, ScreenWidth, 44);
+        [numberPickerView addSubview:buttonView];
+        
+        UILabel *cancelLabel = [[UILabel alloc] init];
+        cancelLabel.text = LocalizedString(@"button_title_cancel");
+        cancelLabel.frame = CGRectMake(10, 0, 128, 44);
+        [buttonView addSubview:cancelLabel];
+        
+        UILabel *confirmLabel = [[UILabel alloc] init];
+        confirmLabel.text = LocalizedString(@"button_title_done");
+        confirmLabel.frame = CGRectMake(ScreenWidth - 138, 0, 128, 44);
+        confirmLabel.textAlignment = NSTextAlignmentRight;
+        [buttonView addSubview:confirmLabel];
+        
+        
+        cancelButton = [[UIButton alloc] init];
+        [cancelButton addTarget:self action:@selector(pikcerDoneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        cancelButton.hidden = YES;
+        cancelButton.frame = CGRectMake(0, ScreenHeight - numberPickerView.height - 44, 64, 44);
+        [doneButton addSubview:cancelButton];
+    }
+}
+
 
 #pragma mark - UIPickerViewDelegate
 // returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     NSInteger number = 0;
     
-    if (currentPickerType == PickerTypePillDays || currentPickerType == PickerTypeBreakDays) {
+    if (currentPickerType == PickerTypePillDays
+        || currentPickerType == PickerTypeBreakDays
+        || currentPickerType == PickerTypeRefillLeftPills
+        || currentPickerType == PickerTypeRefillCondition) {
         number = 1;
-    } else if (currentPickerType == PickerTypeStartDate) {
-        number = 5;
-    } else if (currentPickerType == PickerTypeNotifyTime) {
+        
+    } else if (currentPickerType == PickerTypeStartDate
+               || currentPickerType == PickerTypeNotifyTime
+               || currentPickerType == PickerTypeRefillNotifyTime) {
         number = 5;
     }
     
@@ -772,8 +958,10 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     NSInteger number = 0;
     if (currentPickerType == PickerTypePillDays) {
         number = MaxPillDays - 4;
+        
     } else if (currentPickerType == PickerTypeBreakDays) {
         number = MaxBreakDays;
+        
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 1) {
             
@@ -791,6 +979,21 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
             
         } else if (component == 3) {
             number = [NSDate date].components.year - 2000 + 1;
+        }
+        
+    } else if (currentPickerType == PickerTypeRefillLeftPills) {
+        number = MaxLeftPillNum;
+        
+    } else if (currentPickerType == PickerTypeRefillCondition) {
+        number = [RefillManager leftPillNum];
+        
+    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
+        if (component == 1) {
+            number = 12;
+        } else if (component == 2) {
+            number = 60;
+        } else if (component == 3) {
+            number = 2;
         }
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
@@ -815,6 +1018,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         
     } else if (currentPickerType == PickerTypeBreakDays) {
         title = [NSString stringWithInteger:row + 1];
+        
     } else if (currentPickerType == PickerTypeStartDate) {
         if (component == 1) {
             
@@ -825,6 +1029,25 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
             title = [NSString stringWithFormat:@"%zi", row + 1];
         } else if (component == 3) {
             title = [NSString stringWithFormat:@"%zi", row + 2000];
+        }
+        
+    } else if (currentPickerType == PickerTypeRefillLeftPills) {
+        title = [NSString stringWithInteger:row + 1];
+        
+    } else if (currentPickerType == PickerTypeRefillCondition) {
+        title = [NSString stringWithInteger:row + 1];
+        
+    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
+        if (component == 1) {
+            title = [NSString stringWithFormat:@"%zi", row];
+        } else if (component == 2) {
+            title = [NSString stringWithFormat:@"%zi", row];
+        } else if (component == 3) {
+            if (row == 0) {
+                title = LocalizedString(@"time_am");
+            } else {
+                title = LocalizedString(@"time_pm");
+            }
         }
         
     } else if (currentPickerType == PickerTypeNotifyTime) {
@@ -980,26 +1203,44 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         return;
     }
     
-    if ([item.item isEqualToString:Setting_Item_PillDays]) {
+    if ([item.item isEqualToString:Setting_Item_Pill_Days]) {
         
         currentPickerType = PickerTypePillDays;
         [self showPickerView];
         
-    } else if ([item.item isEqualToString:Setting_Item_BreakDays]) {
+    } else if ([item.item isEqualToString:Setting_Item_Break_Days]) {
 
         currentPickerType = PickerTypeBreakDays;
         [self showPickerView];
     
     
-    } else if ([item.item isEqualToString:Setting_Item_StartDay]) {
+    } else if ([item.item isEqualToString:Setting_Item_Start_Day]) {
         
         currentPickerType = PickerTypeStartDate;
         [self showPickerView];
         
-    } else if ([item.item isEqualToString:Setting_Item_NotifyAlertBody]) {
+    } else if ([item.item isEqualToString:Setting_Item_Refill_Left_Pill_Num]) {
+        
+        currentPickerType = PickerTypeRefillLeftPills;
+        [self showPickerView];
+        
+        
+    } else if ([item.item isEqualToString:Setting_Item_Refill_Notify_Pill_Num]) {
+        
+        currentPickerType = PickerTypeRefillCondition;
+        [self showPickerView];
+        
+        
+    } else if ([item.item isEqualToString:Setting_Item_Refill_Notify_Time]) {
+        
+        currentPickerType = PickerTypeRefillNotifyTime;
+        [self showPickerView];
+        
+        
+    } else if ([item.item isEqualToString:Setting_Item_Notify_Alert_Body]) {
         
         TextEditViewController *textEditViewController = [[TextEditViewController alloc] init];
-        textEditViewController.text = [ReminderManager notificationAlertBody];
+        textEditViewController.text = [ReminderManager notifyAlertBody];
         textEditViewController.delegate = self;
         
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:textEditViewController];
@@ -1007,15 +1248,20 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         [self presentViewController:navController animated:YES completion:NULL];
         
         
-    } else if ([item.item isEqualToString:Setting_Item_NotifyTime]) {
+    } else if ([item.item isEqualToString:Setting_Item_Notify_Time]) {
         
         currentPickerType = PickerTypeNotifyTime;
         [self showPickerView];
         
-    } else if ([item.item isEqualToString:Setting_Item_NotifySound]) {
+    } else if ([item.item isEqualToString:Setting_Item_Notify_Sound]
+               || [item.item isEqualToString:Setting_Item_Refill_Notify_Sound]) {
         
         SoundsViewController *soundsViewController = [[SoundsViewController alloc] init];
-        
+        if ([item.item isEqualToString:Setting_Item_Notify_Sound]) {
+            soundsViewController.type = SoundTypeRemind;
+        } else {
+            soundsViewController.type = SoundTypeRefill;
+        }
         
         [self.navigationController pushViewController:soundsViewController animated:YES];
         
@@ -1040,17 +1286,17 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         
         if ([buttonTitle isEqualToString:LocalizedString(@"button_title_yes")]) {
             //take everyday
-            [ScheduleManager setIsEveryday:YES];
+            [ScheduleManager setEveryday:YES];
             
             [ScheduleManager setTakePlaceboPills:YES];
             
-            BOOL shouldRminder = [ReminderManager shouldRmind];
-            [ReminderManager setRemindInSafeDays:shouldRminder];
+            BOOL shouldRminder = [ReminderManager shouldRemind];
+            [ReminderManager setRemindPlaceboPill:shouldRminder];
             
             
             
         } else {
-            [ScheduleManager setIsEveryday:NO];
+            [ScheduleManager setEveryday:NO];
             
         }
         

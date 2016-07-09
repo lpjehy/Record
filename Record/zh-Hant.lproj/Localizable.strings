@@ -18,13 +18,9 @@
 "button_title_today"="今日";
 
 
-"button_title_back"="返回";
-"button_title_close"="關閉";
+
 "button_title_cancel"="取消";
-"button_title_confirm"="確定";
 "button_title_yes"="確定";
-"button_title_save"="保存";
-"button_title_view"="查看";
 "button_title_done"="完成";
 "button_title_take"="服用";
 "button_title_untake"="撤銷";
@@ -35,20 +31,34 @@
 "setting_module_reminders"="提醒";
 "setting_module_others"="其它";
 
-"Setting_Item_TakeEveryday"="每天都吃藥";
-"Setting_Item_PillDays"="吃藥天數";
-"Setting_Item_BeakDays"="停藥天數";
-"Setting_Item_TakePlaceboPills"="我服用安慰丸";
-"Setting_Item_StartDay"="開始服用的日期";
+"Setting_Item_Take_Everyday"="每天都吃藥";
+"Setting_Item_Pill_Days"="吃藥天數";
+"Setting_Item_Break_Days"="停藥天數";
+"Setting_Item_Take_Placebo_Pills"="我服用安慰丸";
+"Setting_Item_Start_Day"="開始服用的日期";
+
+
+// Refill
+"Setting_Item_Refill_Switch"="補藥提醒";
+"Setting_Item_Refill_Left_Pill_Num"="剩余藥片";
+"Setting_Item_Refill_Notify_Pill_Num"="在這之前提醒我";
+"Setting_Item_Refill_Notify_Time"="提醒時間";
+"Setting_Item_Refill_Notify_Sound"="提醒鈴聲";
+
+"refill_pill_left"="剩余1片藥";
+"refill_pills_left"="剩余%zi片藥";
+"refill_pills_before"="剩%zi片藥時";
+"refill_alert_title"="妳已經補充過藥片了嗎？";
 
 "Setting_Item_Auth_Guide_Alert"="請允許提醒通知！";
 
 
-"Setting_Item_RemindTakePill"="提醒我吃藥";
-"Setting_Item_RemindTakePlaceboPill"="提醒我吃安慰丸";
-"Setting_Item_NotifyAlertBody"="提醒簡訊內容";
-"Setting_Item_NotifyTime"="提醒時間";
-"Setting_Item_NotifySound"="提醒鈴聲";
+"Setting_Item_Remind_Take_Pill"="提醒我吃藥";
+"Setting_Item_Remind_Take_Placebo_Pill"="提醒我吃安慰丸";
+"Setting_Item_Notify_Alert_Body"="提醒簡訊內容";
+"Setting_Item_Notify_Time"="提醒時間";
+"Setting_Item_Notify_Repeat"="每小時重複提醒直到吃藥";
+"Setting_Item_Notify_Sound"="提醒鈴聲";
 "Setting_Item_Language"="語言";
 
 
@@ -75,7 +85,7 @@
  * 通知相关
  */
 "reminder_default_alertbody"="到吃藥的時間了喲~";
-"reminder_take_pill"="您是否按時服藥了呢？來點擊小爱記錄壹下吧~";
+"Notification_AlertBody_Active_App"="您是否按時服藥了呢？來點擊小爱記錄壹下吧~";
 
 /**
  *  Snooez
@@ -99,7 +109,7 @@
 "legend_placebo"="安慰劑";
 "legend_untaken_placebo"="未服用安慰劑";
 
-"day"="天";
+"unit_day"="天";
 
 "weekday_mon"="週壹";
 "weekday_tue"="週二";
@@ -109,11 +119,6 @@
 "weekday_sat"="週六";
 "weekday_sun"="週日";
 
-"date_unit_year"="年";
-"date_unit_month"="月";
-"date_unit_day"="日";
-"date_unit_hour"="時";
-"date_unit_minute"="分";
 
 "month_january"="1月";
 "month_february"="2月";
@@ -128,7 +133,7 @@
 "month_november"="11月";
 "month_december"="12月";
 
-"pack_title_day"="日";
+"pack_title_unit_day"="日";
 
 "pack_subtitle_pilldays"="今天是服藥日(%zi天)的第%zi天";
 "pack_subtitle_breakdays"="今天是停藥日(%zi天)的第%zi天";
@@ -136,19 +141,16 @@
 
 "pack_button_current_pack"="當前藥板";
 
-"pack_current_pack"="當前藥板";
-"pack_not_current_pack"="非當前藥板";
 "pack_in_future"="未來藥板";
 "pack_in_previous"="前一個藥板";
 
 "message_missed"="漏服";
 
 
-
-"message_day_confirm_setting"="使用 %zi 個用藥日 + %zi 個%@ 作為您的用藥計劃？";
-
-"business_breakdays"="斷藥日";
-"business_placebo_pilldays"="安慰劑";
+"message_day_confirm_setting_bearkday"="使用 %zi 個用藥日 + %zi 個斷藥日作為您的用藥計劃？";
+"message_day_confirm_setting_bearkdays"="使用 %zi 個用藥日 + %zi 個斷藥日作為您的用藥計劃？";
+"message_day_confirm_setting_placebopill"="使用 %zi 個用藥日 + %zi 個安慰劑作為您的用藥計劃？";
+"message_day_confirm_setting_placebopills"="使用 %zi 個用藥日 + %zi 個安慰劑作為您的用藥計劃？";
 
 
 "alert_message_nohurry"="不要著急哦，還沒到那天呢";

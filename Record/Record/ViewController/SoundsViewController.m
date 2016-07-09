@@ -9,6 +9,7 @@
 #import "SoundsViewController.h"
 
 #import "ReminderManager.h"
+#import "RefillManager.h"
 
 #import "AudioManager.h"
 
@@ -25,6 +26,8 @@
 
 @synthesize selectedIndexPath;
 
+@synthesize type;
+
 - (void)createLayout {
     
     [self.navigationController setNavigationBarHidden:YES];
@@ -33,9 +36,6 @@
     leftButton.frame = CGRectMake(15, 20, 80, 44);
     [leftButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
     leftButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    [leftButton setTitle:LocalizedString(@"button_title_back") forState:UIControlStateNormal];
-    leftButton.titleLabel.font = FontMiddle;
-    [leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.view addSubview:leftButton];
@@ -81,7 +81,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [ReminderManager getInstance].soundArray.count;
+    return [AudioManager getInstance].soundArray.count;
     
 }
 
@@ -95,14 +95,17 @@
         cell.tintColor = [UIColor whiteColor];
     }
     
-    NSString *text = [[ReminderManager getInstance].soundArray validObjectAtIndex:indexPath.row];
+    NSString *text = [[AudioManager getInstance].soundArray validObjectAtIndex:indexPath.row];
     cell.textLabel.text = text;
     
-    if ([text isEqualToString:SoundNameDefault]) {
-        text = UILocalNotificationDefaultSoundName;
+    NSString *sound = @"";
+    if (type == SoundTypeRefill) {
+        sound = [RefillManager notifySound];
+    } else {
+        sound = [ReminderManager notifySound];
     }
     
-    if ([text isEqualToString:[ReminderManager notificationSound]]) {
+    if ([text isEqualToString:sound]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         self.selectedIndexPath = indexPath;
     } else {
@@ -133,13 +136,20 @@
     
     self.selectedIndexPath = indexPath;
     
-    NSArray *soundArray = [ReminderManager getInstance].soundArray;
+    NSArray *soundArray = [AudioManager getInstance].soundArray;
     NSString *filename = [soundArray validObjectAtIndex:indexPath.row];
     
-    [[AudioManager getInstance] playWithFilename:filename];
-      
+    if (![filename isEqualToString:SoundNameMute]) {
+        [[AudioManager getInstance] playWithFilename:filename];
+    }
     
-    [ReminderManager setNotificationSound:filename];
+    
+    if (type == SoundTypeRefill) {
+        [RefillManager setNotifySound:filename];
+    } else {
+        [ReminderManager setNotifySound:filename];
+    }
+    
     
 }
 

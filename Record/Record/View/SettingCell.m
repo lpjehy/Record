@@ -121,6 +121,8 @@
         valueLabel.textAlignment = NSTextAlignmentRight;
         valueLabel.frame = CGRectMake(ScreenWidth - 156, 6, 128, 32);
         valueLabel.font = FontNormal;
+        valueLabel.adjustsFontSizeToFitWidth = YES;
+        valueLabel.minimumScaleFactor = 0.7;
         valueLabel.textColor = ColorTextGray;
         [self.contentView addSubview:valueLabel];
         

@@ -43,7 +43,7 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
 
 + (FeedBackView *)getInstance {
     FeedBackStage stage = [FeedBackView stage];
-    if (stage == FeedBackStageDone) {
+    if (stage != FeedBackStageStart) {
         return nil;
     }
     
@@ -234,10 +234,10 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
                              noImageView.transform = CGAffineTransformMakeScale(1.2, 1.2);
                              
                              yesImageView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [self hide];
-        }];
-    
+                         } completion:^(BOOL finished) {
+                             [self hide];
+                         }];
+        
     }
     
 }
@@ -293,7 +293,7 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
                                                                    }];
                                               }];
                          }];
-
+        
     } else {
         [FeedBackView setStage:FeedBackStageDone];
         
@@ -315,7 +315,7 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
         
         [UIView animateWithDuration:.36
                          animations:^{
-                            
+                             
                              yesImageView.transform = CGAffineTransformMakeScale(1.2, 1.2);
                              
                              noImageView.alpha = 0;
@@ -375,12 +375,12 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
          usingSpringWithDamping:0.5f
           initialSpringVelocity:0.5f
                         options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
-        self.originY = 0;
-        
-    } completion:^(BOOL finished) {
-        
-    }];
+                            
+                            self.originY = 0;
+                            
+                        } completion:^(BOOL finished) {
+                            
+                        }];
     
 }
 

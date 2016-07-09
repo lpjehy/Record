@@ -14,6 +14,8 @@
 
 
 #import "ReminderManager.h"
+#import "NotifyManager.h"
+#import "RefillManager.h"
 #import "RecordData.h"
 
 #import "AudioManager.h"
@@ -47,6 +49,19 @@
 
 #pragma mark - UIApplicationDelegate
 
+- (void)dealLaunchOptions:(NSDictionary *)launchOptions
+{
+    NSLog(@"dealLaunchOptions");
+    UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (notification) {
+        [self dealLocalNotification:notification];
+    }
+    
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo) {
+        
+    }
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -58,6 +73,8 @@
     
     [self createLayout];
     
+    
+    [self dealLaunchOptions:launchOptions];
     
     //[ReminderManager checkNotifications];
     
@@ -113,6 +130,8 @@
     
     [AppManager Update];
     
+    [RefillManager showRemindRefill];
+    
     
     if (application.applicationIconBadgeNumber != 0) {
         application.applicationIconBadgeNumber = 0;
@@ -133,7 +152,7 @@
 {
     NSLog(@"didRegisterUserNotificationSettings %@", notificationSettings.description);
     
-    [ReminderManager setDidRegisterUserNotificationSettings];
+    [NotifyManager setDidRegisterUserNotificationSettings];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:DidRegisterUserNotificationSettingsNotification
                                                         object:nil];
@@ -148,24 +167,47 @@
     
     application.applicationIconBadgeNumber = 0;
     
-    if (application.applicationState == UIApplicationStateActive) {
-        NSString *record = [RecordData selectRecord:[NSDate date]];
-        if (record == nil) {
-                        
-            NSString *soundName = [ReminderManager notificationSound];
-            if ([soundName isEqualToString:UILocalNotificationDefaultSoundName]) {
-                soundName = SoundNameDefault;
-            }
-            [[AudioManager getInstance] playWithFilename:soundName];
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:notification.alertBody
-                                                           delegate:self
-                                                  cancelButtonTitle:LocalizedString(@"button_title_cancel")
-                                                  otherButtonTitles:LocalizedString(@"button_title_take"), nil];
-            [alert show];
-        }
+    [self dealLocalNotification:notification];
+}
+
+
+- (void)dealLocalNotification:(UILocalNotification *)notification
+{
+    NSLog(@"dealLocalNotification");
+    
+    
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         
+        NSString *type = [notification.userInfo validObjectForKey:LocalNotificationUserinfoTypeKey];
+        if ([type isEqualToString:LocalNotificationTypeTakePill]
+            || [type isEqualToString:LocalNotificationTypeTakePillSpecial]
+            || [type isEqualToString:LocalNotificationTypeSnooze]) {
+            
+            if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+                NSString *record = [RecordData selectRecord:[NSDate date]];
+                if (record == nil) {
+                    
+                    NSString *soundName = [ReminderManager notifySound];
+                    [[AudioManager getInstance] playWithFilename:soundName];
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                    message:notification.alertBody
+                                                                   delegate:self
+                                                          cancelButtonTitle:LocalizedString(@"button_title_cancel")
+                                                          otherButtonTitles:LocalizedString(@"button_title_take"), nil];
+                    [alert show];
+                }
+                
+                
+            } else {
+                
+            }
+            
+            
+        } else if ([type isEqualToString:LocalNotificationTypeRefill]) {
+            
+            [RefillManager showRemindRefill];
+        }
         
     } else {
         if (![AppManager hasFirstOpenedByReminder]) {
@@ -173,7 +215,10 @@
             [AppManager setFirstOpenedByReminder];
         }
     }
+    
+    [[UIApplication sharedApplication] cancelLocalNotification:notification];
 }
+
 
 #pragma mark - UIAlertViewDelegate
 

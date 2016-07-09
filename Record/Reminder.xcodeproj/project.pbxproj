@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9904F2161D27C2AA002741BE /* NotifyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9904F2151D27C2AA002741BE /* NotifyManager.m */; };
 		990954F31C85D5C300797FFF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 990954F21C85D5C300797FFF /* main.m */; };
 		990954F61C85D5C300797FFF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 990954F51C85D5C300797FFF /* AppDelegate.m */; };
 		990954F91C85D5C300797FFF /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 990954F81C85D5C300797FFF /* MainViewController.m */; };
@@ -24,6 +25,7 @@
 		9911928B1CD47C6D00F12A5A /* Default-Portrait~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 991192861CD47C6D00F12A5A /* Default-Portrait~ipad@2x.png */; };
 		9911928C1CD47C6D00F12A5A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 991192871CD47C6D00F12A5A /* Default@2x.png */; };
 		99152ACD1CB95EDE00AD7D69 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99152ACC1CB95EDE00AD7D69 /* AudioManager.m */; };
+		99214AAB1D27A7FE00074EC2 /* RefillManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 99214AAA1D27A7FE00074EC2 /* RefillManager.m */; };
 		9921681E1CF2FA4400471B16 /* NSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9921681A1CF2FA4400471B16 /* NSExtension.m */; };
 		9921681F1CF2FA4400471B16 /* UIExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9921681C1CF2FA4400471B16 /* UIExtension.m */; };
 		992168231CF2FAA300471B16 /* NSDateComponents+Reminder.m in Sources */ = {isa = PBXBuildFile; fileRef = 992168221CF2FAA300471B16 /* NSDateComponents+Reminder.m */; };
@@ -81,6 +83,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9904F2141D27C2AA002741BE /* NotifyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotifyManager.h; path = Util/NotifyManager.h; sourceTree = "<group>"; };
+		9904F2151D27C2AA002741BE /* NotifyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotifyManager.m; path = Util/NotifyManager.m; sourceTree = "<group>"; };
 		990954EE1C85D5C300797FFF /* Reminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		990954F21C85D5C300797FFF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		990954F41C85D5C300797FFF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 		99214AA41D25589800074EC2 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		99214AA51D25589800074EC2 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		99214AA61D25589800074EC2 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "es-MX"; path = "es-MX.lproj/Info.plist"; sourceTree = "<group>"; };
+		99214AA91D27A7FE00074EC2 /* RefillManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefillManager.h; path = Manager/RefillManager.h; sourceTree = "<group>"; };
+		99214AAA1D27A7FE00074EC2 /* RefillManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RefillManager.m; path = Manager/RefillManager.m; sourceTree = "<group>"; };
 		992167BA1CF15C1700471B16 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		992167BB1CF15C1700471B16 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		992167BC1CF15C1700471B16 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "pt-BR"; path = "pt-BR.lproj/Info.plist"; sourceTree = "<group>"; };
@@ -332,22 +338,8 @@
 		9909551B1C85D79000797FFF /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				99F4B0F21D0AD30100335BA8 /* ActionManager.h */,
-				99F4B0F31D0AD30100335BA8 /* ActionManager.m */,
-				999FAE2D1C8C578F0083C6B0 /* AdManager.h */,
-				999FAE2E1C8C578F0083C6B0 /* AdManager.m */,
-				9909550E1C85D76F00797FFF /* AppManager.h */,
-				9909550F1C85D76F00797FFF /* AppManager.m */,
-				99152ACB1CB95EDE00AD7D69 /* AudioManager.h */,
-				99152ACC1CB95EDE00AD7D69 /* AudioManager.m */,
-				99DB173F1CE877AF00BB76D2 /* LanguageManager.h */,
-				99DB17401CE877AF00BB76D2 /* LanguageManager.m */,
-				999FADFA1C8C124A0083C6B0 /* MessageManager.h */,
-				999FADFB1C8C124A0083C6B0 /* MessageManager.m */,
-				999FADF01C8BE1AE0083C6B0 /* ReminderManager.h */,
-				999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */,
-				99C749E61C91AB8B0054829C /* ScheduleManager.h */,
-				99C749E71C91AB8B0054829C /* ScheduleManager.m */,
+				99214AA81D27A7B600074EC2 /* Business */,
+				99214AA71D27A79900074EC2 /* Common */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -392,6 +384,40 @@
 				991192871CD47C6D00F12A5A /* Default@2x.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		99214AA71D27A79900074EC2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				99F4B0F21D0AD30100335BA8 /* ActionManager.h */,
+				99F4B0F31D0AD30100335BA8 /* ActionManager.m */,
+				999FAE2D1C8C578F0083C6B0 /* AdManager.h */,
+				999FAE2E1C8C578F0083C6B0 /* AdManager.m */,
+				9909550E1C85D76F00797FFF /* AppManager.h */,
+				9909550F1C85D76F00797FFF /* AppManager.m */,
+				99152ACB1CB95EDE00AD7D69 /* AudioManager.h */,
+				99152ACC1CB95EDE00AD7D69 /* AudioManager.m */,
+				99DB173F1CE877AF00BB76D2 /* LanguageManager.h */,
+				99DB17401CE877AF00BB76D2 /* LanguageManager.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		99214AA81D27A7B600074EC2 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				999FADFA1C8C124A0083C6B0 /* MessageManager.h */,
+				999FADFB1C8C124A0083C6B0 /* MessageManager.m */,
+				99214AA91D27A7FE00074EC2 /* RefillManager.h */,
+				99214AAA1D27A7FE00074EC2 /* RefillManager.m */,
+				999FADF01C8BE1AE0083C6B0 /* ReminderManager.h */,
+				999FADF11C8BE1AE0083C6B0 /* ReminderManager.m */,
+				99C749E61C91AB8B0054829C /* ScheduleManager.h */,
+				99C749E71C91AB8B0054829C /* ScheduleManager.m */,
+				9904F2141D27C2AA002741BE /* NotifyManager.h */,
+				9904F2151D27C2AA002741BE /* NotifyManager.m */,
+			);
+			name = Business;
 			sourceTree = "<group>";
 		};
 		992168201CF2FA9300471B16 /* Base */ = {
@@ -769,6 +795,7 @@
 				99DB17411CE877AF00BB76D2 /* LanguageManager.m in Sources */,
 				990954FF1C85D5C300797FFF /* Record.xcdatamodeld in Sources */,
 				99D90FCF1C886F0F00B1617D /* SqlUtil.m in Sources */,
+				9904F2161D27C2AA002741BE /* NotifyManager.m in Sources */,
 				990955201C85E47800797FFF /* HelpView.m in Sources */,
 				992168231CF2FAA300471B16 /* NSDateComponents+Reminder.m in Sources */,
 				992B579C1C9EE4CC00C96C55 /* FMDatabase.m in Sources */,
@@ -782,6 +809,7 @@
 				99FEA7381D09A4A1004F9FA5 /* UIView+Animations.m in Sources */,
 				99F4B0F41D0AD30100335BA8 /* ActionManager.m in Sources */,
 				9911927D1CD3645800F12A5A /* LaunchView.m in Sources */,
+				99214AAB1D27A7FE00074EC2 /* RefillManager.m in Sources */,
 				9921681E1CF2FA4400471B16 /* NSExtension.m in Sources */,
 				990955101C85D76F00797FFF /* AppManager.m in Sources */,
 				99A630321CF58985001B03C9 /* RecordData.m in Sources */,
@@ -936,7 +964,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jian Hu (TAKK6KY7QV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jian Hu (TAKK6KY7QV)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -965,7 +993,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jian Hu (X6BZVB5W84)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

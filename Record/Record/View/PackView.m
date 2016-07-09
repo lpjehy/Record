@@ -13,6 +13,8 @@
 #import "RecordData.h"
 #import "AudioManager.h"
 
+#import "RefillManager.h"
+
 #import "PillButton.h"
 
 
@@ -204,17 +206,42 @@
         dateButtonArray = [[NSMutableArray alloc] init];
         lineViewArray = [[NSMutableArray alloc] init];
         
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refillStateChanged)
+                                                     name:RefillStateChangedNotification
+                                                   object:nil];
+        
     }
     return self;
+}
+
+- (void)refillStateChanged {
+    [self resetInfo];
 }
 
 
 - (void)resetInfo {
     
+    infoLabel.textColor = [UIColor whiteColor];
     
-    NSString *text = [NSString stringWithFormat:@"%zi.%zi-%zi.%zi", firstDate.month, firstDate.day, lastDate.month, lastDate.day];
-    self.timeInfo = text;
-    infoLabel.text = text;
+    if (packIndex == 0 && [RefillManager shouldNotify]) {
+        NSInteger leftPillNum = [RefillManager leftPillNum];
+        NSString *text = [NSString stringWithFormat:LocalizedString(@"refill_pills_left"), leftPillNum];
+        if (leftPillNum == 1) {
+            text = LocalizedString(@"refill_pill_left");
+        }
+        infoLabel.text = text;
+        if (leftPillNum <= [RefillManager notifyPillNum]) {
+            infoLabel.textColor = ColorTextRed;
+        }
+        
+    } else {
+        NSString *text = [NSString stringWithFormat:@"%zi.%zi-%zi.%zi", firstDate.month, firstDate.day, lastDate.month, lastDate.day];
+        self.timeInfo = text;
+        infoLabel.text = text;
+    }
+    
 }
 
 - (void)resetDays {

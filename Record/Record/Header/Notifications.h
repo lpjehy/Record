@@ -11,24 +11,47 @@
 
 
 
-
+#pragma mark - Tabbar
 
 static NSString *TabbarDidSelectedNotification =  @"TabbarDidSelectedNotification";
 
+
+#pragma mark - Calendar
 static NSString *CalendarMonthChangedNotification = @"CalendarMonthChangedNotification";
 
-static NSString *PillStateChangedNotification = @"PillStateChangedNotification";
 
+
+
+#pragma mark - Pack
 static NSString *TodayPackSettedNotification = @"TodayPackSettedNotification";
 
 
+
+#pragma mark - Pill
+static NSString *PillStateChangedNotification = @"PillStateChangedNotification";
+
+
+#pragma mark - Language
 static NSString *LanguageChangedNotification = @"LanguageChangedNotification";
 
 
 
-
+#pragma mark - UserNotification
 
 static NSString *DidRegisterUserNotificationSettingsNotification = @"DidRegisterUserNotificationSettingsNotification";
 
 
+#pragma mark - Snooze
 static NSString *CheckSnoozeNotification = @"CheckSnoozeNotification";
+
+
+
+#pragma mark - Refill
+static NSString *RefillStateChangedNotification = @"RefillStateChangedNotification";
+
+
+
+
+
+
+

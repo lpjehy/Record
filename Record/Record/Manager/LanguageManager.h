@@ -19,6 +19,7 @@
 
 + (BOOL)isZH_Han;
 
++ (NSArray *)languages;
 + (NSString *)languageName:(NSString *)language;
 
 @end

@@ -14,8 +14,12 @@ static NSString *AppLanguageKey = @"AppLanguage";
 static NSString *AppLanguageBase = @"Base";
 static NSString *AppLanguageHant = @"zh-Hant";
 static NSString *AppLanguageHans = @"zh-Hans";
+
+// 葡萄牙语
 static NSString *AppLanguagePt = @"pt-PT";
 
+// 西班牙语
+static NSString *AppLanguageEs = @"es";
 
 @implementation LanguageManager
 
@@ -34,6 +38,9 @@ static NSString *AppLanguagePt = @"pt-PT";
             
         } else if ([language hasPrefix:@"pt"]) {
             language = AppLanguagePt;
+            
+        } else if ([language hasPrefix:AppLanguageEs]) {
+            language = AppLanguageEs;
             
         } else {
             language = AppLanguageBase;
@@ -69,6 +76,9 @@ static NSString *AppLanguagePt = @"pt-PT";
     return [[[self class] language] hasPrefix:@"zh-Han"];
 }
 
++ (NSArray *)languages {
+    return @[@"Base", @"zh-Hant", @"zh-Hans", @"pt-PT", @"es"];
+}
 
 + (NSString *)languageName:(NSString *)language {
     NSString *name = nil;
@@ -83,6 +93,9 @@ static NSString *AppLanguagePt = @"pt-PT";
         
     } else if ([language isEqualToString:AppLanguagePt]) {
         name = @"Português";
+        
+    } else if ([language isEqualToString:AppLanguageEs]) {
+        name = @"Español";
     }
     
     return name;

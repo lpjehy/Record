@@ -58,11 +58,8 @@
     
     UIButton *leftButton = [[UIButton alloc] init];
     leftButton.frame = CGRectMake(15, 20, 80, 44);
-    [leftButton setImage:[UIImage imageNamed:@"back_arrow"] forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"back_arrow.png"] forState:UIControlStateNormal];
     leftButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    [leftButton setTitle:LocalizedString(@"button_title_back") forState:UIControlStateNormal];
-    leftButton.titleLabel.font = FontMiddle;
-    [leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.view addSubview:leftButton];
@@ -99,7 +96,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    languageArray = @[@"Base", @"zh-Hant", @"zh-Hans", @"pt-PT"];
+    languageArray = [LanguageManager languages];
     
     
     [self createLayout];

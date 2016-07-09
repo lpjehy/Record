@@ -9,6 +9,8 @@
 #import "RecordData.h"
 
 
+#import "RefillManager.h"
+
 #import "SqlUtil.h"
 
 
@@ -42,6 +44,8 @@ static NSCache *recordCache = nil;
                 
                 
                 NSLog(@"记录 %@", time);
+                
+                [RefillManager setNotifyPillNum:[RefillManager leftPillNum] - 1];
             }
         }
     } else {
@@ -105,6 +109,22 @@ static NSCache *recordCache = nil;
     return record;
 }
 
++ (NSArray *)selectRecordFromDate:(NSDate *)startDate toDate:(NSDate *)endDate {
+    [self createTable];
+    
+  
+    NSArray *resultArray = nil;
+    
+    NSString *starttime = [startDate stringWithFormat:@"yyyy-MM-dd 00:00:00"];
+    NSString *endtime = [endDate stringWithFormat:@"yyyy-MM-dd 00:00:00"];
+    
+    
+    resultArray = [[SqlUtil getInstance] selectWithSql:[NSString stringWithFormat:SQL_SELECT_RECORD, starttime, endtime]];
+    
+    
+    return resultArray;
+}
+
 + (void)createTable {
     [[SqlUtil getInstance] execSql:SQL_CREATE_TABLE];
 }
@@ -125,7 +145,7 @@ static NSCache *recordCache = nil;
         [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": theday, @"type":@"delete"}];
     }
     
-    
+    [RefillManager setNotifyPillNum:[RefillManager leftPillNum] + 1];
     
     /*
     if (DeviceSystemVersion > 9.0 && date.components.isToday) {

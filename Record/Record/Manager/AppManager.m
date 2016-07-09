@@ -11,6 +11,8 @@
 #import "RecordData.h"
 #import "OnlineConfigUtil.h"
 #import "ReminderManager.h"
+#import "NotifyManager.h"
+#import "ScheduleManager.h"
 
 
 static NSString *MarkFirstOpenedKey = @"MarkFirstOpened";
@@ -48,10 +50,17 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
     
     [OnlineConfigUtil update];
     
-    [ReminderManager checkReminder];
     
     
     
+    if ([AppManager hasFirstSetDone]) {
+        
+        [[ScheduleManager getInstance] resetDate];
+        
+        [NotifyManager resetRemindNotify];
+        
+        [NotifyManager resetActiveNotify];
+    }
     
 }
 

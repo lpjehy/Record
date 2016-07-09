@@ -10,7 +10,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
-
+static NSString *SoundNameMute = @"Mute";
 static NSString *SoundNameDefault = @"Default";
 
 @interface AudioManager : NSObject < AVAudioPlayerDelegate> {
@@ -32,6 +32,9 @@ static NSString *SoundNameDefault = @"Default";
 
 
 + (AudioManager *)getInstance;
+
+@property(nonatomic, readonly) NSArray *soundArray;
+
 
 
 - (BOOL)playWithFilename:(NSString *)filename;

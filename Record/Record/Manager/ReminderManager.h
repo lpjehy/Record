@@ -10,11 +10,9 @@
 
 
 
-// 激活提醒4个
-static NSInteger NotificationNumActive = 4;
- 
-// 每天都吃药时，只需一个本地通知；非每天吃药时的通知为
-static NSInteger NotificationNumSpecific = 48;
+
+
+
  
 
 // 余下一个为Snooze通知
@@ -22,30 +20,19 @@ static NSInteger NotificationNumSpecific = 48;
 
 @interface ReminderManager : NSObject
 
-@property(nonatomic, readonly) NSArray *soundArray;
+
 
 + (ReminderManager *)getInstance;
 
 
-+ (void)resetNotify;
-+ (void)checkReminder;
 
 
-+ (void)checkNotifications;
-
-#pragma mark - Authority
-/**
- *  通知权限相关
- */
-
-+ (BOOL)hasAuthority;
 
 
-+ (void)setDidRegisterUserNotificationSettings;
 
-+ (BOOL)didRegisterUserNotificationSettings;
 
-#pragma mark - Business
+
+#pragma mark - Config
 /**
  *  业务相关
  *
@@ -53,20 +40,23 @@ static NSInteger NotificationNumSpecific = 48;
  */
 
 + (void)setShouldRmind:(BOOL)should;
-+ (BOOL)shouldRmind;
++ (BOOL)shouldRemind;
 
-+ (void)setRemindInSafeDays:(BOOL)remind;
-+ (BOOL)remindInSafeDays;
++ (void)setRemindPlaceboPill:(BOOL)remind;
++ (BOOL)remindPlaceboPill;
 
-+ (void)setNotificationAlertBody:(NSString *)alertBody;
-+ (NSString *)notificationAlertBody;
++ (void)setNotifyAlertBody:(NSString *)alertBody;
++ (NSString *)notifyAlertBody;
 
 
-+ (void)setNotificationTime:(NSString *)time;
-+ (NSDate *)notificationTime;
++ (void)setNotifyTime:(NSString *)time;
++ (NSDate *)notifyTime;
 
-+ (void)setNotificationSound:(NSString *)sound;
-+ (NSString *)notificationSound;
++ (void)setRemindRepeat:(BOOL)repeat;
++ (BOOL)remindRepeat;
+
++ (void)setNotifySound:(NSString *)sound;
++ (NSString *)notifySound;
 
 
 
@@ -79,9 +69,6 @@ static NSInteger NotificationNumSpecific = 48;
 + (void)cancelSnoozeNotification;
 
 
-
-
-+ (void)snoozeInInterval:(NSTimeInterval)interval;
 
 
 
