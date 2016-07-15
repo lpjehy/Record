@@ -981,7 +981,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
+				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -993,7 +993,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jian Hu (X6BZVB5W84)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jian Hu (X6BZVB5W84)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1010,7 +1010,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "38481c7b-e65e-4b2e-9060-50b3959677c4";
+				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

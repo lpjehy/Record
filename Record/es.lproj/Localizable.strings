@@ -21,8 +21,8 @@
  *  启动画面
  */
 "start_hi"="Hola";
-"start_subtitle"="Avery recordatorio ayuda a que no se pierda su píldora";
-"start_tap"="Toque el botón para establecer la píldora anticonceptiva";
+"start_subtitle"="Avery Recordatorio ayuda a que no se pierda su píldora";
+"start_tap"="Toque el botón para establecer la Píldora";
 /**
  * 主要按钮标题
  */
@@ -33,7 +33,7 @@
  */
 // 按钮标题
 "button_title_take"="Tomar";
-"button_title_untake"="Remover";
+"button_title_untake"="NO Tomar";
 /**
  * 药板相关业务
  */

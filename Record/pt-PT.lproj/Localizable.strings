@@ -21,8 +21,8 @@
  *  启动画面
  */
 "start_hi"="Olá";
-"start_subtitle"="Avery lembrete ajuda você nunca perca sua pílula";
-"start_tap"="Toque no botão para definir a sua Pílula anticoncepcional";
+"start_subtitle"="Avery Lembrete ajuda você nunca perca sua pílula";
+"start_tap"="Toque no botão para definir a sua Pílula";
 /**
  * 主要按钮标题
  */
@@ -33,7 +33,7 @@
  */
 // 按钮标题
 "button_title_take"="Tomar";
-"button_title_untake"="Remover";
+"button_title_untake"="Não Tomar";
 /**
  * 药板相关业务
  */

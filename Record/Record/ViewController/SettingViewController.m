@@ -327,12 +327,14 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         NSDate *nofityTime = [RefillManager notifyTime];
         components = nofityTime.components;
         NSString *daytime = LocalizedString(@"time_am");
-        NSInteger hour = components.hour;
-        if (hour > 12) {
-            hour -= 12;
-            daytime = LocalizedString(@"time_pm");
-        }
-        item.textValue = [NSString stringWithFormat:@"%02zi:%02zi %@", hour, components.minute, daytime];
+     NSInteger hour = components.hour;
+     if (hour > 12) {
+     hour -= 12;
+     daytime = LocalizedString(@"time_pm");
+     } else if (hour == 0) {
+     hour = 12;
+     }
+     item.textValue = [NSString stringWithFormat:@"%02zi:%02zi %@", hour, components.minute, daytime];
         item.enable = remindEnable;
         [array addObject:item];
         
@@ -396,9 +398,14 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     components = nofityTime.components;
     NSString *daytime = LocalizedString(@"time_am");
     NSInteger hour = components.hour;
-    if (hour > 12) {
-        hour -= 12;
+    if (hour >= 12) {
+        if (hour > 12) {
+            hour -= 12;
+        }
+        
         daytime = LocalizedString(@"time_pm");
+    } else if (hour == 0) {
+        hour = 12;
     }
     item.textValue = [NSString stringWithFormat:@"%02zi:%02zi %@", hour, components.minute, daytime];
     item.enable = remindEnable && shouldRemind;
@@ -787,32 +794,29 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         
         [RefillManager setNotifyPillNum:row + 1];
         
-    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
+    } else if (currentPickerType == PickerTypeRefillNotifyTime
+               || currentPickerType == PickerTypeNotifyTime) {
         
-        NSInteger hour = [numberPickerView selectedRowInComponent:1];
-        NSInteger minute = [numberPickerView selectedRowInComponent:2];
+        NSInteger hour = [numberPickerView selectedRowInComponent:1] % 12 + 1;
+        NSInteger minute = [numberPickerView selectedRowInComponent:2] % 60;
         NSInteger row = [numberPickerView selectedRowInComponent:3];
-        if (row == 1) {
-            hour += 12;
+        if (row == 0) {
+            if (hour == 12) {
+                hour = 0;
+            }
+        } else {
+            if (hour != 12) {
+                hour += 12;
+            }
         }
         
         NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
         
-        [RefillManager setNotifyTime:dateString];
-        
-    } else if (currentPickerType == PickerTypeNotifyTime) {
-        NSInteger hour = [numberPickerView selectedRowInComponent:1];
-        NSInteger minute = [numberPickerView selectedRowInComponent:2];
-        NSInteger row = [numberPickerView selectedRowInComponent:3];
-        if (row == 1) {
-            hour += 12;
+        if (currentPickerType == PickerTypeRefillNotifyTime) {
+            [RefillManager setNotifyTime:dateString];
+        } else {
+            [ReminderManager setNotifyTime:dateString];
         }
-        
-        NSString *dateString = [NSString stringWithFormat:@"%02zi:%02zi", hour, minute];
-        
-        [ReminderManager setNotifyTime:dateString];
-        
-        
     }
     
     [self reloadView];
@@ -853,27 +857,24 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     } else if (currentPickerType == PickerTypeRefillCondition) {
         [numberPickerView selectRow:[RefillManager notifyPillNum] - 1 inComponent:0 animated:NO];
         
-    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
-        NSDate *date = [RefillManager notifyTime];
-        NSDateComponents *components = date.components;
-        NSInteger hour = components.hour;
-        if (hour > 12) {
-            hour -= 12;
-            [numberPickerView selectRow:1 inComponent:3 animated:NO];
-        }
-        [numberPickerView selectRow:hour inComponent:1 animated:NO];
-        [numberPickerView selectRow:components.minute inComponent:2 animated:NO];
+    } else if (currentPickerType == PickerTypeRefillNotifyTime
+               || currentPickerType == PickerTypeNotifyTime) {
         
-    } else if (currentPickerType == PickerTypeNotifyTime) {
-        NSDate *date = [ReminderManager notifyTime];
+        NSDate *date = nil;
+        if (currentPickerType == PickerTypeRefillNotifyTime) {
+            date = [RefillManager notifyTime];
+        } else {
+            date = [ReminderManager notifyTime];
+        }
+        
         NSDateComponents *components = date.components;
-        NSInteger hour = components.hour;
+        NSInteger hour = components.hour - 1;
         if (hour > 12) {
             hour -= 12;
             [numberPickerView selectRow:1 inComponent:3 animated:NO];
         }
-        [numberPickerView selectRow:hour inComponent:1 animated:NO];
-        [numberPickerView selectRow:components.minute inComponent:2 animated:NO];
+        [numberPickerView selectRow:hour + 12 * 50 inComponent:1 animated:NO];
+        [numberPickerView selectRow:components.minute + 60 * 50 inComponent:2 animated:NO];
         
     }
     
@@ -987,20 +988,12 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     } else if (currentPickerType == PickerTypeRefillCondition) {
         number = [RefillManager leftPillNum];
         
-    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
+    } else if (currentPickerType == PickerTypeRefillNotifyTime
+               || currentPickerType == PickerTypeNotifyTime) {
         if (component == 1) {
-            number = 12;
+            number = 12 * 100;
         } else if (component == 2) {
-            number = 60;
-        } else if (component == 3) {
-            number = 2;
-        }
-        
-    } else if (currentPickerType == PickerTypeNotifyTime) {
-        if (component == 1) {
-            number = 12;
-        } else if (component == 2) {
-            number = 60;
+            number = 60 * 100;
         } else if (component == 3) {
             number = 2;
         }
@@ -1037,24 +1030,12 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     } else if (currentPickerType == PickerTypeRefillCondition) {
         title = [NSString stringWithInteger:row + 1];
         
-    } else if (currentPickerType == PickerTypeRefillNotifyTime) {
+    } else if (currentPickerType == PickerTypeRefillNotifyTime
+               || currentPickerType == PickerTypeNotifyTime) {
         if (component == 1) {
-            title = [NSString stringWithFormat:@"%zi", row];
+            title = [NSString stringWithFormat:@"%zi", row % 12 + 1];
         } else if (component == 2) {
-            title = [NSString stringWithFormat:@"%zi", row];
-        } else if (component == 3) {
-            if (row == 0) {
-                title = LocalizedString(@"time_am");
-            } else {
-                title = LocalizedString(@"time_pm");
-            }
-        }
-        
-    } else if (currentPickerType == PickerTypeNotifyTime) {
-        if (component == 1) {
-            title = [NSString stringWithFormat:@"%zi", row];
-        } else if (component == 2) {
-            title = [NSString stringWithFormat:@"%zi", row];
+            title = [NSString stringWithFormat:@"%02zi", row % 60];
         } else if (component == 3) {
             if (row == 0) {
                 title = LocalizedString(@"time_am");
@@ -1293,7 +1274,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
             BOOL shouldRminder = [ReminderManager shouldRemind];
             [ReminderManager setRemindPlaceboPill:shouldRminder];
             
-            
+            [NotificationCenter postNotificationName:SettingChangedNotification object:nil];
             
         } else {
             [ScheduleManager setEveryday:NO];

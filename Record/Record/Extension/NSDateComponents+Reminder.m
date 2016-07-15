@@ -15,7 +15,7 @@
 - (NSString *)weekDayText {
     
     
-    return [[self class] textForWeekday:self.weekday];
+    return [NSDateComponents textForWeekday:self.weekday];
 }
 
 + (NSString *)textForWeekday:(NSInteger)weekday {

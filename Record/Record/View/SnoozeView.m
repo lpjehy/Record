@@ -66,7 +66,7 @@
     self = [super init];
     if (self) {
         
-        mainTimer = [NSTimer scheduledTimerWithTimeInterval:60
+        mainTimer = [NSTimer scheduledTimerWithTimeInterval:2
                                                      target:self
                                                    selector:@selector(resetTitle)
                                                    userInfo:nil
@@ -146,11 +146,11 @@
 }
 
 - (void)hide {
-    NSLog(@"hide");
+    
     if (isShowed == NO) {
         return;
     }
-    NSLog(@"hide start");
+    
     isShowed = NO;
     
     [UIView animateWithDuration:0.4 animations:^{
@@ -158,7 +158,6 @@
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
         
-        NSLog(@"hide completion");
     }];
 }
 
@@ -166,6 +165,10 @@
     [self hide];
     
     [ReminderManager cancelSnoozeNotification];
+}
+
+- (BOOL)isShowing {
+    return isShowed;
 }
 
 #pragma mark - UIActionSheetDelegate

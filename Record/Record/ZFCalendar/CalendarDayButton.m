@@ -152,6 +152,7 @@
 - (void)setDay:(NSDateComponents *)d {
     day = d;
     
+    
     NSString *text = [NSString stringWithInteger:day.day];
     if (text.intValue != 0) {
         titleLabel.text = text;
@@ -189,6 +190,8 @@
             
             if (![ScheduleManager isEveryday]) {
                 self.isBreakDay = [[ScheduleManager getInstance] isBreakDay:day];
+            } else {
+                self.isBreakDay = NO;
             }
         }
         

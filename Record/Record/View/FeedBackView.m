@@ -8,6 +8,8 @@
 
 #import "FeedBackView.h"
 
+#import "SnoozeView.h"
+
 #import <MessageUI/MFMailComposeViewController.h>
 
 typedef NS_ENUM(NSInteger, FeedBackStage) {
@@ -20,6 +22,7 @@ typedef NS_ENUM(NSInteger, FeedBackStage) {
 
 
 static NSString *FeedBackStageKey = @"FeedBackStage";
+static NSString *FeedBackShowedKey = @"FeedBackShowed";
 
 
 @interface FeedBackView () <MFMailComposeViewControllerDelegate> {
@@ -42,11 +45,6 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
 @implementation FeedBackView
 
 + (FeedBackView *)getInstance {
-    FeedBackStage stage = [FeedBackView stage];
-    if (stage != FeedBackStageStart) {
-        return nil;
-    }
-    
     
     static FeedBackView *instance = nil;
     if (instance == nil) {
@@ -58,14 +56,35 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
 
 + (BOOL)shouldShow {
     
+    if ([FeedBackView showed]) {
+        return NO;
+    }
+    
+    if ([SnoozeView getInstance].isShowing) {
+        return NO;
+    }
+    
     NSInteger count = [ActionManager countForAction:Action_APP_Init];
-    NSInteger r = count % 5;
-    NSInteger q = count / 5;
-    if (r == 0 && q >= 1) {
+    if (count < 5) {
+        return NO;
+    }
+    
+    return YES;
+}
+
++ (void)setShowed {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:FeedBackShowedKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (BOOL)showed {
+    
+    FeedBackStage stage = [FeedBackView stage];
+    if (stage != FeedBackStageStart) {
         return YES;
     }
     
-    return NO;
+    return [[NSUserDefaults standardUserDefaults] boolForKey:FeedBackShowedKey];
 }
 
 + (void)setStage:(NSInteger)stage {
@@ -74,7 +93,6 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
 }
 
 + (NSInteger)stage {
-    //return FeedBackStageStart;
     return [[NSUserDefaults standardUserDefaults] integerForKey:FeedBackStageKey];
 }
 
@@ -349,6 +367,8 @@ static NSString *FeedBackStageKey = @"FeedBackStage";
     }
     
     isShowed = YES;
+    
+    [FeedBackView setShowed];
     
     [view addSubview:self];
     

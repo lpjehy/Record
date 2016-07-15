@@ -17,5 +17,7 @@
 - (void)hide;
 - (void)cancel;
 
+- (BOOL)isShowing;
+
 
 @end

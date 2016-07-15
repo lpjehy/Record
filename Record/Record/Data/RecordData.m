@@ -45,7 +45,7 @@ static NSCache *recordCache = nil;
                 
                 NSLog(@"记录 %@", time);
                 
-                [RefillManager setNotifyPillNum:[RefillManager leftPillNum] - 1];
+                //[RefillManager setNotifyPillNum:[RefillManager leftPillNum] - 1];
             }
         }
     } else {
@@ -145,7 +145,7 @@ static NSCache *recordCache = nil;
         [NotificationCenter postNotificationName:PillStateChangedNotification object:nil userInfo:@{@"time": theday, @"type":@"delete"}];
     }
     
-    [RefillManager setNotifyPillNum:[RefillManager leftPillNum] + 1];
+    //[RefillManager setNotifyPillNum:[RefillManager leftPillNum] + 1];
     
     /*
     if (DeviceSystemVersion > 9.0 && date.components.isToday) {

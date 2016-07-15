@@ -268,17 +268,18 @@ static NSInteger ScrollViewTagPack = 1;
     if ([type isEqualToString:@"insert"]) {
         // 吃药
         
-        if ([FeedBackView shouldShow]) {
-            [[FeedBackView getInstance] showInView:baseScrollView];
-        }
-        
         if ([time isEqualToString:[ScheduleManager getInstance].today.theDay]) {
             [[SnoozeView getInstance] cancel];
             
             [NotifyManager resetRemindNotify];
+            
+            
+            if ([FeedBackView shouldShow]) {
+                [[FeedBackView getInstance] performSelector:@selector(showInView:) withObject:baseScrollView afterDelay:0.4];
+            }
         } else {
             
-        }
+        }        
         
     } else {
         // 取消吃药
@@ -799,7 +800,7 @@ static NSInteger ScrollViewTagPack = 1;
     lineView.frame = CGRectMake(0, currentY, ScreenWidth, 0.5);
     [calendarView addSubview:lineView];
     
-    NSArray *weekdayArray = @[@7, @1, @2, @3, @4, @5, @6];
+    NSArray *weekdayArray = @[@1, @2, @3, @4, @5, @6, @7];
     
     for (int i = 0; i < 7; i++) {
         UILabel *weekdayLabel = [[UILabel alloc] init];
