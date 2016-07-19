@@ -637,9 +637,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		990954ED1C85D5C300797FFF /* Reminder */ = {
+		990954ED1C85D5C300797FFF /* Pills reminder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 990955081C85D5C300797FFF /* Build configuration list for PBXNativeTarget "Reminder" */;
+			buildConfigurationList = 990955081C85D5C300797FFF /* Build configuration list for PBXNativeTarget "Pills reminder" */;
 			buildPhases = (
 				6A52041AB93D2CEED1A93315 /* Check Pods Manifest.lock */,
 				990954EA1C85D5C300797FFF /* Sources */,
@@ -652,7 +652,7 @@
 			);
 			dependencies = (
 			);
-			name = Reminder;
+			name = "Pills reminder";
 			productName = Record;
 			productReference = 990954EE1C85D5C300797FFF /* Reminder.app */;
 			productType = "com.apple.product-type.application";
@@ -690,7 +690,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				990954ED1C85D5C300797FFF /* Reminder */,
+				990954ED1C85D5C300797FFF /* Pills reminder */,
 			);
 		};
 /* End PBXProject section */
@@ -1028,7 +1028,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		990955081C85D5C300797FFF /* Build configuration list for PBXNativeTarget "Reminder" */ = {
+		990955081C85D5C300797FFF /* Build configuration list for PBXNativeTarget "Pills reminder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				990955091C85D5C300797FFF /* Debug */,

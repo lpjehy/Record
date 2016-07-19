@@ -104,6 +104,8 @@
 "help_edit_date"="點擊編輯日期";
 "help_switch_month"="上下滑動查看月份";
 
+"help_repeat_notify"="啟動功能后，在沒有吃藥前會重複提醒你";
+
 "legend_taked"="服用";
 "legend_untaken"="未服用";
 "legend_placebo"="安慰劑";

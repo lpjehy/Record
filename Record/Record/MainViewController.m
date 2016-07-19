@@ -143,6 +143,11 @@ static NSInteger ScrollViewTagPack = 1;
                              object:nil];
     
     [NotificationCenter addObserver:self
+                           selector:@selector(checkSetting)
+                               name:HelpRepeatNotifyShowedNotification
+                             object:nil];
+        
+    [NotificationCenter addObserver:self
                            selector:@selector(checkSnooze)
                                name:CheckSnoozeNotification
                              object:nil];
@@ -449,25 +454,7 @@ static NSInteger ScrollViewTagPack = 1;
 
 - (void)checkSetting {
     
-    if (![AppManager hasFirstSetDone]) {
-        return;
-    }
-    
-    if ([NotifyManager hasAuthority]) {
-        
-        settingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-        settingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-        
-        if (settingAlertImageView) {
-            
-            [UIView animateWithDuration:0.24 animations:^{
-                settingAlertImageView.alpha = 0;
-            }];
-        }
-        
-        
-    } else if (settingButton) {
-        
+    if ([AppManager shouldShowRedPoint] && settingButton) {
         [self createSettingAlertLayout];
         
         
@@ -501,8 +488,17 @@ static NSInteger ScrollViewTagPack = 1;
         } else {
             [settingAlertImageView animatExpandWithRange:0.2];
         }
+
+    } else {
+        settingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        settingButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         
-        
+        if (settingAlertImageView) {
+            
+            [UIView animateWithDuration:0.24 animations:^{
+                settingAlertImageView.alpha = 0;
+            }];
+        }
     }
     
 }

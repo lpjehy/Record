@@ -30,5 +30,8 @@
 + (void)setFirstOpeningByReminder:(BOOL)is;
 
 
++ (BOOL)shouldShowRedPoint;
+
+
 
 @end

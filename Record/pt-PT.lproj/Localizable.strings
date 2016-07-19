@@ -148,6 +148,9 @@
 "help_check_pack"="Deslize para a tela para verificar os pacotes de pílulas de futuros";
 "help_edit_date"="Toque em uma data para editar";
 "help_switch_month"="Deslize para cima e para baixo para mudar mês";
+
+"help_repeat_notify"="Quando ele é ativado, Avery irá lembrá-lo repetidas vezes, se você não tiver tomado pílula.";
+
 /**
  *  日期相关
  */

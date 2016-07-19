@@ -8,11 +8,16 @@
 
 #import "HelpView.h"
 
+#import "ReminderManager.h"
+
 @interface HelpView () {
     UILabel *tapLabel;
     UIImageView *tapImageView;
     UILabel *swipeLabel;
     UIImageView *swipeImageView;
+    
+    
+    UIImageView *mainImageView;
 }
 
 @end
@@ -20,6 +25,11 @@
 
 static NSString *HelpPackViewHasShowedKey = @"HelpPackViewHasShowed";
 static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
+
+static NSString *HelpRepeatNotifyIsNewUserKey = @"HelpRepeatNotifyIsNewUser";
+static NSString *HelpRepeatNotifyViewHasShowedKey = @"HelpRepeatNotifyViewHasShowed";
+
+
 
 @implementation HelpView
 
@@ -89,6 +99,80 @@ static NSString *HelpCalendarViewHasShowedKey = @"HelpCalendarViewHasShowed";
 }
 + (BOOL)CalendarHelpHasShowed {
     return [[NSUserDefaults standardUserDefaults] boolForKey:HelpCalendarViewHasShowedKey];
+}
+
++ (void)setNewUserForRepeatNotify {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:HelpRepeatNotifyIsNewUserKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (BOOL)isNewUserForRepeatNotify {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:HelpRepeatNotifyIsNewUserKey];
+}
+
++ (BOOL)RepeatNotifyHelpShouldShowed {
+    
+    // 新用户
+    if (![AppManager hasFirstSetDone]) {
+        return NO;
+    }
+    
+    // 新用户
+    if ([HelpView isNewUserForRepeatNotify]) {
+        return NO;
+    }
+    
+    // 老用户
+    // 已打开重复通知，则不必再提醒
+    if ([ReminderManager remindRepeat]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:HelpRepeatNotifyViewHasShowedKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        return NO;
+    }
+    
+    // 已查看
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:HelpRepeatNotifyViewHasShowedKey]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+#pragma mark - Show
+
+- (void)showHelpRepeatNotifyWithImage:(UIImage *)image {
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:HelpRepeatNotifyViewHasShowedKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:HelpRepeatNotifyShowedNotification object:nil];
+    
+    [self.superview bringSubviewToFront:self];
+    
+    self.hidden = NO;
+    self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+    
+    CGFloat imageY = ScreenHeight - 88;
+    
+    
+    tapLabel.frame = CGRectMake(32, 0, ScreenWidth - 160, ScreenHeight);
+    tapLabel.font = FontBig;
+    tapLabel.text = LocalizedString(@"help_repeat_notify");
+    [tapLabel fixHeight];
+    tapLabel.originY = imageY - tapLabel.height - 20;
+    
+    tapImageView.image = [UIImage imageNamed:@"Gesture_Tap_Down.png"];
+    tapImageView.frame = CGRectMake(ScreenWidth - 100, 0, 67, 115);
+    tapImageView.originY = imageY - 115 - 20;
+    
+    if (mainImageView == nil) {
+        mainImageView = [[UIImageView alloc] init];
+        mainImageView.backgroundColor = [UIColor colorWithWhite:68 / 255.0 alpha:1];
+        mainImageView.frame = CGRectMake(0, imageY, ScreenWidth, 44);
+        mainImageView.image = image;
+        [self addSubview:mainImageView];
+    }
 }
 
 - (void)showPackHelp {

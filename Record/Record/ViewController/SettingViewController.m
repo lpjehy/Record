@@ -26,7 +26,7 @@
 #import "SoundsViewController.h"
 #import "LanguagesViewController.h"
 
-
+#import "HelpView.h"
 
 @import GoogleMobileAds;
 
@@ -53,7 +53,11 @@ typedef NS_ENUM(NSInteger, PickerType) {
     UIButton *doneButton;
     UIButton *cancelButton;
     
+    HelpView *helpView;
+    
     PickerType currentPickerType;
+    
+    UIView *repeatCell;
     
     
     NSMutableArray *moduleArray;
@@ -486,7 +490,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
                     text = LocalizedString(@"message_day_confirm_setting_placebopills");
                 }
             } else {
-                LocalizedString(@"message_day_confirm_setting_bearkday");
+                text = LocalizedString(@"message_day_confirm_setting_bearkday");
                 if ([ScheduleManager takePlaceboPills]) {
                     text = LocalizedString(@"message_day_confirm_setting_placebopill");
                 }
@@ -530,6 +534,8 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
          */
         [AppManager setFirstSetDone];
         
+        [HelpView setNewUserForRepeatNotify];
+        
         NSDate *notifyDate = [ReminderManager notifyTime];
         if (notifyDate.isEarlier) {
             [RecordData record:[NSDate date]];
@@ -559,6 +565,14 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
 
 
 #pragma mark - layout
+
+- (void)createHeplView {
+    if (helpView == nil) {
+        helpView = [[HelpView alloc] init];
+        helpView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        [self.view addSubview:helpView];
+    }
+}
 
 - (void)createLayout {
     [self.navigationController setNavigationBarHidden:YES];
@@ -654,9 +668,18 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     
     
     if ([AppManager hasFirstSetDone] && ![NotifyManager hasAuthority]) {
-        [mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]
+        [mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]
                              atScrollPosition:UITableViewScrollPositionTop
                                      animated:YES];
+    } else if ([HelpView RepeatNotifyHelpShouldShowed]) {
+        [mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]
+                             atScrollPosition:UITableViewScrollPositionTop
+                                     animated:YES];
+        
+        
+        
+        [self createHeplView];
+        [helpView showHelpRepeatNotifyWithImage:[UIImage imageWithView:repeatCell]];
     }
 }
 
@@ -689,7 +712,7 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
             
             return;
         } else {
-            [ScheduleManager setEveryday:value];
+            [ScheduleManager setEveryday:NO];
             changedFromEveryDay = YES;
         }
         
@@ -712,10 +735,13 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
     } else if ([item.item isEqualToString:Setting_Item_Remind_Take_Pill]) {
         [ReminderManager setShouldRmind:value];
         if (value) {
-            
+            if ([ScheduleManager takePlaceboPills]) {
+                [ReminderManager setRemindPlaceboPill:YES];
+            }
         } else {
             
             [ReminderManager setRemindPlaceboPill:NO];
+            [ReminderManager setRemindRepeat:NO];
         }
         
         
@@ -1156,6 +1182,10 @@ static NSInteger UIAlertViewTagConfirmNotificationAuthority = 2;
         }
         
         [cell setItem:item];
+        
+        if ([item.item isEqualToString:Setting_Item_Notify_Repeat]) {
+            repeatCell = cell;
+        }
         
         
         return cell;

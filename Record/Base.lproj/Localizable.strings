@@ -213,6 +213,7 @@
 "help_edit_date"="Tap a date to edit";
 "help_switch_month"="Swipe up & down to switch month";
 
+"help_repeat_notify"="When it’s activated, Avery will remind you repeatedly if you haven't taken pill.";
 
 /**
  *  日期相关

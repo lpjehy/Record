@@ -14,6 +14,10 @@
 + (BOOL)PackHelpHasShowed;
 + (BOOL)CalendarHelpHasShowed;
 
++ (void)setNewUserForRepeatNotify;
++ (BOOL)RepeatNotifyHelpShouldShowed;
+
+- (void)showHelpRepeatNotifyWithImage:(UIImage *)image;
 - (void)showPackHelp;
 - (void)showCalendarHelp;
 

@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "990954ED1C85D5C300797FFF"
                BuildableName = "Reminder.app"
-               BlueprintName = "Reminder"
+               BlueprintName = "Pills reminder"
                ReferencedContainer = "container:Reminder.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "990954ED1C85D5C300797FFF"
             BuildableName = "Reminder.app"
-            BlueprintName = "Reminder"
+            BlueprintName = "Pills reminder"
             ReferencedContainer = "container:Reminder.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "990954ED1C85D5C300797FFF"
             BuildableName = "Reminder.app"
-            BlueprintName = "Reminder"
+            BlueprintName = "Pills reminder"
             ReferencedContainer = "container:Reminder.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -76,7 +76,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "990954ED1C85D5C300797FFF"
             BuildableName = "Reminder.app"
-            BlueprintName = "Reminder"
+            BlueprintName = "Pills reminder"
             ReferencedContainer = "container:Reminder.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -86,6 +86,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Pills reminder"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

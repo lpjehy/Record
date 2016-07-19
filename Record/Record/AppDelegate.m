@@ -181,26 +181,24 @@
         NSString *type = [notification.userInfo validObjectForKey:LocalNotificationUserinfoTypeKey];
         if ([type isEqualToString:LocalNotificationTypeTakePill]
             || [type isEqualToString:LocalNotificationTypeTakePillSpecial]
+            || [type isEqualToString:LocalNotificationTypeTakePillRepeat]
             || [type isEqualToString:LocalNotificationTypeSnooze]) {
             
-            if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-                NSString *record = [RecordData selectRecord:[NSDate date]];
-                if (record == nil) {
-                    
-                    NSString *soundName = [ReminderManager notifySound];
+            NSString *record = [RecordData selectRecord:[NSDate date]];
+            if (record == nil) {
+                
+                NSString *soundName = [ReminderManager notifySound];
+                
+                if (![soundName isEqualToString:SoundNameMute]) {
                     [[AudioManager getInstance] playWithFilename:soundName];
-                    
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                                    message:notification.alertBody
-                                                                   delegate:self
-                                                          cancelButtonTitle:LocalizedString(@"button_title_cancel")
-                                                          otherButtonTitles:LocalizedString(@"button_title_take"), nil];
-                    [alert show];
                 }
                 
-                
-            } else {
-                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                message:notification.alertBody
+                                                               delegate:self
+                                                      cancelButtonTitle:LocalizedString(@"button_title_cancel")
+                                                      otherButtonTitles:LocalizedString(@"button_title_take"), nil];
+                [alert show];
             }
             
             

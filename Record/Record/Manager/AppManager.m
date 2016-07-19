@@ -13,6 +13,7 @@
 #import "ReminderManager.h"
 #import "NotifyManager.h"
 #import "ScheduleManager.h"
+#import "HelpView.h"
 
 
 static NSString *MarkFirstOpenedKey = @"MarkFirstOpened";
@@ -124,6 +125,24 @@ static NSString *MarkIsFirstOpeningByReminderKey = @"MarkIsFirstOpeningByRedmind
 }
 
 
++ (BOOL)shouldShowRedPoint {
+    BOOL should = NO;
+    
+    
+    if ([AppManager hasFirstSetDone]) {
+        // 没有通知权限
+        if (![NotifyManager hasAuthority]) {
+            should = YES;
+        }
+        
+        if ([HelpView RepeatNotifyHelpShouldShowed]) {
+            should = YES;
+        }
+    }
+    
+    
+    return should;
+}
 
 
 @end

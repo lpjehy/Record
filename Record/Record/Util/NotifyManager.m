@@ -90,6 +90,8 @@ static NSString *DidRegisterUserNotificationSettingsKey = @"DidRegisterUserNotif
 #pragma mark - Remind pill
 
 + (void)clearTakePillNotifications {
+    NSLog(@"clearTakePillNotifications");
+    
     for (UILocalNotification *notification in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
         NSDictionary *userinfo = notification.userInfo;
         NSString *type = [userinfo validObjectForKey:LocalNotificationUserinfoTypeKey];
@@ -136,6 +138,8 @@ static NSString *DidRegisterUserNotificationSettingsKey = @"DidRegisterUserNotif
 
 - (void)resetDailyNotify {
     
+    NSLog(@"resetDailyNotify");
+    
     NSDate *nowDate = [NSDate date];
     
     NSDate *notifyDate = [ReminderManager notifyTime];
@@ -165,6 +169,9 @@ static NSString *DidRegisterUserNotificationSettingsKey = @"DidRegisterUserNotif
 }
 
 - (void)resetSpecialNotify {
+    
+    
+    NSLog(@"resetSpecialNotify");
     
     NSDate *nowDate = [NSDate date];
     
@@ -218,6 +225,8 @@ static NSString *DidRegisterUserNotificationSettingsKey = @"DidRegisterUserNotif
 }
 
 - (void)resetRepeatNotify {
+    
+    NSLog(@"resetRepeatNotify");
     
     BOOL remindEveryDay = [ScheduleManager isEveryday];
     BOOL takePlacebo = [ScheduleManager takePlaceboPills];

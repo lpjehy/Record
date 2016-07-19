@@ -51,6 +51,7 @@ static NSString *RefillStateChangedNotification = @"RefillStateChangedNotificati
 
 
 
+static NSString *HelpRepeatNotifyShowedNotification = @"HelpRepeatNotifyShowedNotification";
 
 
 

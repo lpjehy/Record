@@ -150,6 +150,11 @@
 "help_check_pack"="Deslizar la pantalla para ver el futuro de los conjuntos de las píldoras";
 "help_edit_date"="Toque una fecha para editar";
 "help_switch_month"="Desliza el dedo hacia arriba y hacia abajo para cambiar el mes";
+
+
+"help_repeat_notify"="Cuando es activado, Avery le recordará repetidas veces si usted no ha tomado la píldora.";
+
+
 /**
  *  日期相关
  */
