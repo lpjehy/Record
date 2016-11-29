@@ -87,8 +87,9 @@ static NSCache *recordCache = nil;
     if (record == nil) {
         
         NSString *starttime = [key stringByAppendingString:@" 00:00:00"];
-        NSString *endtime = [[date dateByAddingTimeInterval:TimeIntervalDay] stringWithFormat:@"yyyy-MM-dd 00:00:00"];
-        
+        NSDateComponents *day = [starttime dateWithFormat:@"yyyy-MM-dd HH:mm:ss"].components;
+        day.day += 1;
+        NSString *endtime = day.theDayDate.string;
         
         NSArray *resultArray = [[SqlUtil getInstance] selectWithSql:[NSString stringWithFormat:SQL_SELECT_RECORD, starttime, endtime]];
         for (NSDictionary *result in resultArray) {
@@ -100,12 +101,7 @@ static NSCache *recordCache = nil;
             }
         }
     }
-    
-    if (record) {
-        //NSLog(@"selectRecord %@ %@", key, record);
-    }
-    
-    
+       
     return record;
 }
 
@@ -134,7 +130,9 @@ static NSCache *recordCache = nil;
     
     NSString *theday = [date stringWithFormat:@"yyyy-MM-dd"];
     NSString *starttime = [theday stringByAppendingString:@" 00:00:00"];
-    NSString *endtime = [[NSDate dateWithTimeInterval:TimeIntervalDay sinceDate:date] stringWithFormat:@"yyyy-MM-dd 00:00:00"];
+    NSDateComponents *day = [starttime dateWithFormat:@"yyyy-MM-dd HH:mm:ss"].components;
+    day.day += 1;
+    NSString *endtime = day.theDayDate.string;
     
     [recordCache removeObjectForKey:theday];
     

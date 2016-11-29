@@ -157,7 +157,7 @@
 "weekday_mon"="SEG";
 "weekday_tue"="TER";
 "weekday_wed"="QUA";
-"weekday_thr"="QUI";
+"weekday_thu"="QUI";
 "weekday_fri"="SEX";
 "weekday_sat"="SAB";
 "weekday_sun"="DOM";

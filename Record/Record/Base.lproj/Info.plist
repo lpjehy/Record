@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>1.0.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.5.0</string>
+	<string>1.0.6.4</string>
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
 	<key>LSRequiresIPhoneOS</key>
@@ -29,6 +29,24 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We need your bluetooth</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need your Calendars to remind you</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need your camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We need your contacts</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need your microphone</string>
+	<key>Privacy - Location Always Usage Description</key>
+	<string>We need your location</string>
+	<key>Privacy - Location When In Use Usage Description</key>
+	<string>We need your location</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

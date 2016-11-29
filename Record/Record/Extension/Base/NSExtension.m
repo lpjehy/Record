@@ -165,13 +165,13 @@
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     return [calendar components:
-            NSYearCalendarUnit
-            | NSMonthCalendarUnit
-            | NSDayCalendarUnit
-            | NSWeekdayCalendarUnit
-            | NSHourCalendarUnit
-            | NSMinuteCalendarUnit
-            | NSSecondCalendarUnit
+            NSCalendarUnitYear
+            | NSCalendarUnitMonth
+            | NSCalendarUnitDay
+            | NSCalendarUnitWeekday
+            | NSCalendarUnitHour
+            | NSCalendarUnitMinute
+            | NSCalendarUnitSecond
                        fromDate:self];
 }
 

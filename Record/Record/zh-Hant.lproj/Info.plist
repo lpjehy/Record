@@ -22,6 +22,24 @@
 	<string>1</string>
 	<key>CFBundleDisplayName</key>
 	<string>小爱提醒</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We need your bluetooth</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need your Calendars to remind you</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need your camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We need your contacts</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need your microphone</string>
+	<key>Privacy - Location Always Usage Description</key>
+	<string>We need your location</string>
+	<key>Privacy - Location When In Use Usage Description</key>
+	<string>We need your location</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSHasLocalizedDisplayName</key>

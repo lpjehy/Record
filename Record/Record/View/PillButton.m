@@ -126,8 +126,12 @@
         }
         
         
+        NSDate *thisDate = [[NSCalendar currentCalendar] dateFromComponents:day];
+        
+        NSDate *theDate = [[NSDate date] stringWithFormat:@"yyyy-MM-dd 23:59:59.0"].date;
+        
         NSString *recordText = nil;
-        if ([day isEarlier:today]) {
+        if ([thisDate isEarlierThan:theDate]) {
             recordText = [RecordData selectRecord:day.theDate];
             
         }

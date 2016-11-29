@@ -76,9 +76,11 @@ static NSInteger DefaultBreakDays = 7;
         return nil;
     }
     NSInteger dayFromStartDay = [ScheduleManager allDays] * (currentPack + pack) + day;
-    NSTimeInterval timeInterval = dayFromStartDay * TimeIntervalDay;
+    NSTimeInterval timeInterval = dayFromStartDay * TimeIntervalDay + 12 * TimeIntervalHour;
+    NSDate *date = [NSDate dateWithTimeInterval:timeInterval sinceDate:[self.class startDate]];
+      
     
-    return [NSDate dateWithTimeInterval:timeInterval sinceDate:[self.class startDate]];
+    return date;
 }
 
 - (BOOL)isBreakDay:(NSDateComponents *)day {

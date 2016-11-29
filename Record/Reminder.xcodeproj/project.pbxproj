@@ -16,6 +16,10 @@
 		9909550D1C85D76300797FFF /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909550C1C85D76300797FFF /* BaseViewController.m */; };
 		990955101C85D76F00797FFF /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909550F1C85D76F00797FFF /* AppManager.m */; };
 		990955201C85E47800797FFF /* HelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9909551F1C85E47800797FFF /* HelpView.m */; };
+		990C8F2A1D46076000CE8748 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 990C8F291D46076000CE8748 /* libGoogleAnalyticsServices.a */; };
+		990C8F2C1D4609DC00CE8748 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 990C8F2B1D4609DC00CE8748 /* CoreData.framework */; };
+		990C8F2E1D4609E200CE8748 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 990C8F2D1D4609E200CE8748 /* SystemConfiguration.framework */; };
+		990C8F301D460A0000CE8748 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 990C8F2F1D460A0000CE8748 /* libsqlite3.tbd */; };
 		990F88731C984809000C500E /* PillButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 990F88721C984809000C500E /* PillButton.m */; };
 		991163BC1CA9733C0068F9A6 /* SoundsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 991163BB1CA9733C0068F9A6 /* SoundsViewController.m */; };
 		9911927D1CD3645800F12A5A /* LaunchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9911927C1CD3645800F12A5A /* LaunchView.m */; };
@@ -100,6 +104,20 @@
 		9909551E1C85E47800797FFF /* HelpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpView.h; path = View/HelpView.h; sourceTree = "<group>"; };
 		9909551F1C85E47800797FFF /* HelpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpView.m; path = View/HelpView.m; sourceTree = "<group>"; };
 		990955211C85E6E000797FFF /* Reminder-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Reminder-Prefix.pch"; sourceTree = "<group>"; };
+		990C8F1F1D46076000CE8748 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = Others/GoogleAnalytics/GAI.h; sourceTree = "<group>"; };
+		990C8F201D46076000CE8748 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIDictionaryBuilder.h; path = Others/GoogleAnalytics/GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		990C8F211D46076000CE8748 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceFields.h; path = Others/GoogleAnalytics/GAIEcommerceFields.h; sourceTree = "<group>"; };
+		990C8F221D46076000CE8748 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProduct.h; path = Others/GoogleAnalytics/GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		990C8F231D46076000CE8748 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProductAction.h; path = Others/GoogleAnalytics/GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		990C8F241D46076000CE8748 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIEcommercePromotion.h; path = Others/GoogleAnalytics/GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		990C8F251D46076000CE8748 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAIFields.h; path = Others/GoogleAnalytics/GAIFields.h; sourceTree = "<group>"; };
+		990C8F261D46076000CE8748 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAILogger.h; path = Others/GoogleAnalytics/GAILogger.h; sourceTree = "<group>"; };
+		990C8F271D46076000CE8748 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITrackedViewController.h; path = Others/GoogleAnalytics/GAITrackedViewController.h; sourceTree = "<group>"; };
+		990C8F281D46076000CE8748 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITracker.h; path = Others/GoogleAnalytics/GAITracker.h; sourceTree = "<group>"; };
+		990C8F291D46076000CE8748 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = Others/GoogleAnalytics/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		990C8F2B1D4609DC00CE8748 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		990C8F2D1D4609E200CE8748 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		990C8F2F1D460A0000CE8748 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		990F88711C984809000C500E /* PillButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PillButton.h; path = View/PillButton.h; sourceTree = "<group>"; };
 		990F88721C984809000C500E /* PillButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PillButton.m; path = View/PillButton.m; sourceTree = "<group>"; };
 		9910AFE21CB2080E006DF5F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
@@ -245,9 +263,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99FEA73A1D09BD10004F9FA5 /* MessageUI.framework in Frameworks */,
+				990C8F301D460A0000CE8748 /* libsqlite3.tbd in Frameworks */,
 				999FAE291C8C4CC20083C6B0 /* libz.tbd in Frameworks */,
+				990C8F2E1D4609E200CE8748 /* SystemConfiguration.framework in Frameworks */,
+				990C8F2C1D4609DC00CE8748 /* CoreData.framework in Frameworks */,
+				99FEA73A1D09BD10004F9FA5 /* MessageUI.framework in Frameworks */,
 				99D90FD11C887A2700B1617D /* libsqlite3.0.tbd in Frameworks */,
+				990C8F2A1D46076000CE8748 /* libGoogleAnalyticsServices.a in Frameworks */,
 				999FAE2C1C8C574D0083C6B0 /* GoogleMobileAds.framework in Frameworks */,
 				993D5A251C9069F4004A42CE /* libUMOnlineConfig.a in Frameworks */,
 				CC8F9360547F92E7A5E1288E /* libPods.a in Frameworks */,
@@ -269,6 +291,9 @@
 		86618609F055171CE086164D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				990C8F2F1D460A0000CE8748 /* libsqlite3.tbd */,
+				990C8F2D1D4609E200CE8748 /* SystemConfiguration.framework */,
+				990C8F2B1D4609DC00CE8748 /* CoreData.framework */,
 				99FEA7391D09BD0F004F9FA5 /* MessageUI.framework */,
 				FB8309C64EC839DE75CB1726 /* libPods.a */,
 			);
@@ -372,6 +397,24 @@
 				99C3A0341D0BE9EE00929F63 /* SettingOpenNotifyCell.m */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		990C8F1E1D46075600CE8748 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				990C8F1F1D46076000CE8748 /* GAI.h */,
+				990C8F201D46076000CE8748 /* GAIDictionaryBuilder.h */,
+				990C8F211D46076000CE8748 /* GAIEcommerceFields.h */,
+				990C8F221D46076000CE8748 /* GAIEcommerceProduct.h */,
+				990C8F231D46076000CE8748 /* GAIEcommerceProductAction.h */,
+				990C8F241D46076000CE8748 /* GAIEcommercePromotion.h */,
+				990C8F251D46076000CE8748 /* GAIFields.h */,
+				990C8F261D46076000CE8748 /* GAILogger.h */,
+				990C8F271D46076000CE8748 /* GAITrackedViewController.h */,
+				990C8F281D46076000CE8748 /* GAITracker.h */,
+				990C8F291D46076000CE8748 /* libGoogleAnalyticsServices.a */,
+			);
+			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		9911926D1CD22F3300F12A5A /* images */ = {
@@ -550,6 +593,7 @@
 		999FAE1C1C8C32F80083C6B0 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				990C8F1E1D46075600CE8748 /* GoogleAnalytics */,
 				992B57901C9EE4C000C96C55 /* FMDB */,
 				993D5A221C9069EA004A42CE /* UMOnlineConfig */,
 				999FAE2A1C8C57450083C6B0 /* Admob */,
@@ -663,7 +707,7 @@
 		990954E61C85D5C300797FFF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Jehy Fan";
 				TargetAttributes = {
 					990954ED1C85D5C300797FFF = {
@@ -880,6 +924,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -889,8 +934,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -924,6 +971,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -933,8 +981,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -964,24 +1014,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jian Hu (TAKK6KY7QV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jian Hu (TAKK6KY7QV)";
+				DEVELOPMENT_TEAM = X6BZVB5W84;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/Admob",
 				);
 				GCC_PREFIX_HEADER = "Record/Reminder-Prefix.pch";
 				INFOPLIST_FILE = Record/Base.lproj/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/UMAnalytics",
 					"$(PROJECT_DIR)/Record/Others/UMOnlineConfig",
+					"$(PROJECT_DIR)/Record/Others/GoogleAnalytics",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
-				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
+				PROVISIONING_PROFILE = "0dbb0c49-4dcb-4861-9f99-f93277e1fdc4";
+				PROVISIONING_PROFILE_SPECIFIER = reminder_development;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -995,22 +1048,25 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Jian Hu (X6BZVB5W84)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jian Hu (X6BZVB5W84)";
+				DEVELOPMENT_TEAM = X6BZVB5W84;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/Admob",
 				);
 				GCC_PREFIX_HEADER = "Record/Reminder-Prefix.pch";
 				INFOPLIST_FILE = Record/Base.lproj/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Record/Others/UMAnalytics",
 					"$(PROJECT_DIR)/Record/Others/UMOnlineConfig",
+					"$(PROJECT_DIR)/Record/Others/GoogleAnalytics",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tools.reminder;
 				PRODUCT_NAME = Reminder;
 				PROVISIONING_PROFILE = "ca6e6035-431a-47b2-ae0b-6fc3e4951b32";
+				PROVISIONING_PROFILE_SPECIFIER = reminder_distribution;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};

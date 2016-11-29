@@ -11,18 +11,29 @@
 #import "MobClick.h"
 
 
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+
 #define MobClickAppKey     @"56e03190e0f55a2063000f80"
 
-
+#define GAName           @""
+#define GATrackingId     @""
 
 
 @implementation AnalyticsUtil
 
 
 + (void)Initialize {
+    
+    // UM
     UMConfigInstance.appKey = MobClickAppKey;
     UMConfigInstance.channelId = nil;
     [MobClick startWithConfigure:UMConfigInstance];
+    
+    // GA
+    [[GAI sharedInstance] trackerWithName:GAName
+                               trackingId:GATrackingId];
+
 }
 
 + (NSMutableDictionary *)getOnceActiveKeys {
@@ -46,11 +57,30 @@
 }
 
 + (void)buttonClicked:(const char[])string {
-    [MobClick event:@"button_clicked" label:[NSString stringWithFormat:@"%s", string]];
+    
+    NSString *action = @"button_clicked";
+    NSString *label = [NSString stringWithFormat:@"%s", string];
+    
+    [MobClick event:action label:label];
+    
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"ui_action"     // Event category (required)
+                                                          action:action  // Event action (required)
+                                                           label:label          // Event label
+                                                           value:nil] build]];    // Event value
 }
 
 + (void)event:(NSString *)eventId {
     [MobClick event:eventId];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"event"     // Event category (required)
+                                                          action:eventId  // Event action (required)
+                                                           label:nil          // Event label
+                                                           value:nil] build]];    // Event value
 }
 
 + (void)eventDistinguishInitial:(NSString *)eventId {

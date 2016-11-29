@@ -22,6 +22,24 @@
 	<string>1.0.2</string>
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We need your bluetooth</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need your camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We need your contacts</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need your Calendars to remind you</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need your microphone</string>
+	<key>Privacy - Location Always Usage Description</key>
+	<string>We need your location</string>
+	<key>Privacy - Location When In Use Usage Description</key>
+	<string>We need your location</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

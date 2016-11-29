@@ -31,7 +31,7 @@
             text = LocalizedString(@"weekday_wed");
             break;
         case 5:
-            text = LocalizedString(@"weekday_thr");
+            text = LocalizedString(@"weekday_thu");
             break;
         case 6:
             text = LocalizedString(@"weekday_fri");

@@ -161,7 +161,7 @@
 "weekday_mon"="LUN";
 "weekday_tue"="MAR";
 "weekday_wed"="MIE";
-"weekday_thr"="JUE";
+"weekday_thu"="JUE";
 "weekday_fri"="VIE";
 "weekday_sat"="SAB";
 "weekday_sun"="DOM";
