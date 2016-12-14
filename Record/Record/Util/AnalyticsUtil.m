@@ -31,8 +31,8 @@
     [MobClick startWithConfigure:UMConfigInstance];
     
     // GA
-    [[GAI sharedInstance] trackerWithName:GAName
-                               trackingId:GATrackingId];
+    //[[GAI sharedInstance] trackerWithName:GAName
+                               //trackingId:GATrackingId];
 
 }
 

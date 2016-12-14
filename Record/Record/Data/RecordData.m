@@ -17,8 +17,8 @@
 static NSString *SQL_CREATE_TABLE = @"CREATE TABLE IF NOT EXISTS RECORD (ID INTEGER PRIMARY KEY AUTOINCREMENT, createtime DATETIME, pilltype INTEGER)";
 
 static NSString *SQL_INSERT_RECORD = @"INSERT INTO RECORD ('createtime') VALUES ('%@')";
-static NSString *SQL_DELETE_RECORD = @"DELETE FROM RECORD WHERE createtime >= '%@' and createtime < '%@'";
-static NSString *SQL_SELECT_RECORD = @"SELECT * FROM RECORD WHERE createtime >= '%@' and createtime < '%@'";
+static NSString *SQL_DELETE_RECORD = @"DELETE FROM RECORD WHERE createtime >= '%@' and createtime <= '%@'";
+static NSString *SQL_SELECT_RECORD = @"SELECT * FROM RECORD WHERE createtime >= '%@' and createtime <= '%@'";
 
 static NSCache *recordCache = nil;
 
@@ -87,9 +87,7 @@ static NSCache *recordCache = nil;
     if (record == nil) {
         
         NSString *starttime = [key stringByAppendingString:@" 00:00:00"];
-        NSDateComponents *day = [starttime dateWithFormat:@"yyyy-MM-dd HH:mm:ss"].components;
-        day.day += 1;
-        NSString *endtime = day.theDayDate.string;
+        NSString *endtime = [key stringByAppendingString:@" 23:59:59"];
         
         NSArray *resultArray = [[SqlUtil getInstance] selectWithSql:[NSString stringWithFormat:SQL_SELECT_RECORD, starttime, endtime]];
         for (NSDictionary *result in resultArray) {
@@ -130,9 +128,7 @@ static NSCache *recordCache = nil;
     
     NSString *theday = [date stringWithFormat:@"yyyy-MM-dd"];
     NSString *starttime = [theday stringByAppendingString:@" 00:00:00"];
-    NSDateComponents *day = [starttime dateWithFormat:@"yyyy-MM-dd HH:mm:ss"].components;
-    day.day += 1;
-    NSString *endtime = day.theDayDate.string;
+    NSString *endtime = [theday stringByAppendingString:@" 23:59:59"];
     
     [recordCache removeObjectForKey:theday];
     
